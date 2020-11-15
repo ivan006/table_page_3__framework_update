@@ -12,10 +12,22 @@ class Record_c extends CI_Controller
 		// $this->load->library('../modules/trips/controllers/table_page_lib');
 		$this->load->library('table_page_lib');
 		$this->load->library('erd_lib');
+
+
+		$this->load->database();
+		$this->load->library(['ion_auth', 'form_validation']);
+		$this->load->helper(['url', 'language']);
+		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
+		$this->lang->load('auth');
 	}
 
 	public function index($table, $record_id)
 	{
+		if (!$this->ion_auth->logged_in())
+		{
+			// redirect them to the login page
+			redirect('auth/login', 'refresh');
+		}
 		$overview_table_singular = $this->erd_lib->grammar_singular($table);
 
 
@@ -69,6 +81,11 @@ class Record_c extends CI_Controller
 
 	public function relations($erd, $parent_overview, $parent_record, $dont_scan)
 	{
+		if (!$this->ion_auth->logged_in())
+		{
+			// redirect them to the login page
+			redirect('auth/login', 'refresh');
+		}
 		$result = array();
 		// $columns = $erd[$parent_overview["table"]]["fields"];
 		if (isset($erd[$parent_overview["table"]]["items"])) {
@@ -131,6 +148,11 @@ class Record_c extends CI_Controller
 
 	public function mergetest()
 	{
+		if (!$this->ion_auth->logged_in())
+		{
+			// redirect them to the login page
+			redirect('auth/login', 'refresh');
+		}
 		$result = $this->table_page_lib->mergetest();
 		header('Content-Type: application/json');
 		echo json_encode($result, JSON_PRETTY_PRINT);
