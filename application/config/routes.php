@@ -46,9 +46,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | When you set this option to TRUE, it will replace ALL dashes in the
 | controller and method URI segments.
 |
-| Examples:	my-controller/index	-> my_controller/index
-|		my-controller/my-method	-> my_controller/my_method
+| Examples:	my-controller/index	-> CI_Controller/index
+|		my-controller/my-method	-> CI_Controller/my_method
 */
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+
+
+
+
+
+
+$route['erd'] = "erd_c";
+
+$route['database'] = 'database_c/database';
+$route['database_api'] = 'database_c/database_api';
+
+$route['table/t/(:any)'] = 'table_c/index/$1';
+
+$route['api/table/t/(:any)/insert'] = 'table_c/insert/$1';
+$route['api/table/t/(:any)/fetch'] = 'table_c/fetch/$1';
+$route['api/table/t/(:any)/delete'] = 'table_c/delete/$1';
+$route['api/table/t/(:any)/edit'] = 'table_c/edit/$1';
+$route['api/table/t/(:any)/update'] = 'table_c/update/$1';
+$route['api/table/t/(:any)/fetch_where/h/(:any)/n/(:any)'] = 'table_c/fetch_where/$1/$2/$3';
+// $route['api/table/t/(:any)/fetch_join_where/t/(:any)/h/(:any)/n/(:any)'] = 'table_c/fetch_join_where/$1/$2/$3/$4';
+$route['api/table/t/(:any)/fetch_join_where/t/(:any)/h/(:any)/n/(:any)'] = 'table_c/fetch_join_where/$1/$2/$3/$4';
+
+$route['record/t/(:any)/r/(:num)'] = 'record_c/index/$1/$2';
+
+$route['mergetest'] = 'record_c/mergetest';

@@ -1,0 +1,940 @@
+{
+    "wp_actionscheduler_actions": {
+        "fields": {
+            "action_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "hook": {
+                "Type": "varchar(191)",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "status": {
+                "Type": "varchar(20)",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "scheduled_date_gmt": {
+                "Type": "datetime",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "0000-00-00 00:00:00"
+            },
+            "scheduled_date_local": {
+                "Type": "datetime",
+                "Null": "NO",
+                "Default": "0000-00-00 00:00:00"
+            },
+            "args": {
+                "Type": "varchar(191)",
+                "Key": "MUL"
+            },
+            "schedule": {
+                "Type": "longtext"
+            },
+            "group_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "0"
+            },
+            "attempts": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Default": "0"
+            },
+            "last_attempt_gmt": {
+                "Type": "datetime",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "0000-00-00 00:00:00"
+            },
+            "last_attempt_local": {
+                "Type": "datetime",
+                "Null": "NO",
+                "Default": "0000-00-00 00:00:00"
+            },
+            "claim_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "0"
+            },
+            "extended_args": {
+                "Type": "varchar(8000)"
+            }
+        }
+    },
+    "wp_actionscheduler_claims": {
+        "fields": {
+            "claim_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "date_created_gmt": {
+                "Type": "datetime",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "0000-00-00 00:00:00"
+            }
+        }
+    },
+    "wp_actionscheduler_groups": {
+        "fields": {
+            "group_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "slug": {
+                "Type": "varchar(255)",
+                "Null": "NO",
+                "Key": "MUL"
+            }
+        }
+    },
+    "wp_actionscheduler_logs": {
+        "fields": {
+            "log_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "action_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "message": {
+                "Type": "text",
+                "Null": "NO"
+            },
+            "log_date_gmt": {
+                "Type": "datetime",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "0000-00-00 00:00:00"
+            },
+            "log_date_local": {
+                "Type": "datetime",
+                "Null": "NO",
+                "Default": "0000-00-00 00:00:00"
+            }
+        }
+    },
+    "wp_commentmeta": {
+        "fields": {
+            "meta_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "comment_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "0"
+            },
+            "meta_key": {
+                "Type": "varchar(255)",
+                "Key": "MUL"
+            },
+            "meta_value": {
+                "Type": "longtext"
+            }
+        }
+    },
+    "wp_comments": {
+        "fields": {
+            "comment_ID": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "comment_post_ID": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "0"
+            },
+            "comment_author": {
+                "Type": "tinytext",
+                "Null": "NO"
+            },
+            "comment_author_email": {
+                "Type": "varchar(100)",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "comment_author_url": {
+                "Type": "varchar(200)",
+                "Null": "NO"
+            },
+            "comment_author_IP": {
+                "Type": "varchar(100)",
+                "Null": "NO"
+            },
+            "comment_date": {
+                "Type": "datetime",
+                "Null": "NO",
+                "Default": "0000-00-00 00:00:00"
+            },
+            "comment_date_gmt": {
+                "Type": "datetime",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "0000-00-00 00:00:00"
+            },
+            "comment_content": {
+                "Type": "text",
+                "Null": "NO"
+            },
+            "comment_karma": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Default": "0"
+            },
+            "comment_approved": {
+                "Type": "varchar(20)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "1"
+            },
+            "comment_agent": {
+                "Type": "varchar(255)",
+                "Null": "NO"
+            },
+            "comment_type": {
+                "Type": "varchar(20)",
+                "Null": "NO",
+                "Default": "comment"
+            },
+            "comment_parent": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "0"
+            },
+            "user_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Default": "0"
+            }
+        }
+    },
+    "wp_links": {
+        "fields": {
+            "link_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "link_url": {
+                "Type": "varchar(255)",
+                "Null": "NO"
+            },
+            "link_name": {
+                "Type": "varchar(255)",
+                "Null": "NO"
+            },
+            "link_image": {
+                "Type": "varchar(255)",
+                "Null": "NO"
+            },
+            "link_target": {
+                "Type": "varchar(25)",
+                "Null": "NO"
+            },
+            "link_description": {
+                "Type": "varchar(255)",
+                "Null": "NO"
+            },
+            "link_visible": {
+                "Type": "varchar(20)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "Y"
+            },
+            "link_owner": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Default": "1"
+            },
+            "link_rating": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Default": "0"
+            },
+            "link_updated": {
+                "Type": "datetime",
+                "Null": "NO",
+                "Default": "0000-00-00 00:00:00"
+            },
+            "link_rel": {
+                "Type": "varchar(255)",
+                "Null": "NO"
+            },
+            "link_notes": {
+                "Type": "mediumtext",
+                "Null": "NO"
+            },
+            "link_rss": {
+                "Type": "varchar(255)",
+                "Null": "NO"
+            }
+        }
+    },
+    "wp_nextend2_image_storage": {
+        "fields": {
+            "id": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "hash": {
+                "Type": "varchar(32)",
+                "Null": "NO",
+                "Key": "UNI"
+            },
+            "image": {
+                "Type": "text",
+                "Null": "NO"
+            },
+            "value": {
+                "Type": "mediumtext",
+                "Null": "NO"
+            }
+        }
+    },
+    "wp_nextend2_section_storage": {
+        "fields": {
+            "id": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "application": {
+                "Type": "varchar(20)",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "section": {
+                "Type": "varchar(128)",
+                "Null": "NO"
+            },
+            "referencekey": {
+                "Type": "varchar(128)",
+                "Null": "NO"
+            },
+            "value": {
+                "Type": "mediumtext",
+                "Null": "NO"
+            },
+            "system": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "0"
+            },
+            "editable": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "1"
+            }
+        }
+    },
+    "wp_nextend2_smartslider3_generators": {
+        "fields": {
+            "id": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "group": {
+                "Type": "varchar(254)",
+                "Null": "NO"
+            },
+            "type": {
+                "Type": "varchar(254)",
+                "Null": "NO"
+            },
+            "params": {
+                "Type": "text",
+                "Null": "NO"
+            }
+        }
+    },
+    "wp_nextend2_smartslider3_sliders": {
+        "fields": {
+            "id": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "alias": {
+                "Type": "varchar(255)"
+            },
+            "title": {
+                "Type": "varchar(100)",
+                "Null": "NO"
+            },
+            "type": {
+                "Type": "varchar(30)",
+                "Null": "NO"
+            },
+            "params": {
+                "Type": "mediumtext",
+                "Null": "NO"
+            },
+            "status": {
+                "Type": "varchar(50)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "published"
+            },
+            "time": {
+                "Type": "datetime",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "thumbnail": {
+                "Type": "varchar(255)",
+                "Null": "NO"
+            },
+            "ordering": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Default": "0"
+            }
+        }
+    },
+    "wp_nextend2_smartslider3_sliders_xref": {
+        "fields": {
+            "group_id": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Key": "PRI"
+            },
+            "slider_id": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Key": "PRI"
+            },
+            "ordering": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "0"
+            }
+        }
+    },
+    "wp_nextend2_smartslider3_slides": {
+        "fields": {
+            "id": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "title": {
+                "Type": "varchar(200)",
+                "Null": "NO"
+            },
+            "slider": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "publish_up": {
+                "Type": "datetime",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "1970-01-01 00:00:00"
+            },
+            "publish_down": {
+                "Type": "datetime",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "1970-01-01 00:00:00"
+            },
+            "published": {
+                "Type": "tinyint(1)",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "first": {
+                "Type": "int(11)",
+                "Null": "NO"
+            },
+            "slide": {
+                "Type": "longtext"
+            },
+            "description": {
+                "Type": "text",
+                "Null": "NO"
+            },
+            "thumbnail": {
+                "Type": "varchar(255)",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "params": {
+                "Type": "text",
+                "Null": "NO"
+            },
+            "ordering": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "generator_id": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Key": "MUL"
+            }
+        }
+    },
+    "wp_options": {
+        "fields": {
+            "option_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "option_name": {
+                "Type": "varchar(191)",
+                "Null": "NO",
+                "Key": "UNI"
+            },
+            "option_value": {
+                "Type": "longtext",
+                "Null": "NO"
+            },
+            "autoload": {
+                "Type": "varchar(20)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "yes"
+            }
+        }
+    },
+    "wp_postmeta": {
+        "fields": {
+            "meta_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "post_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "0"
+            },
+            "meta_key": {
+                "Type": "varchar(255)",
+                "Key": "MUL"
+            },
+            "meta_value": {
+                "Type": "longtext"
+            }
+        }
+    },
+    "wp_posts": {
+        "fields": {
+            "ID": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "post_author": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "0"
+            },
+            "post_date": {
+                "Type": "datetime",
+                "Null": "NO",
+                "Default": "0000-00-00 00:00:00"
+            },
+            "post_date_gmt": {
+                "Type": "datetime",
+                "Null": "NO",
+                "Default": "0000-00-00 00:00:00"
+            },
+            "post_content": {
+                "Type": "longtext",
+                "Null": "NO"
+            },
+            "post_title": {
+                "Type": "text",
+                "Null": "NO"
+            },
+            "post_excerpt": {
+                "Type": "text",
+                "Null": "NO"
+            },
+            "post_status": {
+                "Type": "varchar(20)",
+                "Null": "NO",
+                "Default": "publish"
+            },
+            "comment_status": {
+                "Type": "varchar(20)",
+                "Null": "NO",
+                "Default": "open"
+            },
+            "ping_status": {
+                "Type": "varchar(20)",
+                "Null": "NO",
+                "Default": "open"
+            },
+            "post_password": {
+                "Type": "varchar(255)",
+                "Null": "NO"
+            },
+            "post_name": {
+                "Type": "varchar(200)",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "to_ping": {
+                "Type": "text",
+                "Null": "NO"
+            },
+            "pinged": {
+                "Type": "text",
+                "Null": "NO"
+            },
+            "post_modified": {
+                "Type": "datetime",
+                "Null": "NO",
+                "Default": "0000-00-00 00:00:00"
+            },
+            "post_modified_gmt": {
+                "Type": "datetime",
+                "Null": "NO",
+                "Default": "0000-00-00 00:00:00"
+            },
+            "post_content_filtered": {
+                "Type": "longtext",
+                "Null": "NO"
+            },
+            "post_parent": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "0"
+            },
+            "guid": {
+                "Type": "varchar(255)",
+                "Null": "NO"
+            },
+            "menu_order": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Default": "0"
+            },
+            "post_type": {
+                "Type": "varchar(20)",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "post"
+            },
+            "post_mime_type": {
+                "Type": "varchar(100)",
+                "Null": "NO"
+            },
+            "comment_count": {
+                "Type": "bigint(20)",
+                "Null": "NO",
+                "Default": "0"
+            }
+        }
+    },
+    "wp_search_filter_cache": {
+        "fields": {
+            "id": {
+                "Type": "bigint(20)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "post_id": {
+                "Type": "bigint(20)",
+                "Null": "NO"
+            },
+            "post_parent_id": {
+                "Type": "bigint(20)",
+                "Null": "NO"
+            },
+            "field_name": {
+                "Type": "varchar(255)",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "field_value": {
+                "Type": "varchar(255)",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "field_value_num": {
+                "Type": "bigint(20)",
+                "Key": "MUL"
+            },
+            "field_parent_num": {
+                "Type": "bigint(20)"
+            },
+            "term_parent_id": {
+                "Type": "bigint(20)"
+            }
+        }
+    },
+    "wp_search_filter_term_results": {
+        "fields": {
+            "id": {
+                "Type": "bigint(20)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "field_name": {
+                "Type": "varchar(255)",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "field_value": {
+                "Type": "varchar(255)",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "field_value_num": {
+                "Type": "bigint(20)",
+                "Key": "MUL"
+            },
+            "result_ids": {
+                "Type": "mediumtext",
+                "Null": "NO"
+            }
+        }
+    },
+    "wp_term_relationships": {
+        "fields": {
+            "object_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": "0"
+            },
+            "term_taxonomy_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "PRI",
+                "Default": "0"
+            },
+            "term_order": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Default": "0"
+            }
+        }
+    },
+    "wp_term_taxonomy": {
+        "fields": {
+            "term_taxonomy_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "term_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "0"
+            },
+            "taxonomy": {
+                "Type": "varchar(32)",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "description": {
+                "Type": "longtext",
+                "Null": "NO"
+            },
+            "parent": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Default": "0"
+            },
+            "count": {
+                "Type": "bigint(20)",
+                "Null": "NO",
+                "Default": "0"
+            }
+        }
+    },
+    "wp_termmeta": {
+        "fields": {
+            "meta_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "term_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "0"
+            },
+            "meta_key": {
+                "Type": "varchar(255)",
+                "Key": "MUL"
+            },
+            "meta_value": {
+                "Type": "longtext"
+            }
+        }
+    },
+    "wp_terms": {
+        "fields": {
+            "term_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "name": {
+                "Type": "varchar(200)",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "slug": {
+                "Type": "varchar(200)",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "term_group": {
+                "Type": "bigint(10)",
+                "Null": "NO",
+                "Default": "0"
+            }
+        }
+    },
+    "wp_usermeta": {
+        "fields": {
+            "umeta_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "user_id": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "MUL",
+                "Default": "0"
+            },
+            "meta_key": {
+                "Type": "varchar(255)",
+                "Key": "MUL"
+            },
+            "meta_value": {
+                "Type": "longtext"
+            }
+        }
+    },
+    "wp_users": {
+        "fields": {
+            "ID": {
+                "Type": "bigint(20) unsigned",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "user_login": {
+                "Type": "varchar(60)",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "user_pass": {
+                "Type": "varchar(255)",
+                "Null": "NO"
+            },
+            "user_nicename": {
+                "Type": "varchar(50)",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "user_email": {
+                "Type": "varchar(100)",
+                "Null": "NO",
+                "Key": "MUL"
+            },
+            "user_url": {
+                "Type": "varchar(100)",
+                "Null": "NO"
+            },
+            "user_registered": {
+                "Type": "datetime",
+                "Null": "NO",
+                "Default": "0000-00-00 00:00:00"
+            },
+            "user_activation_key": {
+                "Type": "varchar(255)",
+                "Null": "NO"
+            },
+            "user_status": {
+                "Type": "int(11)",
+                "Null": "NO",
+                "Default": "0"
+            },
+            "display_name": {
+                "Type": "varchar(250)",
+                "Null": "NO"
+            }
+        }
+    },
+    "wp_wpforms_tasks_meta": {
+        "fields": {
+            "id": {
+                "Type": "bigint(20)",
+                "Null": "NO",
+                "Key": "PRI",
+                "Extra": "auto_increment"
+            },
+            "action": {
+                "Type": "varchar(255)",
+                "Null": "NO"
+            },
+            "data": {
+                "Type": "longtext",
+                "Null": "NO"
+            },
+            "date": {
+                "Type": "datetime",
+                "Null": "NO"
+            }
+        }
+    }
+}

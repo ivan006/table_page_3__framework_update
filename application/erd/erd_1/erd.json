@@ -1,0 +1,72 @@
+{
+  "event_resource_links": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "event_id": {
+        "Type": "bigint(20) unsigned"
+      },
+      "resource_id": {
+        "Type": "bigint(20) unsigned"
+      }
+    }
+  },
+  "events": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      },
+      "organization_id": {
+        "Type": "bigint(20) unsigned"
+      }
+    },
+    "items": {
+      "event_resource_links": "event_id"
+    }
+  },
+  "organizations": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      }
+    },
+    "items": {
+      "events": "organization_id"
+    }
+  },
+  "resources": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      }
+    },
+    "items": {
+      "event_resource_links": "event_id"
+    }
+  }
+}

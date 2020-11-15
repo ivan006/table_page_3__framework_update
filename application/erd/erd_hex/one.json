@@ -1,0 +1,13 @@
+{
+  "events": [
+    "resources"
+  ],
+  "resources": [
+    "bedding_specialty_events",
+    "personal_specialty_events"
+  ],
+  "organizations": [
+    "buyer_specialty_events",
+    "seller_specialty_events"
+  ]
+}
