@@ -234,17 +234,24 @@ class Table_page_lib
 
   public function database_api()
   {
+		$erd_path = APPPATH.'erd/erd/erd.json';
+		$rows = file_get_contents($erd_path);
+		$rows = json_decode($rows, true);
 
-		$this->CI->load->database();
 
-    $row_query = array(
-      "SHOW TABLES",
-    );
-    $row_query = implode(" ", $row_query);
-    $rows = $this->CI->db->query($row_query)->result_array();
-    $rows = array_column($rows, 'Tables_in_'.$this->CI->db->database);
+		// $this->CI->load->database();
+		//
+    // $row_query = array(
+    //   "SHOW TABLES",
+    // );
+    // $row_query = implode(" ", $row_query);
+    // $rows = $this->CI->db->query($row_query)->result_array();
+    // $rows = array_column($rows, 'Tables_in_'.$this->CI->db->database);
+		// foreach ($rows as $key => $value) {
+		// 	$rows_formatted[]["name"] = $value;
+		// }
 		foreach ($rows as $key => $value) {
-			$rows_formatted[]["name"] = $value;
+			$rows_formatted[]["name"] = $key;
 		}
 
 
