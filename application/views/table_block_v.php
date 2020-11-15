@@ -181,7 +181,7 @@ if (isset($overview["type"])) {
       alert("Both field is required");
     }else{
       $.ajax({
-        url: "<?php echo base_url(); ?>table_page/api/table/t/<?php echo $overview["table"]; ?>/insert",
+        url: "<?php echo base_url(); ?>api/table/t/<?php echo $overview["table"]; ?>/insert",
         type: "post",
         dataType: "json",
         data: {
@@ -220,7 +220,7 @@ if (isset($overview["type"])) {
 
   function <?php echo $overview["table"]; ?>_fetch(){
     $.ajax({
-      url: "<?php echo base_url(); ?>table_page/api/table/t/<?php echo $overview["table"]; ?>/<?php echo $data_endpoint; ?>",
+      url: "<?php echo base_url(); ?>api/table/t/<?php echo $overview["table"]; ?>/<?php echo $data_endpoint; ?>",
       type: "post",
       dataType: "json",
       success: function(data){
@@ -256,10 +256,10 @@ if (isset($overview["type"])) {
               var a = `
               <a href="#" value="${row.id}" id="<?php echo $overview["rel_name_id"]; ?>_del" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
               <a href="#" value="${row.id}" id="<?php echo $overview["rel_name_id"]; ?>_edit" class="btn btn-sm btn-outline-success"><i class="fas fa-edit"></i></a>
-              <a href="/table_page/record/t/<?php echo $view_link_table; ?>/r/${row.<?php echo $view_link_id_key; ?>}" class="btn btn-sm btn-outline-primary">View</a>
+              <a href="/record/t/<?php echo $view_link_table; ?>/r/${row.<?php echo $view_link_id_key; ?>}" class="btn btn-sm btn-outline-primary">View</a>
               `;
 
-              // <a href="/table_page/record/t/<?php echo 123; ?>/r/${row.<?php echo 123; ?>}" class="btn btn-sm btn-outline-primary">View</a>
+              // <a href="/record/t/<?php echo 123; ?>/r/${row.<?php echo 123; ?>}" class="btn btn-sm btn-outline-primary">View</a>
               return a;
             } }
             ]
@@ -302,7 +302,7 @@ if (isset($overview["type"])) {
       if (result.value) {
 
         $.ajax({
-          url: "<?php echo base_url(); ?>table_page/api/table/t/<?php echo $overview["table"]; ?>/delete",
+          url: "<?php echo base_url(); ?>api/table/t/<?php echo $overview["table"]; ?>/delete",
           type: "post",
           dataType: "json",
           data: {
@@ -352,7 +352,7 @@ if (isset($overview["type"])) {
     var edit_id = $(this).attr("value");
 
     $.ajax({
-      url: "<?php echo base_url(); ?>table_page/api/table/t/<?php echo $overview["table"]; ?>/edit",
+      url: "<?php echo base_url(); ?>api/table/t/<?php echo $overview["table"]; ?>/edit",
       type: "post",
       dataType: "json",
       data: {
@@ -405,7 +405,7 @@ if (isset($overview["type"])) {
       alert("Both field is required");
     }else{
       $.ajax({
-        url: "<?php echo base_url(); ?>table_page/api/table/t/<?php echo $overview["table"]; ?>/update",
+        url: "<?php echo base_url(); ?>api/table/t/<?php echo $overview["table"]; ?>/update",
         type: "post",
         dataType: "json",
         data: {

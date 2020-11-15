@@ -17,7 +17,7 @@ class Table_c extends CI_Controller
 	{
 
 
-		$erd_path = APPPATH.'modules/table_page/erd/erd/erd.json';
+		$erd_path = APPPATH.'erd/erd/erd.json';
 		$erd= file_get_contents($erd_path);
 		$erd= json_decode($erd, true);
 
@@ -28,7 +28,7 @@ class Table_c extends CI_Controller
 		$data["overview"]["table"] = $table;
 		$data["overview"]["rel_name"] = $table;
 		$data["overview"]["rel_name_id"] = $data["overview"]["rel_name"];
-		$data["data_endpoint"] = $table."/fetch";
+		$data["data_endpoint"] = "fetch";
 		$data['title'] = $table;
 		$this->load->view('table_header_v', $data);
 		$this->load->view('table_block_v', $data);

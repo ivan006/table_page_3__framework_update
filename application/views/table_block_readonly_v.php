@@ -76,7 +76,7 @@ $readable_rows = $rows["visible"];
             // { "data": "event_children" },
             { "render": function ( data, type, row, meta ) {
               var a = `
-              <a href="/table_page/table/t/${row.name}" class="btn btn-sm btn-outline-primary">View</a>
+              <a href="/table/t/${row.name}" class="btn btn-sm btn-outline-primary">View</a>
               `;
               return a;
             } }

@@ -34,7 +34,7 @@ class Record_c extends CI_Controller
 		$body["overview"]["table"] = $table;
 		$dont_scan = "";
 
-		$erd_path = APPPATH.'modules/table_page/erd/erd/erd.json';
+		$erd_path = APPPATH.'erd/erd/erd.json';
 		$erd= file_get_contents($erd_path);
 		$erd= json_decode($erd, true);
 

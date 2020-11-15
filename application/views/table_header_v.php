@@ -47,7 +47,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12 mt-5">
-          <a href="/table_page/database" class="btn btn-sm btn-outline-primary">
+          <a href="/database" class="btn btn-sm btn-outline-primary">
             Database
           </a>
           <h1 class="text-center">

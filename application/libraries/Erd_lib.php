@@ -1,11 +1,9 @@
 <?php
-class Erd_lib extends CI_Controller
+class Erd_lib
 {
 
 	function __construct()
 	{
-		parent::__construct();
-
 		// $this->load->helper(array('form', 'url'));
 		// $this->load->library('form_validation');
 	}
@@ -13,7 +11,7 @@ class Erd_lib extends CI_Controller
 
 	function erd_to_db()
 	{
-		$erd_two_path = APPPATH.'modules/table_page/erd/erd/erd.json';
+		$erd_two_path = APPPATH.'erd/erd/erd.json';
 		// include($erd_two_path);
 		$erd_two = file_get_contents($erd_two_path);
 		$erd_two = json_decode($erd_two, true);
@@ -91,7 +89,7 @@ class Erd_lib extends CI_Controller
 
 	function erd()
 	{
-		$one_path = APPPATH.'modules/table_page/erd/erd/erd.json';
+		$one_path = APPPATH.'erd/erd/erd.json';
 		// include($one_path);
 		$one = file_get_contents($one_path);
 		$one = json_decode($one, true);
@@ -132,7 +130,7 @@ class Erd_lib extends CI_Controller
 
 	function erd_two_old()
 	{
-		$one_path = APPPATH.'modules/table_page/erd/erd/one.json';
+		$one_path = APPPATH.'erd/erd/one.json';
 		// include($one_path);
 		$one = file_get_contents($one_path);
 		$one = json_decode($one, true);
@@ -265,7 +263,7 @@ class Erd_lib extends CI_Controller
 
 	function model_two()
 	{
-		$one_path = APPPATH.'modules/table_page/erd/erd/one.json';
+		$one_path = APPPATH.'erd/erd/one.json';
 		$one = file_get_contents($one_path);
 		$one = json_decode($one, true);
 
@@ -354,11 +352,14 @@ class Erd_lib extends CI_Controller
 
 	function db_to_erd()
 	{
+		$CI =& get_instance();
+		$CI->load->database();
+
 		$query = array(
       "SHOW TABLES",
     );
     $query = implode(" ", $query);
-    $query_result = $this->db->query($query)->result_array();
+    $query_result = $CI->db->query($query)->result_array();
 
 
 		// $query_result = array_column($query_result, 'Field');
@@ -378,7 +379,7 @@ class Erd_lib extends CI_Controller
 				"SHOW COLUMNS FROM $key",
 			);
 			$query = implode(" ", $query);
-			$query_result = $this->db->query($query)->result_array();
+			$query_result = $CI->db->query($query)->result_array();
 
 			$fields = $query_result;
 
@@ -425,7 +426,7 @@ class Erd_lib extends CI_Controller
 			// 	"SHOW TABLE STATUS LIKE '$key'",
 			// );
 			// $query = implode(" ", $query);
-			// $query_result = $this->db->query($query)->result_array();
+			// $query_result = $CI->db->query($query)->result_array();
 			// $Auto_increment = $query_result[0]["Auto_increment"];
 			//
 			// $tables_and_fields[$key]["auto_increment"] = $Auto_increment;

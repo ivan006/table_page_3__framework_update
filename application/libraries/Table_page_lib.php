@@ -1,18 +1,26 @@
 <?php
-class Table_page_lib extends CI_Controller
+class Table_page_lib
 {
 
 	function __construct()
 	{
-		parent::__construct();
+		// parent::__construct();
 
-		$this->load->helper(array('form', 'url'));
-		$this->load->library('form_validation');
-		$this->load->library('erd_lib');
+		// $this->load->helper(array('form', 'url'));
+		// $this->load->library('form_validation');
+		// $this->load->library('erd_lib');
+
+		$CI =& get_instance();
+		$CI->load->helper(array('form', 'url'));
+		$CI->load->library('form_validation');
+		$CI->load->library('erd_lib');
 	}
 
   public function insert($table)
   {
+		$CI =& get_instance();
+		$CI->load->database();
+
     // if ($this->input->is_ajax_request()) {
 
 
@@ -23,7 +31,7 @@ class Table_page_lib extends CI_Controller
       //   $data = array('responce' => 'error', 'message' => validation_errors());
       // } else {
         $ajax_data = $this->input->post();
-        if ($this->db->insert($table, $ajax_data)) {
+        if ($CI->db->insert($table, $ajax_data)) {
           $data = array('responce' => 'success', 'message' => 'Record added Successfully');
         } else {
           $data = array('responce' => 'error', 'message' => 'Failed to add record');
@@ -38,13 +46,17 @@ class Table_page_lib extends CI_Controller
 
   public function fetch($table)
   {
+		$CI =& get_instance();
+		$CI->load->database();
+
+
     // if ($this->input->is_ajax_request()) {
-    // // if ($posts = $this->db->get($table)->result()) {
+    // // if ($posts = $CI->db->get($table)->result()) {
     // // 	$data = array('responce' => 'success', 'posts' => $posts);
     // // }else{
     // // 	$data = array('responce' => 'error', 'message' => 'Failed to fetch data');
     // // }
-    $posts = $this->db->get($table)->result();
+    $posts = $CI->db->get($table)->result();
     $data = array('responce' => 'success', 'posts' => $posts);
     return $data;
     // } else {
@@ -55,10 +67,13 @@ class Table_page_lib extends CI_Controller
 
   public function delete($table)
   {
+		$CI =& get_instance();
+		$CI->load->database();
+
     // if ($this->input->is_ajax_request()) {
     $del_id = $this->input->post('del_id');
 
-    if ($this->db->delete($table, array('id' => $del_id))) {
+    if ($CI->db->delete($table, array('id' => $del_id))) {
       $data = array('responce' => 'success');
     } else {
       $data = array('responce' => 'error');
@@ -71,13 +86,17 @@ class Table_page_lib extends CI_Controller
 
   public function edit($table)
   {
+		$CI =& get_instance();
+		$CI->load->database();
+
+
     // if ($this->input->is_ajax_request()) {
     $edit_id = $this->input->post('edit_id');
 
-    $this->db->select("*");
-    $this->db->from($table);
-    $this->db->where("id", $edit_id);
-    $query = $this->db->get();
+    $CI->db->select("*");
+    $CI->db->from($table);
+    $CI->db->where("id", $edit_id);
+    $query = $CI->db->get();
     $post = null;
     if (count($query->result()) > 0) {
       $post = $query->row();
@@ -95,6 +114,9 @@ class Table_page_lib extends CI_Controller
 
   public function update($table)
   {
+		$CI =& get_instance();
+		$CI->load->database();
+
     // if ($this->input->is_ajax_request()) {
 	  //   $this->form_validation->set_rules('edit_name', 'Name', 'required');
 	  //   $this->form_validation->set_rules('edit_event_children', 'Event_children');
@@ -114,9 +136,9 @@ class Table_page_lib extends CI_Controller
 					}
 				}
 
-	      if ($this->db->update($table, $data, array('id' => $data['id']))) {
+	      if ($CI->db->update($table, $data, array('id' => $data['id']))) {
 	        $data = array('responce' => 'success', 'message' => 'Record update Successfully');
-	        // $data = $this->db->last_query();
+	        // $data = $CI->db->last_query();
 	      } else {
 	        $data = array('responce' => 'error', 'message' => 'Failed to update record');
 	      }
@@ -132,12 +154,15 @@ class Table_page_lib extends CI_Controller
 
   public function table_rows($table)
   {
+		$CI =& get_instance();
+		$CI->load->database();
+
 
     $row_query = array(
       "SHOW COLUMNS FROM $table",
     );
     $row_query = implode(" ", $row_query);
-    $rows = $this->db->query($row_query)->result_array();
+    $rows = $CI->db->query($row_query)->result_array();
     $rows = array_column($rows, 'Field');
 
 		$result = array();
@@ -150,22 +175,28 @@ class Table_page_lib extends CI_Controller
 
   public function fetch_where($table, $haystack, $needle)
   {
-		$posts = $this->db->where($haystack, $needle)->get($table)->result_array();
+		$CI =& get_instance();
+		$CI->load->database();
+
+		$posts = $CI->db->where($haystack, $needle)->get($table)->result_array();
     $data = array('responce' => 'success', 'posts' => $posts);
     return $data;
   }
 
   public function fetch_join_where($table_1, $table_2, $haystack,$needle)
   {
+		$CI =& get_instance();
+		$CI->load->database();
 
-		// $posts = $this->db->select('*')->where($haystack, $needle)->from($table_1)->join($table_2, "$table_1.$table_2_key = $table_2.id")->get()->result_array();
+
+		// $posts = $CI->db->select('*')->where($haystack, $needle)->from($table_1)->join($table_2, "$table_1.$table_2_key = $table_2.id")->get()->result_array();
 		$table_2_singular = $this->erd_lib->grammar_singular($table_2);
 		$table_2_singular = $table_2_singular."_id";
 		// $table_1_singular = $this->erd_lib->grammar_singular($table_1);
 		// $haystack = $table_1_singular.".".$haystack;
 
 
-		$posts = $this->db->select('*')->where($haystack, $needle)->from($table_2)->join($table_1, "$table_1.$table_2_singular = $table_2.id", "right")->get()->result_array();
+		$posts = $CI->db->select('*')->where($haystack, $needle)->from($table_2)->join($table_1, "$table_1.$table_2_singular = $table_2.id", "right")->get()->result_array();
 
 		$data = array('responce' => 'success', 'posts' => $posts);
     return $data;
@@ -176,6 +207,8 @@ class Table_page_lib extends CI_Controller
   {
 
 
+		$CI =& get_instance();
+		$CI->load->database();
 
 
 
@@ -190,7 +223,7 @@ class Table_page_lib extends CI_Controller
 
 		$sql="Select 'aaa' as asd";
 		// $sql="SELECT '' as table1_dummy, table1.*, '' as table2_dummy, table2.*, '' as table3_dummy, table3.* FROM table1 JOIN table2 ON table2.table1id = table1.id JOIN table3 ON table3.table1id = table1.id";
-		$posts = $this->db->query($sql)->result_array();
+		$posts = $CI->db->query($sql)->result_array();
 
 		$data = array('responce' => 'success', 'posts' => $posts);
     return $data;
@@ -199,13 +232,15 @@ class Table_page_lib extends CI_Controller
 
   public function database_api()
   {
+		$CI =& get_instance();
+		$CI->load->database();
 
     $row_query = array(
       "SHOW TABLES",
     );
     $row_query = implode(" ", $row_query);
-    $rows = $this->db->query($row_query)->result_array();
-    $rows = array_column($rows, 'Tables_in_'.$this->db->database);
+    $rows = $CI->db->query($row_query)->result_array();
+    $rows = array_column($rows, 'Tables_in_'.$CI->db->database);
 		foreach ($rows as $key => $value) {
 			$rows_formatted[]["name"] = $value;
 		}
