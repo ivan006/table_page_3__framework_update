@@ -1,11 +1,15 @@
 <?php
 class Erd_lib
 {
+	private $CI;
 
 	function __construct()
 	{
 		// $this->load->helper(array('form', 'url'));
 		// $this->load->library('form_validation');
+
+		$this->CI =& get_instance();
+		$this->CI->load->database();
 	}
 
 
@@ -352,14 +356,14 @@ class Erd_lib
 
 	function db_to_erd()
 	{
-		$CI =& get_instance();
-		$CI->load->database();
+
+
 
 		$query = array(
       "SHOW TABLES",
     );
     $query = implode(" ", $query);
-    $query_result = $CI->db->query($query)->result_array();
+    $query_result = $this->CI->db->query($query)->result_array();
 
 
 		// $query_result = array_column($query_result, 'Field');
@@ -379,7 +383,7 @@ class Erd_lib
 				"SHOW COLUMNS FROM $key",
 			);
 			$query = implode(" ", $query);
-			$query_result = $CI->db->query($query)->result_array();
+			$query_result = $this->CI->db->query($query)->result_array();
 
 			$fields = $query_result;
 
@@ -426,7 +430,7 @@ class Erd_lib
 			// 	"SHOW TABLE STATUS LIKE '$key'",
 			// );
 			// $query = implode(" ", $query);
-			// $query_result = $CI->db->query($query)->result_array();
+			// $query_result = $this->CI->db->query($query)->result_array();
 			// $Auto_increment = $query_result[0]["Auto_increment"];
 			//
 			// $tables_and_fields[$key]["auto_increment"] = $Auto_increment;
