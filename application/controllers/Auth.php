@@ -40,16 +40,16 @@ class Auth extends CI_Controller
 		else
 		{
 			$this->data['title'] = $this->lang->line('index_heading');
-			
+
 			// set the flash data error message if there is one
 			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
 			//list the users
 			$this->data['users'] = $this->ion_auth->users()->result();
-			
+
 			//USAGE NOTE - you can do more complicated queries like this
 			//$this->data['users'] = $this->ion_auth->where('field', 'value')->users()->result();
-			
+
 			foreach ($this->data['users'] as $k => $user)
 			{
 				$this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
@@ -204,7 +204,7 @@ class Auth extends CI_Controller
 	public function forgot_password()
 	{
 		$this->data['title'] = $this->lang->line('forgot_password_heading');
-		
+
 		// setting validation rules by checking whether identity is username or email
 		if ($this->config->item('identity', 'ion_auth') != 'email')
 		{
@@ -289,7 +289,7 @@ class Auth extends CI_Controller
 		}
 
 		$this->data['title'] = $this->lang->line('reset_password_heading');
-		
+
 		$user = $this->ion_auth->forgotten_password_check($code);
 
 		if ($user)
@@ -594,10 +594,10 @@ class Auth extends CI_Controller
 		$user = $this->ion_auth->user($id)->row();
 		$groups = $this->ion_auth->groups()->result_array();
 		$currentGroups = $this->ion_auth->get_users_groups($id)->result_array();
-			
+
 		//USAGE NOTE - you can do more complicated queries like this
 		//$groups = $this->ion_auth->where(['field' => 'value'])->groups()->result_array();
-	
+
 
 		// validate form input
 		$this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'trim|required');
@@ -640,7 +640,7 @@ class Auth extends CI_Controller
 				{
 					// Update the groups user belongs to
 					$this->ion_auth->remove_from_group('', $id);
-					
+
 					$groupData = $this->input->post('groups');
 					if (isset($groupData) && !empty($groupData))
 					{
@@ -748,9 +748,9 @@ class Auth extends CI_Controller
 			else
             		{
 				$this->session->set_flashdata('message', $this->ion_auth->errors());
-            		}			
+            		}
 		}
-			
+
 		// display the create group form
 		// set the flash data error message if there is one
 		$this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
@@ -769,7 +769,7 @@ class Auth extends CI_Controller
 		];
 
 		$this->_render_page('auth/create_group', $this->data);
-		
+
 	}
 
 	/**
@@ -813,7 +813,7 @@ class Auth extends CI_Controller
 				else
 				{
 					$this->session->set_flashdata('message', $this->ion_auth->errors());
-				}				
+				}
 			}
 		}
 
@@ -832,7 +832,7 @@ class Auth extends CI_Controller
 		if ($this->config->item('admin_group', 'ion_auth') === $group->name) {
 			$this->data['group_name']['readonly'] = 'readonly';
 		}
-		
+
 		$this->data['group_description'] = [
 			'name'  => 'group_description',
 			'id'    => 'group_description',
@@ -881,7 +881,10 @@ class Auth extends CI_Controller
 
 		$viewdata = (empty($data)) ? $this->data : $data;
 
+		$header = $this->load->view('header_v', array("title"=>"Ion auth"));
 		$view_html = $this->load->view($view, $viewdata, $returnhtml);
+		$footer = $this->load->view('footer_v');
+
 
 		// This will return html on 3rd argument being true
 		if ($returnhtml)
