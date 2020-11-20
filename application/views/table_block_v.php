@@ -63,7 +63,7 @@ if (isset($overview["type"])) {
                   ?>
                   <div class="form-group">
                     <label for=""><?php echo $key; ?></label>
-                    <input type="<?php echo $key; ?>" id="<?php echo $overview["rel_name_id"]; ?>_<?php echo $key; ?>" class="form-control">
+                    <input type="<?php echo "text"; ?>" id="<?php echo $overview["rel_name_id"]; ?>_<?php echo $key; ?>" class="form-control">
                   </div>
                   <?php
                 }
@@ -135,7 +135,7 @@ if (isset($overview["type"])) {
               ?>
               <div class="form-group">
                 <label for=""><?php echo $key; ?></label>
-                <input type="<?php echo $key; ?>" id="<?php echo $overview["rel_name_id"]; ?>_edit_<?php echo $key; ?>" class="form-control">
+                <input type="<?php echo "text"; ?>" id="<?php echo $overview["rel_name_id"]; ?>_edit_<?php echo $key; ?>" class="form-control">
               </div>
               <?php
             }
