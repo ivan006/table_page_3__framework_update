@@ -29,6 +29,11 @@
       },
       "organization_id": {
         "Type": "bigint(20) unsigned"
+      },
+      "date": {
+        "Type": "timestamp",
+        "Null": "NO",
+        "Default": "current_timestamp()"
       }
     },
     "items": {
