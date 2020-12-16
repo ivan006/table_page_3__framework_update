@@ -39,10 +39,10 @@ class Table_c extends CI_Controller
 		$data["table_details"]["columns"]["visible"] = array();
 
 
-		$data["overview"]["table"] = $table;
-		$data["overview"]["rel_name"] = $table;
-		$data["overview"]["rel_name_id"] = $data["overview"]["rel_name"];
-		$data["data_endpoint"] = "fetch";
+		$data["table_overview"]["table"] = $table;
+		$data["table_overview"]["rel_name"] = $table;
+		$data["table_overview"]["rel_name_id"] = $data["table_overview"]["rel_name"];
+		$data["table_overview"]["data_endpoint"] = "fetch";
 		$data['title'] = $table;
 		$this->load->view('table_header_v', array("data"=>$data));
 		$this->load->view('table_block_v', array("data"=>$data));

@@ -28,34 +28,41 @@ class Record_c extends CI_Controller
 			// redirect them to the login page
 			redirect('auth/login', 'refresh');
 		}
-		$overview_table_singular = $this->erd_lib->grammar_singular($table);
+		$table_overview_singular = $this->erd_lib->grammar_singular($table);
 
 
 		$data = array();
-		$data["title"] = $overview_table_singular." ".$record_id;
+		$data["title"] = $table_overview_singular." ".$record_id;
 
 
 		$record = $this->table_page_lib->fetch_where($table, "id", $record_id)["posts"][0];
 
 		$haystack = "id";
 		$needle = $record_id;
-		$data["data_endpoint"] = "fetch_where/h/$haystack/n/$needle";
-		$data["overview"]["type"] = "overview";
-		$data["overview"]["rel_name"] = "overview";
-		$data["overview"]["rel_name_id"] = $data["overview"]["rel_name"];
-		$data["overview"]["table"] = $table;
+
+		$tab_ov["data_endpoint"] = "fetch_where/h/$haystack/n/$needle";
+		$tab_ov["type"] = "overview";
+		$tab_ov["rel_name"] = "overview";
+		$tab_ov["rel_name_id"] = $tab_ov["rel_name"];
+		$tab_ov["table"] = $table;
 		$dont_scan = "";
+
 
 		$erd_path = APPPATH.'erd/erd/erd.json';
 		$erd= file_get_contents($erd_path);
 		$erd= json_decode($erd, true);
 
-		$data["table_details"]["columns"]["editable"] = $erd[$table]["fields"];
-		$data["table_details"]["columns"]["visible"] = array();
+		$ta_de["columns"]["editable"] = $erd[$table]["fields"];
+		$ta_de["columns"]["visible"] = array();
 
 
-		$data["items"] = $this->relations($erd, $data["overview"], $record, $dont_scan);
 
+		$data["record_overview"] = array(
+			"table_overview" => $tab_ov,
+			"table_details" => $ta_de
+		);
+
+		$data["record_details"] = $this->relations($erd, $tab_ov, $record, $dont_scan);
 
 		// header('Content-Type: application/json');
 		// echo json_encode($data, JSON_PRETTY_PRINT);
@@ -66,9 +73,9 @@ class Record_c extends CI_Controller
 
 
 		$this->load->view('table_header_v', array("data"=>$data));
-		$this->load->view('table_block_v', array("data"=>$data));
+		$this->load->view('table_block_v', array("data"=>$data["record_overview"]));
 
-		foreach ($data["items"] as $key => $value) {
+		foreach ($data["record_details"] as $key => $value) {
 			if (!empty($value)) {
 				// code...
 				$this->load->view('table_block_v', array("data"=>$value));
@@ -79,7 +86,7 @@ class Record_c extends CI_Controller
 	}
 
 
-	public function relations($erd, $parent_overview, $parent_record, $dont_scan)
+	public function relations($erd, $parent_table_overview, $parent_record, $dont_scan)
 	{
 		if (!$this->ion_auth->logged_in())
 		{
@@ -87,19 +94,19 @@ class Record_c extends CI_Controller
 			redirect('auth/login', 'refresh');
 		}
 		$result = array();
-		// $columns = $erd[$parent_overview["table"]]["fields"];
-		if (isset($erd[$parent_overview["table"]]["items"])) {
-			$items = $erd[$parent_overview["table"]]["items"];
+		// $columns = $erd[$parent_table_overview["table"]]["fields"];
+		if (isset($erd[$parent_table_overview["table"]]["items"])) {
+			$items = $erd[$parent_table_overview["table"]]["items"];
 			foreach ($items as $key => $value) {
 				if ($key !== $dont_scan) {
 
 
-					$overview["rel_name"] = $key." (".$value." specialised)";
-					$overview["rel_name_id"] = preg_replace('/\W+/','',strtolower(strip_tags($overview["rel_name"])));
-					$overview["table"] = $key;
-					$overview["foreign_key"] = $value;
+					$table_overview["rel_name"] = $key." (".$value." specialised)";
+					$table_overview["rel_name_id"] = preg_replace('/\W+/','',strtolower(strip_tags($table_overview["rel_name"])));
+					$table_overview["table"] = $key;
+					$table_overview["foreign_key"] = $value;
 
-					// var_dump($parent_overview);
+					// var_dump($parent_table_overview);
 
 					if (!empty($parent_record)) {
 
@@ -111,7 +118,10 @@ class Record_c extends CI_Controller
 					} else {
 						$data_endpoint = "";
 					}
-					$overview["type"] = "dedicated_items";
+
+					$table_overview["data_endpoint"] = $data_endpoint;
+
+					$table_overview["type"] = "dedicated_items";
 
 
 
@@ -122,14 +132,13 @@ class Record_c extends CI_Controller
 
 
 					$result[$key] = array(
-						"overview" => $overview,
+						"table_overview" => $table_overview,
 						"table_details" => array(
 							"columns" => array(
 								"editable" => $sub_columns,
 								"visible" => array(),
 							),
-						),
-						"data_endpoint" => $data_endpoint,
+						)
 					);
 
 
