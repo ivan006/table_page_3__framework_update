@@ -34,7 +34,7 @@ class Database_c extends CI_Controller
 
 
 
-		$data["table_details"]["columns"]["visible"] = array("name"=>array());
+		$data["table_details"]["cols"]["visible"] = array("name"=>array());
 		$data["overview"]["table_id"] = "";
 		$data["data_endpoint"] = "database_api";
 		$data['title'] = "Database";

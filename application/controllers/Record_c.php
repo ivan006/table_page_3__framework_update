@@ -52,22 +52,41 @@ class Record_c extends CI_Controller
 		$erd = file_get_contents($erd_path);
 		$erd = json_decode($erd, true);
 
-		$data["rec_o"]["tab_d"]["columns"]["editable"] = $erd[$table]["fields"];
-		$data["rec_o"]["tab_d"]["columns"]["visible"] = array();
-
+		$data["rec_o"]["tab_d"]["cols"]["editable"] = $erd[$table]["fields"];
 
 		$data["rec_o"]["tab_d"]["parents"] = array();
+
 		foreach ($erd as $key => $value) {
 			if (isset($value["items"])) {
 				foreach ($value["items"] as $key_2 => $value_2) {
 					if ($key_2 == $data["rec_o"]["tab_o"]["table"]) {
 						// echo $key_2;
-						$data["rec_o"]["tab_d"]["parents"][$key] = $value_2;
+						$data["rec_o"]["tab_d"]["parents"][$key]["for_key"] = $value_2;
+						$data["rec_o"]["tab_d"]["parents"][$key]["fields"] = $value["fields"];
 					}
 				}
 			}
 		}
 		// $data["rec_o"]["tab_d"]["parents"] = array_unique($data["rec_o"]["tab_d"]["parents"]);
+
+		$data["rec_o"]["tab_d"]["cols"]["visible"] = $data["rec_o"]["tab_d"]["cols"]["editable"];
+
+		foreach ($data["rec_o"]["tab_d"]["parents"] as $key => $value) {
+			if (isset($data["rec_o"]["tab_d"]["cols"]["visible"][$value["for_key"]])) {
+				// $col_deets = $data["rec_o"]["tab_d"]["cols"]["visible"][$value["for_key"]];
+				unset($data["rec_o"]["tab_d"]["cols"]["visible"][$value["for_key"]]);
+
+				foreach ($value["fields"] as $key_2 => $value_2) {
+					$parent_cols["$key_2 ($key)"] = $value_2;
+				}
+				// $data["rec_o"]["tab_d"]["cols"]["visible"][$value["for_key"]] = $parent_cols;
+				$data["rec_o"]["tab_d"]["cols"]["visible"] = array_merge(
+					$data["rec_o"]["tab_d"]["cols"]["visible"],
+					$parent_cols
+				);
+			}
+		}
+
 
 
 		$data["rec_d"] = $this->relations($erd, $data["rec_o"]["tab_o"], $record, $dont_scan);
@@ -102,7 +121,7 @@ class Record_c extends CI_Controller
 			redirect('auth/login', 'refresh');
 		}
 		$result = array();
-		// $columns = $erd[$parent_tab_o["table"]]["fields"];
+		// $cols = $erd[$parent_tab_o["table"]]["fields"];
 		if (isset($erd[$parent_tab_o["table"]]["items"])) {
 			$items = $erd[$parent_tab_o["table"]]["items"];
 			foreach ($items as $key => $value) {
@@ -136,14 +155,14 @@ class Record_c extends CI_Controller
 
 
 
-					$sub_columns = $erd[$key]["fields"];
+					$sub_cols = $erd[$key]["fields"];
 
 
 					$result[$key] = array(
 						"tab_o" => $tab_o,
 						"tab_d" => array(
-							"columns" => array(
-								"editable" => $sub_columns,
+							"cols" => array(
+								"editable" => $sub_cols,
 								"visible" => array(),
 							),
 						)

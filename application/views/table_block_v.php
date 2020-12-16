@@ -2,8 +2,8 @@
 
 <?php
 if (!isset($join)) {
-  $editable_rows = $data["tab_d"]["columns"]["editable"];
-  $readable_rows = $data["tab_d"]["columns"]["editable"];
+  $editable_rows = $data["tab_d"]["cols"]["editable"];
+  $readable_rows = $data["tab_d"]["cols"]["visible"];
 
 
   $view_link_table = $data["tab_o"]["table"];
@@ -11,7 +11,7 @@ if (!isset($join)) {
 } else {
 
 
-  $editable_rows = $data["tab_d"]["columns"]["editable"];
+  $editable_rows = $data["tab_d"]["cols"]["editable"];
   $readable_rows = $join["rows"]["editable"];
   $data["tab_o"]["data_endpoint"] = $join["data_endpoint"];
 
