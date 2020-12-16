@@ -2,14 +2,14 @@
 
 <?php
 
-$readable_rows = $rows["visible"];
+$readable_rows = $data["table_details"]["columns"]["visible"];
 ?>
 
 
 <div class="row">
   <div class="col-md-12 mt-4">
     <div class="table-responsive">
-      <table class="table" id="<?php echo $overview["table_id"]; ?>_records">
+      <table class="table" id="<?php echo $data["overview"]["table_id"]; ?>_records">
         <thead>
           <tr>
             <th>ID</th>
@@ -40,16 +40,16 @@ $readable_rows = $rows["visible"];
 
   // Fetch Records
 
-  function <?php echo $overview["table_id"]; ?>_fetch(){
+  function <?php echo $data["overview"]["table_id"]; ?>_fetch(){
     $.ajax({
-      url: "<?php echo base_url(); ?><?php echo $data_endpoint; ?>",
+      url: "<?php echo base_url(); ?><?php echo $data["data_endpoint"]; ?>",
       type: "post",
       dataType: "json",
       success: function(data){
         if (data.responce == "success") {
 
           var i = "1";
-          $('#<?php echo $overview["table_id"]; ?>_records').DataTable( {
+          $('#<?php echo $data["overview"]["table_id"]; ?>_records').DataTable( {
             "data": data.posts,
             // "responsive": true,
             dom:
@@ -91,7 +91,7 @@ $readable_rows = $rows["visible"];
 
   }
 
-  <?php echo $overview["table_id"]; ?>_fetch();
+  <?php echo $data["overview"]["table_id"]; ?>_fetch();
 
 
 </script>

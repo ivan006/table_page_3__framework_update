@@ -34,12 +34,12 @@ class Database_c extends CI_Controller
 
 
 
-		$data["rows"]["visible"] = array("name"=>array());
+		$data["table_details"]["columns"]["visible"] = array("name"=>array());
 		$data["overview"]["table_id"] = "";
 		$data["data_endpoint"] = "database_api";
 		$data['title'] = "Database";
-		$this->load->view('table_header_v', $data);
-		$this->load->view('table_block_readonly_v', $data);
+		$this->load->view('table_header_v', array("data"=>$data));
+		$this->load->view('table_block_readonly_v', array("data"=>$data));
 		$this->load->view('table_footer_v');
 
 	}

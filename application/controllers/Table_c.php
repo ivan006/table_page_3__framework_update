@@ -35,8 +35,8 @@ class Table_c extends CI_Controller
 		$erd= file_get_contents($erd_path);
 		$erd= json_decode($erd, true);
 
-		$data["columns"]["editable"] = $erd[$table]["fields"];
-		$data["columns"]["visible"] = array();
+		$data["table_details"]["columns"]["editable"] = $erd[$table]["fields"];
+		$data["table_details"]["columns"]["visible"] = array();
 
 
 		$data["overview"]["table"] = $table;
