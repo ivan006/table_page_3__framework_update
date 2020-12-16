@@ -175,7 +175,7 @@ class Table_page_lib
     return $result;
   }
 
-  public function fetch_where($table, $haystack, $needle)
+  public function fetch_for_record($table, $haystack, $needle)
   {
 
 		$this->CI->load->database();

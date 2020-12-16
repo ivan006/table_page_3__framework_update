@@ -35,12 +35,12 @@ class Record_c extends CI_Controller
 		$data["title"] = $tab_o_singular." ".$record_id;
 
 
-		$record = $this->table_page_lib->fetch_where($table, "id", $record_id)["posts"][0];
+		$record = $this->table_page_lib->fetch_for_record($table, "id", $record_id)["posts"][0];
 
 		$haystack = "id";
 		$needle = $record_id;
 
-		$data["rec_o"]["tab_o"]["data_endpoint"] = "fetch_where/h/$haystack/n/$needle";
+		$data["rec_o"]["tab_o"]["data_endpoint"] = "fetch_for_record/h/$haystack/n/$needle";
 		$data["rec_o"]["tab_o"]["type"] = "overview";
 		$data["rec_o"]["tab_o"]["rel_name"] = "overview";
 		$data["rec_o"]["tab_o"]["rel_name_id"] = $data["rec_o"]["tab_o"]["rel_name"];
@@ -140,7 +140,7 @@ class Record_c extends CI_Controller
 						$haystack = $value;
 						$needle = $parent_record["id"];
 
-						$data_endpoint = "fetch_where/h/$haystack/n/$needle";
+						$data_endpoint = "fetch_for_record/h/$haystack/n/$needle";
 
 					} else {
 						$data_endpoint = "";
