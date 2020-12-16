@@ -29,11 +29,6 @@
       },
       "organization_id": {
         "Type": "bigint(20) unsigned"
-      },
-      "date": {
-        "Type": "timestamp",
-        "Null": "NO",
-        "Default": "current_timestamp()"
       }
     },
     "items": {
@@ -110,7 +105,7 @@
       }
     },
     "items": {
-      "event_resource_links": "event_id"
+      "event_resource_links": "resource_id"
     }
   },
   "users": {

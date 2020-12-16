@@ -35,14 +35,14 @@ class Table_c extends CI_Controller
 		$erd= file_get_contents($erd_path);
 		$erd= json_decode($erd, true);
 
-		$data["table_details"]["columns"]["editable"] = $erd[$table]["fields"];
-		$data["table_details"]["columns"]["visible"] = array();
+		$data["tab_d"]["columns"]["editable"] = $erd[$table]["fields"];
+		$data["tab_d"]["columns"]["visible"] = array();
 
 
-		$data["table_overview"]["table"] = $table;
-		$data["table_overview"]["rel_name"] = $table;
-		$data["table_overview"]["rel_name_id"] = $data["table_overview"]["rel_name"];
-		$data["table_overview"]["data_endpoint"] = "fetch";
+		$data["tab_o"]["table"] = $table;
+		$data["tab_o"]["rel_name"] = $table;
+		$data["tab_o"]["rel_name_id"] = $data["tab_o"]["rel_name"];
+		$data["tab_o"]["data_endpoint"] = "fetch";
 		$data['title'] = $table;
 		$this->load->view('table_header_v', array("data"=>$data));
 		$this->load->view('table_block_v', array("data"=>$data));

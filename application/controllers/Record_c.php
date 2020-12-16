@@ -28,11 +28,11 @@ class Record_c extends CI_Controller
 			// redirect them to the login page
 			redirect('auth/login', 'refresh');
 		}
-		$table_overview_singular = $this->erd_lib->grammar_singular($table);
+		$tab_o_singular = $this->erd_lib->grammar_singular($table);
 
 
 		$data = array();
-		$data["title"] = $table_overview_singular." ".$record_id;
+		$data["title"] = $tab_o_singular." ".$record_id;
 
 
 		$record = $this->table_page_lib->fetch_where($table, "id", $record_id)["posts"][0];
@@ -40,29 +40,37 @@ class Record_c extends CI_Controller
 		$haystack = "id";
 		$needle = $record_id;
 
-		$tab_ov["data_endpoint"] = "fetch_where/h/$haystack/n/$needle";
-		$tab_ov["type"] = "overview";
-		$tab_ov["rel_name"] = "overview";
-		$tab_ov["rel_name_id"] = $tab_ov["rel_name"];
-		$tab_ov["table"] = $table;
+		$data["rec_o"]["tab_o"]["data_endpoint"] = "fetch_where/h/$haystack/n/$needle";
+		$data["rec_o"]["tab_o"]["type"] = "overview";
+		$data["rec_o"]["tab_o"]["rel_name"] = "overview";
+		$data["rec_o"]["tab_o"]["rel_name_id"] = $data["rec_o"]["tab_o"]["rel_name"];
+		$data["rec_o"]["tab_o"]["table"] = $table;
 		$dont_scan = "";
 
 
 		$erd_path = APPPATH.'erd/erd/erd.json';
-		$erd= file_get_contents($erd_path);
-		$erd= json_decode($erd, true);
+		$erd = file_get_contents($erd_path);
+		$erd = json_decode($erd, true);
 
-		$ta_de["columns"]["editable"] = $erd[$table]["fields"];
-		$ta_de["columns"]["visible"] = array();
+		$data["rec_o"]["tab_d"]["columns"]["editable"] = $erd[$table]["fields"];
+		$data["rec_o"]["tab_d"]["columns"]["visible"] = array();
 
 
+		$data["rec_o"]["tab_d"]["parents"] = array();
+		foreach ($erd as $key => $value) {
+			if (isset($value["items"])) {
+				foreach ($value["items"] as $key_2 => $value_2) {
+					if ($key_2 == $data["rec_o"]["tab_o"]["table"]) {
+						// echo $key_2;
+						$data["rec_o"]["tab_d"]["parents"][$key] = $value_2;
+					}
+				}
+			}
+		}
+		// $data["rec_o"]["tab_d"]["parents"] = array_unique($data["rec_o"]["tab_d"]["parents"]);
 
-		$data["record_overview"] = array(
-			"table_overview" => $tab_ov,
-			"table_details" => $ta_de
-		);
 
-		$data["record_details"] = $this->relations($erd, $tab_ov, $record, $dont_scan);
+		$data["rec_d"] = $this->relations($erd, $data["rec_o"]["tab_o"], $record, $dont_scan);
 
 		// header('Content-Type: application/json');
 		// echo json_encode($data, JSON_PRETTY_PRINT);
@@ -73,9 +81,9 @@ class Record_c extends CI_Controller
 
 
 		$this->load->view('table_header_v', array("data"=>$data));
-		$this->load->view('table_block_v', array("data"=>$data["record_overview"]));
+		$this->load->view('table_block_v', array("data"=>$data["rec_o"]));
 
-		foreach ($data["record_details"] as $key => $value) {
+		foreach ($data["rec_d"] as $key => $value) {
 			if (!empty($value)) {
 				// code...
 				$this->load->view('table_block_v', array("data"=>$value));
@@ -86,7 +94,7 @@ class Record_c extends CI_Controller
 	}
 
 
-	public function relations($erd, $parent_table_overview, $parent_record, $dont_scan)
+	public function relations($erd, $parent_tab_o, $parent_record, $dont_scan)
 	{
 		if (!$this->ion_auth->logged_in())
 		{
@@ -94,19 +102,19 @@ class Record_c extends CI_Controller
 			redirect('auth/login', 'refresh');
 		}
 		$result = array();
-		// $columns = $erd[$parent_table_overview["table"]]["fields"];
-		if (isset($erd[$parent_table_overview["table"]]["items"])) {
-			$items = $erd[$parent_table_overview["table"]]["items"];
+		// $columns = $erd[$parent_tab_o["table"]]["fields"];
+		if (isset($erd[$parent_tab_o["table"]]["items"])) {
+			$items = $erd[$parent_tab_o["table"]]["items"];
 			foreach ($items as $key => $value) {
 				if ($key !== $dont_scan) {
 
 
-					$table_overview["rel_name"] = $key." (".$value." specialised)";
-					$table_overview["rel_name_id"] = preg_replace('/\W+/','',strtolower(strip_tags($table_overview["rel_name"])));
-					$table_overview["table"] = $key;
-					$table_overview["foreign_key"] = $value;
+					$tab_o["rel_name"] = $key." (".$value." specialised)";
+					$tab_o["rel_name_id"] = preg_replace('/\W+/','',strtolower(strip_tags($tab_o["rel_name"])));
+					$tab_o["table"] = $key;
+					$tab_o["foreign_key"] = $value;
 
-					// var_dump($parent_table_overview);
+					// var_dump($parent_tab_o);
 
 					if (!empty($parent_record)) {
 
@@ -119,9 +127,9 @@ class Record_c extends CI_Controller
 						$data_endpoint = "";
 					}
 
-					$table_overview["data_endpoint"] = $data_endpoint;
+					$tab_o["data_endpoint"] = $data_endpoint;
 
-					$table_overview["type"] = "dedicated_items";
+					$tab_o["type"] = "dedicated_items";
 
 
 
@@ -132,8 +140,8 @@ class Record_c extends CI_Controller
 
 
 					$result[$key] = array(
-						"table_overview" => $table_overview,
-						"table_details" => array(
+						"tab_o" => $tab_o,
+						"tab_d" => array(
 							"columns" => array(
 								"editable" => $sub_columns,
 								"visible" => array(),
