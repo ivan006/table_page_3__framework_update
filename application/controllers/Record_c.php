@@ -163,7 +163,7 @@ class Record_c extends CI_Controller
 						"tab_d" => array(
 							"cols" => array(
 								"editable" => $sub_cols,
-								"visible" => array(),
+								"visible" => $sub_cols,
 							),
 						)
 					);

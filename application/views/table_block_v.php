@@ -1,24 +1,31 @@
-
-
 <?php
-if (!isset($join)) {
-  $editable_rows = $data["tab_d"]["cols"]["editable"];
-  $readable_rows = $data["tab_d"]["cols"]["visible"];
+
+$editable_rows = $data["tab_d"]["cols"]["editable"];
+$readable_rows = $data["tab_d"]["cols"]["visible"];
 
 
-  $view_link_table = $data["tab_o"]["table"];
-  $view_link_id_key = "id";
-} else {
+$view_link_table = $data["tab_o"]["table"];
+$view_link_id_key = "id";
 
 
-  $editable_rows = $data["tab_d"]["cols"]["editable"];
-  $readable_rows = $join["rows"]["editable"];
-  $data["tab_o"]["data_endpoint"] = $join["data_endpoint"];
-
-  $lookup_table_names = $join["lookup"]["table_overview"];
-  $view_link_table = $join["table_overview"]["table"];
-  $view_link_id_key = $join["table_overview"]["foreign_key"];
-}
+// if (!isset($join)) {
+//   $editable_rows = $data["tab_d"]["cols"]["editable"];
+//   $readable_rows = $data["tab_d"]["cols"]["visible"];
+//
+//
+//   $view_link_table = $data["tab_o"]["table"];
+//   $view_link_id_key = "id";
+// } else {
+//
+//
+//   $editable_rows = $data["tab_d"]["cols"]["editable"];
+//   $readable_rows = $join["rows"]["editable"];
+//   $data["tab_o"]["data_endpoint"] = $join["data_endpoint"];
+//
+//   $lookup_table_names = $join["lookup"]["table_overview"];
+//   $view_link_table = $join["table_overview"]["table"];
+//   $view_link_id_key = $join["table_overview"]["foreign_key"];
+// }
 ?>
 
 <?php
