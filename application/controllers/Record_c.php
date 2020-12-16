@@ -31,50 +31,50 @@ class Record_c extends CI_Controller
 		$overview_table_singular = $this->erd_lib->grammar_singular($table);
 
 
-		$header["title"] = $overview_table_singular." ".$record_id;
-		$body = array();
+		$data = array();
+		$data["title"] = $overview_table_singular." ".$record_id;
 
 
 		$record = $this->table_page_lib->fetch_where($table, "id", $record_id)["posts"][0];
 
 		$haystack = "id";
 		$needle = $record_id;
-		$body["data_endpoint"] = "fetch_where/h/$haystack/n/$needle";
-		$body["overview"]["type"] = "overview";
-		$body["overview"]["rel_name"] = "overview";
-		$body["overview"]["rel_name_id"] = $body["overview"]["rel_name"];
-		$body["overview"]["table"] = $table;
+		$data["data_endpoint"] = "fetch_where/h/$haystack/n/$needle";
+		$data["overview"]["type"] = "overview";
+		$data["overview"]["rel_name"] = "overview";
+		$data["overview"]["rel_name_id"] = $data["overview"]["rel_name"];
+		$data["overview"]["table"] = $table;
 		$dont_scan = "";
 
 		$erd_path = APPPATH.'erd/erd/erd.json';
 		$erd= file_get_contents($erd_path);
 		$erd= json_decode($erd, true);
 
-		$body["columns"]["all"] = $erd[$table]["fields"];
-		$body["columns"]["visible"] = array();
+		$data["columns"]["editable"] = $erd[$table]["fields"];
+		$data["columns"]["visible"] = array();
 
 
-		$body["items"] = $this->relations($erd, $body["overview"], $record, $dont_scan);
+		$data["items"] = $this->relations($erd, $data["overview"], $record, $dont_scan);
 
 
 		// header('Content-Type: application/json');
-		// echo json_encode($body, JSON_PRETTY_PRINT);
+		// echo json_encode($data, JSON_PRETTY_PRINT);
 		// exit;
 
 
 
 
 
-		$this->load->view('table_header_v', $header);
-		$this->load->view('table_block_v', $body);
+		$this->load->view('table_header_v', array("data"=>$data));
+		$this->load->view('table_block_v', array("data"=>$data));
 
-		foreach ($body["items"] as $key => $value) {
+		foreach ($data["items"] as $key => $value) {
 			if (!empty($value)) {
 				// code...
-				$this->load->view('table_block_v', $value);
+				$this->load->view('table_block_v', array("data"=>$value));
 			}
 		}
-		$this->load->view('table_footer_v');
+		$this->load->view('table_footer_v', array("data"=>$data));
 
 	}
 
@@ -124,7 +124,7 @@ class Record_c extends CI_Controller
 					$result[$key] = array(
 						"overview" => $overview,
 						"columns" => array(
-							"all" => $sub_columns,
+							"editable" => $sub_columns,
 							"visible" => array(),
 						),
 						"data_endpoint" => $data_endpoint,

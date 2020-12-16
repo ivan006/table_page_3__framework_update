@@ -40,7 +40,7 @@
     <!-- Sweet Alert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
-    <title><?php echo $title; ?></title>
+    <title><?php echo $data["title"]; ?></title>
 
   </head>
   <body>
@@ -51,7 +51,7 @@
             Database
           </a>
           <h1 class="text-center">
-            <?php echo $title; ?>
+            <?php echo $data["title"]; ?>
           </h1>
           <hr style="background-color: black; color: black; height: 1px;">
         </div>
