@@ -181,6 +181,66 @@ class Table_page_lib
 		$this->CI->load->database();
 
 		$posts = $this->CI->db->where($haystack, $needle)->get($table)->result_array();
+
+		// $record_inherited_cols = $this->record_inherited_cols($table);
+		//
+		// header('Content-Type: application/json');
+		// echo json_encode($record_inherited_cols, JSON_PRETTY_PRINT);
+		// exit;
+
+		if (1==1) {
+			//
+			// $erd_path = APPPATH.'erd/erd/erd.json';
+			// $erd = file_get_contents($erd_path);
+			// $erd = json_decode($erd, true);
+			//
+			//
+			// $this->db->_protect_identifiers=false;
+			// $query = $this->db
+			// ->select('COUNT(DISTINCT wbi.id) as ServicelineCount')
+			// ->select('')
+			// ->select('wbi.supplier_id')
+			// ->select('wb.id as booking_id')
+			// ->select('booking_reference AS MainKey')
+			// ->select('adults')
+			// ->select('children')
+			// ->select('infants')
+			// ->select('single_rooms + double_rooms + triple_rooms + family_rooms as RoomCount')
+			// // ->select('agent')
+			// // ->select('wb.created_by as thing')
+			// // ->select('wpo.org_id as thing2')
+			// ->select('CONCAT(first_name, " ", last_name) AS name')
+			// ->select('SUM(total_sell) AS Revenue')
+			// ->select('SUM(total_cost) AS Cost')
+			// ->select('SUM(total_sell)-SUM(total_cost) AS MainValue')
+			// ->select('DATE_FORMAT(pick_up_date, "%M %Y") as date')
+			// ->from('what_bookings AS wb')
+			// ->join('what_bookings_itineraries wbi', 'wb.id = wbi.booking_id', 'inner')
+			// ->join('what_bookings_pax_config wbpc', 'wb.id = wbpc.booking_id', 'left')
+			// ->join('what_bookings_itineraries_costing wbic', 'wbic.itinerary_id = wbi.id', 'left')
+			// ->join('`how_system_users` hsu', 'wb.created_by = hsu.id', 'left')
+			// ->join('`who_people` wp', 'hsu.person_id = wp.id', 'left')
+			//
+			// ->join('`who_people_orgs` wpo', 'hsu.person_id = wpo.person_id', 'left')
+			//
+			//
+			// ->where('CONCAT(first_name, " ", last_name) =', $GET["Factor"])
+			// // ->where('DATE_FORMAT(`pick_up_date`, "%Y-%m") =', $GET["month"])
+			// ->where('pick_up_date BETWEEN "'.$months[0].' "AND "'.$months[1].'"')
+			// ->where('wbi.service_type '.$SmartServiceType['operator'], $SmartServiceType['term'])
+			// // ->where('wbi.status '.$SmartServiceStatus['operator'], $SmartServiceStatus['term'])
+			// ->where_in("wbi.status",$SmartServiceStatus)
+			// ->where_in("wb.booking_status",$SmartBookingStatus)
+			// ->group_by('wb.id')
+			// ->order_by('wb.id', 'ASC');
+			// $result = $query->get()->result_array();
+			//
+			// $this->db->_protect_identifiers=true;
+
+		}
+
+
+
     $data = array('responce' => 'success', 'posts' => $posts);
     return $data;
   }
@@ -257,6 +317,32 @@ class Table_page_lib
 
 		$data = array('responce' => 'success', 'posts' => $rows_formatted);
 		return $data;
+  }
+
+  public function record_inherited_cols($table)
+  {
+		$erd_path = APPPATH.'erd/erd/erd.json';
+		$erd = file_get_contents($erd_path);
+		$erd = json_decode($erd, true);
+
+		$parents = array();
+
+		foreach ($erd as $key => $value) {
+			if (isset($value["items"])) {
+				foreach ($value["items"] as $key_2 => $value_2) {
+					if ($key_2 == $table) {
+						// echo $key_2;
+						$parents[$key]["for_key"] = $value_2;
+						$parents[$key]["fields"] = $value["fields"];
+					}
+				}
+			}
+		}
+		// $parents = array_unique($parents);
+		return $parents;
+
+
+
   }
 
 }

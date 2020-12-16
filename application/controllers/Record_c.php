@@ -54,24 +54,16 @@ class Record_c extends CI_Controller
 
 		$data["rec_o"]["tab_d"]["cols"]["editable"] = $erd[$table]["fields"];
 
-		$data["rec_o"]["tab_d"]["parents"] = array();
+		$data["rec_o"]["tab_d"]["cols"]["visible"] = $data["rec_o"]["tab_d"]["cols"]["editable"];
 
-		foreach ($erd as $key => $value) {
-			if (isset($value["items"])) {
-				foreach ($value["items"] as $key_2 => $value_2) {
-					if ($key_2 == $data["rec_o"]["tab_o"]["table"]) {
-						// echo $key_2;
-						$data["rec_o"]["tab_d"]["parents"][$key]["for_key"] = $value_2;
-						$data["rec_o"]["tab_d"]["parents"][$key]["fields"] = $value["fields"];
-					}
-				}
-			}
-		}
-		// $data["rec_o"]["tab_d"]["parents"] = array_unique($data["rec_o"]["tab_d"]["parents"]);
+
+		$record_inherited_cols = $this->table_page_lib->record_inherited_cols($data["rec_o"]["tab_o"]["table"]);
+
+
 
 		$data["rec_o"]["tab_d"]["cols"]["visible"] = $data["rec_o"]["tab_d"]["cols"]["editable"];
 
-		foreach ($data["rec_o"]["tab_d"]["parents"] as $key => $value) {
+		foreach ($record_inherited_cols as $key => $value) {
 			if (isset($data["rec_o"]["tab_d"]["cols"]["visible"][$value["for_key"]])) {
 				// $col_deets = $data["rec_o"]["tab_d"]["cols"]["visible"][$value["for_key"]];
 				unset($data["rec_o"]["tab_d"]["cols"]["visible"][$value["for_key"]]);
@@ -89,10 +81,11 @@ class Record_c extends CI_Controller
 
 
 
+
 		$data["rec_d"] = $this->relations($erd, $data["rec_o"]["tab_o"], $record, $dont_scan);
 
 		// header('Content-Type: application/json');
-		// echo json_encode($data, JSON_PRETTY_PRINT);
+		// echo json_encode($record_inherited_cols, JSON_PRETTY_PRINT);
 		// exit;
 
 
