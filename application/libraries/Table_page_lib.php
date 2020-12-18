@@ -180,23 +180,85 @@ class Table_page_lib
 
 		$this->CI->load->database();
 
-		$posts = $this->CI->db->where($haystack, $needle)->get($table)->result_array();
+		// $posts = $this->CI->db->where($haystack, $needle)->get($table)->result_array();
 
-		// $record_inherited_cols = $this->record_inherited_cols($table);
-		//
+		$erd_path = APPPATH.'erd/erd/erd.json';
+		$erd = file_get_contents($erd_path);
+		$erd = json_decode($erd, true);
+
+		$record_inherited_cols = $this->record_inherited_cols($table, $erd);
+
 		// header('Content-Type: application/json');
 		// echo json_encode($record_inherited_cols, JSON_PRETTY_PRINT);
 		// exit;
 
 		if (1==1) {
+
+
+			// $this->CI->db->_protect_identifiers=false;
+			$query = $this->CI->db;
+			foreach ($record_inherited_cols["self"] as $key => $value) {
+				$query = $query->select($table.'.'.$key);
+			}
+			foreach ($record_inherited_cols["rel"] as $key => $value) {
+				foreach ($value["inherited_cols"] as $key_2 => $value_2) {
+					$query = $query->select($value["table"].'.'.$value_2["col_name"]." as `$key_2`");
+				}
+			}
+			$query = $query->from($table);
+
+			foreach ($record_inherited_cols["rel"] as $key => $value) {
+				// echo "xyz";
+				$query = $query->join($value["table"], $table.'.'.$key.' = '.$value["table"].'.id', 'left');
+			}
+
+			// ->select('COUNT(DISTINCT wbi.id) as ServicelineCount')
+			// ->select('')
+			// ->select('wbi.supplier_id')
+			// ->select('wb.id as booking_id')
+			// ->select('booking_reference AS MainKey')
+			// ->select('adults')
+			// ->select('children')
+			// ->select('infants')
+			// ->select('single_rooms + double_rooms + triple_rooms + family_rooms as RoomCount')
+			// // ->select('agent')
+			// // ->select('wb.created_by as thing')
+			// // ->select('wpo.org_id as thing2')
+			// ->select('CONCAT(first_name, " ", last_name) AS name')
+			// ->select('SUM(total_sell) AS Revenue')
+			// ->select('SUM(total_cost) AS Cost')
+			// ->select('SUM(total_sell)-SUM(total_cost) AS MainValue')
+			// ->select('DATE_FORMAT(pick_up_date, "%M %Y") as date')
+			// ->from('what_bookings AS wb')
+			// ->join('what_bookings_itineraries wbi', 'wb.id = wbi.booking_id', 'inner')
+			// ->join('what_bookings_pax_config wbpc', 'wb.id = wbpc.booking_id', 'left')
+			// ->join('what_bookings_itineraries_costing wbic', 'wbic.itinerary_id = wbi.id', 'left')
+			// ->join('`how_system_users` hsu', 'wb.created_by = hsu.id', 'left')
+			// ->join('`who_people` wp', 'hsu.person_id = wp.id', 'left')
 			//
-			// $erd_path = APPPATH.'erd/erd/erd.json';
-			// $erd = file_get_contents($erd_path);
-			// $erd = json_decode($erd, true);
+			// ->join('`who_people_orgs` wpo', 'hsu.person_id = wpo.person_id', 'left')
 			//
 			//
-			// $this->db->_protect_identifiers=false;
-			// $query = $this->db
+			// ->where('CONCAT(first_name, " ", last_name) =', $GET["Factor"])
+			// // ->where('DATE_FORMAT(`pick_up_date`, "%Y-%m") =', $GET["month"])
+			// ->where('pick_up_date BETWEEN "'.$months[0].' "AND "'.$months[1].'"')
+			// ->where('wbi.service_type '.$SmartServiceType['operator'], $SmartServiceType['term'])
+			// // ->where('wbi.status '.$SmartServiceStatus['operator'], $SmartServiceStatus['term'])
+			// ->where_in("wbi.status",$SmartServiceStatus)
+			// ->where_in("wb.booking_status",$SmartBookingStatus)
+			// ->group_by('wb.id')
+			// ->order_by('wb.id', 'ASC');
+			$posts = $query->get()->result_array();
+
+			// $this->CI->db->_protect_identifiers=true;
+
+		}
+
+		if (1==1) {
+
+			//
+			// $this->CI->db->_protect_identifiers=false;
+			// $query = $this->CI->db
 			// ->select('COUNT(DISTINCT wbi.id) as ServicelineCount')
 			// ->select('')
 			// ->select('wbi.supplier_id')
@@ -235,7 +297,7 @@ class Table_page_lib
 			// ->order_by('wb.id', 'ASC');
 			// $result = $query->get()->result_array();
 			//
-			// $this->db->_protect_identifiers=true;
+			// $this->CI->db->_protect_identifiers=true;
 
 		}
 
@@ -274,7 +336,7 @@ class Table_page_lib
 
 
 
-		// $posts = $this->db
+		// $posts = $this->CI->db
 		// ->select("`event_resource_links`.*")
     // ->select("DAY() AS wp_name")
 		// ->from("event_resource_links")
@@ -346,13 +408,39 @@ class Table_page_lib
 				// $col_deets = $table_fields[$value["for_key"]];
 
 				foreach ($value["fields"] as $key_2 => $value_2) {
-					$parent_cols[$value["for_key"]]["$key_2 ($key)"] = $value_2;
+					$rel[$value["for_key"]]["inherited_cols"]["$key_2 ($key)"] = array(
+						"col_name"=> $key_2,
+						"col_props"=> $value_2
+					);
 				}
+				$rel[$value["for_key"]]["table"] = $key;
 			}
 		}
 
+
+
+
+		$self = $erd[$table]["fields"];
+
+		foreach ($rel as $key => $value) {
+
+			unset($self[$key]);
+			// foreach ($value["inherited_cols"] as $key_2 => $value_2) {
+			// 	$cols_wth_props[$key_2] = $value_2["col_props"];
+			// }
+			// $self = array_merge(
+			// 	$self,
+			// 	$cols_wth_props
+			// );
+		}
+
+		$record_inherited_cols = array(
+			"self" => $self,
+			"rel" => $rel
+		);
+
 		// $parents = array_unique($parents);
-		return $parent_cols;
+		return $record_inherited_cols;
 
 
 
