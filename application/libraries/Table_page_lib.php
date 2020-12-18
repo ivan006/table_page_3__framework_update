@@ -319,11 +319,11 @@ class Table_page_lib
 		return $data;
   }
 
-  public function record_inherited_cols($table)
+  public function record_inherited_cols($table, $erd)
   {
-		$erd_path = APPPATH.'erd/erd/erd.json';
-		$erd = file_get_contents($erd_path);
-		$erd = json_decode($erd, true);
+		// $erd_path = APPPATH.'erd/erd/erd.json';
+		// $erd = file_get_contents($erd_path);
+		// $erd = json_decode($erd, true);
 
 		$parents = array();
 
@@ -338,8 +338,21 @@ class Table_page_lib
 				}
 			}
 		}
+
+		$table_fields = $erd[$table]["fields"];
+
+		foreach ($parents as $key => $value) {
+			if (isset($table_fields[$value["for_key"]])) {
+				// $col_deets = $table_fields[$value["for_key"]];
+
+				foreach ($value["fields"] as $key_2 => $value_2) {
+					$parent_cols[$value["for_key"]]["$key_2 ($key)"] = $value_2;
+				}
+			}
+		}
+
 		// $parents = array_unique($parents);
-		return $parents;
+		return $parent_cols;
 
 
 

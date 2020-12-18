@@ -54,32 +54,21 @@ class Record_c extends CI_Controller
 
 		$data["rec_o"]["tab_d"]["cols"]["editable"] = $erd[$table]["fields"];
 
-		$data["rec_o"]["tab_d"]["cols"]["visible"] = $data["rec_o"]["tab_d"]["cols"]["editable"];
 
 
-		$record_inherited_cols = $this->table_page_lib->record_inherited_cols($data["rec_o"]["tab_o"]["table"]);
-
-
+		$record_inherited_cols = $this->table_page_lib->record_inherited_cols($data["rec_o"]["tab_o"]["table"], $erd);
 
 		$data["rec_o"]["tab_d"]["cols"]["visible"] = $data["rec_o"]["tab_d"]["cols"]["editable"];
-
 		foreach ($record_inherited_cols as $key => $value) {
-			if (isset($data["rec_o"]["tab_d"]["cols"]["visible"][$value["for_key"]])) {
-				// $col_deets = $data["rec_o"]["tab_d"]["cols"]["visible"][$value["for_key"]];
-				unset($data["rec_o"]["tab_d"]["cols"]["visible"][$value["for_key"]]);
 
-				foreach ($value["fields"] as $key_2 => $value_2) {
-					$parent_cols["$key_2 ($key)"] = $value_2;
-				}
-				// $data["rec_o"]["tab_d"]["cols"]["visible"][$value["for_key"]] = $parent_cols;
-				$data["rec_o"]["tab_d"]["cols"]["visible"] = array_merge(
-					$data["rec_o"]["tab_d"]["cols"]["visible"],
-					$parent_cols
-				);
-			}
+			unset($data["rec_o"]["tab_d"]["cols"]["visible"][$key]);
+			$data["rec_o"]["tab_d"]["cols"]["visible"] = array_merge(
+				$data["rec_o"]["tab_d"]["cols"]["visible"],
+				$value
+			);
 		}
 
-
+		// $data["rec_o"]["tab_d"]["cols"]["visible"] = $record_inherited_cols;
 
 
 		$data["rec_d"] = $this->relations($erd, $data["rec_o"]["tab_o"], $record, $dont_scan);
