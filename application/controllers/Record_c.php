@@ -79,7 +79,7 @@ class Record_c extends CI_Controller
 
 
 			if (!empty($data["rec_d"])) {
-				$this->load->view('blank_v', array("data"=>'<div class="row"><div class="col-md-12 mt-5"><h2 class="text-center">details</h2><hr style="background-color: black; color: black; height: 1px;"></div></div>'));
+				$this->load->view('blank_v', array("data"=>'<div class="row"><div class="col-md-12 mt-5"><h2 class="text-center">items</h2><hr style="background-color: black; color: black; height: 1px;"></div></div>'));
 			}
 			foreach ($data["rec_d"] as $key => $value) {
 				if (!empty($value)) {

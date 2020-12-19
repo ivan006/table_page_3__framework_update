@@ -204,7 +204,15 @@ class Table_page_lib
 			foreach ($cols_visible["cols_d"] as $key => $value) {
 				if ($key !== $table) {
 					foreach ($value["cols"] as $key_2 => $value_2) {
-						$query = $query->select($key.'.'.$key_2." as `$key - $key_2`");
+						if ($key_2 == "id") {
+							$parent_link_part_1 = '<a href="/record/t/'.$key.'/r/';
+							$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
+							$query = $query->select("CONCAT('$parent_link_part_1', $key.id, '$parent_link_part_2') as `$key - $key_2`");
+						} else {
+							$query = $query->select("$key.$key_2 as `$key - $key_2`");
+						}
+
+
 					}
 				}
 			}
@@ -216,96 +224,11 @@ class Table_page_lib
 					$query = $query->join($key, $table.'.'.$value["linking_key"].' = '.$key.'.id', 'left');
 				}
 			}
+			$query = $query->where("$table.$haystack", $needle);
 
-			// ->select('COUNT(DISTINCT wbi.id) as ServicelineCount')
-			// ->select('')
-			// ->select('wbi.supplier_id')
-			// ->select('wb.id as booking_id')
-			// ->select('booking_reference AS MainKey')
-			// ->select('adults')
-			// ->select('children')
-			// ->select('infants')
-			// ->select('single_rooms + double_rooms + triple_rooms + family_rooms as RoomCount')
-			// // ->select('agent')
-			// // ->select('wb.created_by as thing')
-			// // ->select('wpo.org_id as thing2')
-			// ->select('CONCAT(first_name, " ", last_name) AS name')
-			// ->select('SUM(total_sell) AS Revenue')
-			// ->select('SUM(total_cost) AS Cost')
-			// ->select('SUM(total_sell)-SUM(total_cost) AS MainValue')
-			// ->select('DATE_FORMAT(pick_up_date, "%M %Y") as date')
-			// ->from('what_bookings AS wb')
-			// ->join('what_bookings_itineraries wbi', 'wb.id = wbi.booking_id', 'inner')
-			// ->join('what_bookings_pax_config wbpc', 'wb.id = wbpc.booking_id', 'left')
-			// ->join('what_bookings_itineraries_costing wbic', 'wbic.itinerary_id = wbi.id', 'left')
-			// ->join('`how_system_users` hsu', 'wb.created_by = hsu.id', 'left')
-			// ->join('`who_people` wp', 'hsu.person_id = wp.id', 'left')
-			//
-			// ->join('`who_people_orgs` wpo', 'hsu.person_id = wpo.person_id', 'left')
-			//
-			//
-			// ->where('CONCAT(first_name, " ", last_name) =', $GET["Factor"])
-			// // ->where('DATE_FORMAT(`pick_up_date`, "%Y-%m") =', $GET["month"])
-			// ->where('pick_up_date BETWEEN "'.$months[0].' "AND "'.$months[1].'"')
-			// ->where('wbi.service_type '.$SmartServiceType['operator'], $SmartServiceType['term'])
-			// // ->where('wbi.status '.$SmartServiceStatus['operator'], $SmartServiceStatus['term'])
-			// ->where_in("wbi.status",$SmartServiceStatus)
-			// ->where_in("wb.booking_status",$SmartBookingStatus)
-			// ->group_by('wb.id')
-			// ->order_by('wb.id', 'ASC');
 			$posts = $query->get()->result_array();
 
-			// $this->CI->db->_protect_identifiers=true;
-
 		}
-
-		if (1==1) {
-
-			//
-			// $this->CI->db->_protect_identifiers=false;
-			// $query = $this->CI->db
-			// ->select('COUNT(DISTINCT wbi.id) as ServicelineCount')
-			// ->select('')
-			// ->select('wbi.supplier_id')
-			// ->select('wb.id as booking_id')
-			// ->select('booking_reference AS MainKey')
-			// ->select('adults')
-			// ->select('children')
-			// ->select('infants')
-			// ->select('single_rooms + double_rooms + triple_rooms + family_rooms as RoomCount')
-			// // ->select('agent')
-			// // ->select('wb.created_by as thing')
-			// // ->select('wpo.org_id as thing2')
-			// ->select('CONCAT(first_name, " ", last_name) AS name')
-			// ->select('SUM(total_sell) AS Revenue')
-			// ->select('SUM(total_cost) AS Cost')
-			// ->select('SUM(total_sell)-SUM(total_cost) AS MainValue')
-			// ->select('DATE_FORMAT(pick_up_date, "%M %Y") as date')
-			// ->from('what_bookings AS wb')
-			// ->join('what_bookings_itineraries wbi', 'wb.id = wbi.booking_id', 'inner')
-			// ->join('what_bookings_pax_config wbpc', 'wb.id = wbpc.booking_id', 'left')
-			// ->join('what_bookings_itineraries_costing wbic', 'wbic.itinerary_id = wbi.id', 'left')
-			// ->join('`how_system_users` hsu', 'wb.created_by = hsu.id', 'left')
-			// ->join('`who_people` wp', 'hsu.person_id = wp.id', 'left')
-			//
-			// ->join('`who_people_orgs` wpo', 'hsu.person_id = wpo.person_id', 'left')
-			//
-			//
-			// ->where('CONCAT(first_name, " ", last_name) =', $GET["Factor"])
-			// // ->where('DATE_FORMAT(`pick_up_date`, "%Y-%m") =', $GET["month"])
-			// ->where('pick_up_date BETWEEN "'.$months[0].' "AND "'.$months[1].'"')
-			// ->where('wbi.service_type '.$SmartServiceType['operator'], $SmartServiceType['term'])
-			// // ->where('wbi.status '.$SmartServiceStatus['operator'], $SmartServiceStatus['term'])
-			// ->where_in("wbi.status",$SmartServiceStatus)
-			// ->where_in("wb.booking_status",$SmartBookingStatus)
-			// ->group_by('wb.id')
-			// ->order_by('wb.id', 'ASC');
-			// $result = $query->get()->result_array();
-			//
-			// $this->CI->db->_protect_identifiers=true;
-
-		}
-
 
 
     $data = array('responce' => 'success', 'posts' => $posts);
