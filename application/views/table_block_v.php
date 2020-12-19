@@ -113,14 +113,14 @@ if (isset($data["tab_o"]["type"])) {
       <table class="table" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_records">
         <thead>
           <tr>
-            <th>ID</th>
+            <!-- <th>ID</th> -->
             <?php
             foreach ($readable_rows as $key => $value) {
-              if ($key !== "id") {
+              // if ($key !== "id") {
                 ?>
                 <th><?php echo $key; ?></th>
                 <?php
-              }
+              // }
             }
             ?>
             <!-- <th>Name</th> -->
@@ -257,16 +257,16 @@ if (isset($data["tab_o"]["type"])) {
             'copy', 'excel', 'pdf'
             ],
             "columns": [
-            { "render": function(){
-              return a = i++;
-            } },
+            // { "render": function(){
+            //   return a = i++;
+            // } },
             <?php
             foreach ($readable_rows as $key => $value) {
-              if ($key !== "id") {
+              // if ($key !== "id") {
                 ?>
                 { "data": "<?php echo $key; ?>" },
                 <?php
-              }
+              // }
             }
             ?>
             // { "data": "table_overview" },

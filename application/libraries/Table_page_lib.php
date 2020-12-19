@@ -198,7 +198,15 @@ class Table_page_lib
 
 			// $this->CI->db->_protect_identifiers=false;
 			$query = $this->CI->db;
+
+			$parent_link_part_1 = '<a href="/record/t/'.$table.'/r/';
+			$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
+			$query = $query->select("CONCAT('$parent_link_part_1', $table.id, '$parent_link_part_2') as `id`");
+
 			foreach ($cols_visible["cols_o"] as $key => $value) {
+				if ($key !== "id") {
+					// code...
+				}
 				$query = $query->select($table.'.'.$key);
 			}
 			foreach ($cols_visible["cols_d"] as $key => $value) {
@@ -362,8 +370,9 @@ class Table_page_lib
 
 
 		foreach ($parents as $key => $value) {
+
 			foreach ($erd[$key]["items"] as $key_2 => $value_2) {
-				// code...
+				// echo "string";
 				unset($self[$value_2]);
 			}
 			// header('Content-Type: application/json');
@@ -378,7 +387,13 @@ class Table_page_lib
 			// 	$cols_wth_props
 			// );
 		}
-
+		if (isset($erd[$ignore_col_set]["items"][$table])) {
+			$linking_k_for_ignore = $erd[$ignore_col_set]["items"][$table];
+			// header('Content-Type: application/json');
+			// echo json_encode($erd, JSON_PRETTY_PRINT);
+			// exit;
+			unset($self[$linking_k_for_ignore]);
+		}
 
 		// $cols_visible = array_merge(
 		// 	array($table=>$self),
