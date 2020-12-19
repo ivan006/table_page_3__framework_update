@@ -175,7 +175,7 @@ class Table_page_lib
     return $result;
   }
 
-  public function fetch_for_record($table, $haystack, $needle)
+  public function fetch_for_record($table, $haystack, $needle, $child_of)
   {
 
 		$this->CI->load->database();
@@ -186,14 +186,13 @@ class Table_page_lib
 		$erd = file_get_contents($erd_path);
 		$erd = json_decode($erd, true);
 
-		$cols_visible = $this->cols_visible($table, $erd);
+		$cols_visible = $this->cols_visible($table, $erd, $child_of);
 
 		// header('Content-Type: application/json');
 		// echo json_encode($cols_visible, JSON_PRETTY_PRINT);
 		// exit;
 
 
-		// code...
 		if (1==1) {
 
 
@@ -387,7 +386,7 @@ class Table_page_lib
 		return $data;
   }
 
-  public function cols_visible($table, $erd)
+  public function cols_visible($table, $erd, $ignore_col_set)
   {
 		// $erd_path = APPPATH.'erd/erd/erd.json';
 		// $erd = file_get_contents($erd_path);
@@ -397,11 +396,13 @@ class Table_page_lib
 
 		foreach ($erd as $key => $value) {
 			if (isset($value["items"])) {
-				foreach ($value["items"] as $key_2 => $value_2) {
-					if ($key_2 == $table) {
-						// echo $key_2;
-						$parents[$key]["cols"] = $value["fields"];
-						$parents[$key]["linking_key"] = $value_2;
+				if ($key !== $ignore_col_set) {
+					foreach ($value["items"] as $key_2 => $value_2) {
+						if ($key_2 == $table) {
+							// echo $key_2;
+							$parents[$key]["cols"] = $value["fields"];
+							$parents[$key]["linking_key"] = $value_2;
+						}
 					}
 				}
 			}

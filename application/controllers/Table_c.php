@@ -74,14 +74,14 @@ class Table_c extends CI_Controller
 		echo json_encode($result, JSON_PRETTY_PRINT);
 	}
 
-	public function fetch_for_record($table, $haystack, $needle)
+	public function fetch_for_record($table, $haystack, $needle, $child_of)
 	{
 		if (!$this->ion_auth->logged_in())
 		{
 			// redirect them to the login page
 			redirect('auth/login', 'refresh');
 		}
-		$result = $this->table_page_lib->fetch_for_record($table, $haystack, $needle);
+		$result = $this->table_page_lib->fetch_for_record($table, $haystack, $needle, $child_of);
 		header('Content-Type: application/json');
 		echo json_encode($result, JSON_PRETTY_PRINT);
 	}

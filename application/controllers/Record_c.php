@@ -35,7 +35,7 @@ class Record_c extends CI_Controller
 		$data["title"] = $tab_o_singular." ".$record_id;
 
 
-		$record = $this->table_page_lib->fetch_for_record($table, "id", $record_id)["posts"][0];
+		$record = $this->table_page_lib->fetch_for_record($table, "id", $record_id,"")["posts"][0];
 
 
 		// echo $record;
@@ -47,7 +47,7 @@ class Record_c extends CI_Controller
 
 			$dont_scan = "";
 
-			$rec_o = $this->table_o_and_d("overview", $erd, $table, null, $record["id"], $dont_scan);
+			$rec_o = $this->table_o_and_d("overview", $erd, $table, null, $record["id"], "", $dont_scan);
 
 
 			$rec_d = array();
@@ -57,7 +57,7 @@ class Record_c extends CI_Controller
 					if ($key !== $dont_scan) {
 
 
-						$rec_d[$key] = $this->table_o_and_d("details", $erd, $key, $value, $record["id"], $dont_scan);
+						$rec_d[$key] = $this->table_o_and_d("details", $erd, $key, $value, $record["id"], $table, $dont_scan);
 
 					} else {
 						$rec_d[$key] = array();
@@ -97,7 +97,7 @@ class Record_c extends CI_Controller
 	}
 
 
-	public function table_o_and_d($rec_part, $erd, $table, $foreign_k, $record_id, $dont_scan)
+	public function table_o_and_d($rec_part, $erd, $table, $foreign_k, $record_id, $ignore_col_set, $dont_scan)
 	{
 		// if (!$this->ion_auth->logged_in())
 		// {
@@ -109,7 +109,7 @@ class Record_c extends CI_Controller
 			$haystack = "id";
 			$needle = $record_id;
 
-			$tab_o["data_endpoint"] = "fetch_for_record/h/$haystack/n/$needle";
+			$tab_o["data_endpoint"] = "fetch_for_record/h/$haystack/n/$needle/child_of/null";
 			$tab_o["type"] = "overview";
 			$tab_o["rel_name"] = "overview";
 			$tab_o["rel_name_id"] = $tab_o["rel_name"];
@@ -120,7 +120,7 @@ class Record_c extends CI_Controller
 			$haystack = $foreign_k; //changes
 			$needle = $record_id;
 
-			$data_endpoint = "fetch_for_record/h/$haystack/n/$needle";
+			$data_endpoint = "fetch_for_record/h/$haystack/n/$needle/child_of/$ignore_col_set";
 
 
 			$tab_o["data_endpoint"] = $data_endpoint;
@@ -144,7 +144,8 @@ class Record_c extends CI_Controller
 
 			$tab_d["cols"]["visible"] = array();
 
-			$cols_visible = $this->table_page_lib->cols_visible($tab_o["table"], $erd);
+			$cols_visible = $this->table_page_lib->cols_visible($tab_o["table"], $erd, "");
+
 
 
 			$tab_d["cols"]["visible"] = $cols_visible["cols_o"];
@@ -171,8 +172,12 @@ class Record_c extends CI_Controller
 
 			$tab_d["cols"]["visible"] = array();
 
-			$cols_visible = $this->table_page_lib->cols_visible($tab_o["table"], $erd);
+			$cols_visible = $this->table_page_lib->cols_visible($tab_o["table"], $erd, $ignore_col_set);
 
+
+			// header('Content-Type: application/json');
+			// echo json_encode($cols_visible, JSON_PRETTY_PRINT);
+			// exit;
 
 			$tab_d["cols"]["visible"] = $cols_visible["cols_o"];
 
