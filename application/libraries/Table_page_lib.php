@@ -192,24 +192,30 @@ class Table_page_lib
 		// echo json_encode($cols_visible, JSON_PRETTY_PRINT);
 		// exit;
 
+
+		// code...
 		if (1==1) {
 
 
 			// $this->CI->db->_protect_identifiers=false;
 			$query = $this->CI->db;
-			foreach ($cols_visible["self"] as $key => $value) {
+			foreach ($cols_visible["cols_o"] as $key => $value) {
 				$query = $query->select($table.'.'.$key);
 			}
-			foreach ($cols_visible["rel"] as $key => $value) {
-				foreach ($value["inherited_cols"] as $key_2 => $value_2) {
-					$query = $query->select($value["table"].'.'.$value_2["col_name"]." as `$key_2`");
+			foreach ($cols_visible["cols_d"] as $key => $value) {
+				if ($key !== $table) {
+					foreach ($value["cols"] as $key_2 => $value_2) {
+						$query = $query->select($key.'.'.$key_2." as `$key - $key_2`");
+					}
 				}
 			}
 			$query = $query->from($table);
 
-			foreach ($cols_visible["rel"] as $key => $value) {
+			foreach ($cols_visible["cols_d"] as $key => $value) {
 				// echo "xyz";
-				$query = $query->join($value["table"], $table.'.'.$key.' = '.$value["table"].'.id', 'left');
+				if ($key !== $table) {
+					$query = $query->join($key, $table.'.'.$value["linking_key"].' = '.$key.'.id', 'left');
+				}
 			}
 
 			// ->select('COUNT(DISTINCT wbi.id) as ServicelineCount')
@@ -394,27 +400,35 @@ class Table_page_lib
 				foreach ($value["items"] as $key_2 => $value_2) {
 					if ($key_2 == $table) {
 						// echo $key_2;
-						$parents[$key]["for_key"] = $value_2;
-						$parents[$key]["fields"] = $value["fields"];
+						$parents[$key]["cols"] = $value["fields"];
+						$parents[$key]["linking_key"] = $value_2;
 					}
 				}
 			}
 		}
 
-		$table_fields = $erd[$table]["fields"];
 
-		foreach ($parents as $key => $value) {
-			if (isset($table_fields[$value["for_key"]])) {
-				// $col_deets = $table_fields[$value["for_key"]];
 
-				foreach ($value["fields"] as $key_2 => $value_2) {
-					$rel[$value["for_key"]]["inherited_cols"]["$key - $key_2"] = array(
-						"col_name"=> $key_2,
-						"col_props"=> $value_2
-					);
-				}
-				$rel[$value["for_key"]]["table"] = $key;
-			}
+		// header('Content-Type: application/json');
+		// echo json_encode($parents, JSON_PRETTY_PRINT);
+		// exit;
+
+		if (1==1) {
+			// code...
+			// $table_fields = $erd[$table]["fields"];
+			// $rel = array();
+			//
+			// foreach ($parents as $key => $value) {
+			// 	if (isset($table_fields[$key])) {
+			// 		// echo "string";
+			// 		// $col_deets = $table_fields[$key];
+			//
+			// 		foreach ($value["fields"] as $key_2 => $value_2) {
+			// 			$rel[$key][$key_2] = $value_2;
+			// 		}
+			// 		// $rel[$key]["table"] = $key;
+			// 	}
+			// }
 		}
 
 
@@ -422,9 +436,16 @@ class Table_page_lib
 
 		$self = $erd[$table]["fields"];
 
-		foreach ($rel as $key => $value) {
 
-			unset($self[$key]);
+		foreach ($parents as $key => $value) {
+			foreach ($erd[$key]["items"] as $key_2 => $value_2) {
+				// code...
+				unset($self[$value_2]);
+			}
+			// header('Content-Type: application/json');
+			// echo json_encode( $erd[$key]["items"], JSON_PRETTY_PRINT);
+			// exit;
+
 			// foreach ($value["inherited_cols"] as $key_2 => $value_2) {
 			// 	$cols_wth_props[$key_2] = $value_2["col_props"];
 			// }
@@ -434,9 +455,14 @@ class Table_page_lib
 			// );
 		}
 
+
+		// $cols_visible = array_merge(
+		// 	array($table=>$self),
+		// 	$parents
+		// );
 		$cols_visible = array(
-			"self" => $self,
-			"rel" => $rel
+			"cols_o" => $self,
+			"cols_d" => $parents
 		);
 
 		// $parents = array_unique($parents);

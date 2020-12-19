@@ -70,10 +70,6 @@ class Record_c extends CI_Controller
 			$data["rec_o"] = $rec_o;
 			$data["rec_d"] = $rec_d;
 
-			// header('Content-Type: application/json');
-			// echo json_encode($cols_visible, JSON_PRETTY_PRINT);
-			// exit;
-
 
 
 
@@ -147,17 +143,24 @@ class Record_c extends CI_Controller
 			$cols_visible = $this->table_page_lib->cols_visible($tab_o["table"], $erd);
 
 
-			$tab_d["cols"]["visible"] = $cols_visible["self"];
+			$tab_d["cols"]["visible"] = $cols_visible["cols_o"];
 
-			foreach ($cols_visible["rel"] as $key => $value) {
-				foreach ($value["inherited_cols"] as $key_2 => $value_2) {
-					$cols_wth_props[$key_2] = $value_2["col_props"];
+			$cols_wth_props = array();
+			foreach ($cols_visible["cols_d"] as $key => $value) {
+				foreach ($value["cols"] as $key_2 => $value_2) {
+					$cols_wth_props["$key - $key_2"] = $value_2;
 				}
 				$tab_d["cols"]["visible"] = array_merge(
 					$tab_d["cols"]["visible"],
 					$cols_wth_props
 				);
 			}
+
+
+			// header('Content-Type: application/json');
+			// echo json_encode($cols_wth_props, JSON_PRETTY_PRINT);
+			// exit;
+
 		} elseif ($rec_part=="details") {
 
 			$tab_d["cols"]["editable"] = $erd[$table]["fields"];
@@ -167,11 +170,11 @@ class Record_c extends CI_Controller
 			$cols_visible = $this->table_page_lib->cols_visible($tab_o["table"], $erd);
 
 
-			$tab_d["cols"]["visible"] = $cols_visible["self"];
+			$tab_d["cols"]["visible"] = $cols_visible["cols_o"];
 
-			foreach ($cols_visible["rel"] as $key => $value) {
-				foreach ($value["inherited_cols"] as $key_2 => $value_2) {
-					$cols_wth_props[$key_2] = $value_2["col_props"];
+			foreach ($cols_visible["cols_d"] as $key => $value) {
+				foreach ($value["cols"] as $key_2 => $value_2) {
+					$cols_wth_props["$key - $key_2"] = $value_2;
 				}
 				$tab_d["cols"]["visible"] = array_merge(
 					$tab_d["cols"]["visible"],
@@ -184,6 +187,7 @@ class Record_c extends CI_Controller
 
 		$result["tab_o"] = $tab_o;
 		$result["tab_d"] = $tab_d;
+
 
 
 		return $result;
