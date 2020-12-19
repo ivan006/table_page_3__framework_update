@@ -142,9 +142,10 @@ class Record_c extends CI_Controller
 
 			$tab_d["cols"]["editable"] = $erd[$table]["fields"];
 
+			$tab_d["cols"]["visible"] = array();
+
 			$record_inherited_cols = $this->table_page_lib->record_inherited_cols($tab_o["table"], $erd);
 
-			$tab_d["cols"]["visible"] = array();
 
 			$tab_d["cols"]["visible"] = $record_inherited_cols["self"];
 
@@ -160,7 +161,23 @@ class Record_c extends CI_Controller
 		} elseif ($rec_part=="details") {
 
 			$tab_d["cols"]["editable"] = $erd[$table]["fields"];
-			$tab_d["cols"]["visible"] = $erd[$table]["fields"];
+
+			$tab_d["cols"]["visible"] = array();
+
+			$record_inherited_cols = $this->table_page_lib->record_inherited_cols($tab_o["table"], $erd);
+
+
+			$tab_d["cols"]["visible"] = $record_inherited_cols["self"];
+
+			foreach ($record_inherited_cols["rel"] as $key => $value) {
+				foreach ($value["inherited_cols"] as $key_2 => $value_2) {
+					$cols_wth_props[$key_2] = $value_2["col_props"];
+				}
+				$tab_d["cols"]["visible"] = array_merge(
+					$tab_d["cols"]["visible"],
+					$cols_wth_props
+				);
+			}
 		}
 
 
