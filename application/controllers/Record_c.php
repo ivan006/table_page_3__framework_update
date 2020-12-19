@@ -77,6 +77,10 @@ class Record_c extends CI_Controller
 			$this->load->view('table_header_v', array("data"=>$data));
 			$this->load->view('table_block_v', array("data"=>$data["rec_o"]));
 
+
+			if (!empty($data["rec_d"])) {
+				$this->load->view('blank_v', array("data"=>'<div class="row"><div class="col-md-12 mt-5"><h2 class="text-center">details</h2><hr style="background-color: black; color: black; height: 1px;"></div></div>'));
+			}
 			foreach ($data["rec_d"] as $key => $value) {
 				if (!empty($value)) {
 					// code...
@@ -121,7 +125,7 @@ class Record_c extends CI_Controller
 
 			$tab_o["data_endpoint"] = $data_endpoint;
 			$tab_o["type"] = "dedicated_items"; // changes
-			$tab_o["rel_name"] = $table." (".$foreign_k." specialised)"; // changes
+			$tab_o["rel_name"] = $table." as ".$foreign_k; // changes
 			$tab_o["rel_name_id"] = preg_replace('/\W+/','',strtolower(strip_tags($tab_o["rel_name"])));
 			$tab_o["table"] = $table; // dynamic
 			// $tab_o["foreign_key"] = $foreign_k;

@@ -88,7 +88,8 @@
       }
     },
     "items": {
-      "events": "organization_id"
+      "events": "organization_id",
+      "resources": "organization_id"
     }
   },
   "resources": {
@@ -101,6 +102,10 @@
       },
       "name": {
         "Type": "varchar(100)",
+        "Null": "NO"
+      },
+      "organization_id": {
+        "Type": "bigint(20)",
         "Null": "NO"
       }
     },

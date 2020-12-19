@@ -34,9 +34,21 @@ if (isset($data["tab_o"]["type"])) {
   ?>
     <div class="row">
       <div class="col-md-12 mt-5">
-        <h2 class="text-center">
-          <?php echo $data["tab_o"]["rel_name"] ?>
-        </h2>
+        <?php
+        if ($data["tab_o"]["type"] == "dedicated_items") {
+          ?>
+          <h3 class="text-center">
+            <?php echo $data["tab_o"]["rel_name"] ?>
+          </h3>
+          <?php
+        } else {
+          ?>
+          <h2 class="text-center">
+            <?php echo $data["tab_o"]["rel_name"] ?>
+          </h2>
+          <?php
+        }
+        ?>
         <hr style="background-color: black; color: black; height: 1px;">
       </div>
     </div>
