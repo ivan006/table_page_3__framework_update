@@ -186,10 +186,10 @@ class Table_page_lib
 		$erd = file_get_contents($erd_path);
 		$erd = json_decode($erd, true);
 
-		$record_inherited_cols = $this->record_inherited_cols($table, $erd);
+		$cols_visible = $this->cols_visible($table, $erd);
 
 		// header('Content-Type: application/json');
-		// echo json_encode($record_inherited_cols, JSON_PRETTY_PRINT);
+		// echo json_encode($cols_visible, JSON_PRETTY_PRINT);
 		// exit;
 
 		if (1==1) {
@@ -197,17 +197,17 @@ class Table_page_lib
 
 			// $this->CI->db->_protect_identifiers=false;
 			$query = $this->CI->db;
-			foreach ($record_inherited_cols["self"] as $key => $value) {
+			foreach ($cols_visible["self"] as $key => $value) {
 				$query = $query->select($table.'.'.$key);
 			}
-			foreach ($record_inherited_cols["rel"] as $key => $value) {
+			foreach ($cols_visible["rel"] as $key => $value) {
 				foreach ($value["inherited_cols"] as $key_2 => $value_2) {
 					$query = $query->select($value["table"].'.'.$value_2["col_name"]." as `$key_2`");
 				}
 			}
 			$query = $query->from($table);
 
-			foreach ($record_inherited_cols["rel"] as $key => $value) {
+			foreach ($cols_visible["rel"] as $key => $value) {
 				// echo "xyz";
 				$query = $query->join($value["table"], $table.'.'.$key.' = '.$value["table"].'.id', 'left');
 			}
@@ -381,7 +381,7 @@ class Table_page_lib
 		return $data;
   }
 
-  public function record_inherited_cols($table, $erd)
+  public function cols_visible($table, $erd)
   {
 		// $erd_path = APPPATH.'erd/erd/erd.json';
 		// $erd = file_get_contents($erd_path);
@@ -408,7 +408,7 @@ class Table_page_lib
 				// $col_deets = $table_fields[$value["for_key"]];
 
 				foreach ($value["fields"] as $key_2 => $value_2) {
-					$rel[$value["for_key"]]["inherited_cols"]["$key_2 ($key)"] = array(
+					$rel[$value["for_key"]]["inherited_cols"]["$key - $key_2"] = array(
 						"col_name"=> $key_2,
 						"col_props"=> $value_2
 					);
@@ -434,13 +434,13 @@ class Table_page_lib
 			// );
 		}
 
-		$record_inherited_cols = array(
+		$cols_visible = array(
 			"self" => $self,
 			"rel" => $rel
 		);
 
 		// $parents = array_unique($parents);
-		return $record_inherited_cols;
+		return $cols_visible;
 
 
 

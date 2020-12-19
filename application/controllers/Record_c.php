@@ -71,7 +71,7 @@ class Record_c extends CI_Controller
 			$data["rec_d"] = $rec_d;
 
 			// header('Content-Type: application/json');
-			// echo json_encode($record_inherited_cols, JSON_PRETTY_PRINT);
+			// echo json_encode($cols_visible, JSON_PRETTY_PRINT);
 			// exit;
 
 
@@ -144,12 +144,12 @@ class Record_c extends CI_Controller
 
 			$tab_d["cols"]["visible"] = array();
 
-			$record_inherited_cols = $this->table_page_lib->record_inherited_cols($tab_o["table"], $erd);
+			$cols_visible = $this->table_page_lib->cols_visible($tab_o["table"], $erd);
 
 
-			$tab_d["cols"]["visible"] = $record_inherited_cols["self"];
+			$tab_d["cols"]["visible"] = $cols_visible["self"];
 
-			foreach ($record_inherited_cols["rel"] as $key => $value) {
+			foreach ($cols_visible["rel"] as $key => $value) {
 				foreach ($value["inherited_cols"] as $key_2 => $value_2) {
 					$cols_wth_props[$key_2] = $value_2["col_props"];
 				}
@@ -164,12 +164,12 @@ class Record_c extends CI_Controller
 
 			$tab_d["cols"]["visible"] = array();
 
-			$record_inherited_cols = $this->table_page_lib->record_inherited_cols($tab_o["table"], $erd);
+			$cols_visible = $this->table_page_lib->cols_visible($tab_o["table"], $erd);
 
 
-			$tab_d["cols"]["visible"] = $record_inherited_cols["self"];
+			$tab_d["cols"]["visible"] = $cols_visible["self"];
 
-			foreach ($record_inherited_cols["rel"] as $key => $value) {
+			foreach ($cols_visible["rel"] as $key => $value) {
 				foreach ($value["inherited_cols"] as $key_2 => $value_2) {
 					$cols_wth_props[$key_2] = $value_2["col_props"];
 				}
