@@ -144,54 +144,35 @@ class Record_c extends CI_Controller
 
 
 		if ($rec_part=="overview") {
-
-			$tab_d["cols"]["visible"] = array();
-
 			$cols_visible = $this->table_page_lib->cols_visible($tab_o["table"], $erd, "");
-
-
-
-			$tab_d["cols"]["visible"] = $cols_visible["cols_o"];
-
-			$cols_wth_props = array();
-			foreach ($cols_visible["cols_d"] as $key => $value) {
-				foreach ($value["cols"] as $key_2 => $value_2) {
-					$cols_wth_props["$key - $key_2"] = $value_2;
-				}
-				$tab_d["cols"]["visible"] = array_merge(
-					$tab_d["cols"]["visible"],
-					$cols_wth_props
-				);
-			}
-
-
-			// header('Content-Type: application/json');
-			// echo json_encode($cols_wth_props, JSON_PRETTY_PRINT);
-			// exit;
-
 		} elseif ($rec_part=="details") {
-
-			$tab_d["cols"]["visible"] = array();
-
 			$cols_visible = $this->table_page_lib->cols_visible($tab_o["table"], $erd, $ignore_col_set);
-
-
-			// header('Content-Type: application/json');
-			// echo json_encode($cols_visible, JSON_PRETTY_PRINT);
-			// exit;
-
-			$tab_d["cols"]["visible"] = $cols_visible["cols_o"];
-
-			foreach ($cols_visible["cols_d"] as $key => $value) {
-				foreach ($value["cols"] as $key_2 => $value_2) {
-					$cols_wth_props["$key - $key_2"] = $value_2;
-				}
-				$tab_d["cols"]["visible"] = array_merge(
-					$tab_d["cols"]["visible"],
-					$cols_wth_props
-				);
-			}
 		}
+
+		// header('Content-Type: application/json');
+		// echo json_encode($cols_visible, JSON_PRETTY_PRINT);
+		// exit;
+
+
+		$tab_d["cols"]["visible"] = array();
+
+		$tab_d["cols"]["visible"] = $cols_visible["cols_o"];
+
+		$cols_wth_props = array();
+		foreach ($cols_visible["cols_d"] as $key => $value) {
+			foreach ($value["cols"] as $key_2 => $value_2) {
+				$cols_wth_props["$key - $key_2"] = $value_2;
+			}
+			$tab_d["cols"]["visible"] = array_merge(
+				$tab_d["cols"]["visible"],
+				$cols_wth_props
+			);
+		}
+
+
+
+
+
 
 
 
