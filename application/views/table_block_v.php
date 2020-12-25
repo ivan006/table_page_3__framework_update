@@ -65,7 +65,7 @@ if (isset($data["tab_o"]["type"])) {
 
     <!-- Modal -->
     <div class="modal fade" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog  modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_exampleModalLabel">Add Records</h5>
@@ -136,7 +136,7 @@ if (isset($data["tab_o"]["type"])) {
 
 <!-- Edit Record Modal -->
 <div class="modal fade" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog  modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_exampleModalLabel">Edit Record Modal</h5>
@@ -151,51 +151,76 @@ if (isset($data["tab_o"]["type"])) {
           <?php
           foreach ($editable_rows as $key => $value) {
             if ($key !== "id") {
-              ?>
-              <div class="form-group">
-                <label for=""><?php echo $key; ?></label>
-                <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>" class="form-control">
-              </div>
-              <?php
-              if (isset($value["rels"])) {
+              if (!isset($value["rels"])) {
+
                 ?>
-                <div class="table-responsive">
-                  <table class="table" id="<?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_records" style="width : 100%">
-                    <thead>
-                      <tr>
-                        <!-- <th>ID</th> -->
-                        <?php
-                        foreach ($value["rels"]["rows"] as $key_2 => $value_2) {
-                          ?>
-                          <th><?php echo $key_2; ?></th>
-                          <?php
-                        }
-                        ?>
-                      </tr>
-                    </thead>
-                  </table>
+                <div class="form-group">
+                  <label for=""><?php echo $key; ?></label>
+                  <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>" class="form-control">
                 </div>
+                <?php
+
+              } else {
+                ?>
+                <div class="form-group">
+                <!-- <div class="panel-group"> -->
+                  <label for=""><?php echo $key; ?></label>
+                  <div class="card card-default">
+                    <div class="card-heading" data-toggle="collapse" href="#<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>_collapse">
+                        <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>" class="form-control" readonly>
+
+                    </div>
+                    <div id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>_collapse" class="card-collapse collapse">
+                      <div class="card-body">
+
+                        <div class="table-responsive">
+                          <table class="table" id="<?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_records" style="width : 100%">
+                            <thead>
+                              <tr>
+                                <!-- <th>ID</th> -->
+                                <?php
+                                foreach ($value["rels"]["rows"] as $key_2 => $value_2) {
+                                  ?>
+                                  <th><?php echo $key_2; ?></th>
+                                  <?php
+                                }
+                                ?>
+                              </tr>
+                            </thead>
+                          </table>
+                        </div>
+
+
+                      </div>
+                      <!-- <div class="card-footer">Panel Footer</div> -->
+                    </div>
+
+                  </div>
+                <!-- </div> -->
+
+                </div>
+
                 <script type="text/javascript">
+                var state = [];
 
+                function <?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_fetch(){
+                  $.ajax({
+                    url: "<?php echo base_url(); ?>api/table/t/<?php echo $value["rels"]["table"]; ?>/fetch",
+                    type: "post",
+                    dataType: "json",
+                    success: function(data){
+                      if (data.responce == "success") {
 
-                  function <?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_fetch(){
-                    $.ajax({
-                      url: "<?php echo base_url(); ?>api/table/t/<?php echo $value["rels"]["table"]; ?>/fetch",
-                      type: "post",
-                      dataType: "json",
-                      success: function(data){
-                        if (data.responce == "success") {
-
-                          var i = "1";
-                          var <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?> = $('#<?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_records').DataTable( {
-                            "select": true,
-                            "data": data.posts,
-                            "responsive": true,
-                            dom:
-                            "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
-                            "<'row'<'col-sm-12'tr>>" +
-                            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                            buttons: [
+                        var i = "1";
+                        var <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?> = $('#<?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_records').DataTable( {
+                          "select": true,
+                          "data": data.posts,
+                          "responsive": true,
+                          dom:
+                          "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+                          "<'row'<'col-sm-12'tr>>" +
+                          "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                          buttons: [
                             // 'copy', 'excel', 'pdf'
                             ],
                             "columns": [
@@ -203,11 +228,11 @@ if (isset($data["tab_o"]["type"])) {
                             //   return a = i++;
                             // } },
                             <?php
-                            foreach ($value["rels"]["rows"] as $key => $value) {
+                            foreach ($value["rels"]["rows"] as $key_2 => $value_2) {
                               // if ($key !== "id") {
-                                ?>
-                                { "data": "<?php echo $key; ?>" },
-                                <?php
+                              ?>
+                              { "data": "<?php echo $key_2; ?>" },
+                              <?php
                               // }
                             }
                             ?>
@@ -217,15 +242,22 @@ if (isset($data["tab_o"]["type"])) {
                             ]
                           } );
 
-
+                          var lookup_input = $("#<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>");
                           <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?>
                           .on( 'select', function ( e, dt, type, indexes ) {
                             // alert(123);
                             var rowData = <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?>.rows( indexes ).data().toArray();
                             // alert(JSON.stringify( rowData ));
+
+                            lookup_input.val(rowData[0].id);
                           } )
                           .on( 'deselect', function ( e, dt, type, indexes ) {
-                            var rowData = <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?>.rows( indexes ).data().toArray();
+                            // rel_name_id_edit_value
+                            // var rowData = <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?>.rows( indexes ).data().toArray();
+
+                            // alert(state["<?php echo $data["tab_o"]["rel_name_id"]."_edit_value" ?>"]);
+                            // alert("<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>");
+                            lookup_input.val(state["<?php echo $data["tab_o"]["rel_name_id"]."_edit_value" ?>"]);
                           } );
                         }else{
                           toastr["error"](data.message);
@@ -459,6 +491,8 @@ if (isset($data["tab_o"]["type"])) {
 
     var edit_id = $(this).attr("value");
 
+
+
     $.ajax({
       url: "<?php echo base_url(); ?>api/table/t/<?php echo $data["tab_o"]["table"]; ?>/edit",
       type: "post",
@@ -474,7 +508,13 @@ if (isset($data["tab_o"]["type"])) {
           foreach ($editable_rows as $key => $value) {
             if ($key !== "id") {
               ?>
-              $("#<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>").val(data.post.<?php echo $key; ?>);
+              var rel_name_id_edit = $("#<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>");
+              state["<?php echo $data["tab_o"]["rel_name_id"]."_edit_value" ?>"] = data.post.<?php echo $key; ?>;
+
+              rel_name_id_edit.val(state["<?php echo $data["tab_o"]["rel_name_id"]."_edit_value" ?>"]);
+              // alert(state["<?php echo $data["tab_o"]["rel_name_id"]."_edit_value" ?>"]);
+
+
               <?php
             }
           }
