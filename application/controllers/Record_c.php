@@ -137,10 +137,13 @@ class Record_c extends CI_Controller
 
 
 
+		$editable = $erd[$table]["fields"];
+		foreach ($editable as $key => $value) {
+			$tab_d["cols"]["editable"][$key]["col_deets"] = $value;
+		}
+
 
 		if ($rec_part=="overview") {
-
-			$tab_d["cols"]["editable"] = $erd[$table]["fields"];
 
 			$tab_d["cols"]["visible"] = array();
 
@@ -167,8 +170,6 @@ class Record_c extends CI_Controller
 			// exit;
 
 		} elseif ($rec_part=="details") {
-
-			$tab_d["cols"]["editable"] = $erd[$table]["fields"];
 
 			$tab_d["cols"]["visible"] = array();
 
