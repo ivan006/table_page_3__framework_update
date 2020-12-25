@@ -171,7 +171,10 @@ class Record_c extends CI_Controller
 
 			if (isset($tab_d["cols"]["editable"][$value["linking_key"]])) {
 				// code...
-				$tab_d["cols"]["editable"][$value["linking_key"]]["rels"] = "yes";
+				$tab_d["cols"]["editable"][$value["linking_key"]]["rels"] = array(
+					"table"=>$key,
+					"rows"=>$value["cols"]
+				) ;
 			}
 			// // $editable = $erd[$table]["fields"];
 			// foreach ($editable as $key => $value) {

@@ -159,9 +159,91 @@ if (isset($data["tab_o"]["type"])) {
               <?php
               if (isset($value["rels"])) {
                 ?>
-                <div class="">
-                  i has rels
+                <div class="table-responsive">
+                  <table class="table" id="<?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_records" style="width : 100%">
+                    <thead>
+                      <tr>
+                        <!-- <th>ID</th> -->
+                        <?php
+                        foreach ($value["rels"]["rows"] as $key_2 => $value_2) {
+                          ?>
+                          <th><?php echo $key_2; ?></th>
+                          <?php
+                        }
+                        ?>
+                      </tr>
+                    </thead>
+                  </table>
                 </div>
+                <script type="text/javascript">
+
+
+                  function <?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_fetch(){
+                    $.ajax({
+                      url: "<?php echo base_url(); ?>api/table/t/<?php echo $value["rels"]["table"]; ?>/fetch",
+                      type: "post",
+                      dataType: "json",
+                      success: function(data){
+                        if (data.responce == "success") {
+
+                          var i = "1";
+                          var <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?> = $('#<?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_records').DataTable( {
+                            "select": true,
+                            "data": data.posts,
+                            "responsive": true,
+                            dom:
+                            "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+                            "<'row'<'col-sm-12'tr>>" +
+                            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                            buttons: [
+                            // 'copy', 'excel', 'pdf'
+                            ],
+                            "columns": [
+                            // { "render": function(){
+                            //   return a = i++;
+                            // } },
+                            <?php
+                            foreach ($value["rels"]["rows"] as $key => $value) {
+                              // if ($key !== "id") {
+                                ?>
+                                { "data": "<?php echo $key; ?>" },
+                                <?php
+                              // }
+                            }
+                            ?>
+                            // { "data": "table_overview" },
+                            // { "data": "event_children" },
+
+                            ]
+                          } );
+
+
+                          <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?>
+                          .on( 'select', function ( e, dt, type, indexes ) {
+                            // alert(123);
+                            var rowData = <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?>.rows( indexes ).data().toArray();
+                            // alert(JSON.stringify( rowData ));
+                          } )
+                          .on( 'deselect', function ( e, dt, type, indexes ) {
+                            var rowData = <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?>.rows( indexes ).data().toArray();
+                          } );
+                        }else{
+                          toastr["error"](data.message);
+                        }
+
+                      }
+                    });
+
+                  }
+
+
+
+
+                  <?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_fetch();
+
+
+
+                </script>
                 <?php
               }
             }
