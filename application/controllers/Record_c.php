@@ -167,6 +167,16 @@ class Record_c extends CI_Controller
 				$tab_d["cols"]["visible"],
 				$cols_wth_props
 			);
+
+
+			if (isset($tab_d["cols"]["editable"][$value["linking_key"]])) {
+				// code...
+				$tab_d["cols"]["editable"][$value["linking_key"]]["rels"] = "yes";
+			}
+			// // $editable = $erd[$table]["fields"];
+			// foreach ($editable as $key => $value) {
+			// 	$tab_d["cols"]["editable"][$key]["col_deets"] = $value;
+			// }
 		}
 
 

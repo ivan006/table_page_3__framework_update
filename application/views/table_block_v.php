@@ -157,6 +157,13 @@ if (isset($data["tab_o"]["type"])) {
                 <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>" class="form-control">
               </div>
               <?php
+              if (isset($value["rels"])) {
+                ?>
+                <div class="">
+                  i has rels
+                </div>
+                <?php
+              }
             }
           }
           ?>
