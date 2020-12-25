@@ -163,41 +163,28 @@ if (isset($data["tab_o"]["type"])) {
               } else {
                 ?>
                 <div class="form-group">
-                <!-- <div class="panel-group"> -->
                   <label for=""><?php echo $key; ?></label>
-                  <div class="card card-default">
-                    <div class="card-heading" data-toggle="collapse" href="#<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>_collapse">
-                        <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>" class="form-control" readonly>
+                  <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>" class="form-control  dropdown-toggle" data-toggle="dropdown" readonly>
 
+                  <div class="dropdown-menu" style="width: calc(100% - 2em); padding: 1em;">
+
+                    <div class="table-responsive">
+                      <table class="table" id="<?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_records" style="width : 100%">
+                        <thead>
+                          <tr>
+                            <!-- <th>ID</th> -->
+                            <?php
+                            foreach ($value["rels"]["rows"] as $key_2 => $value_2) {
+                              ?>
+                              <th><?php echo $key_2; ?></th>
+                              <?php
+                            }
+                            ?>
+                          </tr>
+                        </thead>
+                      </table>
                     </div>
-                    <div id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>_collapse" class="card-collapse collapse">
-                      <div class="card-body">
-
-                        <div class="table-responsive">
-                          <table class="table" id="<?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_records" style="width : 100%">
-                            <thead>
-                              <tr>
-                                <!-- <th>ID</th> -->
-                                <?php
-                                foreach ($value["rels"]["rows"] as $key_2 => $value_2) {
-                                  ?>
-                                  <th><?php echo $key_2; ?></th>
-                                  <?php
-                                }
-                                ?>
-                              </tr>
-                            </thead>
-                          </table>
-                        </div>
-
-
-                      </div>
-                      <!-- <div class="card-footer">Panel Footer</div> -->
-                    </div>
-
                   </div>
-                <!-- </div> -->
-
                 </div>
 
                 <script type="text/javascript">
