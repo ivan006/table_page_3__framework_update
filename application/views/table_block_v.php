@@ -188,7 +188,7 @@ if (isset($data["tab_o"]["type"])) {
                 </div>
 
                 <script type="text/javascript">
-                var state = [];
+                
 
                 function <?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_fetch(){
                   $.ajax({
