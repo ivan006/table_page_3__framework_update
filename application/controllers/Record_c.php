@@ -139,7 +139,9 @@ class Record_c extends CI_Controller
 
 		$editable = $erd[$table]["fields"];
 		foreach ($editable as $key => $value) {
-			$tab_d["cols"]["editable"][$key]["col_deets"] = $value;
+			if ($key !== $foreign_k) {
+				$tab_d["cols"]["editable"][$key]["col_deets"] = $value;
+			}
 		}
 
 
@@ -168,7 +170,7 @@ class Record_c extends CI_Controller
 				$cols_wth_props
 			);
 
-
+			// $ignore_col_set
 			if (isset($tab_d["cols"]["editable"][$value["linking_key"]])) {
 				// code...
 				$tab_d["cols"]["editable"][$value["linking_key"]]["rels"] = array(
