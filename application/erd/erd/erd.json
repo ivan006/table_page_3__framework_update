@@ -1,5 +1,5 @@
 {
-  "event_resource_links": {
+  "events": {
     "fields": {
       "id": {
         "Type": "bigint(20) unsigned",
@@ -7,15 +7,19 @@
         "Key": "PRI",
         "Extra": "auto_increment"
       },
-      "event_id": {
+      "event_type_id": {
         "Type": "bigint(20) unsigned"
       },
       "resource_id": {
         "Type": "bigint(20) unsigned"
+      },
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
       }
     }
   },
-  "events": {
+  "event_types": {
     "fields": {
       "id": {
         "Type": "bigint(20) unsigned",
@@ -26,13 +30,10 @@
       "name": {
         "Type": "varchar(100)",
         "Null": "NO"
-      },
-      "organization_id": {
-        "Type": "bigint(20) unsigned"
       }
     },
     "items": {
-      "event_resource_links": "event_id"
+      "events": "event_type_id"
     }
   },
   "organizations": {
@@ -49,7 +50,6 @@
       }
     },
     "items": {
-      "events": "organization_id",
       "resources": "organization_id"
     }
   },
@@ -71,7 +71,7 @@
       }
     },
     "items": {
-      "event_resource_links": "resource_id"
+      "events": "resource_id"
     }
   }
 }

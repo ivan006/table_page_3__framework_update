@@ -123,6 +123,7 @@ class Record_c extends CI_Controller
 			$data_endpoint = "fetch_for_record/h/$haystack/n/$needle/child_of/$ignore_col_set";
 
 
+			$tab_o["record_id"] = $record_id;
 			$tab_o["data_endpoint"] = $data_endpoint;
 			$tab_o["type"] = "dedicated_items"; // changes
 			$tab_o["rel_name"] = $table." as ".$foreign_k; // changes
@@ -139,8 +140,9 @@ class Record_c extends CI_Controller
 
 		$editable = $erd[$table]["fields"];
 		foreach ($editable as $key => $value) {
-			if ($key !== $foreign_k) {
-				$tab_d["cols"]["editable"][$key]["col_deets"] = $value;
+			$tab_d["cols"]["editable"][$key]["col_deets"] = $value;
+			if ($key == $foreign_k) {
+				$tab_d["cols"]["editable"][$key]["assumable"] = $record_id;
 			}
 		}
 
