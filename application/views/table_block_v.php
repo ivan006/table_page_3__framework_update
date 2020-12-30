@@ -55,6 +55,7 @@ if (isset($data["tab_o"]["type"])) {
   <?php
 }
 ?>
+
 <div class="row">
   <div class="col-md-12 mt-2">
     <!-- Add Records Modal -->
@@ -76,26 +77,143 @@ if (isset($data["tab_o"]["type"])) {
           <div class="modal-body">
             <!-- Add Records Form -->
             <form action="" method="post" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_form">
+
+              <?php
+              $action_type = "add";
+              ?>
               <?php
               foreach ($editable_rows as $key => $value) {
                 if ($key !== "id") {
-                  ?>
-                  <div class="form-group">
-                    <label for=""><?php echo $key; ?></label>
-                    <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_<?php echo $key; ?>" class="form-control">
-                  </div>
-                  <?php
+                  if (isset($value["rels"])) {
+
+                      ?>
+                      <div class="form-group">
+                        <label for=""><?php echo $key; ?></label>
+                        <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>" class="form-control  dropdown-toggle" data-toggle="dropdown" readonly>
+
+                        <div class="dropdown-menu" style="width: calc(100% - 2em); padding: 1em;">
+
+                          <div class="table-responsive">
+                            <table class="table" id="<?php echo $data["tab_o"]["rel_name_id"]."_lookup"."_".$action_type."_"; ?>records" style="width : 100%">
+                              <thead>
+                                <tr>
+                                  <!-- <th>ID</th> -->
+                                  <?php
+                                  foreach ($value["rels"]["rows"] as $key_2 => $value_2) {
+                                    ?>
+                                    <th><?php echo $key_2; ?></th>
+                                    <?php
+                                  }
+                                  ?>
+                                </tr>
+                              </thead>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+
+                      <script type="text/javascript">
+
+
+                      function <?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_fetch(){
+                        $.ajax({
+                          url: "<?php echo base_url(); ?>api/table/t/<?php echo $value["rels"]["table"]; ?>/fetch",
+                          type: "post",
+                          dataType: "json",
+                          success: function(data){
+                            if (data.responce == "success") {
+
+                              var i = "1";
+                              var <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?> = $('#<?php echo $data["tab_o"]["rel_name_id"]."_lookup"."_".$action_type."_"; ?>records').DataTable( {
+                                "select": true,
+                                "data": data.posts,
+                                "responsive": true,
+                                dom:
+                                "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+                                "<'row'<'col-sm-12'tr>>" +
+                                "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                                buttons: [
+                                  // 'copy', 'excel', 'pdf'
+                                  ],
+                                  "columns": [
+                                  // { "render": function(){
+                                  //   return a = i++;
+                                  // } },
+                                  <?php
+                                  foreach ($value["rels"]["rows"] as $key_2 => $value_2) {
+                                    // if ($key !== "id") {
+                                    ?>
+                                    { "data": "<?php echo $key_2; ?>" },
+                                    <?php
+                                    // }
+                                  }
+                                  ?>
+                                  // { "data": "table_overview" },
+                                  // { "data": "event_children" },
+
+                                  ]
+                                } );
+
+                                var lookup_input = $("#<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>");
+                                <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?>
+                                .on( 'select', function ( e, dt, type, indexes ) {
+                                  // alert(123);
+                                  var rowData = <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?>.rows( indexes ).data().toArray();
+                                  // alert(JSON.stringify( rowData ));
+
+                                  lookup_input.val(rowData[0].id);
+                                } )
+                                .on( 'deselect', function ( e, dt, type, indexes ) {
+
+                                  // var rowData = <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?>.rows( indexes ).data().toArray();
+
+                                  // alert(state["<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_"."value" ?>"]);
+                                  // alert("<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>");
+                                  lookup_input.val(state["<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_"."value" ?>"]);
+                                } );
+                              }else{
+                                toastr["error"](data.message);
+                              }
+
+                            }
+                          });
+
+                        }
+
+
+
+
+                        <?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_fetch();
+
+
+
+                      </script>
+                      <?php
+
+                  }
+                  elseif (isset($value["assumable"])) {
+
+                    ?>
+                    <div class="form-group" style="display: none;">
+                      <label for=""><?php echo $key; ?></label>
+                      <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>" class="form-control">
+                    </div>
+                    <?php
+                  }
+                  else {
+
+                    ?>
+                    <div class="form-group">
+                      <label for=""><?php echo $key; ?></label>
+                      <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>" class="form-control">
+                    </div>
+                    <?php
+
+                  }
                 }
               }
               ?>
-              <!-- <div class="form-group"> -->
-              <!-- <label for="">Name</label> -->
-              <!-- <input type="text" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_name" class="form-control"> -->
-              <!-- </div> -->
-              <!-- <div class="form-group"> -->
-              <!-- <label for="">Event_children</label> -->
-              <!-- <input type="event_children" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_event_children" class="form-control"> -->
-              <!-- </div> -->
+
             </form>
           </div>
           <div class="modal-footer">
@@ -107,6 +225,9 @@ if (isset($data["tab_o"]["type"])) {
     </div>
   </div>
 </div>
+
+
+
 <div class="row">
   <div class="col-md-12 mt-4">
     <div class="table-responsive">
@@ -134,6 +255,8 @@ if (isset($data["tab_o"]["type"])) {
 </div>
 
 
+
+
 <!-- Edit Record Modal -->
 <div class="modal fade" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog  modal-lg" role="document">
@@ -146,8 +269,11 @@ if (isset($data["tab_o"]["type"])) {
       </div>
       <div class="modal-body">
         <!-- Edit Record Form -->
-        <form action="" method="post" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_form">
-          <input type="hidden" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_record_id" name="edit_record_id" value="">
+        <?php
+        $action_type = "edit";
+        ?>
+        <form action="" method="post" id="<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_" ?>form">
+          <input type="hidden" id="<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_" ?>record_id" name="edit_record_id" value="">
           <?php
           foreach ($editable_rows as $key => $value) {
             if ($key !== "id") {
@@ -156,12 +282,12 @@ if (isset($data["tab_o"]["type"])) {
                   ?>
                   <div class="form-group">
                     <label for=""><?php echo $key; ?></label>
-                    <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>" class="form-control  dropdown-toggle" data-toggle="dropdown" readonly>
+                    <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>" class="form-control  dropdown-toggle" data-toggle="dropdown" readonly>
 
                     <div class="dropdown-menu" style="width: calc(100% - 2em); padding: 1em;">
 
                       <div class="table-responsive">
-                        <table class="table" id="<?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_records" style="width : 100%">
+                        <table class="table" id="<?php echo $data["tab_o"]["rel_name_id"]."_lookup"."_".$action_type."_"; ?>records" style="width : 100%">
                           <thead>
                             <tr>
                               <!-- <th>ID</th> -->
@@ -191,7 +317,7 @@ if (isset($data["tab_o"]["type"])) {
                         if (data.responce == "success") {
 
                           var i = "1";
-                          var <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?> = $('#<?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_records').DataTable( {
+                          var <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?> = $('#<?php echo $data["tab_o"]["rel_name_id"]."_lookup"."_".$action_type."_"; ?>records').DataTable( {
                             "select": true,
                             "data": data.posts,
                             "responsive": true,
@@ -221,7 +347,7 @@ if (isset($data["tab_o"]["type"])) {
                               ]
                             } );
 
-                            var lookup_input = $("#<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>");
+                            var lookup_input = $("#<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>");
                             <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?>
                             .on( 'select', function ( e, dt, type, indexes ) {
                               // alert(123);
@@ -231,12 +357,12 @@ if (isset($data["tab_o"]["type"])) {
                               lookup_input.val(rowData[0].id);
                             } )
                             .on( 'deselect', function ( e, dt, type, indexes ) {
-                              // rel_name_id_edit_value
+
                               // var rowData = <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?>.rows( indexes ).data().toArray();
 
-                              // alert(state["<?php echo $data["tab_o"]["rel_name_id"]."_edit_value" ?>"]);
-                              // alert("<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>");
-                              lookup_input.val(state["<?php echo $data["tab_o"]["rel_name_id"]."_edit_value" ?>"]);
+                              // alert(state["<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_"."value" ?>"]);
+                              // alert("<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>");
+                              lookup_input.val(state["<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_"."value" ?>"]);
                             } );
                           }else{
                             toastr["error"](data.message);
@@ -263,7 +389,7 @@ if (isset($data["tab_o"]["type"])) {
                 ?>
                 <div class="form-group" style="display: none;">
                   <label for=""><?php echo $key; ?></label>
-                  <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>" class="form-control">
+                  <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>" class="form-control">
                 </div>
                 <?php
               }
@@ -272,7 +398,7 @@ if (isset($data["tab_o"]["type"])) {
                 ?>
                 <div class="form-group">
                   <label for=""><?php echo $key; ?></label>
-                  <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>" class="form-control">
+                  <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>" class="form-control">
                 </div>
                 <?php
 
@@ -298,8 +424,13 @@ if (isset($data["tab_o"]["type"])) {
   </div>
 </div>
 
-<!-- Add Records -->
+
 <script>
+
+
+<?php
+$action_type = "add";
+?>
   $(document).on("click", "#<?php echo $data["tab_o"]["rel_name_id"]; ?>_add", function(e){
     e.preventDefault();
 
@@ -307,7 +438,7 @@ if (isset($data["tab_o"]["type"])) {
     foreach ($editable_rows as $key => $value) {
       if ($key !== "id") {
         ?>
-        var <?php echo $key; ?> = $("#<?php echo $data["tab_o"]["rel_name_id"]; ?>_<?php echo $key; ?>").val();
+        var <?php echo $key; ?> = $("#<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>").val();
         <?php
       }
     }
@@ -326,10 +457,20 @@ if (isset($data["tab_o"]["type"])) {
         data: {
           <?php
           foreach ($editable_rows as $key => $value) {
+
+
             if ($key !== "id") {
-              ?>
-              <?php echo $key; ?>: <?php echo $key; ?>,
-              <?php
+              if (isset($value["assumable"])) {
+                ?>
+                <?php echo $key; ?>: <?php echo $value["assumable"]; ?>,
+
+                <?php
+              } else {
+                ?>
+                <?php echo $key; ?>: <?php echo $key; ?>,
+
+                <?php
+              }
             }
           }
           ?>
@@ -485,6 +626,10 @@ if (isset($data["tab_o"]["type"])) {
 
   // Edit Record
 
+
+  <?php
+  $action_type = "edit";
+  ?>
   $(document).on("click", "#<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit", function(e){
     e.preventDefault();
 
@@ -501,8 +646,8 @@ if (isset($data["tab_o"]["type"])) {
       },
       success: function(data){
         if (data.responce == "success") {
-          $('#<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_modal').modal('show');
-          $("#<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_record_id").val(data.post.id);
+          $('#<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_" ?>modal').modal('show');
+          $("#<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_" ?>record_id").val(data.post.id);
           <?php
           foreach ($editable_rows as $key => $value) {
             ?>
@@ -511,33 +656,31 @@ if (isset($data["tab_o"]["type"])) {
             if ($key !== "id") {
               ?>
 
-              var rel_name_id_edit = $("#<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>");
+              var rel_name_id_edit = $("#<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>");
 
               <?php
               if (isset($value["assumable"])) {
                 ?>
 
-                state["<?php echo $data["tab_o"]["rel_name_id"]."_edit_value" ?>"] = <?php echo $data["tab_o"]["record_id"] ?>;
+                state["<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_"."value" ?>"] = <?php echo $data["tab_o"]["record_id"] ?>;
 
                 <?php
               } else {
                 ?>
 
-                state["<?php echo $data["tab_o"]["rel_name_id"]."_edit_value" ?>"] = data.post.<?php echo $key; ?>;
+                state["<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_"."value" ?>"] = data.post.<?php echo $key; ?>;
 
                 <?php
               }
               ?>
 
-              rel_name_id_edit.val(state["<?php echo $data["tab_o"]["rel_name_id"]."_edit_value" ?>"]);
-              // alert(state["<?php echo $data["tab_o"]["rel_name_id"]."_edit_value" ?>"]);
+              rel_name_id_edit.val(state["<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_"."value" ?>"]);
+              // alert(state["<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_"."value" ?>"]);
 
               <?php
             }
           }
           ?>
-          // $("#<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_name").val(data.post.name);
-          // $("#<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_event_children").val(data.post.event_children);
         }else{
           toastr["error"](data.message);
         }
@@ -548,22 +691,25 @@ if (isset($data["tab_o"]["type"])) {
 
   // Update Record
 
+  <?php
+  $action_type = "edit";
+  ?>
+
   $(document).on("click", "#<?php echo $data["tab_o"]["rel_name_id"]; ?>_update", function(e){
     e.preventDefault();
 
-    var edit_record_id = $("#<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_record_id").val();
+    var edit_record_id = $("#<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_" ?>record_id").val();
     <?php
     foreach ($editable_rows as $key => $value) {
       if ($key !== "id") {
         ?>
-        var edit_<?php echo $key; ?> = $("#<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_<?php echo $key; ?>").val();
+        var edit_<?php echo $key; ?> = $("#<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>").val();
         <?php
       }
     }
     ?>
 
-    // var edit_name = $("#<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_name").val();
-    // var edit_event_children = $("#<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_event_children").val();
+
 
     // if (edit_record_id == "" || edit_name == "")
     if (1 !== 1) {
@@ -591,7 +737,7 @@ if (isset($data["tab_o"]["type"])) {
           if (data.responce == "success") {
             $('#<?php echo $data["tab_o"]["rel_name_id"]; ?>_records').DataTable().destroy();
             <?php echo $data["tab_o"]["table"]; ?>_fetch();
-            $('#<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_modal').modal('hide');
+            $('#<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_" ?>modal').modal('hide');
             toastr["success"](data.message);
           }else{
             toastr["error"](data.message);

@@ -7,9 +7,6 @@
         "Key": "PRI",
         "Extra": "auto_increment"
       },
-      "event_type_id": {
-        "Type": "bigint(20) unsigned"
-      },
       "resource_id": {
         "Type": "bigint(20) unsigned"
       },
@@ -17,23 +14,6 @@
         "Type": "varchar(100)",
         "Null": "NO"
       }
-    }
-  },
-  "event_types": {
-    "fields": {
-      "id": {
-        "Type": "bigint(20) unsigned",
-        "Null": "NO",
-        "Key": "PRI",
-        "Extra": "auto_increment"
-      },
-      "name": {
-        "Type": "varchar(100)",
-        "Null": "NO"
-      }
-    },
-    "items": {
-      "events": "event_type_id"
     }
   },
   "organizations": {
