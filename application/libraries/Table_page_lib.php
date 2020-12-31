@@ -37,15 +37,16 @@ class Table_page_lib
 
         $post = $this->CI->input->post();
 
-				unset($ajax_data[0]);
+				unset($post[0]);
 				$ajax_data = array();
-				foreach ($ajax_data as $key => $value) {
+				foreach ($post as $key => $value) {
 					$ajax_data["`".urldecode($key)."`"] = "\"".$value."\"";
 				}
 
 				// $thing = json_encode($ajax_data, JSON_PRETTY_PRINT);
 				// echo $thing;
 				// exit;
+
 				$this->CI->db->_protect_identifiers=false;
         if ($this->CI->db->insert("`".$table."`", $ajax_data)) {
           $data = array('responce' => 'success', 'message' => 'Record added Successfully');
