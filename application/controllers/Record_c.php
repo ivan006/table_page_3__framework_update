@@ -28,6 +28,7 @@ class Record_c extends CI_Controller
 			// redirect them to the login page
 			redirect('auth/login', 'refresh');
 		}
+		$table = urldecode($table);
 		$tab_o_singular = $this->erd_lib->grammar_singular($table);
 
 

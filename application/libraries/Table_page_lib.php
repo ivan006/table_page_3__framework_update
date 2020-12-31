@@ -21,6 +21,8 @@ class Table_page_lib
   public function insert($table)
   {
 
+		$table = urldecode($table);
+
 		$this->CI->load->database();
 
     // if ($this->CI->input->is_ajax_request()) {
@@ -32,12 +34,26 @@ class Table_page_lib
       // if ($this->form_validation->run() == FALSE) {
       //   $data = array('responce' => 'error', 'message' => validation_errors());
       // } else {
+
         $ajax_data = $this->CI->input->post();
-        if ($this->CI->db->insert($table, $ajax_data)) {
+        // $ajax_data = $_POST;
+
+				unset($ajax_data[0]);
+				$ajax_data_2 = array();
+				foreach ($ajax_data as $key => $value) {
+					$ajax_data_2["`".urldecode($key)."`"] = "\"".$value."\"";
+				}
+
+				// $thing = json_encode($ajax_data, JSON_PRETTY_PRINT);
+				// echo $thing;
+				// exit;
+				$this->CI->db->_protect_identifiers=false;
+        if ($this->CI->db->insert("`".$table."`", $ajax_data_2)) {
           $data = array('responce' => 'success', 'message' => 'Record added Successfully');
         } else {
           $data = array('responce' => 'error', 'message' => 'Failed to add record');
         }
+				$this->CI->db->_protect_identifiers=true;
       // }
 
 			return $data;
@@ -48,7 +64,7 @@ class Table_page_lib
 
   public function fetch($table)
   {
-
+		$table = urldecode($table);
 		$this->CI->load->database();
 
 
@@ -58,9 +74,15 @@ class Table_page_lib
     // // }else{
     // // 	$data = array('responce' => 'error', 'message' => 'Failed to fetch data');
     // // }
-    $posts = $this->CI->db->get($table)->result();
+		// echo $table;
+
+
+		$this->CI->db->_protect_identifiers=false;
+    $posts = $this->CI->db->get("`".$table."`")->result();
     $data = array('responce' => 'success', 'posts' => $posts);
     return $data;
+
+		$this->CI->db->_protect_identifiers=true;
     // } else {
     // 	return "No direct script access allowed";
     // }
@@ -177,6 +199,8 @@ class Table_page_lib
 
   public function fetch_for_record($table, $haystack, $needle, $child_of)
   {
+		$table = urldecode($table);
+		$haystack = urldecode($haystack);
 
 		$this->CI->load->database();
 
@@ -196,18 +220,18 @@ class Table_page_lib
 		if (1==1) {
 
 
-			// $this->CI->db->_protect_identifiers=false;
+			$this->CI->db->_protect_identifiers=false;
 			$query = $this->CI->db;
 
 			$parent_link_part_1 = '<a href="/record/t/'.$table.'/r/';
 			$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
-			$query = $query->select("CONCAT('$parent_link_part_1', $table.id, '$parent_link_part_2') as `id`");
+			$query = $query->select("CONCAT('$parent_link_part_1', "."`".$table."`".".id, '$parent_link_part_2') as `id`");
 
 			foreach ($cols_visible["cols_o"] as $key => $value) {
 				if ($key !== "id") {
 					// code...
 				}
-				$query = $query->select($table.'.'.$key);
+				$query = $query->select("`".$table."`".'.'."`".$key."`");
 			}
 			foreach ($cols_visible["cols_d"] as $key => $value) {
 				if ($key !== $table) {
@@ -215,28 +239,31 @@ class Table_page_lib
 						if ($key_2 == "id") {
 							$parent_link_part_1 = '<a href="/record/t/'.$key.'/r/';
 							$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
-							$query = $query->select("CONCAT('$parent_link_part_1', $key.id, '$parent_link_part_2') as `$key - $key_2`");
+							$query = $query->select("CONCAT('$parent_link_part_1', "."`".$key."`".".id, '$parent_link_part_2') as `$key - $key_2`");
 						} else {
-							$query = $query->select("$key.$key_2 as `$key - $key_2`");
+							$query = $query->select("`".$key."`"."."."`".$key_2."`"." as `$key - $key_2`");
 						}
 
 
 					}
 				}
 			}
-			$query = $query->from($table);
+			$query = $query->from("`".$table."`");
 
 			foreach ($cols_visible["cols_d"] as $key => $value) {
 				// echo "xyz";
 				if ($key !== $table) {
-					$query = $query->join($key, $table.'.'.$value["linking_key"].' = '.$key.'.id', 'left');
+					$query = $query->join("`".$key."`", "`".$table."`".'.'."`".$value["linking_key"]."`".' = '."`".$key."`".'.id', 'left');
 				}
 			}
-			$query = $query->where("$table.$haystack", $needle);
+			$query = $query->where("`".$table."`"."."."`".$haystack."` =", $needle);
 
 			$posts = $query->get()->result_array();
 
 		}
+
+		$this->CI->db->_protect_identifiers=true;
+
 
 
     $data = array('responce' => 'success', 'posts' => $posts);

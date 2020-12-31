@@ -1,5 +1,20 @@
 <?php
 
+if(!function_exists('makeSafeForCSS')){
+    function makeSafeForCSS($string) {
+      //Lower case everything
+      $string = strtolower($string);
+      //Make alphanumeric (removes all other characters)
+      $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
+      //Clean up multiple dashes or whitespaces
+      $string = preg_replace("/[\s-]+/", " ", $string);
+      //Convert whitespaces and underscore to dash
+      // $string = preg_replace("/[\s_]/", "-", $string);
+      $string = preg_replace("/[\s_]/", "_", $string);
+      return $string;
+    }
+}
+
 $editable_rows = $data["tab_d"]["cols"]["editable"];
 $readable_rows = $data["tab_d"]["cols"]["visible"];
 
@@ -60,23 +75,23 @@ if (isset($data["tab_o"]["type"])) {
   <div class="col-md-12 mt-2">
     <!-- Add Records Modal -->
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#<?php echo $data["tab_o"]["rel_name_id"]; ?>_exampleModal">
+    <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_exampleModal">
       Add Records
     </button>
 
     <!-- Modal -->
-    <div class="modal fade" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog  modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_exampleModalLabel">Add Records</h5>
+            <h5 class="modal-title">Add Records</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <!-- Add Records Form -->
-            <form action="" method="post" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_form">
+            <form action="" method="post" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_form">
 
               <?php
               $action_type = "add";
@@ -89,12 +104,12 @@ if (isset($data["tab_o"]["type"])) {
                       ?>
                       <div class="form-group">
                         <label for=""><?php echo $key; ?></label>
-                        <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>" class="form-control  dropdown-toggle" data-toggle="dropdown" readonly>
+                        <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control  dropdown-toggle" data-toggle="dropdown" readonly>
 
                         <div class="dropdown-menu" style="width: calc(100% - 2em); padding: 1em;">
 
                           <div class="table-responsive">
-                            <table class="table" id="<?php echo $data["tab_o"]["rel_name_id"]."_lookup"."_".$action_type."_"; ?>records" style="width : 100%">
+                            <table class="table" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup"."_".$action_type."_".makeSafeForCSS($key); ?>records" style="width : 100%">
                               <thead>
                                 <tr>
                                   <!-- <th>ID</th> -->
@@ -115,7 +130,7 @@ if (isset($data["tab_o"]["type"])) {
                       <script type="text/javascript">
 
 
-                      function <?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_fetch(){
+                      function <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup"; ?>_fetch(){
                         $.ajax({
                           url: "<?php echo base_url(); ?>api/table/t/<?php echo $value["rels"]["table"]; ?>/fetch",
                           type: "post",
@@ -124,7 +139,7 @@ if (isset($data["tab_o"]["type"])) {
                             if (data.responce == "success") {
 
                               var i = "1";
-                              var <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?> = $('#<?php echo $data["tab_o"]["rel_name_id"]."_lookup"."_".$action_type."_"; ?>records').DataTable( {
+                              var <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup" ?> = $('#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup"."_".$action_type."_".makeSafeForCSS($key); ?>records').DataTable( {
                                 "select": true,
                                 "data": data.posts,
                                 "responsive": true,
@@ -154,22 +169,22 @@ if (isset($data["tab_o"]["type"])) {
                                   ]
                                 } );
 
-                                var lookup_input = $("#<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>");
-                                <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?>
+                                var lookup_input = $("#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>");
+                                <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup" ?>
                                 .on( 'select', function ( e, dt, type, indexes ) {
                                   // alert(123);
-                                  var rowData = <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?>.rows( indexes ).data().toArray();
+                                  var rowData = <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup" ?>.rows( indexes ).data().toArray();
                                   // alert(JSON.stringify( rowData ));
 
                                   lookup_input.val(rowData[0].id);
                                 } )
                                 .on( 'deselect', function ( e, dt, type, indexes ) {
 
-                                  // var rowData = <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?>.rows( indexes ).data().toArray();
+                                  // var rowData = <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup" ?>.rows( indexes ).data().toArray();
 
-                                  // alert(state["<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_"."value" ?>"]);
-                                  // alert("<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>");
-                                  lookup_input.val(state["<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_"."value" ?>"]);
+                                  // alert(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"]);
+                                  // alert("<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>");
+                                  lookup_input.val(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"]);
                                 } );
                               }else{
                                 toastr["error"](data.message);
@@ -183,7 +198,7 @@ if (isset($data["tab_o"]["type"])) {
 
 
 
-                        <?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_fetch();
+                        <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup"; ?>_fetch();
 
 
 
@@ -196,7 +211,7 @@ if (isset($data["tab_o"]["type"])) {
                     ?>
                     <div class="form-group" style="display: none;">
                       <label for=""><?php echo $key; ?></label>
-                      <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>" class="form-control">
+                      <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control">
                     </div>
                     <?php
                   }
@@ -205,7 +220,7 @@ if (isset($data["tab_o"]["type"])) {
                     ?>
                     <div class="form-group">
                       <label for=""><?php echo $key; ?></label>
-                      <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>" class="form-control">
+                      <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control">
                     </div>
                     <?php
 
@@ -218,7 +233,7 @@ if (isset($data["tab_o"]["type"])) {
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_add">Add Records</button>
+            <button type="button" class="btn btn-primary" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_add">Add Records</button>
           </div>
         </div>
       </div>
@@ -231,7 +246,7 @@ if (isset($data["tab_o"]["type"])) {
 <div class="row">
   <div class="col-md-12 mt-4">
     <div class="table-responsive">
-      <table class="table" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_records">
+      <table class="table" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_records">
         <thead>
           <tr>
             <!-- <th>ID</th> -->
@@ -258,11 +273,11 @@ if (isset($data["tab_o"]["type"])) {
 
 
 <!-- Edit Record Modal -->
-<div class="modal fade" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog  modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_exampleModalLabel">Edit Record Modal</h5>
+        <h5 class="modal-title" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_exampleModalLabel">Edit Record Modal</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -272,8 +287,8 @@ if (isset($data["tab_o"]["type"])) {
         <?php
         $action_type = "edit";
         ?>
-        <form action="" method="post" id="<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_" ?>form">
-          <input type="hidden" id="<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_" ?>record_id" name="edit_record_id" value="">
+        <form action="" method="post" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_" ?>form">
+          <input type="hidden" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_" ?>record_id" name="edit_record_id" value="">
           <?php
           foreach ($editable_rows as $key => $value) {
             if ($key !== "id") {
@@ -282,12 +297,12 @@ if (isset($data["tab_o"]["type"])) {
                   ?>
                   <div class="form-group">
                     <label for=""><?php echo $key; ?></label>
-                    <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>" class="form-control  dropdown-toggle" data-toggle="dropdown" readonly>
+                    <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control  dropdown-toggle" data-toggle="dropdown" readonly>
 
                     <div class="dropdown-menu" style="width: calc(100% - 2em); padding: 1em;">
 
                       <div class="table-responsive">
-                        <table class="table" id="<?php echo $data["tab_o"]["rel_name_id"]."_lookup"."_".$action_type."_"; ?>records" style="width : 100%">
+                        <table class="table" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup"."_".$action_type."_".makeSafeForCSS($key); ?>records" style="width : 100%">
                           <thead>
                             <tr>
                               <!-- <th>ID</th> -->
@@ -308,7 +323,7 @@ if (isset($data["tab_o"]["type"])) {
                   <script type="text/javascript">
 
 
-                  function <?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_fetch(){
+                  function <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup"; ?>_fetch(){
                     $.ajax({
                       url: "<?php echo base_url(); ?>api/table/t/<?php echo $value["rels"]["table"]; ?>/fetch",
                       type: "post",
@@ -317,7 +332,7 @@ if (isset($data["tab_o"]["type"])) {
                         if (data.responce == "success") {
 
                           var i = "1";
-                          var <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?> = $('#<?php echo $data["tab_o"]["rel_name_id"]."_lookup"."_".$action_type."_"; ?>records').DataTable( {
+                          var <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup" ?> = $('#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup"."_".$action_type."_".makeSafeForCSS($key); ?>records').DataTable( {
                             "select": true,
                             "data": data.posts,
                             "responsive": true,
@@ -347,22 +362,22 @@ if (isset($data["tab_o"]["type"])) {
                               ]
                             } );
 
-                            var lookup_input = $("#<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>");
-                            <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?>
+                            var lookup_input = $("#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>");
+                            <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup" ?>
                             .on( 'select', function ( e, dt, type, indexes ) {
                               // alert(123);
-                              var rowData = <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?>.rows( indexes ).data().toArray();
+                              var rowData = <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup" ?>.rows( indexes ).data().toArray();
                               // alert(JSON.stringify( rowData ));
 
                               lookup_input.val(rowData[0].id);
                             } )
                             .on( 'deselect', function ( e, dt, type, indexes ) {
 
-                              // var rowData = <?php echo $data["tab_o"]["rel_name_id"]."_lookup" ?>.rows( indexes ).data().toArray();
+                              // var rowData = <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup" ?>.rows( indexes ).data().toArray();
 
-                              // alert(state["<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_"."value" ?>"]);
-                              // alert("<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>");
-                              lookup_input.val(state["<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_"."value" ?>"]);
+                              // alert(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"]);
+                              // alert("<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>");
+                              lookup_input.val(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"]);
                             } );
                           }else{
                             toastr["error"](data.message);
@@ -376,7 +391,7 @@ if (isset($data["tab_o"]["type"])) {
 
 
 
-                    <?php echo $data["tab_o"]["rel_name_id"]."_lookup"; ?>_fetch();
+                    <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup"; ?>_fetch();
 
 
 
@@ -389,7 +404,7 @@ if (isset($data["tab_o"]["type"])) {
                 ?>
                 <div class="form-group" style="display: none;">
                   <label for=""><?php echo $key; ?></label>
-                  <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>" class="form-control">
+                  <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control">
                 </div>
                 <?php
               }
@@ -398,7 +413,7 @@ if (isset($data["tab_o"]["type"])) {
                 ?>
                 <div class="form-group">
                   <label for=""><?php echo $key; ?></label>
-                  <input type="<?php echo "text"; ?>" id="<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>" class="form-control">
+                  <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control">
                 </div>
                 <?php
 
@@ -408,17 +423,17 @@ if (isset($data["tab_o"]["type"])) {
           ?>
           <!-- <div class="form-group">
             <label for="">Name</label>
-            <input type="text" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_name" class="form-control">
+            <input type="text" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_edit_name" class="form-control">
           </div>
           <div class="form-group">
             <label for="">Event_children</label>
-            <input type="event_children" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit_event_children" class="form-control">
+            <input type="event_children" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_edit_event_children" class="form-control">
           </div> -->
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_update">Update</button>
+        <button type="button" class="btn btn-primary" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_update">Update</button>
       </div>
     </div>
   </div>
@@ -431,20 +446,20 @@ if (isset($data["tab_o"]["type"])) {
 <?php
 $action_type = "add";
 ?>
-  $(document).on("click", "#<?php echo $data["tab_o"]["rel_name_id"]; ?>_add", function(e){
+  $(document).on("click", "#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_add", function(e){
     e.preventDefault();
 
     <?php
     foreach ($editable_rows as $key => $value) {
       if ($key !== "id") {
         ?>
-        var <?php echo $key; ?> = $("#<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>").val();
+        var <?php echo makeSafeForCSS($key); ?> = $("#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>").val();
         <?php
       }
     }
     ?>
-    // var name = $("#<?php echo $data["tab_o"]["rel_name_id"]; ?>_name").val();
-    // var event_children = $("#<?php echo $data["tab_o"]["rel_name_id"]; ?>_event_children").val();
+    // var name = $("#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_name").val();
+    // var event_children = $("#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_event_children").val();
 
     // if (name == "")
     if (1 !== 1) {
@@ -462,12 +477,12 @@ $action_type = "add";
             if ($key !== "id") {
               if (isset($value["assumable"])) {
                 ?>
-                <?php echo $key; ?>: <?php echo $value["assumable"]; ?>,
+                "<?php echo urlencode($key); ?>": <?php echo $value["assumable"]; ?>,
 
                 <?php
               } else {
                 ?>
-                <?php echo $key; ?>: <?php echo $key; ?>,
+                "<?php echo urlencode($key); ?>": <?php echo makeSafeForCSS($key); ?>,
 
                 <?php
               }
@@ -479,9 +494,9 @@ $action_type = "add";
         },
         success: function(data){
           if (data.responce == "success") {
-            $('#<?php echo $data["tab_o"]["rel_name_id"]; ?>_records').DataTable().destroy();
-            <?php echo $data["tab_o"]["table"]; ?>_fetch();
-            $('#<?php echo $data["tab_o"]["rel_name_id"]; ?>_exampleModal').modal('hide');
+            $('#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_records').DataTable().destroy();
+            <?php echo makeSafeForCSS($data["tab_o"]["table"]); ?>_fetch();
+            $('#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_exampleModal').modal('hide');
             toastr["success"](data.message);
           }else{
             toastr["error"](data.message);
@@ -490,7 +505,7 @@ $action_type = "add";
         }
       });
 
-      $("#<?php echo $data["tab_o"]["rel_name_id"]; ?>_form")[0].reset();
+      $("#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_form")[0].reset();
 
     }
 
@@ -498,7 +513,7 @@ $action_type = "add";
 
   // Fetch Records
 
-  function <?php echo $data["tab_o"]["table"]; ?>_fetch(){
+  function <?php echo makeSafeForCSS($data["tab_o"]["table"]); ?>_fetch(){
     $.ajax({
       url: "<?php echo base_url(); ?>api/table/t/<?php echo $data["tab_o"]["table"]; ?>/<?php echo $data["tab_o"]["data_endpoint"]; ?>",
       type: "post",
@@ -507,7 +522,7 @@ $action_type = "add";
         if (data.responce == "success") {
 
           var i = "1";
-          $('#<?php echo $data["tab_o"]["rel_name_id"]; ?>_records').DataTable( {
+          $('#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_records').DataTable( {
             "data": data.posts,
             "responsive": true,
             dom:
@@ -534,8 +549,8 @@ $action_type = "add";
             // { "data": "event_children" },
             { "render": function ( data, type, row, meta ) {
               var a = `
-              <a href="#" value="${row.id}" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_del" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
-              <a href="#" value="${row.id}" id="<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit" class="btn btn-sm btn-outline-success"><i class="fas fa-edit"></i></a>
+              <a href="#" value="${row.id}" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_del" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
+              <a href="#" value="${row.id}" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_edit" class="btn btn-sm btn-outline-success"><i class="fas fa-edit"></i></a>
               <a href="/record/t/<?php echo $view_link_table; ?>/r/${row.<?php echo $view_link_id_key; ?>}" class="btn btn-sm btn-outline-primary">View</a>
               `;
 
@@ -553,11 +568,11 @@ $action_type = "add";
 
   }
 
-  <?php echo $data["tab_o"]["table"]; ?>_fetch();
+  <?php echo makeSafeForCSS($data["tab_o"]["table"]); ?>_fetch();
 
   // Delete Record
 
-  $(document).on("click", "#<?php echo $data["tab_o"]["rel_name_id"]; ?>_del", function(e){
+  $(document).on("click", "#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_del", function(e){
     e.preventDefault();
 
     var del_id = $(this).attr("value");
@@ -590,8 +605,8 @@ $action_type = "add";
           },
           success: function(data){
             if (data.responce == "success") {
-              $('#<?php echo $data["tab_o"]["rel_name_id"]; ?>_records').DataTable().destroy();
-              <?php echo $data["tab_o"]["table"]; ?>_fetch();
+              $('#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_records').DataTable().destroy();
+              <?php echo makeSafeForCSS($data["tab_o"]["table"]); ?>_fetch();
               swalWithBootstrapButtons.fire(
               'Deleted!',
               'Your file has been deleted.',
@@ -630,7 +645,7 @@ $action_type = "add";
   <?php
   $action_type = "edit";
   ?>
-  $(document).on("click", "#<?php echo $data["tab_o"]["rel_name_id"]; ?>_edit", function(e){
+  $(document).on("click", "#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_edit", function(e){
     e.preventDefault();
 
     var edit_id = $(this).attr("value");
@@ -646,8 +661,8 @@ $action_type = "add";
       },
       success: function(data){
         if (data.responce == "success") {
-          $('#<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_" ?>modal').modal('show');
-          $("#<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_" ?>record_id").val(data.post.id);
+          $('#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_" ?>modal').modal('show');
+          $("#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_" ?>record_id").val(data.post.id);
           <?php
           foreach ($editable_rows as $key => $value) {
             ?>
@@ -656,26 +671,26 @@ $action_type = "add";
             if ($key !== "id") {
               ?>
 
-              var rel_name_id_edit = $("#<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>");
+              var rel_name_id_edit = $("#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>");
 
               <?php
               if (isset($value["assumable"])) {
                 ?>
 
-                state["<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_"."value" ?>"] = <?php echo $data["tab_o"]["record_id"] ?>;
+                state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"] = <?php echo $data["tab_o"]["record_id"] ?>;
 
                 <?php
               } else {
                 ?>
 
-                state["<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_"."value" ?>"] = data.post.<?php echo $key; ?>;
+                state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"] = data.post.<?php echo makeSafeForCSS($key); ?>;
 
                 <?php
               }
               ?>
 
-              rel_name_id_edit.val(state["<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_"."value" ?>"]);
-              // alert(state["<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_"."value" ?>"]);
+              rel_name_id_edit.val(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"]);
+              // alert(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"]);
 
               <?php
             }
@@ -695,15 +710,15 @@ $action_type = "add";
   $action_type = "edit";
   ?>
 
-  $(document).on("click", "#<?php echo $data["tab_o"]["rel_name_id"]; ?>_update", function(e){
+  $(document).on("click", "#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_update", function(e){
     e.preventDefault();
 
-    var edit_record_id = $("#<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_" ?>record_id").val();
+    var edit_record_id = $("#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_" ?>record_id").val();
     <?php
     foreach ($editable_rows as $key => $value) {
       if ($key !== "id") {
         ?>
-        var edit_<?php echo $key; ?> = $("#<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_".$key; ?>").val();
+        var edit_<?php echo makeSafeForCSS($key); ?> = $("#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>").val();
         <?php
       }
     }
@@ -725,7 +740,7 @@ $action_type = "add";
           foreach ($editable_rows as $key => $value) {
             if ($key !== "id") {
               ?>
-              edit_<?php echo $key; ?>: edit_<?php echo $key; ?>,
+              edit_<?php echo makeSafeForCSS($key); ?>: edit_<?php echo makeSafeForCSS($key); ?>,
               <?php
             }
           }
@@ -735,9 +750,9 @@ $action_type = "add";
         },
         success: function(data){
           if (data.responce == "success") {
-            $('#<?php echo $data["tab_o"]["rel_name_id"]; ?>_records').DataTable().destroy();
-            <?php echo $data["tab_o"]["table"]; ?>_fetch();
-            $('#<?php echo $data["tab_o"]["rel_name_id"]."_".$action_type."_" ?>modal').modal('hide');
+            $('#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_records').DataTable().destroy();
+            <?php echo makeSafeForCSS($data["tab_o"]["table"]); ?>_fetch();
+            $('#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_" ?>modal').modal('hide');
             toastr["success"](data.message);
           }else{
             toastr["error"](data.message);
