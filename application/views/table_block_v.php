@@ -187,9 +187,9 @@ if (isset($data["tab_o"]["type"])) {
 
                                   // var rowData = <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup" ?>.rows( indexes ).data().toArray();
 
-                                  // alert(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"]);
+                                  // alert(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key)."_"."value" ?>"]);
                                   // alert("<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>");
-                                  lookup_input.val(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"]);
+                                  lookup_input.val(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key)."_"."value" ?>"]);
                                 } );
                               }else{
                                 toastr["error"](data.message);
@@ -380,9 +380,9 @@ if (isset($data["tab_o"]["type"])) {
 
                               // var rowData = <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup" ?>.rows( indexes ).data().toArray();
 
-                              // alert(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"]);
+                              // alert(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key)."_"."value" ?>"]);
                               // alert("<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>");
-                              lookup_input.val(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"]);
+                              lookup_input.val(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key)."_"."value" ?>"]);
                             } );
                           }else{
                             toastr["error"](data.message);
@@ -682,22 +682,22 @@ $action_type = "add";
               if (isset($value["assumable"])) {
                 ?>
 
-                state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"] = <?php echo $data["tab_o"]["record_id"] ?>;
+                state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key)."_"."value" ?>"] = <?php echo $data["tab_o"]["record_id"] ?>;
 
                 <?php
               } else {
                 ?>
 
-                state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"] = data.post["<?php echo $key; ?>"];
+                state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key)."_"."value" ?>"] = data.post["<?php echo $key; ?>"];
 
                 <?php
               }
               ?>
 
-              rel_name_id_edit.val(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"]);
-              // alert(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"]);
+              rel_name_id_edit.val(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key)."_"."value" ?>"]);
+              // alert(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key)."_"."value" ?>"]);
 
-              // alert(JSON.stringify(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"]));
+              // alert(JSON.stringify(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key)."_"."value" ?>"]));
 
               <?php
             }
