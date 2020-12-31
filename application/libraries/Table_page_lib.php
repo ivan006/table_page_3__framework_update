@@ -35,20 +35,19 @@ class Table_page_lib
       //   $data = array('responce' => 'error', 'message' => validation_errors());
       // } else {
 
-        $ajax_data = $this->CI->input->post();
-        // $ajax_data = $_POST;
+        $post = $this->CI->input->post();
 
 				unset($ajax_data[0]);
-				$ajax_data_2 = array();
+				$ajax_data = array();
 				foreach ($ajax_data as $key => $value) {
-					$ajax_data_2["`".urldecode($key)."`"] = "\"".$value."\"";
+					$ajax_data["`".urldecode($key)."`"] = "\"".$value."\"";
 				}
 
 				// $thing = json_encode($ajax_data, JSON_PRETTY_PRINT);
 				// echo $thing;
 				// exit;
 				$this->CI->db->_protect_identifiers=false;
-        if ($this->CI->db->insert("`".$table."`", $ajax_data_2)) {
+        if ($this->CI->db->insert("`".$table."`", $ajax_data)) {
           $data = array('responce' => 'success', 'message' => 'Record added Successfully');
         } else {
           $data = array('responce' => 'error', 'message' => 'Failed to add record');
@@ -139,6 +138,7 @@ class Table_page_lib
   public function update($table)
   {
 
+		$table = urldecode($table);
 		$this->CI->load->database();
 
     // if ($this->CI->input->is_ajax_request()) {
@@ -150,22 +150,35 @@ class Table_page_lib
 
 	      $data['id'] = $this->CI->input->post('edit_record_id');
 
+				// zzzzz
+				// $post = $this->CI->input->post();
+				//
+				// unset($ajax_data[0]);
+				// $ajax_data = array();
+				// foreach ($ajax_data as $key => $value) {
+				// 	$ajax_data["`".urldecode($key)."`"] = "\"".$value."\"";
+				// }
+				// zzzz
 
 	      // $data['name'] = $this->CI->input->post('edit_name');
 	      // $data['event_children'] = $this->CI->input->post('edit_event_children');
 				$rows = $this->table_rows($table);
 				foreach ($rows as $key => $value) {
 					if ($key !== "id") {
-						$data[$key] = $this->CI->input->post('edit_'.$key);
+						$data["`".urldecode($key)."`"] = "\"".$this->CI->input->post('edit_'.$this->makeSafeForCSS($key))."\"";
 					}
 				}
 
+
+				$this->CI->db->_protect_identifiers=false;
 	      if ($this->CI->db->update($table, $data, array('id' => $data['id']))) {
 	        $data = array('responce' => 'success', 'message' => 'Record update Successfully');
 	        // $data = $this->CI->db->last_query();
 	      } else {
 	        $data = array('responce' => 'error', 'message' => 'Failed to update record');
 	      }
+
+				$this->CI->db->_protect_identifiers=true;
 			  return $data;
 
 
@@ -437,5 +450,18 @@ class Table_page_lib
 
 
   }
+
+	public function makeSafeForCSS($string) {
+		//Lower case everything
+		$string = strtolower($string);
+		//Make alphanumeric (removes all other characters)
+		$string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
+		//Clean up multiple dashes or whitespaces
+		$string = preg_replace("/[\s-]+/", " ", $string);
+		//Convert whitespaces and underscore to dash
+		// $string = preg_replace("/[\s_]/", "-", $string);
+		$string = preg_replace("/[\s_]/", "_", $string);
+		return $string;
+	}
 
 }

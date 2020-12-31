@@ -683,7 +683,7 @@ $action_type = "add";
               } else {
                 ?>
 
-                state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"] = data.post.<?php echo makeSafeForCSS($key); ?>;
+                state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"] = data.post["<?php echo $key; ?>"];
 
                 <?php
               }
@@ -691,6 +691,8 @@ $action_type = "add";
 
               rel_name_id_edit.val(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"]);
               // alert(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"]);
+
+              // alert(JSON.stringify(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_"."value" ?>"]));
 
               <?php
             }

@@ -380,7 +380,7 @@ class Erd_lib
 		foreach ($tables as $key => $value) {
 
 			$query = array(
-				"SHOW COLUMNS FROM $key",
+				"SHOW COLUMNS FROM `$key`",
 			);
 			$query = implode(" ", $query);
 			$query_result = $this->CI->db->query($query)->result_array();

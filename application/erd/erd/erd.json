@@ -10,9 +10,6 @@
       "resource id": {
         "Type": "bigint(20) unsigned"
       },
-      "resource 2 id": {
-        "Type": "bigint(20) unsigned"
-      },
       "name": {
         "Type": "varchar(100)",
         "Null": "NO"
@@ -36,24 +33,6 @@
       "resources": "organization id"
     }
   },
-  "organizations 2": {
-    "fields": {
-      "id": {
-        "Type": "bigint(20) unsigned",
-        "Null": "NO",
-        "Key": "PRI",
-        "Extra": "auto_increment"
-      },
-      "name": {
-        "Type": "varchar(100)",
-        "Null": "NO"
-      }
-    },
-    "items": {
-      "resources": "organization 2 id",
-      "resources 2": "organization 2 id"
-    }
-  },
   "resources": {
     "fields": {
       "id": {
@@ -69,35 +48,10 @@
       "organization id": {
         "Type": "bigint(20)",
         "Null": "NO"
-      },
-      "organization 2 id": {
-        "Type": "bigint(20)",
-        "Null": "NO"
       }
     },
     "items": {
       "events": "resource id"
-    }
-  },
-  "resources 2": {
-    "fields": {
-      "id": {
-        "Type": "bigint(20) unsigned",
-        "Null": "NO",
-        "Key": "PRI",
-        "Extra": "auto_increment"
-      },
-      "name": {
-        "Type": "varchar(100)",
-        "Null": "NO"
-      },
-      "organization 2 id": {
-        "Type": "bigint(20)",
-        "Null": "NO"
-      }
-    },
-    "items": {
-      "events": "resource 2 id"
     }
   }
 }
