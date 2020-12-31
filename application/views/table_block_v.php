@@ -50,7 +50,7 @@ if (isset($data["tab_o"]["type"])) {
     <div class="row">
       <div class="col-md-12 mt-5">
         <?php
-        if ($data["tab_o"]["type"] == "dedicated_items") {
+        if ($data["tab_o"]["type"] == "sub_items") {
           ?>
           <h3 class="text-center">
             <?php echo $data["tab_o"]["rel_name"] ?>

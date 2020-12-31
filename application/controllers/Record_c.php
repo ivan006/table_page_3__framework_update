@@ -126,7 +126,7 @@ class Record_c extends CI_Controller
 
 			$tab_o["record_id"] = $record_id;
 			$tab_o["data_endpoint"] = $data_endpoint;
-			$tab_o["type"] = "dedicated_items"; // changes
+			$tab_o["type"] = "sub_items"; // changes
 			$tab_o["rel_name"] = $table." as ".$foreign_k; // changes
 			$tab_o["rel_name_id"] = preg_replace('/\W+/','',strtolower(strip_tags($tab_o["rel_name"])));
 			$tab_o["table"] = $table; // dynamic
@@ -201,20 +201,6 @@ class Record_c extends CI_Controller
 
 		return $result;
 
-	}
-
-
-
-	public function mergetest()
-	{
-		if (!$this->ion_auth->logged_in())
-		{
-			// redirect them to the login page
-			redirect('auth/login', 'refresh');
-		}
-		$result = $this->table_page_lib->mergetest();
-		header('Content-Type: application/json');
-		echo json_encode($result, JSON_PRETTY_PRINT);
 	}
 
 
