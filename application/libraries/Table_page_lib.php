@@ -63,29 +63,106 @@ class Table_page_lib
   }
 
   public function fetch($table)
+	{
+		$table = urldecode($table);
+		// $haystack = urldecode($haystack);
+
+		$this->CI->load->database();
+
+		// $posts = $this->CI->db->where($haystack, $needle)->get($table)->result_array();
+
+		$erd_path = APPPATH.'erd/erd/erd.json';
+		$erd = file_get_contents($erd_path);
+		$erd = json_decode($erd, true);
+
+		$cols_visible = $this->cols_visible($table, $erd, null);
+
+		// header('Content-Type: application/json');
+		// echo json_encode($cols_visible, JSON_PRETTY_PRINT);
+		// exit;
+
+
+		if (1==1) {
+
+
+			$this->CI->db->_protect_identifiers=false;
+			$query = $this->CI->db;
+
+			$parent_link_part_1 = '<a href="/record/t/'.$table.'/r/';
+			$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
+			$query = $query->select("CONCAT('$parent_link_part_1', "."`".$table."`".".id, '$parent_link_part_2') as `id`");
+
+			foreach ($cols_visible["cols_o"] as $key => $value) {
+				if ($key !== "id") {
+					// code...
+				}
+				$query = $query->select("`".$table."`".'.'."`".$key."`");
+			}
+			foreach ($cols_visible["cols_d"] as $key => $value) {
+				if ($key !== $table) {
+					foreach ($value["cols"] as $key_2 => $value_2) {
+						if ($key_2 == "id") {
+							$parent_link_part_1 = '<a href="/record/t/'.$key.'/r/';
+							$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
+							$query = $query->select("CONCAT('$parent_link_part_1', "."`".$key."`".".id, '$parent_link_part_2') as `$key - $key_2`");
+						} else {
+							$query = $query->select("`".$key."`"."."."`".$key_2."`"." as `$key - $key_2`");
+						}
+
+
+					}
+				}
+			}
+			$query = $query->from("`".$table."`");
+
+			foreach ($cols_visible["cols_d"] as $key => $value) {
+				// echo "xyz";
+				if ($key !== $table) {
+					$query = $query->join("`".$key."`", "`".$table."`".'.'."`".$value["linking_key"]."`".' = '."`".$key."`".'.id', 'left');
+				}
+			}
+			// $query = $query->where("`".$table."`"."."."`".$haystack."` =", $needle);
+
+			$posts = $query->get()->result_array();
+
+		}
+
+		$this->CI->db->_protect_identifiers=true;
+
+
+
+		$data = array('responce' => 'success', 'posts' => $posts);
+		return $data;
+
+	}
+
+  public function fetch_without_inheritance($table)
   {
+
 		$table = urldecode($table);
 		$this->CI->load->database();
 
 
-    // if ($this->CI->input->is_ajax_request()) {
-    // // if ($posts = $this->CI->db->get($table)->result()) {
-    // // 	$data = array('responce' => 'success', 'posts' => $posts);
-    // // }else{
-    // // 	$data = array('responce' => 'error', 'message' => 'Failed to fetch data');
-    // // }
+	  // if ($this->CI->input->is_ajax_request()) {
+	  // // if ($posts = $this->CI->db->get($table)->result()) {
+	  // // 	$data = array('responce' => 'success', 'posts' => $posts);
+	  // // }else{
+	  // // 	$data = array('responce' => 'error', 'message' => 'Failed to fetch data');
+	  // // }
 		// echo $table;
 
 
 		$this->CI->db->_protect_identifiers=false;
-    $posts = $this->CI->db->get("`".$table."`")->result();
-    $data = array('responce' => 'success', 'posts' => $posts);
-    return $data;
-
+	  $posts = $this->CI->db->get("`".$table."`")->result();
+	  $data = array('responce' => 'success', 'posts' => $posts);
 		$this->CI->db->_protect_identifiers=true;
-    // } else {
-    // 	return "No direct script access allowed";
-    // }
+	  return $data;
+
+	  // } else {
+	  // 	return "No direct script access allowed";
+	  // }
+
+
 
   }
 
@@ -463,6 +540,132 @@ class Table_page_lib
 		// $string = preg_replace("/[\s_]/", "-", $string);
 		$string = preg_replace("/[\s_]/", "_", $string);
 		return $string;
+	}
+
+
+	public function table_o_and_d($rec_part, $erd, $table, $foreign_k, $record_id, $ignore_col_set, $dont_scan)
+	{
+		// if (!$this->ion_auth->logged_in())
+		// {
+		// 	// redirect them to the login page
+		// 	redirect('auth/login', 'refresh');
+		// }
+		if ($rec_part=="overview") {
+
+			$haystack = "id";
+			$needle = $record_id;
+
+			$tab_o["data_endpoint"] = "fetch_for_record/h/$haystack/n/$needle/child_of/null";
+			$tab_o["type"] = "overview";
+			$tab_o["rel_name"] = "overview";
+			$tab_o["rel_name_id"] = $tab_o["rel_name"];
+			$tab_o["table"] = $table;
+
+		}
+		elseif ($rec_part=="details") {
+
+			$haystack = $foreign_k; //changes
+			$needle = $record_id;
+
+			$data_endpoint = "fetch_for_record/h/$haystack/n/$needle/child_of/$ignore_col_set";
+
+
+			$tab_o["record_id"] = $record_id;
+			$tab_o["data_endpoint"] = $data_endpoint;
+			$tab_o["type"] = "sub_items"; // changes
+			$tab_o["rel_name"] = $table." (as ".$foreign_k.")"; // changes
+			$tab_o["rel_name_id"] = preg_replace('/\W+/','',strtolower(strip_tags($tab_o["rel_name"])));
+			$tab_o["table"] = $table; // dynamic
+			// $tab_o["foreign_key"] = $foreign_k;
+
+			// var_dump($parent_tab_o);
+		}
+		elseif ($rec_part=="table") {
+
+			$data_endpoint = "fetch";
+
+
+			// $tab_o["record_id"] = $record_id;
+			$tab_o["data_endpoint"] = $data_endpoint;
+			$tab_o["type"] = "table"; // changes
+			$tab_o["rel_name"] = $table; // changes
+			$tab_o["rel_name_id"] = preg_replace('/\W+/','',strtolower(strip_tags($tab_o["rel_name"])));
+			$tab_o["table"] = $table; // dynamic
+			// $tab_o["foreign_key"] = $foreign_k;
+
+			// var_dump($parent_tab_o);
+		}
+
+
+
+
+
+		$editable = $erd[$table]["fields"];
+		foreach ($editable as $key => $value) {
+			$tab_d["cols"]["editable"][$key]["col_deets"] = $value;
+			if ($key == $foreign_k) {
+				$tab_d["cols"]["editable"][$key]["assumable"] = $record_id;
+			}
+		}
+
+
+		if ($rec_part=="overview") {
+			$cols_visible = $this->cols_visible($tab_o["table"], $erd, "");
+		}
+		elseif ($rec_part=="details") {
+			$cols_visible = $this->cols_visible($tab_o["table"], $erd, $ignore_col_set);
+		}
+		elseif ($rec_part=="table") {
+			$cols_visible = $this->cols_visible($tab_o["table"], $erd, $ignore_col_set);
+		}
+
+		// header('Content-Type: application/json');
+		// echo json_encode($cols_visible, JSON_PRETTY_PRINT);
+		// exit;
+
+
+		$tab_d["cols"]["visible"] = array();
+
+		$tab_d["cols"]["visible"] = $cols_visible["cols_o"];
+
+		$cols_wth_props = array();
+		foreach ($cols_visible["cols_d"] as $key => $value) {
+			foreach ($value["cols"] as $key_2 => $value_2) {
+				$cols_wth_props["$key - $key_2"] = $value_2;
+			}
+			$tab_d["cols"]["visible"] = array_merge(
+				$tab_d["cols"]["visible"],
+				$cols_wth_props
+			);
+
+			// $ignore_col_set
+			if (isset($tab_d["cols"]["editable"][$value["linking_key"]])) {
+				// code...
+				$tab_d["cols"]["editable"][$value["linking_key"]]["rels"] = array(
+					"table"=>$key,
+					"rows"=>$value["cols"]
+				) ;
+			}
+			// // $editable = $erd[$table]["fields"];
+			// foreach ($editable as $key => $value) {
+			// 	$tab_d["cols"]["editable"][$key]["col_deets"] = $value;
+			// }
+		}
+
+
+
+
+
+
+
+
+		$result["tab_o"] = $tab_o;
+		$result["tab_d"] = $tab_d;
+
+
+
+		return $result;
+
 	}
 
 }

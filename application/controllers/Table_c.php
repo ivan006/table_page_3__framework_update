@@ -36,14 +36,18 @@ class Table_c extends CI_Controller
 		$erd= file_get_contents($erd_path);
 		$erd= json_decode($erd, true);
 
-		$data["tab_d"]["cols"]["editable"] = $erd[$table]["fields"];
-		$data["tab_d"]["cols"]["visible"] = $erd[$table]["fields"];
+		// $data["tab_d"]["cols"]["editable"] = $erd[$table]["fields"];
+		// $data["tab_d"]["cols"]["visible"] = $erd[$table]["fields"];
+		//
+		//
+		// $data["tab_o"]["table"] = $table;
+		// $data["tab_o"]["rel_name"] = $table;
+		// $data["tab_o"]["rel_name_id"] = $data["tab_o"]["rel_name"];
+		// $data["tab_o"]["data_endpoint"] = "fetch";
+		//
+		// $data = $this->table_page_lib->table_o_and_d("overview", $erd, $table, null, $record["id"], "", $dont_scan);
+		$data = $this->table_page_lib->table_o_and_d("table", $erd, $table, null, null, "", null);
 
-
-		$data["tab_o"]["table"] = $table;
-		$data["tab_o"]["rel_name"] = $table;
-		$data["tab_o"]["rel_name_id"] = $data["tab_o"]["rel_name"];
-		$data["tab_o"]["data_endpoint"] = "fetch";
 		$data['title'] = $table;
 		$this->load->view('table_header_v', array("data"=>$data));
 		$this->load->view('table_block_v', array("data"=>$data));
@@ -59,6 +63,18 @@ class Table_c extends CI_Controller
 			redirect('auth/login', 'refresh');
 		}
 		$result = $this->table_page_lib->insert($table);
+		header('Content-Type: application/json');
+		echo json_encode($result, JSON_PRETTY_PRINT);
+	}
+
+	public function fetch_without_inheritance($table)
+	{
+		if (!$this->ion_auth->logged_in())
+		{
+			// redirect them to the login page
+			redirect('auth/login', 'refresh');
+		}
+		$result = $this->table_page_lib->fetch_without_inheritance($table);
 		header('Content-Type: application/json');
 		echo json_encode($result, JSON_PRETTY_PRINT);
 	}

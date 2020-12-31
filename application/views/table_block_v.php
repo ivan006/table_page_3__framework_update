@@ -55,16 +55,21 @@ if (isset($data["tab_o"]["type"])) {
           <h3 class="text-center">
             <?php echo $data["tab_o"]["rel_name"] ?>
           </h3>
+          <hr style="background-color: black; color: black; height: 1px;">
           <?php
-        } else {
+        }
+        elseif ($data["tab_o"]["type"] == "overview") {
           ?>
           <h2 class="text-center">
             <?php echo $data["tab_o"]["rel_name"] ?>
           </h2>
+          <hr style="background-color: black; color: black; height: 1px;">
           <?php
         }
+        // elseif ($data["tab_o"]["type"] == "table") {
+        //
+        // }
         ?>
-        <hr style="background-color: black; color: black; height: 1px;">
       </div>
     </div>
   <?php
@@ -132,7 +137,7 @@ if (isset($data["tab_o"]["type"])) {
 
                       function <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup"; ?>_fetch(){
                         $.ajax({
-                          url: "<?php echo base_url(); ?>api/table/t/<?php echo $value["rels"]["table"]; ?>/fetch",
+                          url: "<?php echo base_url(); ?>api/table/t/<?php echo $value["rels"]["table"]; ?>/fetch_without_inheritance",
                           type: "post",
                           dataType: "json",
                           success: function(data){
@@ -325,7 +330,7 @@ if (isset($data["tab_o"]["type"])) {
 
                   function <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup"; ?>_fetch(){
                     $.ajax({
-                      url: "<?php echo base_url(); ?>api/table/t/<?php echo $value["rels"]["table"]; ?>/fetch",
+                      url: "<?php echo base_url(); ?>api/table/t/<?php echo $value["rels"]["table"]; ?>/fetch_without_inheritance",
                       type: "post",
                       dataType: "json",
                       success: function(data){
