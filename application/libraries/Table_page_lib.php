@@ -18,50 +18,6 @@ class Table_page_lib
 
 	}
 
-  public function insert($table)
-  {
-
-		$table = urldecode($table);
-
-		$this->CI->load->database();
-
-    // if ($this->CI->input->is_ajax_request()) {
-
-
-      // $this->form_validation->set_rules('name', 'Name', 'required');
-      // $this->form_validation->set_rules('event_children', 'Event_children');
-
-      // if ($this->form_validation->run() == FALSE) {
-      //   $data = array('responce' => 'error', 'message' => validation_errors());
-      // } else {
-
-        $post = $this->CI->input->post();
-
-				unset($post[0]);
-				$ajax_data = array();
-				foreach ($post as $key => $value) {
-					$ajax_data["`".urldecode($key)."`"] = "\"".$value."\"";
-				}
-
-				// $thing = json_encode($ajax_data, JSON_PRETTY_PRINT);
-				// echo $thing;
-				// exit;
-
-				$this->CI->db->_protect_identifiers=false;
-        if ($this->CI->db->insert("`".$table."`", $ajax_data)) {
-          $data = array('responce' => 'success', 'message' => 'Record added Successfully');
-        } else {
-          $data = array('responce' => 'error', 'message' => 'Failed to add record');
-        }
-				$this->CI->db->_protect_identifiers=true;
-      // }
-
-			return $data;
-    // } else {
-    // 	return "No direct script access allowed";
-    // }
-  }
-
   public function fetch($table)
 	{
 		$table = urldecode($table);
@@ -166,25 +122,6 @@ class Table_page_lib
 
   }
 
-  public function delete($table)
-  {
-
-		$this->CI->load->database();
-
-    // if ($this->CI->input->is_ajax_request()) {
-    $del_id = $this->CI->input->post('del_id');
-
-    if ($this->CI->db->delete($table, array('id' => $del_id))) {
-      $data = array('responce' => 'success');
-    } else {
-      $data = array('responce' => 'error');
-    }
-    return $data;
-    // } else {
-    // 	return "No direct script access allowed";
-    // }
-  }
-
   public function edit($table)
   {
 
@@ -208,60 +145,6 @@ class Table_page_lib
       $data = array('responce' => 'error', 'message' => 'failed to fetch record');
     }
     return $data;
-    // } else {
-    // 	return "No direct script access allowed";
-    // }
-  }
-
-  public function update($table)
-  {
-
-		$table = urldecode($table);
-		$this->CI->load->database();
-
-    // if ($this->CI->input->is_ajax_request()) {
-	  //   $this->form_validation->set_rules('edit_name', 'Name', 'required');
-	  //   $this->form_validation->set_rules('edit_event_children', 'Event_children');
-	  //   if ($this->form_validation->run() == FALSE) {
-	  //     $data = array('responce' => 'error', 'message' => validation_errors());
-	  //   } else {
-
-	      $data['id'] = $this->CI->input->post('edit_record_id');
-
-				// zzzzz
-				// $post = $this->CI->input->post();
-				//
-				// unset($ajax_data[0]);
-				// $ajax_data = array();
-				// foreach ($ajax_data as $key => $value) {
-				// 	$ajax_data["`".urldecode($key)."`"] = "\"".$value."\"";
-				// }
-				// zzzz
-
-	      // $data['name'] = $this->CI->input->post('edit_name');
-	      // $data['event_children'] = $this->CI->input->post('edit_event_children');
-				$rows = $this->table_rows($table);
-				foreach ($rows as $key => $value) {
-					if ($key !== "id") {
-						$data["`".urldecode($key)."`"] = "\"".$this->CI->input->post('edit_'.$this->makeSafeForCSS($key))."\"";
-					}
-				}
-
-
-				$this->CI->db->_protect_identifiers=false;
-	      if ($this->CI->db->update($table, $data, array('id' => $data['id']))) {
-	        $data = array('responce' => 'success', 'message' => 'Record update Successfully');
-	        // $data = $this->CI->db->last_query();
-	      } else {
-	        $data = array('responce' => 'error', 'message' => 'Failed to update record');
-	      }
-
-				$this->CI->db->_protect_identifiers=true;
-			  return $data;
-
-
-	  //   }
-	  //   return $data;
     // } else {
     // 	return "No direct script access allowed";
     // }
@@ -667,5 +550,122 @@ class Table_page_lib
 		return $result;
 
 	}
+	
+	public function insert($table)
+	{
+
+		$table = urldecode($table);
+
+		$this->CI->load->database();
+
+		// if ($this->CI->input->is_ajax_request()) {
+
+
+			// $this->form_validation->set_rules('name', 'Name', 'required');
+			// $this->form_validation->set_rules('event_children', 'Event_children');
+
+			// if ($this->form_validation->run() == FALSE) {
+			//   $data = array('responce' => 'error', 'message' => validation_errors());
+			// } else {
+
+				$post = $this->CI->input->post();
+
+				unset($post[0]);
+				$ajax_data = array();
+				foreach ($post as $key => $value) {
+					$ajax_data["`".urldecode($key)."`"] = "\"".$value."\"";
+				}
+
+				// $thing = json_encode($ajax_data, JSON_PRETTY_PRINT);
+				// echo $thing;
+				// exit;
+
+				$this->CI->db->_protect_identifiers=false;
+				if ($this->CI->db->insert("`".$table."`", $ajax_data)) {
+					$data = array('responce' => 'success', 'message' => 'Record added Successfully');
+				} else {
+					$data = array('responce' => 'error', 'message' => 'Failed to add record');
+				}
+				$this->CI->db->_protect_identifiers=true;
+			// }
+
+			return $data;
+		// } else {
+		// 	return "No direct script access allowed";
+		// }
+	}
+
+	public function delete($table)
+	{
+
+		$this->CI->load->database();
+
+		// if ($this->CI->input->is_ajax_request()) {
+		$del_id = $this->CI->input->post('del_id');
+
+		if ($this->CI->db->delete($table, array('id' => $del_id))) {
+			$data = array('responce' => 'success');
+		} else {
+			$data = array('responce' => 'error');
+		}
+		return $data;
+		// } else {
+		// 	return "No direct script access allowed";
+		// }
+	}
+
+  public function update($table)
+  {
+
+		$table = urldecode($table);
+		$this->CI->load->database();
+
+    // if ($this->CI->input->is_ajax_request()) {
+	  //   $this->form_validation->set_rules('edit_name', 'Name', 'required');
+	  //   $this->form_validation->set_rules('edit_event_children', 'Event_children');
+	  //   if ($this->form_validation->run() == FALSE) {
+	  //     $data = array('responce' => 'error', 'message' => validation_errors());
+	  //   } else {
+
+	      $data['id'] = $this->CI->input->post('edit_record_id');
+
+				// zzzzz
+				// $post = $this->CI->input->post();
+				//
+				// unset($ajax_data[0]);
+				// $ajax_data = array();
+				// foreach ($ajax_data as $key => $value) {
+				// 	$ajax_data["`".urldecode($key)."`"] = "\"".$value."\"";
+				// }
+				// zzzz
+
+	      // $data['name'] = $this->CI->input->post('edit_name');
+	      // $data['event_children'] = $this->CI->input->post('edit_event_children');
+				$rows = $this->table_rows($table);
+				foreach ($rows as $key => $value) {
+					if ($key !== "id") {
+						$data["`".urldecode($key)."`"] = "\"".$this->CI->input->post('edit_'.$this->makeSafeForCSS($key))."\"";
+					}
+				}
+
+
+				$this->CI->db->_protect_identifiers=false;
+	      if ($this->CI->db->update($table, $data, array('id' => $data['id']))) {
+	        $data = array('responce' => 'success', 'message' => 'Record update Successfully');
+	        // $data = $this->CI->db->last_query();
+	      } else {
+	        $data = array('responce' => 'error', 'message' => 'Failed to update record');
+	      }
+
+				$this->CI->db->_protect_identifiers=true;
+			  return $data;
+
+
+	  //   }
+	  //   return $data;
+    // } else {
+    // 	return "No direct script access allowed";
+    // }
+  }
 
 }
