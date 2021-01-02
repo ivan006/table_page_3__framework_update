@@ -14,7 +14,8 @@ class Table_page_lib
 		$this->CI =& get_instance();
 		//
 		$this->CI->load->helper(array('form', 'url'));
-		$this->CI->load->library('form_validation','erd_lib','input');
+		$this->CI->load->library('form_validation','erd_lib','input', 'ion_auth', 'session');
+
 
 	}
 
@@ -264,27 +265,13 @@ class Table_page_lib
 
 	}
 
-	public function mergetest()
+	public function fetch_where($table, $haystack, $needle)
 	{
-
-
 
 		$this->CI->load->database();
 
 
-
-		// $posts = $this->CI->db
-		// ->select("`event_resource_links`.*")
-		// ->select("DAY() AS wp_name")
-		// ->from("event_resource_links")
-		// ->join("resources", "event_resource_links.bedding_specialty_resource_id = resources.id", "right")
-		// ->get()
-		// ->result_array();
-
-
-		$sql="Select 'aaa' as asd";
-		// $sql="SELECT '' as table1_dummy, table1.*, '' as table2_dummy, table2.*, '' as table3_dummy, table3.* FROM table1 JOIN table2 ON table2.table1id = table1.id JOIN table3 ON table3.table1id = table1.id";
-		$posts = $this->CI->db->query($sql)->result_array();
+		$posts = $this->CI->db->select('*')->where($haystack, $needle)->from($table)->get()->result_array();
 
 		$data = array('responce' => 'success', 'posts' => $posts);
 		return $data;
@@ -412,7 +399,8 @@ class Table_page_lib
 
 	}
 
-	public function makeSafeForCSS($string) {
+	public function makeSafeForCSS($string)
+	{
 		//Lower case everything
 		$string = strtolower($string);
 		//Make alphanumeric (removes all other characters)
@@ -424,7 +412,6 @@ class Table_page_lib
 		$string = preg_replace("/[\s_]/", "_", $string);
 		return $string;
 	}
-
 
 	public function table_o_and_d($rec_part, $erd, $table, $foreign_k, $record_id, $ignore_col_set, $dont_scan)
 	{
@@ -629,18 +616,6 @@ class Table_page_lib
 
 		$data['id'] = $this->CI->input->post('edit_record_id');
 
-		// zzzzz
-		// $post = $this->CI->input->post();
-		//
-		// unset($ajax_data[0]);
-		// $ajax_data = array();
-		// foreach ($ajax_data as $key => $value) {
-		// 	$ajax_data["`".urldecode($key)."`"] = "\"".$value."\"";
-		// }
-		// zzzz
-
-		// $data['name'] = $this->CI->input->post('edit_name');
-		// $data['event_children'] = $this->CI->input->post('edit_event_children');
 		$rows = $this->table_rows($table);
 		foreach ($rows as $key => $value) {
 			if ($key !== "id") {
@@ -650,14 +625,28 @@ class Table_page_lib
 
 
 		$this->CI->db->_protect_identifiers=false;
-		if ($this->CI->db->update($table, $data, array('id' => $data['id']))) {
+
+		$query_result = $this->CI->db->update($table, $data, array('id' => $data['id']));
+
+		$this->CI->db->_protect_identifiers=true;
+
+		if ($query_result) {
+			if (1==1) {
+
+				$table_and_id = array(
+					"table" => $table,
+					"id" => $data['id']
+				);
+				$this->log_activity($table_and_id);
+			}
 			$data = array('responce' => 'success', 'message' => 'Record update Successfully');
 			// $data = $this->CI->db->last_query();
+
+
+
 		} else {
 			$data = array('responce' => 'error', 'message' => 'Failed to update record');
 		}
-
-		$this->CI->db->_protect_identifiers=true;
 		return $data;
 
 
@@ -667,5 +656,48 @@ class Table_page_lib
 		// 	return "No direct script access allowed";
 		// }
 	}
+
+	public function log_activity($table_and_id)
+	{
+
+		// $query_result = $this->CI->db->last_row();// To get last record form the table
+		// $row = $query_result->result()->id; // To print id of last record
+
+		// if( $this->db->affected_rows() === FALSE ){die($this->db->last_query());}
+		// $row = $this->CI->db->last_query()->id;
+		// $row = $this->CI->db->affected_rows();
+		// $row = $this->db->insert_id;
+
+
+		$table = "users_groups";
+		$haystack = "user_id";
+		$needle = $this->CI->ion_auth->get_user_id();
+		$user_group_links = $this->fetch_where($table, $haystack, $needle)["posts"];
+		$user_group = $user_group_links[0]["group_id"];
+
+		$activity_log = array(
+			"record_table_and_id" => $table_and_id["table"]."/".$table_and_id["id"],
+			// "record_table" => $table_and_id["table"],
+			// "record_id" => $table_and_id["id"],
+			// "actvity_type" => "",
+			"timestamp" => date("Y-m-d H:i:s"),
+			"user_group" => $user_group
+		);
+
+		// header('Content-Type: application/json');
+		// echo json_encode($activity_log, JSON_PRETTY_PRINT);
+		// exit;
+
+
+		$query_result = $this->CI->db->replace('activity_log', $activity_log);
+
+		// if ($query_result) {
+		// 	$data = array('responce' => 'success', 'message' => 'Record update Successfully');
+		// } else {
+		// 	$data = array('responce' => 'error', 'message' => 'Failed to update record');
+		// }
+		// return $data;
+	}
+
 
 }
