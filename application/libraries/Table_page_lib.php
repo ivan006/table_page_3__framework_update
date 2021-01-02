@@ -18,7 +18,7 @@ class Table_page_lib
 
 	}
 
-  public function fetch($table)
+	public function fetch($table)
 	{
 		$table = urldecode($table);
 		// $haystack = urldecode($haystack);
@@ -92,87 +92,87 @@ class Table_page_lib
 
 	}
 
-  public function fetch_without_inheritance($table)
-  {
+	public function fetch_without_inheritance($table)
+	{
 
 		$table = urldecode($table);
 		$this->CI->load->database();
 
 
-	  // if ($this->CI->input->is_ajax_request()) {
-	  // // if ($posts = $this->CI->db->get($table)->result()) {
-	  // // 	$data = array('responce' => 'success', 'posts' => $posts);
-	  // // }else{
-	  // // 	$data = array('responce' => 'error', 'message' => 'Failed to fetch data');
-	  // // }
+		// if ($this->CI->input->is_ajax_request()) {
+		// // if ($posts = $this->CI->db->get($table)->result()) {
+		// // 	$data = array('responce' => 'success', 'posts' => $posts);
+		// // }else{
+		// // 	$data = array('responce' => 'error', 'message' => 'Failed to fetch data');
+		// // }
 		// echo $table;
 
 
 		$this->CI->db->_protect_identifiers=false;
-	  $posts = $this->CI->db->get("`".$table."`")->result();
-	  $data = array('responce' => 'success', 'posts' => $posts);
+		$posts = $this->CI->db->get("`".$table."`")->result();
+		$data = array('responce' => 'success', 'posts' => $posts);
 		$this->CI->db->_protect_identifiers=true;
-	  return $data;
+		return $data;
 
-	  // } else {
-	  // 	return "No direct script access allowed";
-	  // }
-
-
-
-  }
-
-  public function edit($table)
-  {
-
-		$this->CI->load->database();
+		// } else {
+		// 	return "No direct script access allowed";
+		// }
 
 
-    // if ($this->CI->input->is_ajax_request()) {
-    $edit_id = $this->CI->input->post('edit_id');
 
-    $this->CI->db->select("*");
-    $this->CI->db->from($table);
-    $this->CI->db->where("id", $edit_id);
-    $query = $this->CI->db->get();
-    $post = null;
-    if (count($query->result()) > 0) {
-      $post = $query->row();
-    }
-    if ($post) {
-      $data = array('responce' => 'success', 'post' => $post);
-    } else {
-      $data = array('responce' => 'error', 'message' => 'failed to fetch record');
-    }
-    return $data;
-    // } else {
-    // 	return "No direct script access allowed";
-    // }
-  }
+	}
 
-  public function table_rows($table)
-  {
+	public function edit($table)
+	{
 
 		$this->CI->load->database();
 
 
-    $row_query = array(
-      "SHOW COLUMNS FROM $table",
-    );
-    $row_query = implode(" ", $row_query);
-    $rows = $this->CI->db->query($row_query)->result_array();
-    $rows = array_column($rows, 'Field');
+		// if ($this->CI->input->is_ajax_request()) {
+		$edit_id = $this->CI->input->post('edit_id');
+
+		$this->CI->db->select("*");
+		$this->CI->db->from($table);
+		$this->CI->db->where("id", $edit_id);
+		$query = $this->CI->db->get();
+		$post = null;
+		if (count($query->result()) > 0) {
+			$post = $query->row();
+		}
+		if ($post) {
+			$data = array('responce' => 'success', 'post' => $post);
+		} else {
+			$data = array('responce' => 'error', 'message' => 'failed to fetch record');
+		}
+		return $data;
+		// } else {
+		// 	return "No direct script access allowed";
+		// }
+	}
+
+	public function table_rows($table)
+	{
+
+		$this->CI->load->database();
+
+
+		$row_query = array(
+		"SHOW COLUMNS FROM $table",
+		);
+		$row_query = implode(" ", $row_query);
+		$rows = $this->CI->db->query($row_query)->result_array();
+		$rows = array_column($rows, 'Field');
 
 		$result = array();
 		foreach ($rows as $key => $value) {
 			$result[$value] = array();
 		}
 
-    return $result;
-  }
+		return $result;
+	}
 
-  public function fetch_for_record($table, $haystack, $needle, $child_of)
-  {
+	public function fetch_for_record($table, $haystack, $needle, $child_of)
+	{
 		$table = urldecode($table);
 		$haystack = urldecode($haystack);
 
@@ -240,12 +240,12 @@ class Table_page_lib
 
 
 
-    $data = array('responce' => 'success', 'posts' => $posts);
-    return $data;
-  }
+		$data = array('responce' => 'success', 'posts' => $posts);
+		return $data;
+	}
 
-  public function fetch_join_where($table_1, $table_2, $haystack,$needle)
-  {
+	public function fetch_join_where($table_1, $table_2, $haystack,$needle)
+	{
 
 		$this->CI->load->database();
 
@@ -260,12 +260,12 @@ class Table_page_lib
 		$posts = $this->CI->db->select('*')->where($haystack, $needle)->from($table_2)->join($table_1, "$table_1.$table_2_singular = $table_2.id", "right")->get()->result_array();
 
 		$data = array('responce' => 'success', 'posts' => $posts);
-    return $data;
+		return $data;
 
-  }
+	}
 
-  public function mergetest()
-  {
+	public function mergetest()
+	{
 
 
 
@@ -275,7 +275,7 @@ class Table_page_lib
 
 		// $posts = $this->CI->db
 		// ->select("`event_resource_links`.*")
-    // ->select("DAY() AS wp_name")
+		// ->select("DAY() AS wp_name")
 		// ->from("event_resource_links")
 		// ->join("resources", "event_resource_links.bedding_specialty_resource_id = resources.id", "right")
 		// ->get()
@@ -287,12 +287,12 @@ class Table_page_lib
 		$posts = $this->CI->db->query($sql)->result_array();
 
 		$data = array('responce' => 'success', 'posts' => $posts);
-    return $data;
+		return $data;
 
-  }
+	}
 
-  public function database_api()
-  {
+	public function database_api()
+	{
 		$erd_path = APPPATH.'erd/erd/erd.json';
 		$rows = file_get_contents($erd_path);
 		$rows = json_decode($rows, true);
@@ -300,12 +300,12 @@ class Table_page_lib
 
 		// $this->CI->load->database();
 		//
-    // $row_query = array(
-    //   "SHOW TABLES",
-    // );
-    // $row_query = implode(" ", $row_query);
-    // $rows = $this->CI->db->query($row_query)->result_array();
-    // $rows = array_column($rows, 'Tables_in_'.$this->CI->db->database);
+		// $row_query = array(
+		//   "SHOW TABLES",
+		// );
+		// $row_query = implode(" ", $row_query);
+		// $rows = $this->CI->db->query($row_query)->result_array();
+		// $rows = array_column($rows, 'Tables_in_'.$this->CI->db->database);
 		// foreach ($rows as $key => $value) {
 		// 	$rows_formatted[]["name"] = $value;
 		// }
@@ -316,10 +316,10 @@ class Table_page_lib
 
 		$data = array('responce' => 'success', 'posts' => $rows_formatted);
 		return $data;
-  }
+	}
 
-  public function cols_visible($table, $erd, $ignore_col_set)
-  {
+	public function cols_visible($table, $erd, $ignore_col_set)
+	{
 		// $erd_path = APPPATH.'erd/erd/erd.json';
 		// $erd = file_get_contents($erd_path);
 		// $erd = json_decode($erd, true);
@@ -401,8 +401,8 @@ class Table_page_lib
 		// 	$parents
 		// );
 		$cols_visible = array(
-			"cols_o" => $self,
-			"cols_d" => $parents
+		"cols_o" => $self,
+		"cols_d" => $parents
 		);
 
 		// $parents = array_unique($parents);
@@ -410,7 +410,7 @@ class Table_page_lib
 
 
 
-  }
+	}
 
 	public function makeSafeForCSS($string) {
 		//Lower case everything
@@ -517,16 +517,16 @@ class Table_page_lib
 				$cols_wth_props["$key - $key_2"] = $value_2;
 			}
 			$tab_d["cols"]["visible"] = array_merge(
-				$tab_d["cols"]["visible"],
-				$cols_wth_props
+			$tab_d["cols"]["visible"],
+			$cols_wth_props
 			);
 
 			// $ignore_col_set
 			if (isset($tab_d["cols"]["editable"][$value["linking_key"]])) {
 				// code...
 				$tab_d["cols"]["editable"][$value["linking_key"]]["rels"] = array(
-					"table"=>$key,
-					"rows"=>$value["cols"]
+				"table"=>$key,
+				"rows"=>$value["cols"]
 				) ;
 			}
 			// // $editable = $erd[$table]["fields"];
@@ -550,7 +550,7 @@ class Table_page_lib
 		return $result;
 
 	}
-	
+
 	public function insert($table)
 	{
 
@@ -561,35 +561,35 @@ class Table_page_lib
 		// if ($this->CI->input->is_ajax_request()) {
 
 
-			// $this->form_validation->set_rules('name', 'Name', 'required');
-			// $this->form_validation->set_rules('event_children', 'Event_children');
+		// $this->form_validation->set_rules('name', 'Name', 'required');
+		// $this->form_validation->set_rules('event_children', 'Event_children');
 
-			// if ($this->form_validation->run() == FALSE) {
-			//   $data = array('responce' => 'error', 'message' => validation_errors());
-			// } else {
+		// if ($this->form_validation->run() == FALSE) {
+		//   $data = array('responce' => 'error', 'message' => validation_errors());
+		// } else {
 
-				$post = $this->CI->input->post();
+		$post = $this->CI->input->post();
 
-				unset($post[0]);
-				$ajax_data = array();
-				foreach ($post as $key => $value) {
-					$ajax_data["`".urldecode($key)."`"] = "\"".$value."\"";
-				}
+		unset($post[0]);
+		$ajax_data = array();
+		foreach ($post as $key => $value) {
+			$ajax_data["`".urldecode($key)."`"] = "\"".$value."\"";
+		}
 
-				// $thing = json_encode($ajax_data, JSON_PRETTY_PRINT);
-				// echo $thing;
-				// exit;
+		// $thing = json_encode($ajax_data, JSON_PRETTY_PRINT);
+		// echo $thing;
+		// exit;
 
-				$this->CI->db->_protect_identifiers=false;
-				if ($this->CI->db->insert("`".$table."`", $ajax_data)) {
-					$data = array('responce' => 'success', 'message' => 'Record added Successfully');
-				} else {
-					$data = array('responce' => 'error', 'message' => 'Failed to add record');
-				}
-				$this->CI->db->_protect_identifiers=true;
-			// }
+		$this->CI->db->_protect_identifiers=false;
+		if ($this->CI->db->insert("`".$table."`", $ajax_data)) {
+			$data = array('responce' => 'success', 'message' => 'Record added Successfully');
+		} else {
+			$data = array('responce' => 'error', 'message' => 'Failed to add record');
+		}
+		$this->CI->db->_protect_identifiers=true;
+		// }
 
-			return $data;
+		return $data;
 		// } else {
 		// 	return "No direct script access allowed";
 		// }
@@ -614,58 +614,58 @@ class Table_page_lib
 		// }
 	}
 
-  public function update($table)
-  {
+	public function update($table)
+	{
 
 		$table = urldecode($table);
 		$this->CI->load->database();
 
-    // if ($this->CI->input->is_ajax_request()) {
-	  //   $this->form_validation->set_rules('edit_name', 'Name', 'required');
-	  //   $this->form_validation->set_rules('edit_event_children', 'Event_children');
-	  //   if ($this->form_validation->run() == FALSE) {
-	  //     $data = array('responce' => 'error', 'message' => validation_errors());
-	  //   } else {
+		// if ($this->CI->input->is_ajax_request()) {
+		//   $this->form_validation->set_rules('edit_name', 'Name', 'required');
+		//   $this->form_validation->set_rules('edit_event_children', 'Event_children');
+		//   if ($this->form_validation->run() == FALSE) {
+		//     $data = array('responce' => 'error', 'message' => validation_errors());
+		//   } else {
 
-	      $data['id'] = $this->CI->input->post('edit_record_id');
+		$data['id'] = $this->CI->input->post('edit_record_id');
 
-				// zzzzz
-				// $post = $this->CI->input->post();
-				//
-				// unset($ajax_data[0]);
-				// $ajax_data = array();
-				// foreach ($ajax_data as $key => $value) {
-				// 	$ajax_data["`".urldecode($key)."`"] = "\"".$value."\"";
-				// }
-				// zzzz
+		// zzzzz
+		// $post = $this->CI->input->post();
+		//
+		// unset($ajax_data[0]);
+		// $ajax_data = array();
+		// foreach ($ajax_data as $key => $value) {
+		// 	$ajax_data["`".urldecode($key)."`"] = "\"".$value."\"";
+		// }
+		// zzzz
 
-	      // $data['name'] = $this->CI->input->post('edit_name');
-	      // $data['event_children'] = $this->CI->input->post('edit_event_children');
-				$rows = $this->table_rows($table);
-				foreach ($rows as $key => $value) {
-					if ($key !== "id") {
-						$data["`".urldecode($key)."`"] = "\"".$this->CI->input->post('edit_'.$this->makeSafeForCSS($key))."\"";
-					}
-				}
-
-
-				$this->CI->db->_protect_identifiers=false;
-	      if ($this->CI->db->update($table, $data, array('id' => $data['id']))) {
-	        $data = array('responce' => 'success', 'message' => 'Record update Successfully');
-	        // $data = $this->CI->db->last_query();
-	      } else {
-	        $data = array('responce' => 'error', 'message' => 'Failed to update record');
-	      }
-
-				$this->CI->db->_protect_identifiers=true;
-			  return $data;
+		// $data['name'] = $this->CI->input->post('edit_name');
+		// $data['event_children'] = $this->CI->input->post('edit_event_children');
+		$rows = $this->table_rows($table);
+		foreach ($rows as $key => $value) {
+			if ($key !== "id") {
+				$data["`".urldecode($key)."`"] = "\"".$this->CI->input->post('edit_'.$this->makeSafeForCSS($key))."\"";
+			}
+		}
 
 
-	  //   }
-	  //   return $data;
-    // } else {
-    // 	return "No direct script access allowed";
-    // }
-  }
+		$this->CI->db->_protect_identifiers=false;
+		if ($this->CI->db->update($table, $data, array('id' => $data['id']))) {
+			$data = array('responce' => 'success', 'message' => 'Record update Successfully');
+			// $data = $this->CI->db->last_query();
+		} else {
+			$data = array('responce' => 'error', 'message' => 'Failed to update record');
+		}
+
+		$this->CI->db->_protect_identifiers=true;
+		return $data;
+
+
+		//   }
+		//   return $data;
+		// } else {
+		// 	return "No direct script access allowed";
+		// }
+	}
 
 }
