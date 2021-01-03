@@ -245,25 +245,25 @@ class Table_page_lib
 		return $data;
 	}
 
-	public function fetch_join_where($table_1, $table_2, $haystack,$needle)
-	{
-
-		$this->CI->load->database();
-
-
-		// $posts = $this->CI->db->select('*')->where($haystack, $needle)->from($table_1)->join($table_2, "$table_1.$table_2_key = $table_2.id")->get()->result_array();
-		$table_2_singular = $this->erd_lib->grammar_singular($table_2);
-		$table_2_singular = $table_2_singular."_id";
-		// $table_1_singular = $this->erd_lib->grammar_singular($table_1);
-		// $haystack = $table_1_singular.".".$haystack;
-
-
-		$posts = $this->CI->db->select('*')->where($haystack, $needle)->from($table_2)->join($table_1, "$table_1.$table_2_singular = $table_2.id", "right")->get()->result_array();
-
-		$data = array('responce' => 'success', 'posts' => $posts);
-		return $data;
-
-	}
+	// public function fetch_join_where($table_1, $table_2, $haystack,$needle)
+	// {
+	//
+	// 	$this->CI->load->database();
+	//
+	//
+	// 	// $posts = $this->CI->db->select('*')->where($haystack, $needle)->from($table_1)->join($table_2, "$table_1.$table_2_key = $table_2.id")->get()->result_array();
+	// 	$table_2_singular = $this->erd_lib->grammar_singular($table_2);
+	// 	$table_2_singular = $table_2_singular."_id";
+	// 	// $table_1_singular = $this->erd_lib->grammar_singular($table_1);
+	// 	// $haystack = $table_1_singular.".".$haystack;
+	//
+	//
+	// 	$posts = $this->CI->db->select('*')->where($haystack, $needle)->from($table_2)->join($table_1, "$table_1.$table_2_singular = $table_2.id", "right")->get()->result_array();
+	//
+	// 	$data = array('responce' => 'success', 'posts' => $posts);
+	// 	return $data;
+	//
+	// }
 
 	public function fetch_where($table, $haystack, $needle)
 	{
@@ -697,6 +697,59 @@ class Table_page_lib
 		// 	$data = array('responce' => 'error', 'message' => 'Failed to update record');
 		// }
 		// return $data;
+	}
+
+	public function owner_group_options()
+	{
+
+		$table_1 = "users_groups";
+		$table_2 = "groups";
+		$haystack = "user_id";
+		$needle = $this->CI->ion_auth->get_user_id();
+
+		$this->CI->load->database();
+
+
+		$sql="WITH RECURSIVE q AS
+		(
+			SELECT  id,name,description,group_id,CONCAT(id) as parent_group_id
+			FROM    $table_2
+			WHERE   group_id = 0
+			UNION ALL
+			SELECT  m.id,m.name,m.description,m.group_id,CONCAT(q.parent_group_id,'-',m.id) as parent_group_id
+			FROM    $table_2 m
+			JOIN    q
+			ON      m.group_id = q.id
+		)
+		SELECT  *
+		FROM    q
+		JOIN $table_1 ON $table_1.group_id = q.id
+		WHERE $table_1.$haystack = $needle";
+
+
+		$query_result = $this->CI->db->query($sql)->result_array();
+
+
+		$keys = array_column($query_result, 'parent_group_id');
+		$query_result=array_combine($keys,$query_result);
+
+		ksort($query_result);
+		$result = array();
+		foreach ($query_result as $key => $item) {
+			$result[] = array(
+				"id"=>$item["id"],
+				"name"=>$item["name"],
+				"indent"=>str_repeat("-", count(explode("-",$key))),
+			);
+		}
+
+
+		// header('Content-Type: application/json');
+		// echo json_encode($result, JSON_PRETTY_PRINT);
+		// exit;
+
+		return $result;
+
 	}
 
 

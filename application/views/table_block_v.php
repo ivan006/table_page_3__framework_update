@@ -22,6 +22,10 @@ $readable_rows = $data["tab_d"]["cols"]["visible"];
 $view_link_table = $data["tab_o"]["table"];
 $view_link_id_key = "id";
 
+if ($owner_group_options["assumed"] == "yes") {
+  $hide_toggle = "display:none;";
+}
+
 
 // if (!isset($join)) {
 //   $editable_rows = $data["tab_d"]["cols"]["editable"];
@@ -101,6 +105,8 @@ if (isset($data["tab_o"]["type"])) {
               <?php
               $action_type = "add";
               ?>
+
+              <h5 style="<?php echo $hide_toggle ?>">Variables</h5>
               <?php
               foreach ($editable_rows as $key => $value) {
                 if ($key !== "id") {
@@ -232,6 +238,22 @@ if (isset($data["tab_o"]["type"])) {
                   }
                 }
               }
+
+              ?>
+              <h5 style="<?php echo $hide_toggle ?>">Owner group</h5>
+              <div class="form-group">
+                <!-- <label for="">Owner group</label> -->
+                <select class="form-control" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS("owner_group"); ?>" style="<?php echo $hide_toggle ?>">
+                  <?php
+                  foreach ($owner_group_options["options"] as $key => $value) {
+                    ?>
+                    <option value="<?php echo $value["id"] ?>"><?php echo $value["indent"] ?> <?php echo $value["name"] ?></option>
+                    <?php
+                  }
+                  ?>
+                </select>
+              </div>
+              <?php
               ?>
 
             </form>
@@ -293,6 +315,7 @@ if (isset($data["tab_o"]["type"])) {
         $action_type = "edit";
         ?>
         <form action="" method="post" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_" ?>form">
+          <h5 style="<?php echo $hide_toggle ?>">Variables</h5>
           <input type="hidden" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_" ?>record_id" name="edit_record_id" value="">
           <?php
           foreach ($editable_rows as $key => $value) {
@@ -378,10 +401,6 @@ if (isset($data["tab_o"]["type"])) {
                             } )
                             .on( 'deselect', function ( e, dt, type, indexes ) {
 
-                              // var rowData = <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup" ?>.rows( indexes ).data().toArray();
-
-                              // alert(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key)."_"."value" ?>"]);
-                              // alert("<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>");
                               lookup_input.val(state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key)."_"."value" ?>"]);
                             } );
                           }else{
@@ -425,15 +444,23 @@ if (isset($data["tab_o"]["type"])) {
               }
             }
           }
+
           ?>
-          <!-- <div class="form-group">
-            <label for="">Name</label>
-            <input type="text" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_edit_name" class="form-control">
-          </div>
+          <h5 style="<?php echo $hide_toggle ?>">Owner group</h5>
           <div class="form-group">
-            <label for="">Event_children</label>
-            <input type="event_children" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_edit_event_children" class="form-control">
-          </div> -->
+            <!-- <label for="">Owner group</label> -->
+            <select class="form-control" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS("owner_group"); ?>" style="<?php echo $hide_toggle ?>">
+              <?php
+              foreach ($owner_group_options["options"] as $key => $value) {
+                ?>
+                <option value="<?php echo $value["id"] ?>"><?php echo $value["indent"] ?> <?php echo $value["name"] ?></option>
+                <?php
+              }
+              ?>
+            </select>
+          </div>
+          <?php
+          ?>
         </form>
       </div>
       <div class="modal-footer">
@@ -462,6 +489,10 @@ $action_type = "add";
         <?php
       }
     }
+    ?>
+    var edit_<?php echo "owner_group"; ?> = $("#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS("owner_group"); ?>").val();
+    <?php
+
     ?>
     // var name = $("#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_name").val();
     // var event_children = $("#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_event_children").val();
@@ -729,6 +760,9 @@ $action_type = "add";
         <?php
       }
     }
+    ?>
+    var edit_<?php echo "owner_group"; ?> = $("#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS("owner_group"); ?>").val();
+    <?php
     ?>
 
 

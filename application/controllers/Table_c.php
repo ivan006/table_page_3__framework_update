@@ -48,9 +48,16 @@ class Table_c extends CI_Controller
 		// $data = $this->table_page_lib->table_o_and_d("overview", $erd, $table, null, $record["id"], "", $dont_scan);
 		$data = $this->table_page_lib->table_o_and_d("table", $erd, $table, null, null, "", null);
 
+
+		$data["owner_group_options"] = array(
+			"assumed" => "no",
+			"options" => $this->table_page_lib->owner_group_options()
+		);
+
+
 		$data['title'] = $table;
 		$this->load->view('table_header_v', array("data"=>$data));
-		$this->load->view('table_block_v', array("data"=>$data));
+		$this->load->view('table_block_v', array("data"=>$data,"owner_group_options"=>$data["owner_group_options"]));
 		$this->load->view('table_footer_v');
 
 	}
@@ -103,17 +110,17 @@ class Table_c extends CI_Controller
 		echo json_encode($result, JSON_PRETTY_PRINT);
 	}
 
-	public function fetch_join_where($table_1, $table_2, $haystack, $needle)
-	{
-		if (!$this->ion_auth->logged_in())
-		{
-			// redirect them to the login page
-			redirect('auth/login', 'refresh');
-		}
-		$result = $this->table_page_lib->fetch_join_where($table_1, $table_2, $haystack, $needle);
-		header('Content-Type: application/json');
-		echo json_encode($result, JSON_PRETTY_PRINT);
-	}
+	// public function fetch_join_where($table_1, $table_2, $haystack, $needle)
+	// {
+	// 	if (!$this->ion_auth->logged_in())
+	// 	{
+	// 		// redirect them to the login page
+	// 		redirect('auth/login', 'refresh');
+	// 	}
+	// 	$result = $this->table_page_lib->fetch_join_where($table_1, $table_2, $haystack, $needle);
+	// 	header('Content-Type: application/json');
+	// 	echo json_encode($result, JSON_PRETTY_PRINT);
+	// }
 
 	public function delete($table)
 	{
