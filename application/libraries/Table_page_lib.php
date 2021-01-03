@@ -702,46 +702,55 @@ class Table_page_lib
 	public function owner_group_options()
 	{
 
-		$table_1 = "users_groups";
-		$table_2 = "groups";
-		$haystack = "user_id";
-		$needle = $this->CI->ion_auth->get_user_id();
-
 		$this->CI->load->database();
 
 
 		$sql="WITH RECURSIVE q AS
 		(
-			SELECT  id,name,description,group_id,CONCAT(id) as parent_group_id
-			FROM    $table_2
+			SELECT  id,name,description,group_id,CONCAT(id) as path
+			FROM    groups
 			WHERE   group_id = 0
 			UNION ALL
-			SELECT  m.id,m.name,m.description,m.group_id,CONCAT(q.parent_group_id,'-',m.id) as parent_group_id
-			FROM    $table_2 m
+			SELECT  m.id,m.name,m.description,m.group_id,CONCAT(q.path,'-',m.id) as path
+			FROM    groups m
 			JOIN    q
 			ON      m.group_id = q.id
 		)
 		SELECT  *
 		FROM    q
-		JOIN $table_1 ON $table_1.group_id = q.id
-		WHERE $table_1.$haystack = $needle";
+		";
 
 
 		$query_result = $this->CI->db->query($sql)->result_array();
 
 
-		$keys = array_column($query_result, 'parent_group_id');
-		$query_result=array_combine($keys,$query_result);
 
+		$table = "users_groups";
+		$haystack = "user_id";
+		$needle = $this->CI->ion_auth->get_user_id();
+		$user_group_links = $this->fetch_where($table, $haystack, $needle)["posts"];
+		$user_group_ids = array_column($user_group_links, "group_id");
+
+
+		$keys = array_column($query_result, 'path');
+		$query_result=array_combine($keys,$query_result);
 		ksort($query_result);
+
+
+
+
 		$result = array();
 		foreach ($query_result as $key => $item) {
-			$result[] = array(
-				"id"=>$item["id"],
-				"name"=>$item["name"],
-				"indent"=>str_repeat("-", count(explode("-",$key))),
-			);
+			if (!empty(array_intersect($user_group_ids,explode("-",$key)))) {
+				$result[$item["id"]] = array(
+					"id"=>$item["id"],
+					"name"=>$item["name"],
+					"indent"=>str_repeat("-", count(explode("-",$key))),
+					"path"=>$key,
+				);
+			}
 		}
+
 
 
 		// header('Content-Type: application/json');

@@ -22,6 +22,7 @@ $readable_rows = $data["tab_d"]["cols"]["visible"];
 $view_link_table = $data["tab_o"]["table"];
 $view_link_id_key = "id";
 
+$hide_toggle = "";
 if ($owner_group_options["assumed"] == "yes") {
   $hide_toggle = "display:none;";
 }
