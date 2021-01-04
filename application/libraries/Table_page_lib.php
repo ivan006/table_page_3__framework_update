@@ -745,7 +745,7 @@ class Table_page_lib
 				$result[$item["id"]] = array(
 					"id"=>$item["id"],
 					"name"=>$item["name"],
-					"indent"=>str_repeat("-", count(explode("-",$key))),
+					"indent"=>str_repeat("-", count(explode("-",$key))-1),
 					"path"=>$key,
 				);
 			}
