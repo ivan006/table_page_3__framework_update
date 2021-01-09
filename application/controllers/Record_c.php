@@ -36,7 +36,7 @@ class Record_c extends CI_Controller
 		$data["title"] = $tab_o_singular." ".$record_id;
 
 
-		$record = $this->table_page_lib->fetch($table, "record", array("haystack"=>"id","needle"=>$record_id, "child_of"=>""))["posts"][0];
+		$record = $this->table_page_lib->fetch($table, "record", array("haystack"=>"id","needle"=>$record_id, "foreign_key"=>""))["posts"][0];
 
 
 		// echo $record;

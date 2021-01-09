@@ -112,15 +112,16 @@ class Table_page_lib
 		$erd = json_decode($erd, true);
 
 		if ($page_type == "record") {
-			// $cols_visible = $this->cols_visible($table, $erd, $context["child_of"]);
-			$cols_visible = $this->cols_visible($table, $erd, "");
+			$context["foreign_key"] = urldecode($context["foreign_key"]);
+			$cols_visible = $this->cols_visible($table, $erd, $context["foreign_key"]);
+			// $cols_visible = $this->cols_visible($table, $erd, "");
 		}
 		elseif ($page_type == "table") {
 			$cols_visible = $this->cols_visible($table, $erd, null);
 		}
 
 		// header('Content-Type: application/json');
-		// echo json_encode($context, JSON_PRETTY_PRINT);
+		// echo json_encode($cols_visible, JSON_PRETTY_PRINT);
 		// exit;
 
 
@@ -243,7 +244,7 @@ class Table_page_lib
 		return $data;
 	}
 
-	public function cols_visible($table, $erd, $ignore_col_set)
+	public function cols_visible($table, $erd, $foreign_key)
 	{
 		// $erd_path = APPPATH.'erd/erd/erd.json';
 		// $erd = file_get_contents($erd_path);
@@ -253,9 +254,9 @@ class Table_page_lib
 
 		foreach ($erd as $key => $value) {
 			if (isset($value["items"])) {
-				if ($key !== $ignore_col_set) {
-					foreach ($value["items"] as $key_2 => $value_2) {
-						if ($key_2 == $table) {
+				foreach ($value["items"] as $key_2 => $value_2) {
+					if ($key_2 == $table) {
+						if ($value_2 !== $foreign_key) {
 							// echo $key_2;
 							$parents[$key]["cols"] = $value["fields"];
 							$parents[$key]["linking_key"] = $value_2;
@@ -313,12 +314,15 @@ class Table_page_lib
 			// 	$cols_wth_props
 			// );
 		}
-		if (isset($erd[$ignore_col_set]["items"][$table])) {
-			$linking_k_for_ignore = $erd[$ignore_col_set]["items"][$table];
-			// header('Content-Type: application/json');
-			// echo json_encode($erd, JSON_PRETTY_PRINT);
-			// exit;
-			unset($self[$linking_k_for_ignore]);
+		// if (isset($erd[$ignore_col_set]["items"][$table])) {
+		// 	$linking_k_for_ignore = $erd[$ignore_col_set]["items"][$table];
+		// 	// header('Content-Type: application/json');
+		// 	// echo json_encode($erd, JSON_PRETTY_PRINT);
+		// 	// exit;
+		// 	unset($self[$value_2]);
+		// }
+		if (isset($self[$foreign_key])) {
+			unset($self[$foreign_key]);
 		}
 
 		// $cols_visible = array_merge(
@@ -363,7 +367,7 @@ class Table_page_lib
 			$haystack = "id";
 			$needle = $record_id;
 
-			$tab_o["data_endpoint"] = "fetch_for_record/h/$haystack/n/$needle/child_of/null";
+			$tab_o["data_endpoint"] = "fetch_for_record/h/$haystack/n/$needle/foreign_key/null";
 			$tab_o["type"] = "overview";
 			$tab_o["rel_name"] = "overview";
 			$tab_o["rel_name_id"] = $tab_o["rel_name"];
@@ -375,7 +379,7 @@ class Table_page_lib
 			$haystack = $foreign_k; //changes
 			$needle = $record_id;
 
-			$data_endpoint = "fetch_for_record/h/$haystack/n/$needle/child_of/$ignore_col_set";
+			$data_endpoint = "fetch_for_record/h/$haystack/n/$needle/foreign_key/$foreign_k";
 
 
 			$tab_o["record_id"] = $record_id;
@@ -384,7 +388,7 @@ class Table_page_lib
 			$tab_o["rel_name"] = $table." (as ".$foreign_k.")"; // changes
 			$tab_o["rel_name_id"] = preg_replace('/\W+/','',strtolower(strip_tags($tab_o["rel_name"])));
 			$tab_o["table"] = $table; // dynamic
-			// $tab_o["foreign_key"] = $foreign_k;
+			$tab_o["foreign_key"] = $foreign_k;
 
 			// var_dump($parent_tab_o);
 		}
@@ -421,8 +425,8 @@ class Table_page_lib
 			$cols_visible = $this->cols_visible($tab_o["table"], $erd, "");
 		}
 		elseif ($rec_part=="details") {
-			// $cols_visible = $this->cols_visible($tab_o["table"], $erd, $ignore_col_set);
-			$cols_visible = $this->cols_visible($tab_o["table"], $erd, "");
+			$cols_visible = $this->cols_visible($tab_o["table"], $erd, $foreign_k);
+			// $cols_visible = $this->cols_visible($tab_o["table"], $erd, "");
 		}
 		elseif ($rec_part=="table") {
 			$cols_visible = $this->cols_visible($tab_o["table"], $erd, "");
