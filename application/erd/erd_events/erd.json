@@ -27,15 +27,10 @@
       "name": {
         "Type": "varchar(100)",
         "Null": "NO"
-      },
-      "organization id": {
-        "Type": "varchar(100)",
-        "Null": "NO"
       }
     },
     "items": {
-      "resources": "organization id",
-      "organizations": "organization id"
+      "resources": "organization id"
     }
   },
   "resources": {
