@@ -142,27 +142,27 @@ class Table_page_lib
 				$query = $query->select("`".$table."`".'.'."`".$key."`");
 			}
 			foreach ($cols_visible["cols_d"] as $key => $value) {
-				if ($key !== $table) {
+				// if ($key !== $table) {
 					foreach ($value["cols"] as $key_2 => $value_2) {
 						if ($key_2 == "id") {
 							$parent_link_part_1 = '<a href="/record/t/'.$key.'/r/';
 							$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
-							$query = $query->select("CONCAT('$parent_link_part_1', "."`".$key."`".".id, '$parent_link_part_2') as `$key - $key_2`");
+							$query = $query->select("CONCAT('$parent_link_part_1', "."`joining_table_".$key."`".".id".", '$parent_link_part_2') as `$key - $key_2`");
 						} else {
-							$query = $query->select("`".$key."`"."."."`".$key_2."`"." as `$key - $key_2`");
+							$query = $query->select("`joining_table_".$key."`"."."."`".$key_2."`"." as `$key - $key_2`");
 						}
 
 
 					}
-				}
+				// }
 			}
 			$query = $query->from("`".$table."`");
 
 			foreach ($cols_visible["cols_d"] as $key => $value) {
 				// echo "xyz";
-				if ($key !== $table) {
-					$query = $query->join("`".$key."`", "`".$table."`".'.'."`".$value["linking_key"]."`".' = '."`".$key."`".'.id', 'left');
-				}
+				// if ($key !== $table) {
+					$query = $query->join("`".$key."` as `joining_table_".$key."`", "`".$table."`".'.'."`".$value["linking_key"]."`".' = '."`joining_table_".$key."`".'.id', 'left');
+				// }
 			}
 
 			if ($page_type == "record") {
@@ -171,8 +171,9 @@ class Table_page_lib
 			}
 			elseif ($page_type == "table") {
 			}
-
 			$posts = $query->get()->result_array();
+			// print_r($this->CI->db->last_query());
+			// exit;
 
 		}
 
