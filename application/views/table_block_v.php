@@ -111,7 +111,16 @@ if (isset($data["tab_o"]["type"])) {
               <?php
               foreach ($editable_rows as $key => $value) {
                 if ($key !== "id") {
-                  if (isset($value["rels"])) {
+                  if (isset($value["assumable"])) {
+
+                    ?>
+                    <div class="form-group" style="display: none;">
+                      <label for=""><?php echo $key; ?></label>
+                      <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control">
+                    </div>
+                    <?php
+                  }
+                  elseif (isset($value["rels"])) {
 
                       ?>
                       <div class="form-group">
@@ -218,15 +227,6 @@ if (isset($data["tab_o"]["type"])) {
                       <?php
 
                   }
-                  elseif (isset($value["assumable"])) {
-
-                    ?>
-                    <div class="form-group" style="display: none;">
-                      <label for=""><?php echo $key; ?></label>
-                      <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control">
-                    </div>
-                    <?php
-                  }
                   else {
 
                     ?>
@@ -321,7 +321,16 @@ if (isset($data["tab_o"]["type"])) {
           <?php
           foreach ($editable_rows as $key => $value) {
             if ($key !== "id") {
-              if (isset($value["rels"])) {
+              if (isset($value["assumable"])) {
+
+                ?>
+                <div class="form-group" style="display: none;">
+                  <label for=""><?php echo $key; ?></label>
+                  <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control">
+                </div>
+                <?php
+              }
+              elseif (isset($value["rels"])) {
 
                   ?>
                   <div class="form-group">
@@ -425,15 +434,6 @@ if (isset($data["tab_o"]["type"])) {
                   <?php
 
               }
-              elseif (isset($value["assumable"])) {
-
-                ?>
-                <div class="form-group" style="display: none;">
-                  <label for=""><?php echo $key; ?></label>
-                  <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control">
-                </div>
-                <?php
-              }
               else {
 
                 ?>
@@ -518,7 +518,8 @@ $action_type = "add";
                 "<?php echo urlencode($key); ?>": <?php echo $value["assumable"]; ?>,
 
                 <?php
-              } else {
+              }
+              else {
                 ?>
                 "<?php echo urlencode($key); ?>": <?php echo makeSafeForCSS($key); ?>,
 
@@ -718,7 +719,8 @@ $action_type = "add";
                 state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key)."_"."value" ?>"] = <?php echo $data["tab_o"]["record_id"] ?>;
 
                 <?php
-              } else {
+              }
+              else {
                 ?>
 
                 state["<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key)."_"."value" ?>"] = data.post["<?php echo $key; ?>"];

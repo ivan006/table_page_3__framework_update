@@ -112,7 +112,8 @@ class Table_page_lib
 		$erd = json_decode($erd, true);
 
 		if ($page_type == "record") {
-			$cols_visible = $this->cols_visible($table, $erd, $context["child_of"]);
+			// $cols_visible = $this->cols_visible($table, $erd, $context["child_of"]);
+			$cols_visible = $this->cols_visible($table, $erd, "");
 		}
 		elseif ($page_type == "table") {
 			$cols_visible = $this->cols_visible($table, $erd, null);
@@ -420,7 +421,8 @@ class Table_page_lib
 			$cols_visible = $this->cols_visible($tab_o["table"], $erd, "");
 		}
 		elseif ($rec_part=="details") {
-			$cols_visible = $this->cols_visible($tab_o["table"], $erd, $ignore_col_set);
+			// $cols_visible = $this->cols_visible($tab_o["table"], $erd, $ignore_col_set);
+			$cols_visible = $this->cols_visible($tab_o["table"], $erd, "");
 		}
 		elseif ($rec_part=="table") {
 			$cols_visible = $this->cols_visible($tab_o["table"], $erd, "");
