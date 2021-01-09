@@ -326,7 +326,8 @@ if (isset($data["tab_o"]["type"])) {
                   ?>
                   <div class="form-group">
                     <label for=""><?php echo $key; ?></label>
-                    <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control  dropdown-toggle" data-toggle="dropdown" readonly>
+                    <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control  dropdown-toggle" data-toggle="dropdown" >
+                    <!-- <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control  dropdown-toggle" data-toggle="dropdown" readonly> -->
 
                     <div class="dropdown-menu" style="width: calc(100% - 2em); padding: 1em;">
 

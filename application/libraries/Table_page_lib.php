@@ -19,80 +19,6 @@ class Table_page_lib
 
 	}
 
-	public function fetch($table)
-	{
-		$table = urldecode($table);
-		// $haystack = urldecode($haystack);
-
-		$this->CI->load->database();
-
-		// $posts = $this->CI->db->where($haystack, $needle)->get($table)->result_array();
-
-		$erd_path = APPPATH.'erd/erd/erd.json';
-		$erd = file_get_contents($erd_path);
-		$erd = json_decode($erd, true);
-
-		$cols_visible = $this->cols_visible($table, $erd, null);
-
-		// header('Content-Type: application/json');
-		// echo json_encode($cols_visible, JSON_PRETTY_PRINT);
-		// exit;
-
-
-		if (1==1) {
-
-
-			$this->CI->db->_protect_identifiers=false;
-			$query = $this->CI->db;
-
-			$parent_link_part_1 = '<a href="/record/t/'.$table.'/r/';
-			$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
-			$query = $query->select("CONCAT('$parent_link_part_1', "."`".$table."`".".id, '$parent_link_part_2') as `id`");
-
-			foreach ($cols_visible["cols_o"] as $key => $value) {
-				if ($key !== "id") {
-					// code...
-				}
-				$query = $query->select("`".$table."`".'.'."`".$key."`");
-			}
-			foreach ($cols_visible["cols_d"] as $key => $value) {
-				if ($key !== $table) {
-					foreach ($value["cols"] as $key_2 => $value_2) {
-						if ($key_2 == "id") {
-							$parent_link_part_1 = '<a href="/record/t/'.$key.'/r/';
-							$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
-							$query = $query->select("CONCAT('$parent_link_part_1', "."`".$key."`".".id, '$parent_link_part_2') as `$key - $key_2`");
-						} else {
-							$query = $query->select("`".$key."`"."."."`".$key_2."`"." as `$key - $key_2`");
-						}
-
-
-					}
-				}
-			}
-			$query = $query->from("`".$table."`");
-
-			foreach ($cols_visible["cols_d"] as $key => $value) {
-				// echo "xyz";
-				if ($key !== $table) {
-					$query = $query->join("`".$key."`", "`".$table."`".'.'."`".$value["linking_key"]."`".' = '."`".$key."`".'.id', 'left');
-				}
-			}
-			// $query = $query->where("`".$table."`"."."."`".$haystack."` =", $needle);
-
-			$posts = $query->get()->result_array();
-
-		}
-
-		$this->CI->db->_protect_identifiers=true;
-
-
-
-		$data = array('responce' => 'success', 'posts' => $posts);
-		return $data;
-
-	}
-
 	public function fetch_without_inheritance($table)
 	{
 
@@ -172,23 +98,28 @@ class Table_page_lib
 		return $result;
 	}
 
-	public function fetch_for_record($table, $haystack, $needle, $child_of)
+	// public function fetch_for_record($table, $haystack, $needle, $child_of)
+	public function fetch($table, $page_type, $context)
 	{
 		$table = urldecode($table);
-		$haystack = urldecode($haystack);
 
 		$this->CI->load->database();
 
-		// $posts = $this->CI->db->where($haystack, $needle)->get($table)->result_array();
+		// $posts = $this->CI->db->where($context["haystack"], $context["needle"])->get($table)->result_array();
 
 		$erd_path = APPPATH.'erd/erd/erd.json';
 		$erd = file_get_contents($erd_path);
 		$erd = json_decode($erd, true);
 
-		$cols_visible = $this->cols_visible($table, $erd, $child_of);
+		if ($page_type == "record") {
+			$cols_visible = $this->cols_visible($table, $erd, $context["child_of"]);
+		}
+		elseif ($page_type == "table") {
+			$cols_visible = $this->cols_visible($table, $erd, null);
+		}
 
 		// header('Content-Type: application/json');
-		// echo json_encode($cols_visible, JSON_PRETTY_PRINT);
+		// echo json_encode($context, JSON_PRETTY_PRINT);
 		// exit;
 
 
@@ -231,7 +162,13 @@ class Table_page_lib
 					$query = $query->join("`".$key."`", "`".$table."`".'.'."`".$value["linking_key"]."`".' = '."`".$key."`".'.id', 'left');
 				}
 			}
-			$query = $query->where("`".$table."`"."."."`".$haystack."` =", $needle);
+
+			if ($page_type == "record") {
+				$context["haystack"] = urldecode($context["haystack"]);
+				$query = $query->where("`".$table."`"."."."`".$context["haystack"]."` =", $context["needle"]);
+			}
+			elseif ($page_type == "table") {
+			}
 
 			$posts = $query->get()->result_array();
 

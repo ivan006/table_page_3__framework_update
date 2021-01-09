@@ -93,7 +93,7 @@ class Table_c extends CI_Controller
 			// redirect them to the login page
 			redirect('auth/login', 'refresh');
 		}
-		$result = $this->table_page_lib->fetch($table);
+		$result = $this->table_page_lib->fetch($table, "table", array());
 		header('Content-Type: application/json');
 		echo json_encode($result, JSON_PRETTY_PRINT);
 	}
@@ -105,7 +105,7 @@ class Table_c extends CI_Controller
 			// redirect them to the login page
 			redirect('auth/login', 'refresh');
 		}
-		$result = $this->table_page_lib->fetch_for_record($table, $haystack, $needle, $child_of);
+		$result = $this->table_page_lib->fetch($table, "record", array("haystack"=>$haystack, "needle"=>$needle, "child_of"=>$child_of));
 		header('Content-Type: application/json');
 		echo json_encode($result, JSON_PRETTY_PRINT);
 	}
