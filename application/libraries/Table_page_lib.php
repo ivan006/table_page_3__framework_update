@@ -423,7 +423,7 @@ class Table_page_lib
 			$cols_visible = $this->cols_visible($tab_o["table"], $erd, $ignore_col_set);
 		}
 		elseif ($rec_part=="table") {
-			$cols_visible = $this->cols_visible($tab_o["table"], $erd, $ignore_col_set);
+			$cols_visible = $this->cols_visible($tab_o["table"], $erd, "");
 		}
 
 		// header('Content-Type: application/json');
