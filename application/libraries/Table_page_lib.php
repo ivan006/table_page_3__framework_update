@@ -613,7 +613,7 @@ class Table_page_lib
 		// $row = $this->db->insert_id;
 
 
-		$table = "users_groups";
+		$table = "_users_groups";
 		$haystack = "user_id";
 		$needle = $this->CI->ion_auth->get_user_id();
 		$user_group_links = $this->fetch_where($table, $haystack, $needle)["posts"];
@@ -633,7 +633,7 @@ class Table_page_lib
 		// exit;
 
 
-		$query_result = $this->CI->db->replace('activity_log', $activity_log);
+		$query_result = $this->CI->db->replace('_activity_log', $activity_log);
 
 		// if ($query_result) {
 		// 	$data = array('responce' => 'success', 'message' => 'Record update Successfully');
@@ -652,11 +652,11 @@ class Table_page_lib
 		$sql="WITH RECURSIVE q AS
 		(
 			SELECT  id,name,description,group_id,CONCAT(id) as path
-			FROM    groups
+			FROM    _groups
 			WHERE   group_id = 0
 			UNION ALL
 			SELECT  m.id,m.name,m.description,m.group_id,CONCAT(q.path,'-',m.id) as path
-			FROM    groups m
+			FROM    _groups m
 			JOIN    q
 			ON      m.group_id = q.id
 		)
@@ -669,7 +669,7 @@ class Table_page_lib
 
 
 
-		$table = "users_groups";
+		$table = "_users_groups";
 		$haystack = "user_id";
 		$needle = $this->CI->ion_auth->get_user_id();
 		$user_group_links = $this->fetch_where($table, $haystack, $needle)["posts"];
