@@ -1,5 +1,5 @@
 {
-  "events": {
+  "objects": {
     "fields": {
       "id": {
         "Type": "bigint(20) unsigned",
@@ -7,7 +7,29 @@
         "Key": "PRI",
         "Extra": "auto_increment"
       },
-      "resource id": {
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      },
+      "object id": {
+        "Type": "bigint(20) unsigned"
+      }
+    },
+    "items": {
+      "processes": "object id",
+      "papers": "object id",
+      "objects": "object id"
+    }
+  },
+  "papers": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "object id": {
         "Type": "bigint(20) unsigned"
       },
       "name": {
@@ -16,7 +38,7 @@
       }
     }
   },
-  "organizations": {
+  "processes": {
     "fields": {
       "id": {
         "Type": "bigint(20) unsigned",
@@ -24,39 +46,19 @@
         "Key": "PRI",
         "Extra": "auto_increment"
       },
-      "name": {
+      "object id": {
+        "Type": "bigint(20) unsigned"
+      },
+      "date": {
+        "Type": "date"
+      },
+      "descriptions": {
         "Type": "varchar(100)",
         "Null": "NO"
       },
-      "organization id": {
-        "Type": "varchar(100)",
-        "Null": "NO"
+      "duration": {
+        "Type": "bigint(20) unsigned"
       }
-    },
-    "items": {
-      "resources": "organization id",
-      "organizations": "organization id"
-    }
-  },
-  "resources": {
-    "fields": {
-      "id": {
-        "Type": "bigint(20) unsigned",
-        "Null": "NO",
-        "Key": "PRI",
-        "Extra": "auto_increment"
-      },
-      "name": {
-        "Type": "varchar(100)",
-        "Null": "NO"
-      },
-      "organization id": {
-        "Type": "bigint(20)",
-        "Null": "NO"
-      }
-    },
-    "items": {
-      "events": "resource id"
     }
   }
 }
