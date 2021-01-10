@@ -535,7 +535,7 @@ $action_type = "add";
         success: function(data){
           if (data.responce == "success") {
             $('#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_records').DataTable().destroy();
-            <?php echo makeSafeForCSS($data["tab_o"]["table"]); ?>_fetch();
+            <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_fetch();
             $('#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_exampleModal').modal('hide');
             toastr["success"](data.message);
           }else{
@@ -553,7 +553,7 @@ $action_type = "add";
 
   // Fetch Records
 
-  function <?php echo makeSafeForCSS($data["tab_o"]["table"]); ?>_fetch(){
+  function <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_fetch(){
     $.ajax({
       url: "<?php echo base_url(); ?>api/table/t/<?php echo $data["tab_o"]["table"]; ?>/<?php echo $data["tab_o"]["data_endpoint"]; ?>",
       type: "post",
@@ -608,7 +608,7 @@ $action_type = "add";
 
   }
 
-  <?php echo makeSafeForCSS($data["tab_o"]["table"]); ?>_fetch();
+  <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_fetch();
 
   // Delete Record
 
@@ -646,7 +646,7 @@ $action_type = "add";
           success: function(data){
             if (data.responce == "success") {
               $('#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_records').DataTable().destroy();
-              <?php echo makeSafeForCSS($data["tab_o"]["table"]); ?>_fetch();
+              <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_fetch();
               swalWithBootstrapButtons.fire(
               'Deleted!',
               'Your file has been deleted.',
@@ -797,7 +797,7 @@ $action_type = "add";
         success: function(data){
           if (data.responce == "success") {
             $('#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_records').DataTable().destroy();
-            <?php echo makeSafeForCSS($data["tab_o"]["table"]); ?>_fetch();
+            <?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"]); ?>_fetch();
             $('#<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_".$action_type."_" ?>modal').modal('hide');
             toastr["success"](data.message);
           }else{
