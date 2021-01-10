@@ -374,6 +374,8 @@ class Erd_lib
 			$tables[$value] = array();
 		}
 		// ksort($tables);
+		$erd = $this->erd();
+		$erd = json_decode($erd, true);
 
 
 		$tables_and_fields = array();
@@ -424,6 +426,11 @@ class Erd_lib
 
 
 			$tables_and_fields[$key]["fields"] = $fields_result;
+			// echo $key."<br>";
+			// print_r( $erd);
+			if (isset($erd[$key]["items"])) {
+				$tables_and_fields[$key]["items"] = $erd[$key]["items"];
+			}
 
 
 			// $query = array(
