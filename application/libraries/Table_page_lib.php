@@ -19,35 +19,35 @@ class Table_page_lib
 
 	}
 
-	public function fetch_without_inheritance($table)
-	{
-
-		$table = urldecode($table);
-		$this->CI->load->database();
-
-
-		// if ($this->CI->input->is_ajax_request()) {
-		// // if ($posts = $this->CI->db->get($table)->result()) {
-		// // 	$data = array('responce' => 'success', 'posts' => $posts);
-		// // }else{
-		// // 	$data = array('responce' => 'error', 'message' => 'Failed to fetch data');
-		// // }
-		// echo $table;
-
-
-		$this->CI->db->_protect_identifiers=false;
-		$posts = $this->CI->db->get("`".$table."`")->result();
-		$data = array('responce' => 'success', 'posts' => $posts);
-		$this->CI->db->_protect_identifiers=true;
-		return $data;
-
-		// } else {
-		// 	return "No direct script access allowed";
-		// }
-
-
-
-	}
+	// public function fetch_without_inheritance($table)
+	// {
+	//
+	// 	$table = urldecode($table);
+	// 	$this->CI->load->database();
+	//
+	//
+	// 	// if ($this->CI->input->is_ajax_request()) {
+	// 	// // if ($posts = $this->CI->db->get($table)->result()) {
+	// 	// // 	$data = array('responce' => 'success', 'posts' => $posts);
+	// 	// // }else{
+	// 	// // 	$data = array('responce' => 'error', 'message' => 'Failed to fetch data');
+	// 	// // }
+	// 	// echo $table;
+	//
+	//
+	// 	$this->CI->db->_protect_identifiers=false;
+	// 	$posts = $this->CI->db->get("`".$table."`")->result();
+	// 	$data = array('responce' => 'success', 'posts' => $posts);
+	// 	$this->CI->db->_protect_identifiers=true;
+	// 	return $data;
+	//
+	// 	// } else {
+	// 	// 	return "No direct script access allowed";
+	// 	// }
+	//
+	//
+	//
+	// }
 
 	public function edit($table)
 	{
@@ -501,9 +501,31 @@ class Table_page_lib
 			// $ignore_col_set
 			if (isset($tab_d["cols"]["editable"][$value["linking_key"]])) {
 				// code...
+				$cols_visible_lookup_helper = $this->cols_visible($key, $erd, "");
+				$cols_visible_lookup = $cols_visible_lookup_helper["cols_o"];
+				$cols_visible_lookup_part_2 = array();
+				foreach ($cols_visible_lookup_helper["cols_d"] as $key_lookup => $value_lookup) {
+					foreach ($value_lookup["cols"] as $key_lookup_2 => $value_lookup_2) {
+						$cols_visible_lookup_part_2["$key_lookup - $key_lookup_2"] = $value_lookup_2;
+					}
+					$cols_visible_lookup = array_merge(
+						$cols_visible_lookup,
+						$cols_visible_lookup_part_2
+					);
+
+					if (isset($value_lookup["is_self_joined"])) {
+						$cols_visible_lookup = array_merge(
+							$cols_visible_lookup,
+							array("$key_lookup - lineage" => "1")
+						);
+					}
+
+				}
+
 				$tab_d["cols"]["editable"][$value["linking_key"]]["rels"] = array(
 					"table"=>$key,
-					"rows"=>$value["cols"]
+					// "rows"=>$value["cols"]
+					"rows"=>$cols_visible_lookup
 				);
 				if (isset($value["is_self_joined"])) {
 					$tab_d["cols"]["visible"] = array_merge(

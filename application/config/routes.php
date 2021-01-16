@@ -68,7 +68,7 @@ $route['table/t/(:any)'] = 'table_c/index/$1';
 
 $route['api/table/t/(:any)/insert'] = 'table_c/insert/$1';
 $route['api/table/t/(:any)/fetch'] = 'table_c/fetch/$1';
-$route['api/table/t/(:any)/fetch_without_inheritance'] = 'table_c/fetch_without_inheritance/$1';
+// $route['api/table/t/(:any)/fetch_without_inheritance'] = 'table_c/fetch_without_inheritance/$1';
 $route['api/table/t/(:any)/delete'] = 'table_c/delete/$1';
 $route['api/table/t/(:any)/edit'] = 'table_c/edit/$1';
 $route['api/table/t/(:any)/update'] = 'table_c/update/$1';

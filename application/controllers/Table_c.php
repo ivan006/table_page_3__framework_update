@@ -74,17 +74,17 @@ class Table_c extends CI_Controller
 		echo json_encode($result, JSON_PRETTY_PRINT);
 	}
 
-	public function fetch_without_inheritance($table)
-	{
-		if (!$this->ion_auth->logged_in())
-		{
-			// redirect them to the login page
-			redirect('auth/login', 'refresh');
-		}
-		$result = $this->table_page_lib->fetch_without_inheritance($table);
-		header('Content-Type: application/json');
-		echo json_encode($result, JSON_PRETTY_PRINT);
-	}
+	// public function fetch_without_inheritance($table)
+	// {
+	// 	if (!$this->ion_auth->logged_in())
+	// 	{
+	// 		// redirect them to the login page
+	// 		redirect('auth/login', 'refresh');
+	// 	}
+	// 	$result = $this->table_page_lib->fetch_without_inheritance($table);
+	// 	header('Content-Type: application/json');
+	// 	echo json_encode($result, JSON_PRETTY_PRINT);
+	// }
 
 	public function fetch($table)
 	{
