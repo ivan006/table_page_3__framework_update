@@ -8,6 +8,7 @@ CREATE TABLE `_groups` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
   `description` varchar(100) NOT NULL,
+  `group_id` mediumint(8) unsigned,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -15,10 +16,11 @@ CREATE TABLE `_groups` (
 # Dumping data for table '_groups'
 #
 
-INSERT INTO `_groups` (`id`, `name`, `description`) VALUES
-     (1,'admin','Administrator'),
-     (2,'members','General User');
-
+INSERT INTO `_groups` (`id`, `name`, `description`, `group_id`) VALUES
+     (1,'admin','Administrator',0),
+     (2,'members','General User',1),
+     (3,'Blue Gem','',1),
+     (4,'Blue Gem - Customers','',3);
 
 
 DROP TABLE IF EXISTS `_users`;
