@@ -222,6 +222,11 @@ class Table_page_lib
 
 
 
+
+		// header('Content-Type: application/json');
+		// echo $this->CI->db->last_query();
+		// exit;
+
 		$data = array('responce' => 'success', 'posts' => $posts);
 		return $data;
 	}
