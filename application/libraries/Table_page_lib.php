@@ -154,6 +154,13 @@ class Table_page_lib
 
 
 					}
+					if ($table == $key) {
+						// $tab_d["cols"]["visible"] = array_merge(
+						// 	$tab_d["cols"]["visible"],
+						// 	array("$key - lineage" => "1")
+						// );
+						$query = $query->select("'1-4-10'"." as `$key - lineage`");
+					}
 				// }
 			}
 			$query = $query->from("`".$table."`");
@@ -448,17 +455,23 @@ class Table_page_lib
 				$cols_wth_props["$key - $key_2"] = $value_2;
 			}
 			$tab_d["cols"]["visible"] = array_merge(
-			$tab_d["cols"]["visible"],
-			$cols_wth_props
+				$tab_d["cols"]["visible"],
+				$cols_wth_props
 			);
 
 			// $ignore_col_set
 			if (isset($tab_d["cols"]["editable"][$value["linking_key"]])) {
 				// code...
 				$tab_d["cols"]["editable"][$value["linking_key"]]["rels"] = array(
-				"table"=>$key,
-				"rows"=>$value["cols"]
-				) ;
+					"table"=>$key,
+					"rows"=>$value["cols"]
+				);
+				if ($table == $key) {
+					$tab_d["cols"]["visible"] = array_merge(
+						$tab_d["cols"]["visible"],
+						array("$key - lineage" => "1")
+					);
+				}
 			}
 			// // $editable = $erd[$table]["fields"];
 			// foreach ($editable as $key => $value) {
