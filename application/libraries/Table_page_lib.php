@@ -154,7 +154,7 @@ class Table_page_lib
 
 
 					}
-					if ($table == $key) {
+					if (isset($value["is_self_joined"])) {
 						// $tab_d["cols"]["visible"] = array_merge(
 						// 	$tab_d["cols"]["visible"],
 						// 	array("$key - lineage" => "1")
@@ -171,7 +171,7 @@ class Table_page_lib
 					$query = $query->join("`".$key."` as `joining_table_".$key."`", "`".$table."`".'.'."`".$value["linking_key"]."`".' = '."`joining_table_".$key."`".'.id', 'left');
 				// }
 
-				if ($table == $key) {
+				if (isset($value["is_self_joined"])) {
 					$linking_key = $value["linking_key"];
 					$sql="WITH RECURSIVE q AS
 					(
@@ -307,6 +307,9 @@ class Table_page_lib
 							// echo $key_2;
 							$parents[$key]["cols"] = $value["fields"];
 							$parents[$key]["linking_key"] = $value_2;
+							if (isset($value["items"][$key])) {
+								$parents[$key]["is_self_joined"] = 1;
+							}
 						}
 					}
 				}
@@ -336,9 +339,6 @@ class Table_page_lib
 			// 	}
 			// }
 		}
-
-
-
 
 		$self = $erd[$table]["fields"];
 
@@ -505,7 +505,7 @@ class Table_page_lib
 					"table"=>$key,
 					"rows"=>$value["cols"]
 				);
-				if ($table == $key) {
+				if (isset($value["is_self_joined"])) {
 					$tab_d["cols"]["visible"] = array_merge(
 						$tab_d["cols"]["visible"],
 						array("$key - lineage" => "1")
