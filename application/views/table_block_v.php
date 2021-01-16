@@ -130,7 +130,7 @@ if (isset($data["tab_o"]["type"])) {
 
                         <div class="dropdown-menu" style="width: calc(100% - 2em); padding: 1em;">
 
-                          <div class="table-responsive">
+                          <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
                             <table class="table" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup"."_".$action_type."_".makeSafeForCSS($key); ?>records" style="width : 100%">
                               <thead>
                                 <tr>
@@ -341,7 +341,7 @@ if (isset($data["tab_o"]["type"])) {
 
                     <div class="dropdown-menu" style="width: calc(100% - 2em); padding: 1em;">
 
-                      <div class="table-responsive">
+                      <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
                         <table class="table" id="<?php echo makeSafeForCSS($data["tab_o"]["rel_name_id"])."_lookup"."_".$action_type."_".makeSafeForCSS($key); ?>records" style="width : 100%">
                           <thead>
                             <tr>
