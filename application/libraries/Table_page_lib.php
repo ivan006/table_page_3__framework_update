@@ -159,7 +159,7 @@ class Table_page_lib
 						// 	$tab_d["cols"]["visible"],
 						// 	array("$key - lineage" => "1")
 						// );
-						$query = $query->select("'1-4-10'"." as `$key - lineage`");
+						$query = $query->select("`joining_table_".$key."_lineage`.path"." as `$key - lineage`");
 					}
 				// }
 			}
@@ -170,6 +170,25 @@ class Table_page_lib
 				// if ($key !== $table) {
 					$query = $query->join("`".$key."` as `joining_table_".$key."`", "`".$table."`".'.'."`".$value["linking_key"]."`".' = '."`joining_table_".$key."`".'.id', 'left');
 				// }
+
+				if ($table == $key) {
+					$linking_key = $value["linking_key"];
+					$sql="WITH RECURSIVE q AS
+					(
+						SELECT  id,`$linking_key`,CONCAT(id) as path
+						FROM    $key
+						WHERE   `$linking_key` = 0
+						UNION ALL
+						SELECT  m.id,m.`$linking_key`,CONCAT(q.path,'-',m.id) as path
+						FROM    $key m
+						JOIN    q
+						ON      m.`$linking_key` = q.id
+					)
+					SELECT  *
+					FROM    q
+					";
+					$query = $query->join("(".$sql.") as `joining_table_".$key."_lineage`", "`".$table."`".'.'."`$linking_key`".' = '."`joining_table_".$key."_lineage`".'.id', 'left');
+				}
 			}
 
 			if ($page_type == "record") {
@@ -178,6 +197,21 @@ class Table_page_lib
 			}
 			elseif ($page_type == "table") {
 			}
+			// $sql="WITH RECURSIVE q AS
+			// (
+			// 	SELECT  id,`object id`,CONCAT(id) as path
+			// 	FROM    objects
+			// 	WHERE   `object id` = 0
+			// 	UNION ALL
+			// 	SELECT  m.id,m.`object id`,CONCAT(q.path,'-',m.id) as path
+			// 	FROM    objects m
+			// 	JOIN    q
+			// 	ON      m.`object id` = q.id
+			// )
+			// SELECT  *
+			// FROM    q
+			// ";
+			// $posts = $this->CI->db->query($sql)->result_array();
 			$posts = $query->get()->result_array();
 			// print_r($this->CI->db->last_query());
 			// exit;
@@ -717,6 +751,113 @@ class Table_page_lib
 		return $result;
 
 	}
+
+	public function BookingsPerSupplierPerMonth($GET,$TourOperator)
+	{
+		// this is for product analysis
+
+
+		$months[0] = $GET["MonthA"];
+		$months[1] = $this->AddADay($GET["MonthB"]);
+		$SmartServiceType = $this->FilterSmart($GET["ServiceType"],"All service types");
+		$SmartTourOperator = $this->FilterSmartTourOperatorAgentOrSupplier($TourOperator);
+		// $SmartServiceStatus = $this->FilterSmart($GET["ServiceStatus"],"All statuses");
+		$SmartServiceStatus = $this->FilterSmartServiceStatus($GET["ServiceStatus"]);
+		$SmartBookingStatus = $this->FilterSmartBookingStatus("Confirmed");
+
+
+		$this->db->_protect_identifiers=false;
+
+		$QueryAA = $this->db
+		->select('DATE_FORMAT(pick_up_date, "%Y-%m") as date')
+		->select('SUM(total_sell) AS Revenue')
+		->select('SUM(total_cost) AS Cost')
+		->select('SUM(total_sell)-SUM(total_cost) AS Profit')
+		->select('COUNT(DISTINCT wbi.booking_id) as BookingCount')
+		->select('supplier_id')
+		->select('COUNT(DISTINCT wbi.id) as ServicelineCount')
+		// ->select('wbi.status as wbi_status')
+		->from('what_bookings_itineraries AS wbi')
+		->join('`what_bookings_itineraries_costing` itcost', 'itcost.itinerary_id = wbi.id', 'inner')
+		->join('`what_bookings` wb', 'wb.id = wbi.booking_id', 'inner')
+		->where('pick_up_date BETWEEN "'.$months[0].' "AND "'.$months[1].'"')
+		// ->where('service_type', 'car-rental')
+		// $months
+		->where('service_type '.$SmartServiceType['operator'], $SmartServiceType['term'])
+		// ->where('wbi.status '.$SmartServiceStatus['operator'], $SmartServiceStatus['term'])
+		->where_in("wbi.status",$SmartServiceStatus)
+		->where_in("wb.booking_status",$SmartBookingStatus)
+		->group_by('supplier_id')
+		->_compile_select();
+		$this->db->_reset_select();
+
+		$QueryABA = $this->db
+		->select('adults')
+		->select('children')
+		->select('infants')
+		->select('supplier_id')
+		->from('what_bookings_itineraries AS wbi')
+		->join('`what_bookings_pax_config` wbcp', 'wbcp.booking_id = wbi.booking_id', 'inner')
+		->join('`what_bookings` wb', 'wb.id = wbi.booking_id', 'inner')
+		// ->where('DATE_FORMAT(pick_up_date, "%M %Y") =', $month)
+		->where('pick_up_date BETWEEN "'.$months[0].' "AND "'.$months[1].'"')
+		// ->where('service_type', 'car-rental')
+		->where('service_type '.$SmartServiceType['operator'], $SmartServiceType['term'])
+		// ->where('wbi.status '.$SmartServiceStatus['operator'], $SmartServiceStatus['term'])
+		->where_in("wbi.status",$SmartServiceStatus)
+		->where_in("wb.booking_status",$SmartBookingStatus)
+		->group_by('wbi.booking_id')
+		->group_by('supplier_id')
+		->_compile_select();
+		$this->db->_reset_select();
+
+
+
+		$QueryAB = $this->db
+		->select('SUM(adults) as adults')
+		->select('SUM(children) as children')
+		->select('SUM(infants) as infants')
+		->select('supplier_id')
+		->from('('.$QueryABA.') AS ABA')
+		->group_by('supplier_id')
+		->_compile_select();
+
+		$this->db->_reset_select();
+
+
+
+		$QueryA = $this->db
+		->select('ititcost.date')
+		->select('FORMAT(Revenue, 2) AS Revenue', false)
+		->select('FORMAT(Cost, 2) AS Cost', false)
+		->select('FORMAT(Profit, 2) AS MainValue', false)
+		->select('BookingCount')
+		->select('tp_code AS MainKey')
+		->select('org_name')
+		->select('ServicelineCount')
+		->select('adults')
+		->select('children')
+		->select('infants')
+		->select('ititcost.supplier_id')
+		// ->select('ititcost.wbi_status')
+		->from('('.$QueryAA.') AS ititcost')
+		->join('('.$QueryAB.') AS SupplierMonthPax', 'SupplierMonthPax.supplier_id = ititcost.supplier_id', 'left')
+		->join('`who_orgs_tp_crm_links` org', 'ititcost.supplier_id = org.org_id', 'inner')
+		->join('`who_orgs` orgs_2', 'org.org_id = orgs_2.id', 'inner')
+		->where('SUBSTRING(tp_code, 1,1) '.$SmartTourOperator['operator'].' '.$SmartTourOperator['term'])
+		->order_by('tp_code', 'ASC')
+		->_compile_select();
+		$this->db->_reset_select();
+
+		$this->db->_protect_identifiers=true;
+
+		$result = $this->db->query($QueryA)->result_array();
+		// $result = $QueryA;
+
+		return $result;
+
+	}
+
 
 
 }
