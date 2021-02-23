@@ -420,11 +420,11 @@ class Table_page_lib
 			$haystack = "id";
 			$needle = $record_id;
 
-			$tab_o["data_endpoint"] = "fetch_for_record/h/$haystack/n/$needle/foreign_key/null";
-			$tab_o["type"] = "overview";
-			$tab_o["rel_name"] = "overview";
-			$tab_o["rel_name_id"] = $tab_o["rel_name"];
-			$tab_o["table"] = $table;
+			$g_identity["data_endpoint"] = "fetch_for_record/h/$haystack/n/$needle/foreign_key/null";
+			$g_identity["type"] = "overview";
+			$g_identity["rel_name"] = "overview";
+			$g_identity["rel_name_id"] = $g_identity["rel_name"];
+			$g_identity["table"] = $table;
 
 		}
 		elseif ($rec_part=="details") {
@@ -435,30 +435,30 @@ class Table_page_lib
 			$data_endpoint = "fetch_for_record/h/$haystack/n/$needle/foreign_key/$foreign_k";
 
 
-			$tab_o["record_id"] = $record_id;
-			$tab_o["data_endpoint"] = $data_endpoint;
-			$tab_o["type"] = "sub_items"; // changes
-			$tab_o["rel_name"] = $table." (as ".$foreign_k.")"; // changes
-			$tab_o["rel_name_id"] = preg_replace('/\W+/','',strtolower(strip_tags($tab_o["rel_name"])));
-			$tab_o["table"] = $table; // dynamic
-			$tab_o["foreign_key"] = $foreign_k;
+			$g_identity["record_id"] = $record_id;
+			$g_identity["data_endpoint"] = $data_endpoint;
+			$g_identity["type"] = "sub_items"; // changes
+			$g_identity["rel_name"] = $table." (as ".$foreign_k.")"; // changes
+			$g_identity["rel_name_id"] = preg_replace('/\W+/','',strtolower(strip_tags($g_identity["rel_name"])));
+			$g_identity["table"] = $table; // dynamic
+			$g_identity["foreign_key"] = $foreign_k;
 
-			// var_dump($parent_tab_o);
+			// var_dump($parent_g_identity);
 		}
 		elseif ($rec_part=="table") {
 
 			$data_endpoint = "fetch";
 
 
-			// $tab_o["record_id"] = $record_id;
-			$tab_o["data_endpoint"] = $data_endpoint;
-			$tab_o["type"] = "table"; // changes
-			$tab_o["rel_name"] = $table; // changes
-			$tab_o["rel_name_id"] = preg_replace('/\W+/','',strtolower(strip_tags($tab_o["rel_name"])));
-			$tab_o["table"] = $table; // dynamic
-			// $tab_o["foreign_key"] = $foreign_k;
+			// $g_identity["record_id"] = $record_id;
+			$g_identity["data_endpoint"] = $data_endpoint;
+			$g_identity["type"] = "table"; // changes
+			$g_identity["rel_name"] = $table; // changes
+			$g_identity["rel_name_id"] = preg_replace('/\W+/','',strtolower(strip_tags($g_identity["rel_name"])));
+			$g_identity["table"] = $table; // dynamic
+			// $g_identity["foreign_key"] = $foreign_k;
 
-			// var_dump($parent_tab_o);
+			// var_dump($parent_g_identity);
 		}
 
 
@@ -475,14 +475,14 @@ class Table_page_lib
 
 
 		if ($rec_part=="overview") {
-			$cols_visible = $this->cols_visible($tab_o["table"], $erd, "");
+			$cols_visible = $this->cols_visible($g_identity["table"], $erd, "");
 		}
 		elseif ($rec_part=="details") {
-			$cols_visible = $this->cols_visible($tab_o["table"], $erd, $foreign_k);
-			// $cols_visible = $this->cols_visible($tab_o["table"], $erd, "");
+			$cols_visible = $this->cols_visible($g_identity["table"], $erd, $foreign_k);
+			// $cols_visible = $this->cols_visible($g_identity["table"], $erd, "");
 		}
 		elseif ($rec_part=="table") {
-			$cols_visible = $this->cols_visible($tab_o["table"], $erd, "");
+			$cols_visible = $this->cols_visible($g_identity["table"], $erd, "");
 		}
 
 		// header('Content-Type: application/json');
@@ -553,7 +553,7 @@ class Table_page_lib
 
 
 
-		$result["tab_o"] = $tab_o;
+		$result["g_identity"] = $g_identity;
 		$result["tab_d"] = $tab_d;
 
 
@@ -895,10 +895,10 @@ class Table_page_lib
 	public function record_abilities($table, $record_id)
 	{
 		$table = urldecode($table);
-		$tab_o_singular = $this->CI->erd_lib->grammar_singular($table);
+		$g_identity_singular = $this->CI->erd_lib->grammar_singular($table);
 
 		$data = array();
-		$data["title"] = $tab_o_singular." ".$record_id;
+		$data["title"] = $g_identity_singular." ".$record_id;
 
 
 		$record = $this->fetch($table, "record", array("haystack"=>"id","needle"=>$record_id, "foreign_key"=>""))["posts"][0];
@@ -922,28 +922,28 @@ class Table_page_lib
 
 				$dont_scan = "";
 
-				$rec_o = $this->table_o_and_d("overview", $erd, $table, null, $record["id"], "", $dont_scan);
+				$g_core_abilities = $this->table_o_and_d("overview", $erd, $table, null, $record["id"], "", $dont_scan);
 
 
-				$rec_d = array();
-				if (isset($erd[$rec_o["tab_o"]["table"]]["items"])) {
-					$items = $erd[$rec_o["tab_o"]["table"]]["items"];
+				$g_parental_abilities = array();
+				if (isset($erd[$g_core_abilities["g_identity"]["table"]]["items"])) {
+					$items = $erd[$g_core_abilities["g_identity"]["table"]]["items"];
 					foreach ($items as $key => $value) {
 						if ($key !== $dont_scan) {
 
 
-							$rec_d[$key] = $this->table_o_and_d("details", $erd, $key, $value, $record["id"], $table, $dont_scan);
+							$g_parental_abilities[$key] = $this->table_o_and_d("details", $erd, $key, $value, $record["id"], $table, $dont_scan);
 
 						} else {
-							$rec_d[$key] = array();
+							$g_parental_abilities[$key] = array();
 						}
 					}
 				}
 
-				// $data["rec_o"]["tab_o"] = $rec_o["tab_o"];
-				// $data["rec_o"]["tab_d"] = $rec_o_tab_d;
-				$data["rec_o"] = $rec_o;
-				$data["rec_d"] = $rec_d;
+				// $data["g_core_abilities"]["g_identity"] = $g_core_abilities["g_identity"];
+				// $data["g_core_abilities"]["tab_d"] = $g_core_abilities_tab_d;
+				$data["g_core_abilities"] = $g_core_abilities;
+				$data["g_parental_abilities"] = $g_parental_abilities;
 			} else {
 
 				$data["record_exits"] = 0;
@@ -981,10 +981,10 @@ class Table_page_lib
 			$data["table_exists"] = 1;
 
 
-			$rec_o = $this->table_o_and_d("table", $erd, $table, null, null, "", null);
+			$g_core_abilities = $this->table_o_and_d("table", $erd, $table, null, null, "", null);
 
 
-			$data["rec_o"] = $rec_o;
+			$data["g_core_abilities"] = $g_core_abilities;
 		} else {
 
 			$data["table_exists"] = 0;
