@@ -119,11 +119,7 @@ class Table_page_lib
 
 		if ($page_type == "record") {
 			$context["foreign_key"] = urldecode($context["foreign_key"]);
-			$cols_visible = $this->cols_visible(
-				$table,
-				$erd,
-				$context["foreign_key"]
-			);
+			$cols_visible = $this->cols_visible($table, $erd, $context["foreign_key"]);
 			// $cols_visible = $this->cols_visible($table, $erd, "");
 		}
 		elseif ($page_type == "table") {
@@ -926,28 +922,28 @@ class Table_page_lib
 
 				$dont_scan = "";
 
-				$core_abilities = $this->table_o_and_d("overview", $erd, $table, null, $record["id"], "", $dont_scan);
+				$rec_o = $this->table_o_and_d("overview", $erd, $table, null, $record["id"], "", $dont_scan);
 
 
-				$parental_abilities = array();
-				if (isset($erd[$core_abilities["tab_o"]["table"]]["items"])) {
-					$items = $erd[$core_abilities["tab_o"]["table"]]["items"];
+				$rec_d = array();
+				if (isset($erd[$rec_o["tab_o"]["table"]]["items"])) {
+					$items = $erd[$rec_o["tab_o"]["table"]]["items"];
 					foreach ($items as $key => $value) {
 						if ($key !== $dont_scan) {
 
 
-							$parental_abilities[$key] = $this->table_o_and_d("details", $erd, $key, $value, $record["id"], $table, $dont_scan);
+							$rec_d[$key] = $this->table_o_and_d("details", $erd, $key, $value, $record["id"], $table, $dont_scan);
 
 						} else {
-							$parental_abilities[$key] = array();
+							$rec_d[$key] = array();
 						}
 					}
 				}
 
-				// $data["core_abilities"]["tab_o"] = $core_abilities["tab_o"];
-				// $data["core_abilities"]["tab_d"] = $core_abilities_tab_d;
-				$data["core_abilities"] = $core_abilities;
-				$data["parental_abilities"] = $parental_abilities;
+				// $data["rec_o"]["tab_o"] = $rec_o["tab_o"];
+				// $data["rec_o"]["tab_d"] = $rec_o_tab_d;
+				$data["rec_o"] = $rec_o;
+				$data["rec_d"] = $rec_d;
 			} else {
 
 				$data["record_exits"] = 0;
@@ -985,10 +981,10 @@ class Table_page_lib
 			$data["table_exists"] = 1;
 
 
-			$core_abilities = $this->table_o_and_d("table", $erd, $table, null, null, "", null);
+			$rec_o = $this->table_o_and_d("table", $erd, $table, null, null, "", null);
 
 
-			$data["core_abilities"] = $core_abilities;
+			$data["rec_o"] = $rec_o;
 		} else {
 
 			$data["table_exists"] = 0;

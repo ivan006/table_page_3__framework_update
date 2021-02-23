@@ -50,13 +50,13 @@ class Record_c extends CI_Controller
 
 
 			$this->load->view('table_header_v', array("data"=>$data));
-			$this->load->view('table_block_v', array("data"=>$data["core_abilities"], "owner_group_options"=>$owner_group_options));
+			$this->load->view('table_block_v', array("data"=>$data["rec_o"], "owner_group_options"=>$owner_group_options));
 
 
-			if (!empty($data["parental_abilities"])) {
+			if (!empty($data["rec_d"])) {
 				$this->load->view('blank_v', array("data"=>'<div class="row"><div class="col-md-12 mt-5"><h2 class="text-center">items</h2><hr style="background-color: black; color: black; height: 1px;"></div></div>'));
 			}
-			foreach ($data["parental_abilities"] as $key => $value) {
+			foreach ($data["rec_d"] as $key => $value) {
 				if (!empty($value)) {
 					// code...
 					$this->load->view('table_block_v', array("data"=>$value,"owner_group_options"=>$owner_group_options));
