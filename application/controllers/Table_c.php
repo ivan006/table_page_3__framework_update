@@ -100,7 +100,15 @@ class Table_c extends CI_Controller
 			// redirect them to the login page
 			redirect('auth/login', 'refresh');
 		}
-		$result = $this->table_page_lib->fetch($table, "record", array("haystack"=>$haystack, "needle"=>$needle, "foreign_key"=>$foreign_key));
+		$result = $this->table_page_lib->fetch(
+			$table,
+			"record",
+			array(
+				"haystack"=>$haystack,
+				"needle"=>$needle,
+				"foreign_key"=>$foreign_key
+			)
+		);
 		header('Content-Type: application/json');
 		echo json_encode($result, JSON_PRETTY_PRINT);
 	}

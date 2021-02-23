@@ -119,7 +119,11 @@ class Table_page_lib
 
 		if ($page_type == "record") {
 			$context["foreign_key"] = urldecode($context["foreign_key"]);
-			$cols_visible = $this->cols_visible($table, $erd, $context["foreign_key"]);
+			$cols_visible = $this->cols_visible(
+				$table,
+				$erd,
+				$context["foreign_key"]
+			);
 			// $cols_visible = $this->cols_visible($table, $erd, "");
 		}
 		elseif ($page_type == "table") {
