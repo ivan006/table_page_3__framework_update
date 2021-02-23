@@ -165,8 +165,8 @@ class Table_page_lib
 
 					}
 					if (isset($value["is_self_joined"])) {
-						// $tab_d["cols"]["visible"] = array_merge(
-						// 	$tab_d["cols"]["visible"],
+						// $g_fields["visible"] = array_merge(
+						// 	$g_fields["visible"],
 						// 	array("$key - lineage" => "1")
 						// );
 						$query = $query->select("`joining_table_".$key."_lineage`.path"." as `$key - lineage`");
@@ -471,9 +471,9 @@ class Table_page_lib
 
 		$editable = $erd[$table]["fields"];
 		foreach ($editable as $key => $value) {
-			$tab_d["cols"]["editable"][$key]["col_deets"] = $value;
+			$g_fields["editable"][$key]["col_deets"] = $value;
 			if ($key == $foreign_k) {
-				$tab_d["cols"]["editable"][$key]["assumable"] = $record_id;
+				$g_fields["editable"][$key]["assumable"] = $record_id;
 			}
 		}
 
@@ -494,22 +494,22 @@ class Table_page_lib
 		// exit;
 
 
-		$tab_d["cols"]["visible"] = array();
+		$g_fields["visible"] = array();
 
-		$tab_d["cols"]["visible"] = $cols_visible["cols_o"];
+		$g_fields["visible"] = $cols_visible["cols_o"];
 
 		$cols_wth_props = array();
 		foreach ($cols_visible["cols_d"] as $key => $value) {
 			foreach ($value["cols"] as $key_2 => $value_2) {
 				$cols_wth_props["$key - $key_2"] = $value_2;
 			}
-			$tab_d["cols"]["visible"] = array_merge(
-				$tab_d["cols"]["visible"],
+			$g_fields["visible"] = array_merge(
+				$g_fields["visible"],
 				$cols_wth_props
 			);
 
 			// $ignore_col_set
-			if (isset($tab_d["cols"]["editable"][$value["linking_key"]])) {
+			if (isset($g_fields["editable"][$value["linking_key"]])) {
 				// code...
 				$cols_visible_lookup_helper = $this->cols_visible($key, $erd, "");
 				$cols_visible_lookup = $cols_visible_lookup_helper["cols_o"];
@@ -532,21 +532,21 @@ class Table_page_lib
 
 				}
 
-				$tab_d["cols"]["editable"][$value["linking_key"]]["rels"] = array(
+				$g_fields["editable"][$value["linking_key"]]["rels"] = array(
 					"table"=>$key,
 					// "rows"=>$value["cols"]
 					"rows"=>$cols_visible_lookup
 				);
 				if (isset($value["is_self_joined"])) {
-					$tab_d["cols"]["visible"] = array_merge(
-						$tab_d["cols"]["visible"],
+					$g_fields["visible"] = array_merge(
+						$g_fields["visible"],
 						array("$key - lineage" => "1")
 					);
 				}
 			}
 			// // $editable = $erd[$table]["fields"];
 			// foreach ($editable as $key => $value) {
-			// 	$tab_d["cols"]["editable"][$key]["col_deets"] = $value;
+			// 	$g_fields["editable"][$key]["col_deets"] = $value;
 			// }
 		}
 
@@ -558,7 +558,7 @@ class Table_page_lib
 
 
 		$result["g_identity"] = $g_identity;
-		$result["tab_d"] = $tab_d;
+		$result["g_fields"] = $g_fields;
 
 
 
@@ -945,7 +945,7 @@ class Table_page_lib
 				}
 
 				// $data["g_core_abilities"]["g_identity"] = $g_core_abilities["g_identity"];
-				// $data["g_core_abilities"]["tab_d"] = $g_core_abilities_tab_d;
+				// $data["g_core_abilities"]["g_fields"] = $g_core_abilities_g_fields;
 				$data["g_core_abilities"] = $g_core_abilities;
 				$data["g_parental_abilities"] = $g_parental_abilities;
 			} else {

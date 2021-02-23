@@ -15,8 +15,8 @@ if(!function_exists('makeSafeForCSS')){
     }
 }
 
-$editable_rows = $data["tab_d"]["cols"]["editable"];
-$readable_rows = $data["tab_d"]["cols"]["visible"];
+$editable_rows = $data["g_fields"]["editable"];
+$readable_rows = $data["g_fields"]["visible"];
 
 
 $view_link_table = $data["g_identity"]["table"];
@@ -29,8 +29,8 @@ if ($owner_group_options["assumed"] == "yes") {
 
 
 // if (!isset($join)) {
-//   $editable_rows = $data["tab_d"]["cols"]["editable"];
-//   $readable_rows = $data["tab_d"]["cols"]["visible"];
+//   $editable_rows = $data["g_fields"]["editable"];
+//   $readable_rows = $data["g_fields"]["visible"];
 //
 //
 //   $view_link_table = $data["g_identity"]["table"];
@@ -38,7 +38,7 @@ if ($owner_group_options["assumed"] == "yes") {
 // } else {
 //
 //
-//   $editable_rows = $data["tab_d"]["cols"]["editable"];
+//   $editable_rows = $data["g_fields"]["editable"];
 //   $readable_rows = $join["rows"]["editable"];
 //   $data["g_identity"]["data_endpoint"] = $join["data_endpoint"];
 //
