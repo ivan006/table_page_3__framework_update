@@ -10,13 +10,25 @@ class Table_c extends CI_Controller
 		$this->load->library('form_validation');
 		// $this->load->model('trip');
 		// $this->load->library('../modules/trips/controllers/table_page_lib');
-		$this->load->library('table_page_lib');
+
+		// $this->load->library('table_page_lib');
+		// $this->load->library('erd_lib');
+
+		// $this->load->library(
+		// 	'table_page_lib',
+		// 	'erd_lib'
+		// );
 
 
 
 
 		$this->load->database();
-		$this->load->library(['ion_auth', 'form_validation']);
+		$this->load->library([
+			'ion_auth',
+			'form_validation',
+			'table_page_lib',
+			'erd_lib',
+		]);
 		$this->load->helper(['url', 'language']);
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 		$this->lang->load('auth');
@@ -32,33 +44,16 @@ class Table_c extends CI_Controller
 		}
 
 
-		$erd_path = APPPATH.'erd/erd/erd.json';
-		$erd= file_get_contents($erd_path);
-		$erd= json_decode($erd, true);
+		$data = $this->table_page_lib->table_abilities($table);
 
-		// $data["tab_d"]["cols"]["editable"] = $erd[$table]["fields"];
-		// $data["tab_d"]["cols"]["visible"] = $erd[$table]["fields"];
-		//
-		//
-		// $data["tab_o"]["table"] = $table;
-		// $data["tab_o"]["rel_name"] = $table;
-		// $data["tab_o"]["rel_name_id"] = $data["tab_o"]["rel_name"];
-		// $data["tab_o"]["data_endpoint"] = "fetch";
-		//
-		// $data = $this->table_page_lib->table_o_and_d("overview", $erd, $table, null, $record["id"], "", $dont_scan);
-		$data = $this->table_page_lib->table_o_and_d("table", $erd, $table, null, null, "", null);
-
-
-		$data["owner_group_options"] = array(
+		$owner_group_options = array(
 			"assumed" => "no",
 			"options" => $this->table_page_lib->owner_group_options()
 		);
 
-
-		$data['title'] = $table;
 		$this->load->view('table_header_v', array("data"=>$data));
-		$this->load->view('table_block_v', array("data"=>$data,"owner_group_options"=>$data["owner_group_options"]));
-		$this->load->view('table_footer_v');
+		$this->load->view('table_block_v', array("data"=>$data["rec_o"],"owner_group_options"=>$owner_group_options));
+		$this->load->view('table_footer_v', array("data"=>$data));
 
 	}
 

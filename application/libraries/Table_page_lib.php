@@ -892,11 +892,10 @@ class Table_page_lib
 	}
 
 
-	public function table_abilities($table, $record_id)
+	public function record_abilities($table, $record_id)
 	{
 		$table = urldecode($table);
 		$tab_o_singular = $this->CI->erd_lib->grammar_singular($table);
-
 
 		$data = array();
 		$data["title"] = $tab_o_singular." ".$record_id;
@@ -905,51 +904,51 @@ class Table_page_lib
 		$record = $this->fetch($table, "record", array("haystack"=>"id","needle"=>$record_id, "foreign_key"=>""))["posts"][0];
 
 
-		// echo $record;
-		if (!empty($record)) {
+		$tables_in_db = $this->CI->erd_lib->tables_in_db();
+		// header('Content-Type: application/json');
+		// echo json_encode($tables, JSON_PRETTY_PRINT);
+		// exit;
 
+		if (isset($tables_in_db[$table])) {
 			$data["table_exists"] = 1;
+			if (!empty($record)) {
 
-			$erd_path = APPPATH.'erd/erd/erd.json';
-			$erd = file_get_contents($erd_path);
-			$erd = json_decode($erd, true);
+				$data["record_exits"] = 1;
 
-
-			$dont_scan = "";
-
-			$rec_o = $this->table_o_and_d("overview", $erd, $table, null, $record["id"], "", $dont_scan);
+				$erd_path = APPPATH.'erd/erd/erd.json';
+				$erd = file_get_contents($erd_path);
+				$erd = json_decode($erd, true);
 
 
-			$rec_d = array();
-			if (isset($erd[$rec_o["tab_o"]["table"]]["items"])) {
-				$items = $erd[$rec_o["tab_o"]["table"]]["items"];
-				foreach ($items as $key => $value) {
-					if ($key !== $dont_scan) {
+				$dont_scan = "";
+
+				$rec_o = $this->table_o_and_d("overview", $erd, $table, null, $record["id"], "", $dont_scan);
 
 
-						$rec_d[$key] = $this->table_o_and_d("details", $erd, $key, $value, $record["id"], $table, $dont_scan);
+				$rec_d = array();
+				if (isset($erd[$rec_o["tab_o"]["table"]]["items"])) {
+					$items = $erd[$rec_o["tab_o"]["table"]]["items"];
+					foreach ($items as $key => $value) {
+						if ($key !== $dont_scan) {
 
-					} else {
-						$rec_d[$key] = array();
+
+							$rec_d[$key] = $this->table_o_and_d("details", $erd, $key, $value, $record["id"], $table, $dont_scan);
+
+						} else {
+							$rec_d[$key] = array();
+						}
 					}
 				}
+
+				// $data["rec_o"]["tab_o"] = $rec_o["tab_o"];
+				// $data["rec_o"]["tab_d"] = $rec_o_tab_d;
+				$data["rec_o"] = $rec_o;
+				$data["rec_d"] = $rec_d;
+			} else {
+
+				$data["record_exits"] = 0;
 			}
 
-			// $data["rec_o"]["tab_o"] = $rec_o["tab_o"];
-			// $data["rec_o"]["tab_d"] = $rec_o_tab_d;
-			$data["rec_o"] = $rec_o;
-			$data["rec_d"] = $rec_d;
-
-			$data["owner_group_options"] = array(
-				"assumed" => "yes",
-				"options" => array(
-					array(
-						"id" => "1",
-						"name" => "1",
-						"indent" => ""
-					)
-				)
-			);
 
 
 		} else {
@@ -957,6 +956,43 @@ class Table_page_lib
 			$data["table_exists"] = 0;
 		}
 		return $data;
+
+
+	}
+
+	public function table_abilities($table)
+	{
+
+		$erd_path = APPPATH.'erd/erd/erd.json';
+		$erd= file_get_contents($erd_path);
+		$erd= json_decode($erd, true);
+
+
+		$data['title'] = $table;
+
+
+		$tables_in_db = $this->CI->erd_lib->tables_in_db();
+		// header('Content-Type: application/json');
+		// echo json_encode($tables, JSON_PRETTY_PRINT);
+		// exit;
+
+		if (isset($tables_in_db[$table])) {
+
+			$data["table_exists"] = 1;
+
+
+			$rec_o = $this->table_o_and_d("table", $erd, $table, null, null, "", null);
+
+
+			$data["rec_o"] = $rec_o;
+		} else {
+
+			$data["table_exists"] = 0;
+		}
+
+
+		return $data;
+
 
 
 	}

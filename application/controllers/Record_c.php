@@ -29,7 +29,19 @@ class Record_c extends CI_Controller
 			redirect('auth/login', 'refresh');
 		}
 
-		$data = $this->table_page_lib->table_abilities($table, $record_id);
+		$data = $this->table_page_lib->record_abilities($table, $record_id);
+
+
+		$owner_group_options = array(
+			"assumed" => "yes",
+			"options" => array(
+				array(
+					"id" => "1",
+					"name" => "1",
+					"indent" => ""
+				)
+			)
+		);
 
 		// echo $record;
 		if ($data["table_exists"] == 1) {
@@ -38,7 +50,7 @@ class Record_c extends CI_Controller
 
 
 			$this->load->view('table_header_v', array("data"=>$data));
-			$this->load->view('table_block_v', array("data"=>$data["rec_o"], "owner_group_options"=>$data["owner_group_options"]));
+			$this->load->view('table_block_v', array("data"=>$data["rec_o"], "owner_group_options"=>$owner_group_options));
 
 
 			if (!empty($data["rec_d"])) {
@@ -47,7 +59,7 @@ class Record_c extends CI_Controller
 			foreach ($data["rec_d"] as $key => $value) {
 				if (!empty($value)) {
 					// code...
-					$this->load->view('table_block_v', array("data"=>$value,"owner_group_options"=>$data["owner_group_options"]));
+					$this->load->view('table_block_v', array("data"=>$value,"owner_group_options"=>$owner_group_options));
 				}
 			}
 			$this->load->view('table_footer_v', array("data"=>$data));

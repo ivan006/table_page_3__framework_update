@@ -358,21 +358,9 @@ class Erd_lib
 	{
 
 
-
-		$query = array(
-      "SHOW TABLES",
-    );
-    $query = implode(" ", $query);
-    $query_result = $this->CI->db->query($query)->result_array();
+		$tables = $this->tables_in_db();
 
 
-		// $query_result = array_column($query_result, 'Field');
-
-		$tables = array();
-		foreach ($query_result as $key => $value) {
-			$value = reset($value);
-			$tables[$value] = array();
-		}
 		// ksort($tables);
 		$erd = $this->erd();
 		$erd = json_decode($erd, true);
@@ -445,6 +433,26 @@ class Erd_lib
 		}
 
 		$result = json_encode($tables_and_fields, JSON_PRETTY_PRINT);
+		return $result;
+
+	}
+
+	function tables_in_db()
+	{
+		$query = array(
+			"SHOW TABLES",
+		);
+		$query = implode(" ", $query);
+		$query_result = $this->CI->db->query($query)->result_array();
+
+
+		// $query_result = array_column($query_result, 'Field');
+
+		$tables = array();
+		foreach ($query_result as $key => $value) {
+			$value = reset($value);
+			$result[$value] = array();
+		}
 		return $result;
 
 	}
