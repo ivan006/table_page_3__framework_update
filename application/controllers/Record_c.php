@@ -28,59 +28,11 @@ class Record_c extends CI_Controller
 			// redirect them to the login page
 			redirect('auth/login', 'refresh');
 		}
-		$table = urldecode($table);
-		$tab_o_singular = $this->erd_lib->grammar_singular($table);
 
-
-		$data = array();
-		$data["title"] = $tab_o_singular." ".$record_id;
-
-
-		$record = $this->table_page_lib->fetch($table, "record", array("haystack"=>"id","needle"=>$record_id, "foreign_key"=>""))["posts"][0];
-
+		$data = $this->table_page_lib->table_abilities($table, $record_id);
 
 		// echo $record;
-		if (!empty($record)) {
-			$erd_path = APPPATH.'erd/erd/erd.json';
-			$erd = file_get_contents($erd_path);
-			$erd = json_decode($erd, true);
-
-
-			$dont_scan = "";
-
-			$rec_o = $this->table_page_lib->table_o_and_d("overview", $erd, $table, null, $record["id"], "", $dont_scan);
-
-
-			$rec_d = array();
-			if (isset($erd[$rec_o["tab_o"]["table"]]["items"])) {
-				$items = $erd[$rec_o["tab_o"]["table"]]["items"];
-				foreach ($items as $key => $value) {
-					if ($key !== $dont_scan) {
-
-
-						$rec_d[$key] = $this->table_page_lib->table_o_and_d("details", $erd, $key, $value, $record["id"], $table, $dont_scan);
-
-					} else {
-						$rec_d[$key] = array();
-					}
-				}
-			}
-
-			// $data["rec_o"]["tab_o"] = $rec_o["tab_o"];
-			// $data["rec_o"]["tab_d"] = $rec_o_tab_d;
-			$data["rec_o"] = $rec_o;
-			$data["rec_d"] = $rec_d;
-
-			$data["owner_group_options"] = array(
-				"assumed" => "yes",
-				"options" => array(
-					array(
-						"id" => "1",
-						"name" => "1",
-						"indent" => ""
-					)
-				)
-			);
+		if ($data["table_exists"] == 1) {
 
 
 

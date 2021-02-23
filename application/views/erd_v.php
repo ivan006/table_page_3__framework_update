@@ -47,11 +47,18 @@
     </details>
 
     <details>
-      <summary>ERD cache</summary>
+      <summary>Models</summary>
 
-      <pre>Relationship errors: <?php echo 123; ?></pre>
-      <hr>
+
       <pre><?php echo $model_two; ?></pre>
+      <hr>
+
+    </details>
+
+    <details>
+      <summary>CRUD Cache</summary>
+
+      <pre>Look in "application\erd\erd\crud_cache"</pre>
       <hr>
 
     </details>

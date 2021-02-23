@@ -14,7 +14,13 @@ class Table_page_lib
 		$this->CI =& get_instance();
 		//
 		$this->CI->load->helper(array('form', 'url'));
-		$this->CI->load->library('form_validation','erd_lib','input', 'ion_auth', 'session');
+		$this->CI->load->library(
+			'form_validation',
+			'erd_lib',
+			'input',
+			'ion_auth',
+			'session'
+		);
 
 
 	}
@@ -238,9 +244,9 @@ class Table_page_lib
 	//
 	//
 	// 	// $posts = $this->CI->db->select('*')->where($haystack, $needle)->from($table_1)->join($table_2, "$table_1.$table_2_key = $table_2.id")->get()->result_array();
-	// 	$table_2_singular = $this->erd_lib->grammar_singular($table_2);
+	// 	$table_2_singular = $this->CI->erd_lib->grammar_singular($table_2);
 	// 	$table_2_singular = $table_2_singular."_id";
-	// 	// $table_1_singular = $this->erd_lib->grammar_singular($table_1);
+	// 	// $table_1_singular = $this->CI->erd_lib->grammar_singular($table_1);
 	// 	// $haystack = $table_1_singular.".".$haystack;
 	//
 	//
@@ -884,6 +890,78 @@ class Table_page_lib
 		return $result;
 
 	}
+
+
+	public function table_abilities($table, $record_id)
+	{
+		$table = urldecode($table);
+		$tab_o_singular = $this->CI->erd_lib->grammar_singular($table);
+
+
+		$data = array();
+		$data["title"] = $tab_o_singular." ".$record_id;
+
+
+		$record = $this->fetch($table, "record", array("haystack"=>"id","needle"=>$record_id, "foreign_key"=>""))["posts"][0];
+
+
+		// echo $record;
+		if (!empty($record)) {
+
+			$data["table_exists"] = 1;
+
+			$erd_path = APPPATH.'erd/erd/erd.json';
+			$erd = file_get_contents($erd_path);
+			$erd = json_decode($erd, true);
+
+
+			$dont_scan = "";
+
+			$rec_o = $this->table_o_and_d("overview", $erd, $table, null, $record["id"], "", $dont_scan);
+
+
+			$rec_d = array();
+			if (isset($erd[$rec_o["tab_o"]["table"]]["items"])) {
+				$items = $erd[$rec_o["tab_o"]["table"]]["items"];
+				foreach ($items as $key => $value) {
+					if ($key !== $dont_scan) {
+
+
+						$rec_d[$key] = $this->table_o_and_d("details", $erd, $key, $value, $record["id"], $table, $dont_scan);
+
+					} else {
+						$rec_d[$key] = array();
+					}
+				}
+			}
+
+			// $data["rec_o"]["tab_o"] = $rec_o["tab_o"];
+			// $data["rec_o"]["tab_d"] = $rec_o_tab_d;
+			$data["rec_o"] = $rec_o;
+			$data["rec_d"] = $rec_d;
+
+			$data["owner_group_options"] = array(
+				"assumed" => "yes",
+				"options" => array(
+					array(
+						"id" => "1",
+						"name" => "1",
+						"indent" => ""
+					)
+				)
+			);
+
+
+		} else {
+
+			$data["table_exists"] = 0;
+		}
+		return $data;
+
+
+	}
+
+
 
 
 
