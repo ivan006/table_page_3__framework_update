@@ -15,11 +15,11 @@ if(!function_exists('makeSafeForCSS')){
     }
 }
 
-$editable_rows = $data["g_fields"]["editable"];
-$readable_rows = $data["g_fields"]["visible"];
+$editable_rows = $data["g_select"]["editable"];
+$readable_rows = $data["g_select"]["visible"];
 
 
-$view_link_table = $data["g_identity"]["table"];
+$view_link_table = $data["g_identity"]["g_from"];
 $view_link_id_key = "id";
 
 $hide_toggle = "";
@@ -29,21 +29,21 @@ if ($owner_group_options["assumed"] == "yes") {
 
 
 // if (!isset($join)) {
-//   $editable_rows = $data["g_fields"]["editable"];
-//   $readable_rows = $data["g_fields"]["visible"];
+//   $editable_rows = $data["g_select"]["editable"];
+//   $readable_rows = $data["g_select"]["visible"];
 //
 //
-//   $view_link_table = $data["g_identity"]["table"];
+//   $view_link_table = $data["g_identity"]["g_from"];
 //   $view_link_id_key = "id";
 // } else {
 //
 //
-//   $editable_rows = $data["g_fields"]["editable"];
+//   $editable_rows = $data["g_select"]["editable"];
 //   $readable_rows = $join["rows"]["editable"];
 //   $data["g_identity"]["data_endpoint"] = $join["data_endpoint"];
 //
 //   $lookup_table_names = $join["lookup"]["table_overview"];
-//   $view_link_table = $join["table_overview"]["table"];
+//   $view_link_table = $join["table_overview"]["g_from"];
 //   $view_link_id_key = $join["table_overview"]["foreign_key"];
 // }
 ?>
@@ -505,7 +505,7 @@ $action_type = "add";
       alert("Both field is required");
     }else{
       $.ajax({
-        url: "<?php echo base_url(); ?>api/table/t/<?php echo $data["g_identity"]["table"]; ?>/insert",
+        url: "<?php echo base_url(); ?>api/table/t/<?php echo $data["g_identity"]["g_from"]; ?>/insert",
         type: "post",
         dataType: "json",
         data: {
@@ -555,7 +555,7 @@ $action_type = "add";
 
   function <?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_fetch(){
     $.ajax({
-      url: "<?php echo base_url(); ?>api/table/t/<?php echo $data["g_identity"]["table"]; ?>/<?php echo $data["g_identity"]["data_endpoint"]; ?>",
+      url: "<?php echo base_url(); ?>api/table/t/<?php echo $data["g_identity"]["g_from"]; ?>/<?php echo $data["g_identity"]["data_endpoint"]; ?>",
       type: "post",
       dataType: "json",
       success: function(data){
@@ -637,7 +637,7 @@ $action_type = "add";
       if (result.value) {
 
         $.ajax({
-          url: "<?php echo base_url(); ?>api/table/t/<?php echo $data["g_identity"]["table"]; ?>/delete",
+          url: "<?php echo base_url(); ?>api/table/t/<?php echo $data["g_identity"]["g_from"]; ?>/delete",
           type: "post",
           dataType: "json",
           data: {
@@ -693,7 +693,7 @@ $action_type = "add";
 
 
     $.ajax({
-      url: "<?php echo base_url(); ?>api/table/t/<?php echo $data["g_identity"]["table"]; ?>/edit",
+      url: "<?php echo base_url(); ?>api/table/t/<?php echo $data["g_identity"]["g_from"]; ?>/edit",
       type: "post",
       dataType: "json",
       data: {
@@ -717,7 +717,7 @@ $action_type = "add";
               if (isset($value["assumable"])) {
                 ?>
 
-                state["<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key)."_"."value" ?>"] = <?php echo $data["g_identity"]["record_id"] ?>;
+                state["<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key)."_"."value" ?>"] = <?php echo $data["g_identity"]["g_where_needle"] ?>;
 
                 <?php
               }
@@ -777,7 +777,7 @@ $action_type = "add";
       alert("Both field is required");
     }else{
       $.ajax({
-        url: "<?php echo base_url(); ?>api/table/t/<?php echo $data["g_identity"]["table"]; ?>/update",
+        url: "<?php echo base_url(); ?>api/table/t/<?php echo $data["g_identity"]["g_from"]; ?>/update",
         type: "post",
         dataType: "json",
         data: {

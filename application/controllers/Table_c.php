@@ -97,7 +97,7 @@ class Table_c extends CI_Controller
 		echo json_encode($result, JSON_PRETTY_PRINT);
 	}
 
-	public function fetch_for_record($table, $haystack, $needle, $foreign_key)
+	public function fetch_for_record($table, $haystack, $needle, $h_type)
 	{
 		if (!$this->ion_auth->logged_in())
 		{
@@ -110,7 +110,7 @@ class Table_c extends CI_Controller
 			array(
 				"haystack"=>$haystack,
 				"needle"=>$needle,
-				"foreign_key"=>$foreign_key
+				"haystack_type"=>$h_type
 			)
 		);
 		header('Content-Type: application/json');

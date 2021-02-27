@@ -72,7 +72,7 @@ $route['api/table/t/(:any)/fetch'] = 'table_c/fetch/$1';
 $route['api/table/t/(:any)/delete'] = 'table_c/delete/$1';
 $route['api/table/t/(:any)/edit'] = 'table_c/edit/$1';
 $route['api/table/t/(:any)/update'] = 'table_c/update/$1';
-$route['api/table/t/(:any)/fetch_for_record/h/(:any)/n/(:any)/foreign_key/(:any)'] = 'table_c/fetch_for_record/$1/$2/$3/$4';
+$route['api/table/t/(:any)/fetch_for_record/h/(:any)/n/(:any)/h_type/(:any)'] = 'table_c/fetch_for_record/$1/$2/$3/$4';
 // $route['api/table/t/(:any)/fetch_join_where/t/(:any)/h/(:any)/n/(:any)'] = 'table_c/fetch_join_where/$1/$2/$3/$4';
 // $route['api/table/t/(:any)/fetch_join_where/t/(:any)/h/(:any)/n/(:any)'] = 'table_c/fetch_join_where/$1/$2/$3/$4';
 

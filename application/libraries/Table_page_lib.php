@@ -118,11 +118,16 @@ class Table_page_lib
 		$erd = json_decode($erd, true);
 
 		if ($page_type == "record") {
-			$context["foreign_key"] = urldecode($context["foreign_key"]);
+			$context["haystack_type"] = urldecode($context["haystack_type"]);
+			if ($context["haystack_type"] == "foreign_key") {
+				$foreign_key = $context["haystack"];
+			} else {
+				$foreign_key = null;
+			}
 			$cols_visible = $this->cols_visible(
 				$table,
 				$erd,
-				$context["foreign_key"]
+				$foreign_key
 			);
 			// $cols_visible = $this->cols_visible($table, $erd, "");
 		}
@@ -165,8 +170,8 @@ class Table_page_lib
 
 					}
 					if (isset($value["is_self_joined"])) {
-						// $g_fields["visible"] = array_merge(
-						// 	$g_fields["visible"],
+						// $g_select["visible"] = array_merge(
+						// 	$g_select["visible"],
 						// 	array("$key - lineage" => "1")
 						// );
 						$query = $query->select("`joining_table_".$key."_lineage`.path"." as `$key - lineage`");
@@ -345,7 +350,7 @@ class Table_page_lib
 			// 		foreach ($value["fields"] as $key_2 => $value_2) {
 			// 			$rel[$key][$key_2] = $value_2;
 			// 		}
-			// 		// $rel[$key]["table"] = $key;
+			// 		// $rel[$key]["g_from"] = $key;
 			// 	}
 			// }
 		}
@@ -421,14 +426,22 @@ class Table_page_lib
 		// }
 		if ($rec_part=="overview") {
 
-			$haystack = "id";
-			$needle = $record_id;
-
-			$g_identity["data_endpoint"] = "fetch_for_record/h/$haystack/n/$needle/foreign_key/null";
 			// $g_identity["type"] = "overview";
 			$g_identity["g_ability_name"] = $table;
 			$g_identity["g_ability_html_id"] = preg_replace('/\W+/','',strtolower(strip_tags($g_identity["g_ability_name"])));
-			$g_identity["table"] = $table;
+			$g_identity["g_from"] = $table;
+			$g_identity["g_where_haystack_type"] = "primary_key";
+
+			$haystack = "id";
+			$needle = $record_id;
+
+
+			$g_identity["g_where_haystack"] = $haystack;
+
+			$g_identity["g_where_haystack_type"] = "foreign_key";
+			$g_identity["g_where_needle"] = $needle;
+
+			$g_identity["data_endpoint"] = "fetch_for_record/h/$haystack/n/$needle/h_type/primary_key";
 
 		}
 		elseif ($rec_part=="details") {
@@ -436,16 +449,19 @@ class Table_page_lib
 			$haystack = $foreign_k; //changes
 			$needle = $record_id;
 
-			$data_endpoint = "fetch_for_record/h/$haystack/n/$needle/foreign_key/$foreign_k";
 
 
-			$g_identity["record_id"] = $record_id;
-			$g_identity["data_endpoint"] = $data_endpoint;
 			// $g_identity["type"] = "sub_items"; // changes
 			$g_identity["g_ability_name"] = $table." (as ".$foreign_k.")"; // changes
 			$g_identity["g_ability_html_id"] = preg_replace('/\W+/','',strtolower(strip_tags($g_identity["g_ability_name"])));
-			$g_identity["table"] = $table; // dynamic
-			$g_identity["foreign_key"] = $foreign_k;
+			$g_identity["g_from"] = $table; // dynamic
+			$g_identity["g_where_haystack"] = $foreign_k;
+
+			$g_identity["g_where_haystack_type"] = "foreign_key";
+			$g_identity["g_where_needle"] = $record_id;
+
+			$data_endpoint = "fetch_for_record/h/$haystack/n/$needle/h_type/foreign_key";
+			$g_identity["data_endpoint"] = $data_endpoint;
 
 			// var_dump($parent_g_identity);
 		}
@@ -454,13 +470,13 @@ class Table_page_lib
 			$data_endpoint = "fetch";
 
 
-			// $g_identity["record_id"] = $record_id;
-			$g_identity["data_endpoint"] = $data_endpoint;
 			// $g_identity["type"] = "table"; // changes
 			$g_identity["g_ability_name"] = $table; // changes
 			$g_identity["g_ability_html_id"] = preg_replace('/\W+/','',strtolower(strip_tags($g_identity["g_ability_name"])));
-			$g_identity["table"] = $table; // dynamic
-			// $g_identity["foreign_key"] = $foreign_k;
+			$g_identity["g_from"] = $table; // dynamic
+			// $g_identity["g_where_haystack"] = $foreign_k;
+			// $g_identity["g_where_needle"] = $record_id;
+			$g_identity["data_endpoint"] = $data_endpoint;
 
 			// var_dump($parent_g_identity);
 		}
@@ -471,22 +487,22 @@ class Table_page_lib
 
 		$editable = $erd[$table]["fields"];
 		foreach ($editable as $key => $value) {
-			$g_fields["editable"][$key]["col_deets"] = $value;
+			$g_select["editable"][$key]["col_deets"] = $value;
 			if ($key == $foreign_k) {
-				$g_fields["editable"][$key]["assumable"] = $record_id;
+				$g_select["editable"][$key]["assumable"] = $record_id;
 			}
 		}
 
 
 		if ($rec_part=="overview") {
-			$cols_visible = $this->cols_visible($g_identity["table"], $erd, "");
+			$cols_visible = $this->cols_visible($g_identity["g_from"], $erd, "");
 		}
 		elseif ($rec_part=="details") {
-			$cols_visible = $this->cols_visible($g_identity["table"], $erd, $foreign_k);
-			// $cols_visible = $this->cols_visible($g_identity["table"], $erd, "");
+			$cols_visible = $this->cols_visible($g_identity["g_from"], $erd, $foreign_k);
+			// $cols_visible = $this->cols_visible($g_identity["g_from"], $erd, "");
 		}
 		elseif ($rec_part=="table") {
-			$cols_visible = $this->cols_visible($g_identity["table"], $erd, "");
+			$cols_visible = $this->cols_visible($g_identity["g_from"], $erd, "");
 		}
 
 		// header('Content-Type: application/json');
@@ -494,22 +510,22 @@ class Table_page_lib
 		// exit;
 
 
-		$g_fields["visible"] = array();
+		$g_select["visible"] = array();
 
-		$g_fields["visible"] = $cols_visible["cols_o"];
+		$g_select["visible"] = $cols_visible["cols_o"];
 
 		$cols_wth_props = array();
 		foreach ($cols_visible["cols_d"] as $key => $value) {
 			foreach ($value["cols"] as $key_2 => $value_2) {
 				$cols_wth_props["$key - $key_2"] = $value_2;
 			}
-			$g_fields["visible"] = array_merge(
-				$g_fields["visible"],
+			$g_select["visible"] = array_merge(
+				$g_select["visible"],
 				$cols_wth_props
 			);
 
 			// $ignore_col_set
-			if (isset($g_fields["editable"][$value["linking_key"]])) {
+			if (isset($g_select["editable"][$value["linking_key"]])) {
 				// code...
 				$cols_visible_lookup_helper = $this->cols_visible($key, $erd, "");
 				$cols_visible_lookup = $cols_visible_lookup_helper["cols_o"];
@@ -532,21 +548,21 @@ class Table_page_lib
 
 				}
 
-				$g_fields["editable"][$value["linking_key"]]["rels"] = array(
+				$g_select["editable"][$value["linking_key"]]["rels"] = array(
 					"table"=>$key,
 					// "rows"=>$value["cols"]
 					"rows"=>$cols_visible_lookup
 				);
 				if (isset($value["is_self_joined"])) {
-					$g_fields["visible"] = array_merge(
-						$g_fields["visible"],
+					$g_select["visible"] = array_merge(
+						$g_select["visible"],
 						array("$key - lineage" => "1")
 					);
 				}
 			}
 			// // $editable = $erd[$table]["fields"];
 			// foreach ($editable as $key => $value) {
-			// 	$g_fields["editable"][$key]["col_deets"] = $value;
+			// 	$g_select["editable"][$key]["col_deets"] = $value;
 			// }
 		}
 
@@ -558,7 +574,7 @@ class Table_page_lib
 
 
 		$result["g_identity"] = $g_identity;
-		$result["g_fields"] = $g_fields;
+		$result["g_select"] = $g_select;
 
 
 
@@ -902,10 +918,17 @@ class Table_page_lib
 		$g_identity_singular = $this->CI->erd_lib->grammar_singular($table);
 
 		$data = array();
+		$data["table_name"] = $table;
+		$data["table_name_singular"] = $g_identity_singular;
+		$data["record_id"] = $record_id;
 		$data["title"] = $g_identity_singular." ".$record_id;
 
 
-		$record = $this->fetch($table, "record", array("haystack"=>"id","needle"=>$record_id, "foreign_key"=>""))["posts"][0];
+		$record = $this->fetch($table, "record", array(
+			"haystack"=>"id",
+			"needle"=>$record_id,
+			"haystack_type"=>"primary_key"
+		))["posts"][0];
 
 
 		$tables_in_db = $this->CI->erd_lib->tables_in_db();
@@ -930,8 +953,8 @@ class Table_page_lib
 
 
 				$g_parental_abilities = array();
-				if (isset($erd[$g_core_abilities["g_identity"]["table"]]["items"])) {
-					$items = $erd[$g_core_abilities["g_identity"]["table"]]["items"];
+				if (isset($erd[$g_core_abilities["g_identity"]["g_from"]]["items"])) {
+					$items = $erd[$g_core_abilities["g_identity"]["g_from"]]["items"];
 					foreach ($items as $key => $value) {
 						if ($key !== $dont_scan) {
 
@@ -945,7 +968,7 @@ class Table_page_lib
 				}
 
 				// $data["g_core_abilities"]["g_identity"] = $g_core_abilities["g_identity"];
-				// $data["g_core_abilities"]["g_fields"] = $g_core_abilities_g_fields;
+				// $data["g_core_abilities"]["g_select"] = $g_core_abilities_g_select;
 				$data["g_core_abilities"] = $g_core_abilities;
 				$data["g_parental_abilities"] = $g_parental_abilities;
 			} else {
