@@ -105,22 +105,22 @@ class Table_page_lib
 	}
 
 	// public function fetch_for_record($table, $haystack, $needle, $child_of)
-	public function fetch($table, $page_type, $context)
+	public function fetch($table, $page_type, $where)
 	{
 		$table = urldecode($table);
 
 		$this->CI->load->database();
 
-		// $posts = $this->CI->db->where($context["haystack"], $context["needle"])->get($table)->result_array();
+		// $posts = $this->CI->db->where($where["haystack"], $where["needle"])->get($table)->result_array();
 
 		$erd_path = APPPATH.'erd/erd/erd.json';
 		$erd = file_get_contents($erd_path);
 		$erd = json_decode($erd, true);
 
 		if ($page_type == "record") {
-			$context["haystack_type"] = urldecode($context["haystack_type"]);
-			if ($context["haystack_type"] == "foreign_key") {
-				$foreign_key = $context["haystack"];
+			$where["haystack_type"] = urldecode($where["haystack_type"]);
+			if ($where["haystack_type"] == "foreign_key") {
+				$foreign_key = $where["haystack"];
 			} else {
 				$foreign_key = null;
 			}
@@ -207,8 +207,8 @@ class Table_page_lib
 			}
 
 			if ($page_type == "record") {
-				$context["haystack"] = urldecode($context["haystack"]);
-				$query = $query->where("`".$table."`"."."."`".$context["haystack"]."` =", $context["needle"]);
+				$where["haystack"] = urldecode($where["haystack"]);
+				$query = $query->where("`".$table."`"."."."`".$where["haystack"]."` =", $where["needle"]);
 			}
 			elseif ($page_type == "table") {
 			}
@@ -318,7 +318,8 @@ class Table_page_lib
 			if (isset($value["items"])) {
 				foreach ($value["items"] as $key_2 => $value_2) {
 					if ($key_2 == $table) {
-						if ($value_2 !== $foreign_key) {
+
+						if ($value_2 !== $foreign_key) { // dont inherit values for current parent
 							// echo $key_2;
 							$parents[$key]["cols"] = $value["fields"];
 							$parents[$key]["linking_key"] = $value_2;
