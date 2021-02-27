@@ -1241,43 +1241,6 @@ class Table_page_lib
 
 	}
 
-	public function table_abilities_old($table)
-	{
-
-		$erd_path = APPPATH.'erd/erd/erd.json';
-		$erd= file_get_contents($erd_path);
-		$erd= json_decode($erd, true);
-
-
-		$data['title'] = $table;
-
-
-		$tables_in_db = $this->CI->erd_lib->tables_in_db();
-		// header('Content-Type: application/json');
-		// echo json_encode($tables, JSON_PRETTY_PRINT);
-		// exit;
-
-		if (isset($tables_in_db[$table])) {
-
-			$data["table_exists"] = 1;
-
-
-			$g_core_abilities = $this->table_o_and_d("table", $erd, $table, null, null, "", null);
-
-
-			$data["g_core_abilities"] = $g_core_abilities;
-		} else {
-
-			$data["table_exists"] = 0;
-		}
-
-
-		return $data;
-
-
-
-	}
-
 	public function table_abilities($table)
 	{
 
