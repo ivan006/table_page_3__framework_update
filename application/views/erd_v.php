@@ -59,6 +59,7 @@
       <summary>CRUD Cache</summary>
 
       <pre>Look in "application\erd\erd\crud_cache"</pre>
+      <pre><?php echo $abilities_cache ?></pre>
       <hr>
 
     </details>

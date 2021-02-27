@@ -12,7 +12,12 @@ class Erd_c extends CI_Controller
 
 
 		$this->load->database();
-		$this->load->library(['erd_lib', 'ion_auth', 'form_validation']);
+		$this->load->library([
+			'erd_lib',
+			'ion_auth',
+			'form_validation',
+			'table_page_lib'
+		]);
 		$this->load->helper(['url', 'language']);
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 		$this->lang->load('auth');
@@ -32,6 +37,8 @@ class Erd_c extends CI_Controller
 		$data["db_to_erd"] = $this->erd_lib->db_to_erd();
 		$data["diff"] = $this->erd_lib->diff();
 
+
+		$data["abilities_cache"] = json_encode($this->table_page_lib->abilities_cache("objects"), JSON_PRETTY_PRINT);
 
 		// header('Content-Type: application/json');
 		// echo json_encode($class);

@@ -441,7 +441,7 @@ class Table_page_lib
 			$g_identity["g_where_haystack_type"] = "foreign_key";
 			$g_identity["g_where_needle"] = $needle;
 
-			$g_identity["data_endpoint"] = "fetch_for_record/h/$haystack/n/$needle/h_type/primary_key";
+			$g_identity["data_endpoint"] = "fetch_for_record/h_type/primary_key/h/$haystack/n/$needle";
 
 		}
 		elseif ($rec_part=="details") {
@@ -460,7 +460,7 @@ class Table_page_lib
 			$g_identity["g_where_haystack_type"] = "foreign_key";
 			$g_identity["g_where_needle"] = $record_id;
 
-			$data_endpoint = "fetch_for_record/h/$haystack/n/$needle/h_type/foreign_key";
+			$data_endpoint = "fetch_for_record/h_type/foreign_key/h/$haystack/n/$needle";
 			$g_identity["data_endpoint"] = $data_endpoint;
 
 			// var_dump($parent_g_identity);
@@ -490,6 +490,171 @@ class Table_page_lib
 			$g_select["editable"][$key]["col_deets"] = $value;
 			if ($key == $foreign_k) {
 				$g_select["editable"][$key]["assumable"] = $record_id;
+			}
+		}
+
+
+		if ($rec_part=="overview") {
+			$cols_visible = $this->cols_visible($g_identity["g_from"], $erd, "");
+		}
+		elseif ($rec_part=="details") {
+			$cols_visible = $this->cols_visible($g_identity["g_from"], $erd, $foreign_k);
+			// $cols_visible = $this->cols_visible($g_identity["g_from"], $erd, "");
+		}
+		elseif ($rec_part=="table") {
+			$cols_visible = $this->cols_visible($g_identity["g_from"], $erd, "");
+		}
+
+		// header('Content-Type: application/json');
+		// echo json_encode($cols_visible, JSON_PRETTY_PRINT);
+		// exit;
+
+
+		$g_select["visible"] = array();
+
+		$g_select["visible"] = $cols_visible["cols_o"];
+
+		$cols_wth_props = array();
+		foreach ($cols_visible["cols_d"] as $key => $value) {
+			foreach ($value["cols"] as $key_2 => $value_2) {
+				$cols_wth_props["$key - $key_2"] = $value_2;
+			}
+			$g_select["visible"] = array_merge(
+				$g_select["visible"],
+				$cols_wth_props
+			);
+
+			// $ignore_col_set
+			if (isset($g_select["editable"][$value["linking_key"]])) {
+				// code...
+				$cols_visible_lookup_helper = $this->cols_visible($key, $erd, "");
+				$cols_visible_lookup = $cols_visible_lookup_helper["cols_o"];
+				$cols_visible_lookup_part_2 = array();
+				foreach ($cols_visible_lookup_helper["cols_d"] as $key_lookup => $value_lookup) {
+					foreach ($value_lookup["cols"] as $key_lookup_2 => $value_lookup_2) {
+						$cols_visible_lookup_part_2["$key_lookup - $key_lookup_2"] = $value_lookup_2;
+					}
+					$cols_visible_lookup = array_merge(
+						$cols_visible_lookup,
+						$cols_visible_lookup_part_2
+					);
+
+					if (isset($value_lookup["is_self_joined"])) {
+						$cols_visible_lookup = array_merge(
+							$cols_visible_lookup,
+							array("$key_lookup - lineage" => "1")
+						);
+					}
+
+				}
+
+				$g_select["editable"][$value["linking_key"]]["rels"] = array(
+					"table"=>$key,
+					// "rows"=>$value["cols"]
+					"rows"=>$cols_visible_lookup
+				);
+				if (isset($value["is_self_joined"])) {
+					$g_select["visible"] = array_merge(
+						$g_select["visible"],
+						array("$key - lineage" => "1")
+					);
+				}
+			}
+			// // $editable = $erd[$table]["fields"];
+			// foreach ($editable as $key => $value) {
+			// 	$g_select["editable"][$key]["col_deets"] = $value;
+			// }
+		}
+
+
+
+
+
+
+
+
+		$result["g_identity"] = $g_identity;
+		$result["g_select"] = $g_select;
+
+
+
+		return $result;
+
+	}
+
+	public function abilities_cache_ability($rec_part, $erd, $table, $foreign_k, $ignore_col_set, $dont_scan)
+	{
+		// if (!$this->ion_auth->logged_in())
+		// {
+		// 	// redirect them to the login page
+		// 	redirect('auth/login', 'refresh');
+		// }
+		if ($rec_part=="overview") {
+
+			// $g_identity["type"] = "overview";
+			$g_identity["g_ability_name"] = $table;
+			$g_identity["g_ability_html_id"] = preg_replace('/\W+/','',strtolower(strip_tags($g_identity["g_ability_name"])));
+			$g_identity["g_from"] = $table;
+			$g_identity["g_where_haystack_type"] = "primary_key";
+
+			$haystack = "id";
+			// $needle = $record_id;
+
+
+			$g_identity["g_where_haystack"] = $haystack;
+
+			$g_identity["g_where_haystack_type"] = "foreign_key";
+			// $g_identity["g_where_needle"] = $needle;
+
+			$g_identity["data_endpoint"] = "fetch_for_record/h_type/primary_key/h/$haystack/n/";
+
+		}
+		elseif ($rec_part=="details") {
+
+			$haystack = $foreign_k; //changes
+			// $needle = $record_id;
+
+
+
+			// $g_identity["type"] = "sub_items"; // changes
+			$g_identity["g_ability_name"] = $table." (as ".$foreign_k.")"; // changes
+			$g_identity["g_ability_html_id"] = preg_replace('/\W+/','',strtolower(strip_tags($g_identity["g_ability_name"])));
+			$g_identity["g_from"] = $table; // dynamic
+			$g_identity["g_where_haystack"] = $foreign_k;
+
+			$g_identity["g_where_haystack_type"] = "foreign_key";
+			// $g_identity["g_where_needle"] = $record_id;
+
+			$data_endpoint = "fetch_for_record/h_type/foreign_key/h/$haystack/n/";
+			$g_identity["data_endpoint"] = $data_endpoint;
+
+			// var_dump($parent_g_identity);
+		}
+		elseif ($rec_part=="table") {
+
+			$data_endpoint = "fetch";
+
+
+			// $g_identity["type"] = "table"; // changes
+			$g_identity["g_ability_name"] = $table; // changes
+			$g_identity["g_ability_html_id"] = preg_replace('/\W+/','',strtolower(strip_tags($g_identity["g_ability_name"])));
+			$g_identity["g_from"] = $table; // dynamic
+			// $g_identity["g_where_haystack"] = $foreign_k;
+			// $g_identity["g_where_needle"] = $record_id;
+			$g_identity["data_endpoint"] = $data_endpoint;
+
+			// var_dump($parent_g_identity);
+		}
+
+
+
+
+
+		$editable = $erd[$table]["fields"];
+		foreach ($editable as $key => $value) {
+			$g_select["editable"][$key]["col_deets"] = $value;
+			if ($key == $foreign_k) {
+				$g_select["editable"][$key]["assumable"] = "";
 			}
 		}
 
@@ -912,6 +1077,89 @@ class Table_page_lib
 	}
 
 
+
+
+	public function abilities_cache($table)
+	{
+		$table = urldecode($table);
+		$g_identity_singular = $this->CI->erd_lib->grammar_singular($table);
+
+		$data = array();
+		$data["table_name"] = $table;
+		$data["table_name_singular"] = $g_identity_singular;
+		// $data["record_id"] = $record_id;
+		// $data["title"] = $g_identity_singular." ".$record_id;
+
+
+		// $record = $this->fetch($table, "record", array(
+		// 	"haystack"=>"id",
+		// 	"needle"=>$record_id,
+		// 	"haystack_type"=>"primary_key"
+		// ))["posts"][0];
+
+
+		$tables_in_db = $this->CI->erd_lib->tables_in_db();
+		// header('Content-Type: application/json');
+		// echo json_encode($tables, JSON_PRETTY_PRINT);
+		// exit;
+
+		if (isset($tables_in_db[$table])) {
+			$data["table_exists"] = 1;
+		} else {
+
+			$data["table_exists"] = 0;
+		}
+		// if (!empty($record)) {
+		// 	$data["record_exits"] = 1;
+		//
+		// } else {
+		// 	$data["record_exits"] = 0;
+		//
+		// }
+
+
+		$erd_path = APPPATH.'erd/erd/erd.json';
+		$erd = file_get_contents($erd_path);
+		$erd = json_decode($erd, true);
+
+
+		$dont_scan = "";
+
+		$g_core_abilities = $this->abilities_cache_ability("overview", $erd, $table, null, "", $dont_scan);
+
+		// header('Content-Type: application/json');
+		// echo json_encode($tables, JSON_PRETTY_PRINT);
+		// exit;
+
+
+		$g_parental_abilities = array();
+		if (isset($erd[$g_core_abilities["g_identity"]["g_from"]]["items"])) {
+			$items = $erd[$g_core_abilities["g_identity"]["g_from"]]["items"];
+			foreach ($items as $key => $value) {
+				if ($key !== $dont_scan) {
+
+
+					$g_parental_abilities[$key] = $this->abilities_cache_ability("details", $erd, $key, $value, $table, $dont_scan);
+
+				} else {
+					$g_parental_abilities[$key] = array();
+				}
+			}
+		}
+
+		// $data["g_core_abilities"]["g_identity"] = $g_core_abilities["g_identity"];
+		// $data["g_core_abilities"]["g_select"] = $g_core_abilities_g_select;
+		$data["g_core_abilities"] = $g_core_abilities;
+		$data["g_parental_abilities"] = $g_parental_abilities;
+
+
+
+
+		return $data;
+
+
+	}
+
 	public function record_abilities($table, $record_id)
 	{
 		$table = urldecode($table);
@@ -952,6 +1200,12 @@ class Table_page_lib
 				$g_core_abilities = $this->table_o_and_d("overview", $erd, $table, null, $record["id"], "", $dont_scan);
 
 
+
+				// header('Content-Type: application/json');
+				// echo json_encode($tables, JSON_PRETTY_PRINT);
+				// exit;
+
+
 				$g_parental_abilities = array();
 				if (isset($erd[$g_core_abilities["g_identity"]["g_from"]]["items"])) {
 					$items = $erd[$g_core_abilities["g_identity"]["g_from"]]["items"];
@@ -983,6 +1237,43 @@ class Table_page_lib
 			$data["table_exists"] = 0;
 		}
 		return $data;
+
+
+	}
+
+	public function table_abilities_old($table)
+	{
+
+		$erd_path = APPPATH.'erd/erd/erd.json';
+		$erd= file_get_contents($erd_path);
+		$erd= json_decode($erd, true);
+
+
+		$data['title'] = $table;
+
+
+		$tables_in_db = $this->CI->erd_lib->tables_in_db();
+		// header('Content-Type: application/json');
+		// echo json_encode($tables, JSON_PRETTY_PRINT);
+		// exit;
+
+		if (isset($tables_in_db[$table])) {
+
+			$data["table_exists"] = 1;
+
+
+			$g_core_abilities = $this->table_o_and_d("table", $erd, $table, null, null, "", null);
+
+
+			$data["g_core_abilities"] = $g_core_abilities;
+		} else {
+
+			$data["table_exists"] = 0;
+		}
+
+
+		return $data;
+
 
 
 	}
