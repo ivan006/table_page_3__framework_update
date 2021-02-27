@@ -50,7 +50,11 @@ class Record_c extends CI_Controller
 
 
 			$this->load->view('table_header_v', array("data"=>$data));
-			$this->load->view('table_block_v', array("data"=>$data["g_core_abilities"], "owner_group_options"=>$owner_group_options));
+			$this->load->view('table_block_v', array(
+				"data"=>$data["g_core_abilities"],
+				"owner_group_options"=>$owner_group_options,
+				"type"=>"g_record_core_abilities"
+			));
 
 
 			if (!empty($data["g_parental_abilities"])) {
@@ -59,7 +63,11 @@ class Record_c extends CI_Controller
 			foreach ($data["g_parental_abilities"] as $key => $value) {
 				if (!empty($value)) {
 					// code...
-					$this->load->view('table_block_v', array("data"=>$value,"owner_group_options"=>$owner_group_options));
+					$this->load->view('table_block_v', array(
+						"data"=>$value,
+						"owner_group_options"=>$owner_group_options,
+						"type"=>"g_record_parental_abilities"
+					));
 				}
 			}
 			$this->load->view('table_footer_v', array("data"=>$data));

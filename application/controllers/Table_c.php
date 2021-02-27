@@ -52,7 +52,11 @@ class Table_c extends CI_Controller
 		);
 
 		$this->load->view('table_header_v', array("data"=>$data));
-		$this->load->view('table_block_v', array("data"=>$data["g_core_abilities"],"owner_group_options"=>$owner_group_options));
+		$this->load->view('table_block_v', array(
+			"data"=>$data["g_core_abilities"],
+			"owner_group_options"=>$owner_group_options,
+			"type"=>"g_table_core_abilities"
+		));
 		$this->load->view('table_footer_v', array("data"=>$data));
 
 	}

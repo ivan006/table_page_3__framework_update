@@ -425,9 +425,9 @@ class Table_page_lib
 			$needle = $record_id;
 
 			$g_identity["data_endpoint"] = "fetch_for_record/h/$haystack/n/$needle/foreign_key/null";
-			$g_identity["type"] = "overview";
-			$g_identity["rel_name"] = "overview";
-			$g_identity["rel_name_id"] = $g_identity["rel_name"];
+			// $g_identity["type"] = "overview";
+			$g_identity["g_ability_name"] = $table;
+			$g_identity["g_ability_html_id"] = preg_replace('/\W+/','',strtolower(strip_tags($g_identity["g_ability_name"])));
 			$g_identity["table"] = $table;
 
 		}
@@ -441,9 +441,9 @@ class Table_page_lib
 
 			$g_identity["record_id"] = $record_id;
 			$g_identity["data_endpoint"] = $data_endpoint;
-			$g_identity["type"] = "sub_items"; // changes
-			$g_identity["rel_name"] = $table." (as ".$foreign_k.")"; // changes
-			$g_identity["rel_name_id"] = preg_replace('/\W+/','',strtolower(strip_tags($g_identity["rel_name"])));
+			// $g_identity["type"] = "sub_items"; // changes
+			$g_identity["g_ability_name"] = $table." (as ".$foreign_k.")"; // changes
+			$g_identity["g_ability_html_id"] = preg_replace('/\W+/','',strtolower(strip_tags($g_identity["g_ability_name"])));
 			$g_identity["table"] = $table; // dynamic
 			$g_identity["foreign_key"] = $foreign_k;
 
@@ -456,9 +456,9 @@ class Table_page_lib
 
 			// $g_identity["record_id"] = $record_id;
 			$g_identity["data_endpoint"] = $data_endpoint;
-			$g_identity["type"] = "table"; // changes
-			$g_identity["rel_name"] = $table; // changes
-			$g_identity["rel_name_id"] = preg_replace('/\W+/','',strtolower(strip_tags($g_identity["rel_name"])));
+			// $g_identity["type"] = "table"; // changes
+			$g_identity["g_ability_name"] = $table; // changes
+			$g_identity["g_ability_html_id"] = preg_replace('/\W+/','',strtolower(strip_tags($g_identity["g_ability_name"])));
 			$g_identity["table"] = $table; // dynamic
 			// $g_identity["foreign_key"] = $foreign_k;
 
