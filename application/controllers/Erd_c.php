@@ -37,8 +37,16 @@ class Erd_c extends CI_Controller
 		$data["db_to_erd"] = $this->erd_lib->db_to_erd();
 		$data["diff"] = $this->erd_lib->diff();
 
+		foreach (json_decode($data["erd"]) as $key => $value) {
+			$crud_cache = json_encode($this->table_page_lib->abilities_cache($key), JSON_PRETTY_PRINT);
+			if (file_exists("application/erd/erd/crud_cache/$key.txt")) {
+				unlink("application/erd/erd/crud_cache/$key.txt");
+			}
+			file_put_contents("application/erd/erd/crud_cache/$key.txt", $crud_cache);
+		}
 
-		$data["abilities_cache"] = json_encode($this->table_page_lib->abilities_cache("objects"), JSON_PRETTY_PRINT);
+		// $data["abilities_cache"] = json_encode($this->table_page_lib->abilities_cache("objects"), JSON_PRETTY_PRINT);
+		$data["abilities_cache"] = json_encode(array(), JSON_PRETTY_PRINT);
 
 		// header('Content-Type: application/json');
 		// echo json_encode($class);

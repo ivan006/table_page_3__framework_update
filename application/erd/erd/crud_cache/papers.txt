@@ -1,0 +1,94 @@
+{
+    "table_name": "papers",
+    "table_name_singular": "paper",
+    "table_exists": 1,
+    "g_core_abilities": {
+        "g_identity": {
+            "g_ability_name": "papers",
+            "g_ability_html_id": "papers",
+            "g_from": "papers",
+            "g_where_haystack_type": "foreign_key",
+            "g_where_haystack": "id",
+            "data_endpoint": "fetch_for_record\/h_type\/primary_key\/h\/id\/n\/"
+        },
+        "g_select": {
+            "editable": {
+                "id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    }
+                },
+                "object id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned"
+                    },
+                    "rels": {
+                        "table": "objects",
+                        "rows": {
+                            "id": {
+                                "Type": "bigint(20) unsigned",
+                                "Null": "NO",
+                                "Key": "PRI",
+                                "Extra": "auto_increment"
+                            },
+                            "name": {
+                                "Type": "varchar(100)",
+                                "Null": "NO"
+                            },
+                            "objects - id": {
+                                "Type": "bigint(20) unsigned",
+                                "Null": "NO",
+                                "Key": "PRI",
+                                "Extra": "auto_increment"
+                            },
+                            "objects - name": {
+                                "Type": "varchar(100)",
+                                "Null": "NO"
+                            },
+                            "objects - object id": {
+                                "Type": "bigint(20) unsigned"
+                            },
+                            "objects - lineage": "1"
+                        }
+                    }
+                },
+                "name": {
+                    "col_deets": {
+                        "Type": "varchar(100)",
+                        "Null": "NO"
+                    }
+                }
+            },
+            "visible": {
+                "id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
+                "name": {
+                    "Type": "varchar(100)",
+                    "Null": "NO"
+                },
+                "objects - id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
+                "objects - name": {
+                    "Type": "varchar(100)",
+                    "Null": "NO"
+                },
+                "objects - object id": {
+                    "Type": "bigint(20) unsigned"
+                },
+                "objects - lineage": "1"
+            }
+        }
+    },
+    "g_parental_abilities": []
+}

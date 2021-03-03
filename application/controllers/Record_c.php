@@ -29,7 +29,8 @@ class Record_c extends CI_Controller
 			redirect('auth/login', 'refresh');
 		}
 
-		$data = $this->table_page_lib->record_abilities($table, $record_id);
+		// $data = $this->table_page_lib->record_abilities($table, $record_id);
+		$data = $this->table_page_lib->record_abilities_2($table, $record_id);
 
 
 		$owner_group_options = array(

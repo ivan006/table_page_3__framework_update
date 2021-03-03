@@ -1161,120 +1161,59 @@ class Table_page_lib
 
 	}
 
-	public function record_abilities($table, $record_id)
+	public function record_abilities_2($table, $record_id)
 	{
-		$table = urldecode($table);
-		$g_identity_singular = $this->CI->erd_lib->grammar_singular($table);
+		if (file_exists("application/erd/erd/crud_cache/$table.txt")) {
+			$data = file_get_contents("application/erd/erd/crud_cache/$table.txt");
+			$data = json_decode($data, true);
+			$data["record_id"] = $record_id;
+			$data["title"] = $data["table_name_singular"]." ".$record_id;
+			$data["g_core_abilities"]["g_identity"]["g_where_needle"] = $record_id;
+			$new_endpoint = $data["g_core_abilities"]["g_identity"]["data_endpoint"].$record_id;
+			$data["g_core_abilities"]["g_identity"]["data_endpoint"] = $new_endpoint;
 
-		$data = array();
-		$data["table_name"] = $table;
-		$data["table_name_singular"] = $g_identity_singular;
-		$data["record_id"] = $record_id;
-		$data["title"] = $g_identity_singular." ".$record_id;
+			foreach ($data["g_parental_abilities"] as $key => $value) {
+				$iteration_result = $data["g_parental_abilities"][$key];
 
+				$iteration_result["g_identity"]["g_where_needle"] = $record_id;
 
-		$record = $this->fetch($table, "record", array(
-			"haystack"=>"id",
-			"needle"=>$record_id,
-			"haystack_type"=>"primary_key"
-		))["posts"][0];
+				$new_endpoint = $iteration_result["g_identity"]["data_endpoint"].$record_id;
+				$iteration_result["g_identity"]["data_endpoint"] = $new_endpoint;
 
+				$g_where_haystack = $iteration_result["g_identity"]["g_where_haystack"];
 
-		$tables_in_db = $this->CI->erd_lib->tables_in_db();
-		// header('Content-Type: application/json');
-		// echo json_encode($tables, JSON_PRETTY_PRINT);
-		// exit;
-
-		if (isset($tables_in_db[$table])) {
-			$data["table_exists"] = 1;
-			if (!empty($record)) {
-
-				$data["record_exits"] = 1;
-
-				$erd_path = APPPATH.'erd/erd/erd.json';
-				$erd = file_get_contents($erd_path);
-				$erd = json_decode($erd, true);
+				$iteration_result["g_select"]["editable"][$g_where_haystack]["assumable"] = $record_id;
 
 
-				$dont_scan = "";
-
-				$g_core_abilities = $this->table_o_and_d("overview", $erd, $table, null, $record["id"], "", $dont_scan);
-
-
-
-				// header('Content-Type: application/json');
-				// echo json_encode($tables, JSON_PRETTY_PRINT);
-				// exit;
-
-
-				$g_parental_abilities = array();
-				if (isset($erd[$g_core_abilities["g_identity"]["g_from"]]["items"])) {
-					$items = $erd[$g_core_abilities["g_identity"]["g_from"]]["items"];
-					foreach ($items as $key => $value) {
-						if ($key !== $dont_scan) {
-
-
-							$g_parental_abilities[$key] = $this->table_o_and_d("details", $erd, $key, $value, $record["id"], $table, $dont_scan);
-
-						} else {
-							$g_parental_abilities[$key] = array();
-						}
-					}
-				}
-
-				// $data["g_core_abilities"]["g_identity"] = $g_core_abilities["g_identity"];
-				// $data["g_core_abilities"]["g_select"] = $g_core_abilities_g_select;
-				$data["g_core_abilities"] = $g_core_abilities;
-				$data["g_parental_abilities"] = $g_parental_abilities;
-			} else {
-
-				$data["record_exits"] = 0;
+				$data["g_parental_abilities"][$key] = $iteration_result;
 			}
 
-
-
+			return $data;
 		} else {
-
-			$data["table_exists"] = 0;
+			return array();
+			// code...
 		}
-		return $data;
 
 
 	}
 
-	public function table_abilities($table)
+
+
+	public function table_abilities_2($table)
 	{
+		if (file_exists("application/erd/erd/crud_cache/$table.txt")) {
+			$data = file_get_contents("application/erd/erd/crud_cache/$table.txt");
+			$data = json_decode($data, true);
+			$data["title"] = $data["table_name"];
+			$data["g_core_abilities"]["g_identity"]["data_endpoint"] = "fetch";
 
-		$erd_path = APPPATH.'erd/erd/erd.json';
-		$erd= file_get_contents($erd_path);
-		$erd= json_decode($erd, true);
+			unset($data["g_parental_abilities"]);
 
-
-		$data['title'] = $table;
-
-
-		$tables_in_db = $this->CI->erd_lib->tables_in_db();
-		// header('Content-Type: application/json');
-		// echo json_encode($tables, JSON_PRETTY_PRINT);
-		// exit;
-
-		if (isset($tables_in_db[$table])) {
-
-			$data["table_exists"] = 1;
-
-
-			$g_core_abilities = $this->table_o_and_d("table", $erd, $table, null, null, "", null);
-
-
-			$data["g_core_abilities"] = $g_core_abilities;
+			return $data;
 		} else {
-
-			$data["table_exists"] = 0;
+			return array();
+			// code...
 		}
-
-
-		return $data;
-
 
 
 	}

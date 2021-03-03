@@ -44,7 +44,8 @@ class Table_c extends CI_Controller
 		}
 
 
-		$data = $this->table_page_lib->table_abilities($table);
+		// $data = $this->table_page_lib->table_abilities($table);
+		$data = $this->table_page_lib->table_abilities_2($table);
 
 		$owner_group_options = array(
 			"assumed" => "no",
@@ -111,7 +112,7 @@ class Table_c extends CI_Controller
 				"haystack"=>$haystack,
 				"needle"=>$needle,
 				// this varable isnt really needed all it does is says not to bother checking if the pimrary key is ever used as a foreign key which it never will be so uselless
-				
+
 				"haystack_type"=>$h_type
 
 			)
