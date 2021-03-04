@@ -1,0 +1,54 @@
+{
+    "table_name": "objects",
+    "table_name_singular": "object",
+    "table_exists": 1,
+    "g_core_abilities": {
+        "g_identity": {
+            "g_ability_name": "objects",
+            "g_ability_html_id": "objects",
+            "g_from": "objects",
+            "g_where_haystack_type": "foreign_key",
+            "g_where_haystack": "id",
+            "data_endpoint": "fetch_for_record\/h_type\/primary_key\/h\/id\/n\/"
+        },
+        "g_select": {
+            "editable": {
+                "id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    }
+                },
+                "name": {
+                    "col_deets": {
+                        "Type": "varchar(100)",
+                        "Null": "NO"
+                    }
+                },
+                "object id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned"
+                    }
+                }
+            },
+            "visible": {
+                "id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
+                "name": {
+                    "Type": "varchar(100)",
+                    "Null": "NO"
+                },
+                "object id": {
+                    "Type": "bigint(20) unsigned"
+                }
+            }
+        }
+    },
+    "g_parental_abilities": []
+}

@@ -1,0 +1,113 @@
+{
+    "table_name": "tag",
+    "table_name_singular": "tag",
+    "table_exists": 1,
+    "g_core_abilities": {
+        "g_identity": {
+            "g_ability_name": "tag",
+            "g_ability_html_id": "tag",
+            "g_from": "tag",
+            "g_where_haystack_type": "foreign_key",
+            "g_where_haystack": "id",
+            "data_endpoint": "fetch_for_record\/h_type\/primary_key\/h\/id\/n\/"
+        },
+        "g_select": {
+            "editable": {
+                "id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    }
+                },
+                "created_at": {
+                    "col_deets": {
+                        "Type": "datetime"
+                    }
+                },
+                "name": {
+                    "col_deets": {
+                        "Type": "varchar(100)"
+                    }
+                },
+                "updated_at": {
+                    "col_deets": {
+                        "Type": "datetime"
+                    }
+                }
+            },
+            "visible": {
+                "id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
+                "created_at": {
+                    "Type": "datetime"
+                },
+                "name": {
+                    "Type": "varchar(100)"
+                },
+                "updated_at": {
+                    "Type": "datetime"
+                }
+            }
+        }
+    },
+    "g_parental_abilities": {
+        "tag_object": {
+            "g_identity": {
+                "g_ability_name": "tag_object (as tag_id)",
+                "g_ability_html_id": "tag_objectastag_id",
+                "g_from": "tag_object",
+                "g_where_haystack": "tag_id",
+                "g_where_haystack_type": "foreign_key",
+                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/tag_id\/n\/"
+            },
+            "g_select": {
+                "editable": {
+                    "id": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned",
+                            "Null": "NO",
+                            "Key": "PRI",
+                            "Extra": "auto_increment"
+                        }
+                    },
+                    "tag_id": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned"
+                        },
+                        "assumable": ""
+                    },
+                    "type": {
+                        "col_deets": {
+                            "Type": "varchar(100)"
+                        }
+                    },
+                    "created_at": {
+                        "col_deets": {
+                            "Type": "datetime"
+                        }
+                    }
+                },
+                "visible": {
+                    "id": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    },
+                    "type": {
+                        "Type": "varchar(100)"
+                    },
+                    "created_at": {
+                        "Type": "datetime"
+                    }
+                }
+            }
+        }
+    }
+}

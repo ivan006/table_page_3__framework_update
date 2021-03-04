@@ -1,0 +1,153 @@
+{
+    "table_name": "user",
+    "table_name_singular": "user",
+    "table_exists": 1,
+    "g_core_abilities": {
+        "g_identity": {
+            "g_ability_name": "user",
+            "g_ability_html_id": "user",
+            "g_from": "user",
+            "g_where_haystack_type": "foreign_key",
+            "g_where_haystack": "id",
+            "data_endpoint": "fetch_for_record\/h_type\/primary_key\/h\/id\/n\/"
+        },
+        "g_select": {
+            "editable": {
+                "id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    }
+                },
+                "created_at": {
+                    "col_deets": {
+                        "Type": "datetime"
+                    }
+                },
+                "email": {
+                    "col_deets": {
+                        "Type": "varchar(100)"
+                    }
+                },
+                "first_name": {
+                    "col_deets": {
+                        "Type": "varchar(100)"
+                    }
+                },
+                "job_title": {
+                    "col_deets": {
+                        "Type": "varchar(100)"
+                    }
+                },
+                "last_name": {
+                    "col_deets": {
+                        "Type": "varchar(100)"
+                    }
+                },
+                "role": {
+                    "col_deets": {
+                        "Type": "varchar(100)"
+                    }
+                },
+                "updated_at": {
+                    "col_deets": {
+                        "Type": "datetime"
+                    }
+                }
+            },
+            "visible": {
+                "id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
+                "created_at": {
+                    "Type": "datetime"
+                },
+                "email": {
+                    "Type": "varchar(100)"
+                },
+                "first_name": {
+                    "Type": "varchar(100)"
+                },
+                "job_title": {
+                    "Type": "varchar(100)"
+                },
+                "last_name": {
+                    "Type": "varchar(100)"
+                },
+                "role": {
+                    "Type": "varchar(100)"
+                },
+                "updated_at": {
+                    "Type": "datetime"
+                }
+            }
+        }
+    },
+    "g_parental_abilities": {
+        "prospect_account": {
+            "g_identity": {
+                "g_ability_name": "prospect_account (as assigned_to_user_id)",
+                "g_ability_html_id": "prospect_accountasassigned_to_user_id",
+                "g_from": "prospect_account",
+                "g_where_haystack": "assigned_to_user_id",
+                "g_where_haystack_type": "foreign_key",
+                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/assigned_to_user_id\/n\/"
+            },
+            "g_select": {
+                "editable": {
+                    "id": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned",
+                            "Null": "NO",
+                            "Key": "PRI",
+                            "Extra": "auto_increment"
+                        }
+                    },
+                    "assigned_to_user_id": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned"
+                        },
+                        "assumable": ""
+                    },
+                    "created_at": {
+                        "col_deets": {
+                            "Type": "datetime"
+                        }
+                    },
+                    "updated_at": {
+                        "col_deets": {
+                            "Type": "datetime"
+                        }
+                    },
+                    "field_name": {
+                        "col_deets": {
+                            "Type": "varchar(100)"
+                        }
+                    }
+                },
+                "visible": {
+                    "id": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    },
+                    "created_at": {
+                        "Type": "datetime"
+                    },
+                    "updated_at": {
+                        "Type": "datetime"
+                    },
+                    "field_name": {
+                        "Type": "varchar(100)"
+                    }
+                }
+            }
+        }
+    }
+}

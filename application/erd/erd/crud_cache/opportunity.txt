@@ -1,0 +1,489 @@
+{
+    "table_name": "opportunity",
+    "table_name_singular": "opportunity",
+    "table_exists": 1,
+    "g_core_abilities": {
+        "g_identity": {
+            "g_ability_name": "opportunity",
+            "g_ability_html_id": "opportunity",
+            "g_from": "opportunity",
+            "g_where_haystack_type": "foreign_key",
+            "g_where_haystack": "id",
+            "data_endpoint": "fetch_for_record\/h_type\/primary_key\/h\/id\/n\/"
+        },
+        "g_select": {
+            "editable": {
+                "id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    }
+                },
+                "campaign_id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned"
+                    },
+                    "rels": {
+                        "table": "campaign",
+                        "rows": {
+                            "id": {
+                                "Type": "bigint(20) unsigned",
+                                "Null": "NO",
+                                "Key": "PRI",
+                                "Extra": "auto_increment"
+                            },
+                            "name": {
+                                "Type": "varchar(100)"
+                            },
+                            "cost": {
+                                "Type": "bigint(20) unsigned"
+                            }
+                        }
+                    }
+                },
+                "closed_at": {
+                    "col_deets": {
+                        "Type": "datetime"
+                    }
+                },
+                "created_at": {
+                    "col_deets": {
+                        "Type": "datetime"
+                    }
+                },
+                "name": {
+                    "col_deets": {
+                        "Type": "varchar(100)"
+                    }
+                },
+                "probability": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned"
+                    }
+                },
+                "stage": {
+                    "col_deets": {
+                        "Type": "varchar(100)"
+                    }
+                },
+                "status": {
+                    "col_deets": {
+                        "Type": "varchar(100)"
+                    }
+                },
+                "type": {
+                    "col_deets": {
+                        "Type": "varchar(100)"
+                    }
+                },
+                "updated_at": {
+                    "col_deets": {
+                        "Type": "datetime"
+                    }
+                },
+                "value": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned"
+                    }
+                }
+            },
+            "visible": {
+                "id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
+                "closed_at": {
+                    "Type": "datetime"
+                },
+                "created_at": {
+                    "Type": "datetime"
+                },
+                "name": {
+                    "Type": "varchar(100)"
+                },
+                "probability": {
+                    "Type": "bigint(20) unsigned"
+                },
+                "stage": {
+                    "Type": "varchar(100)"
+                },
+                "status": {
+                    "Type": "varchar(100)"
+                },
+                "type": {
+                    "Type": "varchar(100)"
+                },
+                "updated_at": {
+                    "Type": "datetime"
+                },
+                "value": {
+                    "Type": "bigint(20) unsigned"
+                },
+                "campaign - id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
+                "campaign - name": {
+                    "Type": "varchar(100)"
+                },
+                "campaign - cost": {
+                    "Type": "bigint(20) unsigned"
+                }
+            }
+        }
+    },
+    "g_parental_abilities": {
+        "opportunity_prospect": {
+            "g_identity": {
+                "g_ability_name": "opportunity_prospect (as opportunity_id)",
+                "g_ability_html_id": "opportunity_prospectasopportunity_id",
+                "g_from": "opportunity_prospect",
+                "g_where_haystack": "opportunity_id",
+                "g_where_haystack_type": "foreign_key",
+                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/opportunity_id\/n\/"
+            },
+            "g_select": {
+                "editable": {
+                    "opportunity_id": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned"
+                        },
+                        "assumable": ""
+                    },
+                    "prospect_id": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned"
+                        },
+                        "rels": {
+                            "table": "prospect",
+                            "rows": {
+                                "id": {
+                                    "Type": "bigint(20) unsigned",
+                                    "Null": "NO",
+                                    "Key": "PRI",
+                                    "Extra": "auto_increment"
+                                },
+                                "address_one": {
+                                    "Type": "varchar(100)"
+                                },
+                                "address_two": {
+                                    "Type": "varchar(100)"
+                                },
+                                "annual_revenue": {
+                                    "Type": "decimal"
+                                },
+                                "city": {
+                                    "Type": "varchar(100)"
+                                },
+                                "comments": {
+                                    "Type": "varchar(100)"
+                                },
+                                "company": {
+                                    "Type": "varchar(100)"
+                                },
+                                "country": {
+                                    "Type": "varchar(100)"
+                                },
+                                "created_at": {
+                                    "Type": "datetime"
+                                },
+                                "crm_account_fid": {
+                                    "Type": "varchar(100)"
+                                },
+                                "crm_contact_fid": {
+                                    "Type": "varchar(100)"
+                                },
+                                "crm_last_sync": {
+                                    "Type": "datetime"
+                                },
+                                "crm_lead_fid": {
+                                    "Type": "varchar(100)"
+                                },
+                                "crm_owner_fid": {
+                                    "Type": "varchar(100)"
+                                },
+                                "crm_url": {
+                                    "Type": "varchar(100)"
+                                },
+                                "department": {
+                                    "Type": "varchar(100)"
+                                },
+                                "email": {
+                                    "Type": "varchar(100)"
+                                },
+                                "employees": {
+                                    "Type": "bigint(20) unsigned"
+                                },
+                                "fax": {
+                                    "Type": "bigint(20) unsigned"
+                                },
+                                "first_name": {
+                                    "Type": "varchar(100)"
+                                },
+                                "grade": {
+                                    "Type": "varchar(100)"
+                                },
+                                "industry": {
+                                    "Type": "varchar(100)"
+                                },
+                                "is_archived": {
+                                    "Type": "tinyint(1)"
+                                },
+                                "is_do_not_call": {
+                                    "Type": "tinyint(1)"
+                                },
+                                "is_do_not_email": {
+                                    "Type": "tinyint(1)"
+                                },
+                                "is_reviewed": {
+                                    "Type": "tinyint(1)"
+                                },
+                                "is_starred": {
+                                    "Type": "tinyint(1)"
+                                },
+                                "job_title": {
+                                    "Type": "varchar(100)"
+                                },
+                                "last_activity_at": {
+                                    "Type": "datetime"
+                                },
+                                "last_name": {
+                                    "Type": "varchar(100)"
+                                },
+                                "notes": {
+                                    "Type": "varchar(100)"
+                                },
+                                "opted_out": {
+                                    "Type": "tinyint(1)"
+                                },
+                                "password": {
+                                    "Type": "varchar(100)"
+                                },
+                                "phone": {
+                                    "Type": "varchar(100)"
+                                },
+                                "recent_interaction": {
+                                    "Type": "varchar(100)"
+                                },
+                                "salutation": {
+                                    "Type": "varchar(100)"
+                                },
+                                "score": {
+                                    "Type": "bigint(20) unsigned"
+                                },
+                                "source": {
+                                    "Type": "varchar(100)"
+                                },
+                                "state": {
+                                    "Type": "varchar(100)"
+                                },
+                                "territory": {
+                                    "Type": "varchar(100)"
+                                },
+                                "updated_at": {
+                                    "Type": "datetime"
+                                },
+                                "website": {
+                                    "Type": "varchar(100)"
+                                },
+                                "years_in_business": {
+                                    "Type": "bigint(20) unsigned"
+                                },
+                                "zip": {
+                                    "Type": "bigint(20) unsigned"
+                                },
+                                "prospect_account - id": {
+                                    "Type": "bigint(20) unsigned",
+                                    "Null": "NO",
+                                    "Key": "PRI",
+                                    "Extra": "auto_increment"
+                                },
+                                "prospect_account - assigned_to_user_id": {
+                                    "Type": "bigint(20) unsigned"
+                                },
+                                "prospect_account - created_at": {
+                                    "Type": "datetime"
+                                },
+                                "prospect_account - updated_at": {
+                                    "Type": "datetime"
+                                },
+                                "prospect_account - field_name": {
+                                    "Type": "varchar(100)"
+                                },
+                                "campaign - id": {
+                                    "Type": "bigint(20) unsigned",
+                                    "Null": "NO",
+                                    "Key": "PRI",
+                                    "Extra": "auto_increment"
+                                },
+                                "campaign - name": {
+                                    "Type": "varchar(100)"
+                                },
+                                "campaign - cost": {
+                                    "Type": "bigint(20) unsigned"
+                                }
+                            }
+                        }
+                    },
+                    "prospect_company": {
+                        "col_deets": {
+                            "Type": "varchar(100)"
+                        }
+                    }
+                },
+                "visible": {
+                    "prospect_company": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - id": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    },
+                    "prospect - campaign_id": {
+                        "Type": "bigint(20) unsigned"
+                    },
+                    "prospect - prospect_account_id": {
+                        "Type": "bigint(20) unsigned"
+                    },
+                    "prospect - address_one": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - address_two": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - annual_revenue": {
+                        "Type": "decimal"
+                    },
+                    "prospect - city": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - comments": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - company": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - country": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - created_at": {
+                        "Type": "datetime"
+                    },
+                    "prospect - crm_account_fid": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - crm_contact_fid": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - crm_last_sync": {
+                        "Type": "datetime"
+                    },
+                    "prospect - crm_lead_fid": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - crm_owner_fid": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - crm_url": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - department": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - email": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - employees": {
+                        "Type": "bigint(20) unsigned"
+                    },
+                    "prospect - fax": {
+                        "Type": "bigint(20) unsigned"
+                    },
+                    "prospect - first_name": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - grade": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - industry": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - is_archived": {
+                        "Type": "tinyint(1)"
+                    },
+                    "prospect - is_do_not_call": {
+                        "Type": "tinyint(1)"
+                    },
+                    "prospect - is_do_not_email": {
+                        "Type": "tinyint(1)"
+                    },
+                    "prospect - is_reviewed": {
+                        "Type": "tinyint(1)"
+                    },
+                    "prospect - is_starred": {
+                        "Type": "tinyint(1)"
+                    },
+                    "prospect - job_title": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - last_activity_at": {
+                        "Type": "datetime"
+                    },
+                    "prospect - last_name": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - notes": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - opted_out": {
+                        "Type": "tinyint(1)"
+                    },
+                    "prospect - password": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - phone": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - recent_interaction": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - salutation": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - score": {
+                        "Type": "bigint(20) unsigned"
+                    },
+                    "prospect - source": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - state": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - territory": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - updated_at": {
+                        "Type": "datetime"
+                    },
+                    "prospect - website": {
+                        "Type": "varchar(100)"
+                    },
+                    "prospect - years_in_business": {
+                        "Type": "bigint(20) unsigned"
+                    },
+                    "prospect - zip": {
+                        "Type": "bigint(20) unsigned"
+                    }
+                }
+            }
+        }
+    }
+}
