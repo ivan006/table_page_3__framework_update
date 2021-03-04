@@ -57,7 +57,7 @@
                             "objects - object id": {
                                 "Type": "bigint(20) unsigned"
                             },
-                            "objects - lineage": "1"
+                            "objects - lineage": ""
                         }
                     }
                 }
@@ -86,7 +86,7 @@
                 "objects - object id": {
                     "Type": "bigint(20) unsigned"
                 },
-                "objects - lineage": "1"
+                "objects - lineage": ""
             }
         }
     },
