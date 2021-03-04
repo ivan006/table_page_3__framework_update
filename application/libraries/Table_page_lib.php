@@ -190,11 +190,11 @@ class Table_page_lib
 					$linking_key = $value["linking_key"];
 					$sql="WITH RECURSIVE q AS
 					(
-						SELECT  id,`$linking_key`,CONCAT(id) as path
+						SELECT  id,`$linking_key`, CONCAT('0-', id) as path
 						FROM    $key
 						WHERE   `$linking_key` = 0
 						UNION ALL
-						SELECT  m.id,m.`$linking_key`,CONCAT(q.path,'-',m.id) as path
+						SELECT  m.id,m.`$linking_key`, CONCAT(q.path, '-', m.id) as path
 						FROM    $key m
 						JOIN    q
 						ON      m.`$linking_key` = q.id

@@ -28,9 +28,7 @@
                     "rels": {
                         "table": "objects",
                         "rows": {
-                            "0": {
-                                "objects - lineage": ""
-                            },
+                            "objects - lineage": "",
                             "id": {
                                 "Type": "bigint(20) unsigned",
                                 "Null": "NO",
@@ -75,9 +73,7 @@
                 }
             },
             "visible": {
-                "0": {
-                    "objects - lineage": ""
-                },
+                "objects - lineage": "",
                 "id": {
                     "Type": "bigint(20) unsigned",
                     "Null": "NO",
