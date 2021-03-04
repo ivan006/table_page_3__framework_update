@@ -541,10 +541,11 @@ class Table_page_lib
 					);
 
 					if (isset($value_lookup["is_self_joined"])) {
-						$cols_visible_lookup = array_merge(
-							$cols_visible_lookup,
-							array("$key_lookup - lineage" => "")
-						);
+						$cols_visible_lookup = array("$key_lookup - lineage" => "") + $cols_visible_lookup;
+						// $cols_visible_lookup = array_merge(
+						// 	$cols_visible_lookup,
+						// 	array("$key_lookup - lineage" => "")
+						// );
 					}
 
 				}
@@ -555,10 +556,11 @@ class Table_page_lib
 					"rows"=>$cols_visible_lookup
 				);
 				if (isset($value["is_self_joined"])) {
-					$g_select["visible"] = array_merge(
-						$g_select["visible"],
-						array("$key - lineage" => "")
-					);
+					$g_select["visible"] = array("$key - lineage" => "") + $g_select["visible"];
+					// $g_select["visible"] = array_merge(
+					// 	$g_select["visible"],
+					// 	array("$key - lineage" => "")
+					// );
 				}
 			}
 			// // $editable = $erd[$table]["fields"];

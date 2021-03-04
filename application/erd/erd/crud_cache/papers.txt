@@ -28,6 +28,9 @@
                     "rels": {
                         "table": "objects",
                         "rows": {
+                            "0": {
+                                "objects - lineage": ""
+                            },
                             "id": {
                                 "Type": "bigint(20) unsigned",
                                 "Null": "NO",
@@ -50,8 +53,7 @@
                             },
                             "objects - object id": {
                                 "Type": "bigint(20) unsigned"
-                            },
-                            "objects - lineage": ""
+                            }
                         }
                     }
                 },
@@ -63,6 +65,9 @@
                 }
             },
             "visible": {
+                "0": {
+                    "objects - lineage": ""
+                },
                 "id": {
                     "Type": "bigint(20) unsigned",
                     "Null": "NO",
@@ -85,8 +90,7 @@
                 },
                 "objects - object id": {
                     "Type": "bigint(20) unsigned"
-                },
-                "objects - lineage": ""
+                }
             }
         }
     },
