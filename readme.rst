@@ -1,3 +1,12 @@
+# description
+
+- dynamic crud generator with well presented relationships
+- spreadsheet database hybrid
+
+
+
+
+
 ###################
 What is CodeIgniter
 ###################
