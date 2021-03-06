@@ -51,7 +51,23 @@ class Table_c extends CI_Controller
 			"owner" => array(
 				"assumed" => "",
 				"options" => $this->table_page_lib->owner_group_options()
-			)
+			),
+			"editability" => array(
+				"assumed" => "",
+				"options" => array(
+					"Private",
+					"Organisation",
+					"Public"
+				)
+			),
+			"visibility" => array(
+				"assumed" => "",
+				"options" => array(
+					"Private",
+					"Organisation",
+					"Public"
+				)
+			),
 		);
 
 		$this->load->view('table_header_v', array("data"=>$data));

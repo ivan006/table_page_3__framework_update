@@ -36,7 +36,23 @@ class Record_c extends CI_Controller
 			"owner" => array(
 				"assumed" => 2,
 				"options" => $this->table_page_lib->owner_group_options()
-			)
+			),
+			"editability" => array(
+				"assumed" => "",
+				"options" => array(
+					"Private",
+					"Organisation",
+					"Public"
+				)
+			),
+			"visibility" => array(
+				"assumed" => "",
+				"options" => array(
+					"Private",
+					"Organisation",
+					"Public"
+				)
+			),
 		);
 
 
