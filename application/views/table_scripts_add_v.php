@@ -16,9 +16,9 @@ $(document).on("click", "#<?php echo makeSafeForCSS($data["g_identity"]["g_abili
     }
   }
   ?>
-  var edit_owner = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."owner"; ?>").val();
-  var edit_editability = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."editability"; ?>").val();
-  var edit_visibility = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."visibility"; ?>").val();
+  var edit_permisssions_owner = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."permisssions_owner"; ?>").val();
+  var edit_permisssions_editability = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."permisssions_editability"; ?>").val();
+  var edit_permisssions_visibility = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."permisssions_visibility"; ?>").val();
   <?php
 
   ?>
@@ -59,9 +59,9 @@ $(document).on("click", "#<?php echo makeSafeForCSS($data["g_identity"]["g_abili
           // event_children: event_children
         },
         permissions: {
-          edit_owner: edit_owner,
-          edit_editability: edit_editability,
-          edit_visibility: edit_visibility
+          edit_permisssions_owner: edit_permisssions_owner,
+          edit_permisssions_editability: edit_permisssions_editability,
+          edit_permisssions_visibility: edit_permisssions_visibility
         }
       },
       success: function(data){

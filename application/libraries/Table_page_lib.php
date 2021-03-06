@@ -70,7 +70,12 @@ class Table_page_lib
 		$query = $this->CI->db->get();
 		$post = null;
 		if (count($query->result()) > 0) {
-			$post = $query->row();
+			$post["variables"] = $query->row();
+			$post["permissions"] = array(
+				"permisssions_owner" => 2,
+				"permisssions_editability" => "Public",
+				"permisssions_visibility" => "Public",
+			);
 		}
 		if ($post) {
 			$data = array('responce' => 'success', 'post' => $post);
@@ -631,16 +636,16 @@ class Table_page_lib
 
 
 
-				$this->CI->input->post('edit_owner');
-				$this->CI->input->post('edit_owner');
+				$this->CI->input->post('edit_permisssions_owner');
+				$this->CI->input->post('edit_permisssions_owner');
 
 				$permissions = array(
 					// "owner" => 1,
 					// "editability" => 2,
 					// "visibility" => 3
-					"owner" => $post["permissions"]["edit_owner"],
-					"editability" => $post["permissions"]["edit_editability"],
-					"visibility" => $post["permissions"]["edit_visibility"]
+					"owner" => $post["permissions"]["edit_permisssions_owner"],
+					"editability" => $post["permissions"]["edit_permisssions_editability"],
+					"visibility" => $post["permissions"]["edit_permisssions_visibility"]
 				);
 				$this->log_activity($table_and_id, $permissions);
 			}
@@ -678,11 +683,9 @@ class Table_page_lib
 
 	public function update($table)
 	{
-
-		// echo "d".$this->CI->input->post('edit_owner')."d";
+		// header('Content-Type: application/json');
+		// echo json_encode($post = $this->CI->input->post(), JSON_PRETTY_PRINT);
 		// exit;
-		// $this->CI->input->post('edit_editability')
-		// $this->CI->input->post('edit_visibility')
 
 		$table = urldecode($table);
 		$this->CI->load->database();
@@ -726,16 +729,16 @@ class Table_page_lib
 
 
 
-				$this->CI->input->post('edit_owner');
-				$this->CI->input->post('edit_owner');
+				$this->CI->input->post('edit_permisssions_owner');
+				$this->CI->input->post('edit_permisssions_owner');
 
 				$permissions = array(
 					// "owner" => 1,
 					// "editability" => 2,
 					// "visibility" => 3
-					"owner" => $post["permissions"]["edit_owner"],
-					"editability" => $post["permissions"]["edit_editability"],
-					"visibility" => $post["permissions"]["edit_visibility"]
+					"owner" => $post["permissions"]["edit_permisssions_owner"],
+					"editability" => $post["permissions"]["edit_permisssions_editability"],
+					"visibility" => $post["permissions"]["edit_permisssions_visibility"]
 				);
 				$this->log_activity($table_and_id, $permissions);
 			}

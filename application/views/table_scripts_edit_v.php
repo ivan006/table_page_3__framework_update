@@ -24,7 +24,7 @@ $(document).on("click", "#<?php echo $safe_ability_id; ?>_edit", function(e){
     success: function(data){
       if (data.responce == "success") {
         $('#<?php echo $safe_ability_action_id ?>modal').modal('show');
-        $("#<?php echo $safe_ability_action_id ?>record_id").val(data.post.id);
+        $("#<?php echo $safe_ability_action_id ?>record_id").val(data.post["variables"]["id"]);
         <?php
         foreach ($editable_rows as $key => $value) {
           $key_safe = makeSafeForCSS($key);
@@ -47,7 +47,7 @@ $(document).on("click", "#<?php echo $safe_ability_id; ?>_edit", function(e){
             else {
               ?>
 
-              state["<?php echo $safe_ability_action_id.$key_safe."_"."value" ?>"] = data.post["<?php echo $key; ?>"];
+              state["<?php echo $safe_ability_action_id.$key_safe."_"."value" ?>"] = data.post["variables"]["<?php echo $key; ?>"];
 
               <?php
             }
@@ -68,6 +68,16 @@ $(document).on("click", "#<?php echo $safe_ability_id; ?>_edit", function(e){
 
 
         ?>
+
+        $("#<?php echo $safe_ability_action_id."permisssions_owner"; ?>").val(
+          data.post["permissions"]["permisssions_owner"]
+        );
+        $("#<?php echo $safe_ability_action_id."permisssions_editability"; ?>").val(
+          data.post["permissions"]["permisssions_editability"]
+        );
+        $("#<?php echo $safe_ability_action_id."permisssions_visibility"; ?>").val(
+          data.post["permissions"]["permisssions_visibility"]
+        );
       }else{
         toastr["error"](data.message);
       }
