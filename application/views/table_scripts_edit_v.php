@@ -64,6 +64,9 @@ $(document).on("click", "#<?php echo $safe_ability_id; ?>_edit", function(e){
             <?php
           }
         }
+
+
+
         ?>
       }else{
         toastr["error"](data.message);
