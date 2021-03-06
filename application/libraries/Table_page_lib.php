@@ -604,9 +604,10 @@ class Table_page_lib
 
 		$post = $this->CI->input->post();
 
-		unset($post[0]);
+		unset($post["variables"][0]);
 		$ajax_data = array();
-		foreach ($post as $key => $value) {
+		foreach ($post["variables"] as $key => $value) {
+
 			$ajax_data["`".urldecode($key)."`"] = "\"".$value."\"";
 		}
 
@@ -615,12 +616,39 @@ class Table_page_lib
 		// exit;
 
 		$this->CI->db->_protect_identifiers=false;
-		if ($this->CI->db->insert("`".$table."`", $ajax_data)) {
+
+		$query_result = $this->CI->db->insert("`".$table."`", $ajax_data);
+		$this->CI->db->_protect_identifiers=true;
+
+		if ($query_result) {
+
+			if (1==1) {
+
+				$table_and_id = array(
+					"table" => $table,
+					"id" => 10000
+				);
+
+
+
+				$this->CI->input->post('edit_owner');
+				$this->CI->input->post('edit_owner');
+
+				$permissions = array(
+					// "owner" => 1,
+					// "editability" => 2,
+					// "visibility" => 3
+					"owner" => $post["permissions"]["edit_owner"],
+					"editability" => $post["permissions"]["edit_editability"],
+					"visibility" => $post["permissions"]["edit_visibility"]
+				);
+				$this->log_activity($table_and_id, $permissions);
+			}
+
 			$data = array('responce' => 'success', 'message' => 'Record added Successfully');
 		} else {
 			$data = array('responce' => 'error', 'message' => 'Failed to add record');
 		}
-		$this->CI->db->_protect_identifiers=true;
 		// }
 
 		return $data;
@@ -651,10 +679,10 @@ class Table_page_lib
 	public function update($table)
 	{
 
-			// echo "d".$this->CI->input->post('edit_owner')."d";
-			// exit;
-			// $this->CI->input->post('edit_editability')
-			// $this->CI->input->post('edit_visibility')
+		// echo "d".$this->CI->input->post('edit_owner')."d";
+		// exit;
+		// $this->CI->input->post('edit_editability')
+		// $this->CI->input->post('edit_visibility')
 
 		$table = urldecode($table);
 		$this->CI->load->database();
@@ -663,31 +691,37 @@ class Table_page_lib
 		//   $this->form_validation->set_rules('edit_name', 'Name', 'required');
 		//   $this->form_validation->set_rules('edit_event_children', 'Event_children');
 		//   if ($this->form_validation->run() == FALSE) {
-		//     $data = array('responce' => 'error', 'message' => validation_errors());
+		//     $ajax_data = array('responce' => 'error', 'message' => validation_errors());
 		//   } else {
 
-		$data['id'] = $this->CI->input->post('edit_record_id');
+
+		$post = $this->CI->input->post();
+
+		$ajax_data['id'] = $post["variables"]["edit_record_id"];
 
 		$rows = $this->table_rows($table);
 		foreach ($rows as $key => $value) {
 			if ($key !== "id") {
-				$data["`".urldecode($key)."`"] = "\"".$this->CI->input->post('edit_'.$this->makeSafeForCSS($key))."\"";
+				// $ajax_data["`".urldecode($key)."`"] = "\"".$this->CI->input->post('edit_'.$this->makeSafeForCSS($key))."\"";
+				$ajax_data["`".urldecode($key)."`"] = "\"".$post["variables"]['edit_'.$this->makeSafeForCSS($key)]."\"";
+
 			}
 		}
 
 
 		$this->CI->db->_protect_identifiers=false;
 
-		$query_result = $this->CI->db->update($table, $data, array('id' => $data['id']));
+		$query_result = $this->CI->db->update($table, $ajax_data, array('id' => $ajax_data['id']));
 
 		$this->CI->db->_protect_identifiers=true;
 
 		if ($query_result) {
+
 			if (1==1) {
 
 				$table_and_id = array(
 					"table" => $table,
-					"id" => $data['id']
+					"id" => $ajax_data['id']
 				);
 
 
@@ -696,15 +730,17 @@ class Table_page_lib
 				$this->CI->input->post('edit_owner');
 
 				$permissions = array(
-					// "owner" => $this->CI->input->post('edit_owner'),
-					// "editability" => $this->CI->input->post('edit_editability'),
-					// "visibility" => $this->CI->input->post('edit_visibility')
-					"owner" => 1,
-					"editability" => 2,
-					"visibility" => 3
+					// "owner" => 1,
+					// "editability" => 2,
+					// "visibility" => 3
+					"owner" => $post["permissions"]["edit_owner"],
+					"editability" => $post["permissions"]["edit_editability"],
+					"visibility" => $post["permissions"]["edit_visibility"]
 				);
 				$this->log_activity($table_and_id, $permissions);
 			}
+
+
 			$data = array('responce' => 'success', 'message' => 'Record update Successfully');
 			// $data = $this->CI->db->last_query();
 

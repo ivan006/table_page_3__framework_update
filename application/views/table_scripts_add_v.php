@@ -16,7 +16,9 @@ $(document).on("click", "#<?php echo makeSafeForCSS($data["g_identity"]["g_abili
     }
   }
   ?>
-  var edit_<?php echo "owner_group"; ?> = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS("owner_group"); ?>").val();
+  var edit_owner = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."owner"; ?>").val();
+  var edit_editability = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."editability"; ?>").val();
+  var edit_visibility = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."visibility"; ?>").val();
   <?php
 
   ?>
@@ -32,28 +34,35 @@ $(document).on("click", "#<?php echo makeSafeForCSS($data["g_identity"]["g_abili
       type: "post",
       dataType: "json",
       data: {
-        <?php
-        foreach ($editable_rows as $key => $value) {
+        variables: {
+          <?php
+          foreach ($editable_rows as $key => $value) {
 
 
-          if ($key !== "id") {
-            if (isset($value["assumable"])) {
-              ?>
-              "<?php echo urlencode($key); ?>": <?php echo $value["assumable"]; ?>,
+            if ($key !== "id") {
+              if (isset($value["assumable"])) {
+                ?>
+                "<?php echo urlencode($key); ?>": <?php echo $value["assumable"]; ?>,
 
-              <?php
-            }
-            else {
-              ?>
-              "<?php echo urlencode($key); ?>": <?php echo makeSafeForCSS($key); ?>,
+                <?php
+              }
+              else {
+                ?>
+                "<?php echo urlencode($key); ?>": <?php echo makeSafeForCSS($key); ?>,
 
-              <?php
+                <?php
+              }
             }
           }
+          ?>
+          // name: name,
+          // event_children: event_children
+        },
+        permissions: {
+          edit_owner: edit_owner,
+          edit_editability: edit_editability,
+          edit_visibility: edit_visibility
         }
-        ?>
-        // name: name,
-        // event_children: event_children
       },
       success: function(data){
         if (data.responce == "success") {

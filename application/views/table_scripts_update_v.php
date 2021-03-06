@@ -17,7 +17,9 @@ $(document).on("click", "#<?php echo makeSafeForCSS($data["g_identity"]["g_abili
     }
   }
   ?>
-  var edit_<?php echo "owner_group"; ?> = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS("owner_group"); ?>").val();
+  var edit_owner = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."owner"; ?>").val();
+  var edit_editability = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."editability"; ?>").val();
+  var edit_visibility = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."visibility"; ?>").val();
   <?php
   ?>
 
@@ -32,18 +34,25 @@ $(document).on("click", "#<?php echo makeSafeForCSS($data["g_identity"]["g_abili
       type: "post",
       dataType: "json",
       data: {
-        edit_record_id: edit_record_id,
-        <?php
-        foreach ($editable_rows as $key => $value) {
-          if ($key !== "id") {
-            ?>
-            edit_<?php echo makeSafeForCSS($key); ?>: edit_<?php echo makeSafeForCSS($key); ?>,
-            <?php
+        variables: {
+          edit_record_id: edit_record_id,
+          <?php
+          foreach ($editable_rows as $key => $value) {
+            if ($key !== "id") {
+              ?>
+              edit_<?php echo makeSafeForCSS($key); ?>: edit_<?php echo makeSafeForCSS($key); ?>,
+              <?php
+            }
           }
+          ?>
+          // edit_name: edit_name,
+          // edit_event_children: edit_event_children
+        },
+        permissions: {
+          edit_owner: edit_owner,
+          edit_editability: edit_editability,
+          edit_visibility: edit_visibility
         }
-        ?>
-        // edit_name: edit_name,
-        // edit_event_children: edit_event_children
       },
       success: function(data){
         if (data.responce == "success") {

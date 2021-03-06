@@ -243,7 +243,8 @@ if (isset($type)) {
 
 
               $this->load->view('table_permissions_v', array(
-                "permisssion_options"=>$permisssion_options
+                "permisssion_options"=>$permisssion_options,
+                "action_type"=>$action_type,
               ));
               ?>
 
@@ -440,7 +441,8 @@ if (isset($type)) {
           ?>
           <?php
           $this->load->view('table_permissions_v', array(
-            "permisssion_options"=>$permisssion_options
+            "permisssion_options"=>$permisssion_options,
+            "action_type"=>$action_type,
           ));
           ?>
 
