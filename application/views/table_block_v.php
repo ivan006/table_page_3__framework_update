@@ -242,18 +242,20 @@ if (isset($type)) {
               }
 
               ?>
-              <h5 style="<?php echo $hide_toggle ?>">Set permissions</h5>
-              <div class="form-group">
-                <label for="">Owner</label>
-                <select class="form-control" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS("owner_group"); ?>" style="<?php echo $hide_toggle ?>">
-                  <?php
-                  foreach ($owner_group_options["options"] as $key => $value) {
-                    ?>
-                    <option value="<?php echo $value["id"] ?>"><?php echo $value["indent"] ?> <?php echo $value["name"] ?></option>
+              <div style="<?php echo $hide_toggle ?>">
+                <h5>Set permissions</h5>
+                <div class="form-group">
+                  <label for="">Owner</label>
+                  <select class="form-control" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS("owner_group"); ?>">
                     <?php
-                  }
-                  ?>
-                </select>
+                    foreach ($owner_group_options["options"] as $key => $value) {
+                      ?>
+                      <option value="<?php echo $value["id"] ?>"><?php echo $value["indent"] ?> <?php echo $value["name"] ?></option>
+                      <?php
+                    }
+                    ?>
+                  </select>
+                </div>
               </div>
               <?php
               ?>
@@ -449,18 +451,20 @@ if (isset($type)) {
           }
 
           ?>
-          <h5 style="<?php echo $hide_toggle ?>">Set permissions</h5>
-          <div class="form-group">
-            <label for="">Owner</label>
-            <select class="form-control" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS("owner_group"); ?>" style="<?php echo $hide_toggle ?>">
-              <?php
-              foreach ($owner_group_options["options"] as $key => $value) {
-                ?>
-                <option value="<?php echo $value["id"] ?>"><?php echo $value["indent"] ?> <?php echo $value["name"] ?></option>
+          <div style="<?php echo $hide_toggle ?>">
+            <h5>Set permissions</h5>
+            <div class="form-group">
+              <label for="">Owner</label>
+              <select class="form-control" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS("owner_group"); ?>">
                 <?php
-              }
-              ?>
-            </select>
+                foreach ($owner_group_options["options"] as $key => $value) {
+                  ?>
+                  <option value="<?php echo $value["id"] ?>"><?php echo $value["indent"] ?> <?php echo $value["name"] ?></option>
+                  <?php
+                }
+                ?>
+              </select>
+            </div>
           </div>
           <?php
           ?>
