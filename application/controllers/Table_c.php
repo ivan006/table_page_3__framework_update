@@ -47,15 +47,17 @@ class Table_c extends CI_Controller
 		// $data = $this->table_page_lib->table_abilities($table);
 		$data = $this->table_page_lib->table_abilities_2($table);
 
-		$owner_group_options = array(
-			"assumed" => "no",
-			"options" => $this->table_page_lib->owner_group_options()
+		$permisssion_options = array(
+			"owner" => array(
+				"assumed" => "",
+				"options" => $this->table_page_lib->owner_group_options()
+			)
 		);
 
 		$this->load->view('table_header_v', array("data"=>$data));
 		$this->load->view('table_block_v', array(
 			"data"=>$data["g_core_abilities"],
-			"owner_group_options"=>$owner_group_options,
+			"permisssion_options"=>$permisssion_options,
 			"type"=>"g_table_core_abilities"
 		));
 		$this->load->view('table_footer_v', array("data"=>$data));

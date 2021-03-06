@@ -684,7 +684,12 @@ class Table_page_lib
 					"table" => $table,
 					"id" => $data['id']
 				);
-				$this->log_activity($table_and_id);
+				$permissions = array(
+					"owner" => "",
+					"editability" => "",
+					"visibility" => ""
+				);
+				$this->log_activity($table_and_id, $permissions);
 			}
 			$data = array('responce' => 'success', 'message' => 'Record update Successfully');
 			// $data = $this->CI->db->last_query();
@@ -704,23 +709,14 @@ class Table_page_lib
 		// }
 	}
 
-	public function log_activity($table_and_id)
+	public function log_activity($table_and_id, $permissions)
 	{
 
-		// $query_result = $this->CI->db->last_row();// To get last record form the table
-		// $row = $query_result->result()->id; // To print id of last record
-
-		// if( $this->db->affected_rows() === FALSE ){die($this->db->last_query());}
-		// $row = $this->CI->db->last_query()->id;
-		// $row = $this->CI->db->affected_rows();
-		// $row = $this->db->insert_id;
-
-
-		$table = "_users_groups";
-		$haystack = "user_id";
-		$needle = $this->CI->ion_auth->get_user_id();
-		$user_group_links = $this->fetch_where($table, $haystack, $needle)["posts"];
-		$user_group = $user_group_links[0]["group_id"];
+		// $table = "_users_groups";
+		// $haystack = "user_id";
+		// $needle = $this->CI->ion_auth->get_user_id();
+		// $user_group_links = $this->fetch_where($table, $haystack, $needle)["posts"];
+		// $user_group = $user_group_links[0]["group_id"];
 
 		$activity_log = array(
 			"record_table_and_id" => $table_and_id["table"]."/".$table_and_id["id"],
@@ -728,7 +724,9 @@ class Table_page_lib
 			// "record_id" => $table_and_id["id"],
 			// "actvity_type" => "",
 			"timestamp" => date("Y-m-d H:i:s"),
-			"user_group" => $user_group
+			"owner" => $permissions["owner"],
+			"editability" => $permissions["editability"],
+			"visibility" => $permissions["visibility"]
 		);
 
 		// header('Content-Type: application/json');
@@ -738,12 +736,7 @@ class Table_page_lib
 
 		$query_result = $this->CI->db->replace('_activity_log', $activity_log);
 
-		// if ($query_result) {
-		// 	$data = array('responce' => 'success', 'message' => 'Record update Successfully');
-		// } else {
-		// 	$data = array('responce' => 'error', 'message' => 'Failed to update record');
-		// }
-		// return $data;
+
 	}
 
 	public function owner_group_options()

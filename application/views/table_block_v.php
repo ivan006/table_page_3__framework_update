@@ -22,9 +22,9 @@ $readable_rows = $data["g_select"]["visible"];
 $view_link_table = $data["g_identity"]["g_from"];
 $view_link_id_key = "id";
 
-$hide_toggle = "";
-if ($owner_group_options["assumed"] == "yes") {
-  $hide_toggle = "display:none;";
+// $hide_toggle = "";
+if ($permisssion_options["owner"]["assumed"] == "1") {
+  // $hide_toggle = "display:none;";
 }
 
 
@@ -241,23 +241,10 @@ if (isset($type)) {
                 }
               }
 
-              ?>
-              <div style="<?php //echo $hide_toggle ?>">
-                <h5>Set permissions</h5>
-                <div class="form-group">
-                  <label for="">Owner</label>
-                  <select class="form-control" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS("owner_group"); ?>">
-                    <?php
-                    foreach ($owner_group_options["options"] as $key => $value) {
-                      ?>
-                      <option value="<?php echo $value["id"] ?>"><?php echo $value["indent"] ?> <?php echo $value["name"] ?></option>
-                      <?php
-                    }
-                    ?>
-                  </select>
-                </div>
-              </div>
-              <?php
+
+              $this->load->view('table_permissions_v', array(
+                "permisssion_options"=>$permisssion_options
+              ));
               ?>
 
             </form>
@@ -451,21 +438,12 @@ if (isset($type)) {
           }
 
           ?>
-          <div style="<?php //echo $hide_toggle ?>">
-            <h5>Set permissions</h5>
-            <div class="form-group">
-              <label for="">Owner</label>
-              <select class="form-control" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS("owner_group"); ?>">
-                <?php
-                foreach ($owner_group_options["options"] as $key => $value) {
-                  ?>
-                  <option value="<?php echo $value["id"] ?>"><?php echo $value["indent"] ?> <?php echo $value["name"] ?></option>
-                  <?php
-                }
-                ?>
-              </select>
-            </div>
-          </div>
+          <?php
+          $this->load->view('table_permissions_v', array(
+            "permisssion_options"=>$permisssion_options
+          ));
+          ?>
+
           <?php
           ?>
         </form>

@@ -32,17 +32,14 @@ class Record_c extends CI_Controller
 		// $data = $this->table_page_lib->record_abilities($table, $record_id);
 		$data = $this->table_page_lib->record_abilities_2($table, $record_id);
 
-
-		$owner_group_options = array(
-			"assumed" => "yes",
-			"options" => array(
-				array(
-					"id" => "1",
-					"name" => "1",
-					"indent" => ""
-				)
+		$permisssion_options = array(
+			"owner" => array(
+				"assumed" => 2,
+				"options" => $this->table_page_lib->owner_group_options()
 			)
 		);
+
+
 
 		// echo $record;
 		if ($data["table_exists"] == 1) {
@@ -53,7 +50,7 @@ class Record_c extends CI_Controller
 			$this->load->view('table_header_v', array("data"=>$data));
 			$this->load->view('table_block_v', array(
 				"data"=>$data["g_core_abilities"],
-				"owner_group_options"=>$owner_group_options,
+				"permisssion_options"=>$permisssion_options,
 				"type"=>"g_record_core_abilities"
 			));
 
@@ -66,7 +63,7 @@ class Record_c extends CI_Controller
 					// code...
 					$this->load->view('table_block_v', array(
 						"data"=>$value,
-						"owner_group_options"=>$owner_group_options,
+						"permisssion_options"=>$permisssion_options,
 						"type"=>"g_record_parental_abilities"
 					));
 				}
