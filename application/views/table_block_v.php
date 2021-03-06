@@ -107,7 +107,7 @@ if (isset($type)) {
               $action_type = "add";
               ?>
 
-              <h5 style="<?php echo $hide_toggle ?>">Variables</h5>
+              <h5 style="<?php //echo $hide_toggle ?>">Variables</h5>
               <?php
               foreach ($editable_rows as $key => $value) {
                 if ($key !== "id") {
@@ -242,9 +242,9 @@ if (isset($type)) {
               }
 
               ?>
-              <h5 style="<?php echo $hide_toggle ?>">Owner group</h5>
+              <h5 style="<?php echo $hide_toggle ?>">Set permissions</h5>
               <div class="form-group">
-                <!-- <label for="">Owner group</label> -->
+                <label for="">Owner</label>
                 <select class="form-control" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS("owner_group"); ?>" style="<?php echo $hide_toggle ?>">
                   <?php
                   foreach ($owner_group_options["options"] as $key => $value) {
@@ -317,7 +317,7 @@ if (isset($type)) {
         $action_type = "edit";
         ?>
         <form action="" method="post" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_" ?>form">
-          <h5 style="<?php echo $hide_toggle ?>">Variables</h5>
+          <h5 style="<?php //echo $hide_toggle ?>">Variables</h5>
           <input type="hidden" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_" ?>record_id" name="edit_record_id" value="">
           <?php
           foreach ($editable_rows as $key => $value) {
@@ -449,9 +449,9 @@ if (isset($type)) {
           }
 
           ?>
-          <h5 style="<?php echo $hide_toggle ?>">Owner group</h5>
+          <h5 style="<?php echo $hide_toggle ?>">Set permissions</h5>
           <div class="form-group">
-            <!-- <label for="">Owner group</label> -->
+            <label for="">Owner</label>
             <select class="form-control" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS("owner_group"); ?>" style="<?php echo $hide_toggle ?>">
               <?php
               foreach ($owner_group_options["options"] as $key => $value) {
