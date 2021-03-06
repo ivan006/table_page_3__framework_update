@@ -242,7 +242,7 @@ if (isset($type)) {
               }
 
               ?>
-              <div style="<?php echo $hide_toggle ?>">
+              <div style="<?php //echo $hide_toggle ?>">
                 <h5>Set permissions</h5>
                 <div class="form-group">
                   <label for="">Owner</label>
@@ -451,7 +451,7 @@ if (isset($type)) {
           }
 
           ?>
-          <div style="<?php echo $hide_toggle ?>">
+          <div style="<?php //echo $hide_toggle ?>">
             <h5>Set permissions</h5>
             <div class="form-group">
               <label for="">Owner</label>
