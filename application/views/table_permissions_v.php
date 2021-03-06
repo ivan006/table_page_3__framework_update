@@ -2,7 +2,7 @@
   <h5>Set permissions</h5>
   <div class="form-group">
     <label for="">Owner</label>
-    <select class="form-control" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."permisssions_owner"; ?>">
+    <select class="form-control" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."permissions_owner"; ?>">
       <?php
       foreach ($permisssion_options["owner"]["options"] as $key => $value) {
         if ($permisssion_options["owner"]["assumed"] == $value["id"]) {
@@ -19,7 +19,7 @@
   </div>
   <div class="form-group">
     <label for="">Editability</label>
-    <select class="form-control" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."permisssions_editability"; ?>">
+    <select class="form-control" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."permissions_editability"; ?>">
       <?php
       foreach ($permisssion_options["editability"]["options"] as $key => $value) {
         ?>
@@ -31,7 +31,7 @@
   </div>
   <div class="form-group">
     <label for="">Visibility</label>
-    <select class="form-control" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."permisssions_visibility"; ?>">
+    <select class="form-control" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."permissions_visibility"; ?>">
       <?php
       foreach ($permisssion_options["visibility"]["options"] as $key => $value) {
         ?>

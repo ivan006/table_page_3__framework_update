@@ -72,9 +72,9 @@ class Table_page_lib
 		if (count($query->result()) > 0) {
 			$post["variables"] = $query->row();
 			$post["permissions"] = array(
-				"permisssions_owner" => 2,
-				"permisssions_editability" => "Public",
-				"permisssions_visibility" => "Public",
+				"permissions_owner" => 2,
+				"permissions_editability" => "Public",
+				"permissions_visibility" => "Public",
 			);
 		}
 		if ($post) {
@@ -636,16 +636,16 @@ class Table_page_lib
 
 
 
-				$this->CI->input->post('edit_permisssions_owner');
-				$this->CI->input->post('edit_permisssions_owner');
+				$this->CI->input->post('edit_permissions_owner');
+				$this->CI->input->post('edit_permissions_owner');
 
 				$permissions = array(
 					// "owner" => 1,
 					// "editability" => 2,
 					// "visibility" => 3
-					"owner" => $post["permissions"]["edit_permisssions_owner"],
-					"editability" => $post["permissions"]["edit_permisssions_editability"],
-					"visibility" => $post["permissions"]["edit_permisssions_visibility"]
+					"owner" => $post["permissions"]["edit_permissions_owner"],
+					"editability" => $post["permissions"]["edit_permissions_editability"],
+					"visibility" => $post["permissions"]["edit_permissions_visibility"]
 				);
 				$this->log_activity($table_and_id, $permissions);
 			}
@@ -729,16 +729,16 @@ class Table_page_lib
 
 
 
-				$this->CI->input->post('edit_permisssions_owner');
-				$this->CI->input->post('edit_permisssions_owner');
+				$this->CI->input->post('edit_permissions_owner');
+				$this->CI->input->post('edit_permissions_owner');
 
 				$permissions = array(
 					// "owner" => 1,
 					// "editability" => 2,
 					// "visibility" => 3
-					"owner" => $post["permissions"]["edit_permisssions_owner"],
-					"editability" => $post["permissions"]["edit_permisssions_editability"],
-					"visibility" => $post["permissions"]["edit_permisssions_visibility"]
+					"owner" => $post["permissions"]["edit_permissions_owner"],
+					"editability" => $post["permissions"]["edit_permissions_editability"],
+					"visibility" => $post["permissions"]["edit_permissions_visibility"]
 				);
 				$this->log_activity($table_and_id, $permissions);
 			}

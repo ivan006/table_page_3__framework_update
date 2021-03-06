@@ -69,14 +69,14 @@ $(document).on("click", "#<?php echo $safe_ability_id; ?>_edit", function(e){
 
         ?>
 
-        $("#<?php echo $safe_ability_action_id."permisssions_owner"; ?>").val(
-          data.post["permissions"]["permisssions_owner"]
+        $("#<?php echo $safe_ability_action_id."permissions_owner"; ?>").val(
+          data.post["permissions"]["permissions_owner"]
         );
-        $("#<?php echo $safe_ability_action_id."permisssions_editability"; ?>").val(
-          data.post["permissions"]["permisssions_editability"]
+        $("#<?php echo $safe_ability_action_id."permissions_editability"; ?>").val(
+          data.post["permissions"]["permissions_editability"]
         );
-        $("#<?php echo $safe_ability_action_id."permisssions_visibility"; ?>").val(
-          data.post["permissions"]["permisssions_visibility"]
+        $("#<?php echo $safe_ability_action_id."permissions_visibility"; ?>").val(
+          data.post["permissions"]["permissions_visibility"]
         );
       }else{
         toastr["error"](data.message);

@@ -17,9 +17,9 @@ $(document).on("click", "#<?php echo makeSafeForCSS($data["g_identity"]["g_abili
     }
   }
   ?>
-  var edit_permisssions_owner = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."permisssions_owner"; ?>").val();
-  var edit_permisssions_editability = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."permisssions_editability"; ?>").val();
-  var edit_permisssions_visibility = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."permisssions_visibility"; ?>").val();
+  var edit_permissions_owner = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."permissions_owner"; ?>").val();
+  var edit_permissions_editability = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."permissions_editability"; ?>").val();
+  var edit_permissions_visibility = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_"."permissions_visibility"; ?>").val();
   <?php
   ?>
 
@@ -49,9 +49,9 @@ $(document).on("click", "#<?php echo makeSafeForCSS($data["g_identity"]["g_abili
           // edit_event_children: edit_event_children
         },
         permissions: {
-          edit_permisssions_owner: edit_permisssions_owner,
-          edit_permisssions_editability: edit_permisssions_editability,
-          edit_permisssions_visibility: edit_permisssions_visibility
+          edit_permissions_owner: edit_permissions_owner,
+          edit_permissions_editability: edit_permissions_editability,
+          edit_permissions_visibility: edit_permissions_visibility
         }
       },
       success: function(data){
