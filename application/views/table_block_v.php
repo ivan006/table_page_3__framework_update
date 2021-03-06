@@ -457,81 +457,20 @@ if (isset($type)) {
 </div>
 
 
-<script>
-
 
 <?php
 $action_type = "add";
+
+$this->load->view('table_scripts_add_v', array(
+  "data"=>$data,
+  "action_type"=>$action_type,
+  // "permisssion_options"=>$permisssion_options,
+  // "type"=>"g_record_core_abilities"
+));
 ?>
-  $(document).on("click", "#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_add", function(e){
-    e.preventDefault();
-
-    <?php
-    foreach ($editable_rows as $key => $value) {
-      if ($key !== "id") {
-        ?>
-        var <?php echo makeSafeForCSS($key); ?> = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>").val();
-        <?php
-      }
-    }
-    ?>
-    var edit_<?php echo "owner_group"; ?> = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS("owner_group"); ?>").val();
-    <?php
-
-    ?>
-    // var name = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_name").val();
-    // var event_children = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_event_children").val();
-
-    // if (name == "")
-    if (1 !== 1) {
-      alert("Both field is required");
-    }else{
-      $.ajax({
-        url: "<?php echo base_url(); ?>api/table/t/<?php echo $data["g_identity"]["g_from"]; ?>/insert",
-        type: "post",
-        dataType: "json",
-        data: {
-          <?php
-          foreach ($editable_rows as $key => $value) {
 
 
-            if ($key !== "id") {
-              if (isset($value["assumable"])) {
-                ?>
-                "<?php echo urlencode($key); ?>": <?php echo $value["assumable"]; ?>,
-
-                <?php
-              }
-              else {
-                ?>
-                "<?php echo urlencode($key); ?>": <?php echo makeSafeForCSS($key); ?>,
-
-                <?php
-              }
-            }
-          }
-          ?>
-          // name: name,
-          // event_children: event_children
-        },
-        success: function(data){
-          if (data.responce == "success") {
-            $('#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_records').DataTable().destroy();
-            <?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_fetch();
-            $('#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_exampleModal').modal('hide');
-            toastr["success"](data.message);
-          }else{
-            toastr["error"](data.message);
-          }
-
-        }
-      });
-
-      $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_form")[0].reset();
-
-    }
-
-  });
+<script>
 
   // Fetch Records
 
@@ -729,66 +668,24 @@ $action_type = "add";
 
   });
 
-  // Update Record
-
-  <?php
-  $action_type = "edit";
-  ?>
-
-  $(document).on("click", "#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_update", function(e){
-    e.preventDefault();
-
-    var edit_record_id = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_" ?>record_id").val();
-    <?php
-    foreach ($editable_rows as $key => $value) {
-      if ($key !== "id") {
-        ?>
-        var edit_<?php echo makeSafeForCSS($key); ?> = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>").val();
-        <?php
-      }
-    }
-    ?>
-    var edit_<?php echo "owner_group"; ?> = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS("owner_group"); ?>").val();
-    <?php
-    ?>
 
 
-
-    // if (edit_record_id == "" || edit_name == "")
-    if (1 !== 1) {
-      alert("Both field is required");
-    }else{
-      $.ajax({
-        url: "<?php echo base_url(); ?>api/table/t/<?php echo $data["g_identity"]["g_from"]; ?>/update",
-        type: "post",
-        dataType: "json",
-        data: {
-          edit_record_id: edit_record_id,
-          <?php
-          foreach ($editable_rows as $key => $value) {
-            if ($key !== "id") {
-              ?>
-              edit_<?php echo makeSafeForCSS($key); ?>: edit_<?php echo makeSafeForCSS($key); ?>,
-              <?php
-            }
-          }
-          ?>
-          // edit_name: edit_name,
-          // edit_event_children: edit_event_children
-        },
-        success: function(data){
-          if (data.responce == "success") {
-            $('#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_records').DataTable().destroy();
-            <?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_fetch();
-            $('#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_" ?>modal').modal('hide');
-            toastr["success"](data.message);
-          }else{
-            toastr["error"](data.message);
-          }
-        }
-      });
-
-    }
-
-  });
 </script>
+
+<?php
+
+// Update Record
+
+$action_type = "edit";
+
+
+
+
+
+$this->load->view('table_scripts_update_v', array(
+  "data"=>$data,
+  "action_type"=>$action_type,
+  // "permisssion_options"=>$permisssion_options,
+  // "type"=>"g_record_core_abilities"
+));
+?>

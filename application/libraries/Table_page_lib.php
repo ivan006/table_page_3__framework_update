@@ -651,8 +651,8 @@ class Table_page_lib
 	public function update($table)
 	{
 
-			echo "d".$this->CI->input->post('edit_owner')."d";
-			exit;
+			// echo "d".$this->CI->input->post('edit_owner')."d";
+			// exit;
 			// $this->CI->input->post('edit_editability')
 			// $this->CI->input->post('edit_visibility')
 
@@ -696,9 +696,12 @@ class Table_page_lib
 				$this->CI->input->post('edit_owner');
 
 				$permissions = array(
-					"owner" => $this->CI->input->post('edit_owner'),
-					"editability" => $this->CI->input->post('edit_editability'),
-					"visibility" => $this->CI->input->post('edit_visibility')
+					// "owner" => $this->CI->input->post('edit_owner'),
+					// "editability" => $this->CI->input->post('edit_editability'),
+					// "visibility" => $this->CI->input->post('edit_visibility')
+					"owner" => 1,
+					"editability" => 2,
+					"visibility" => 3
 				);
 				$this->log_activity($table_and_id, $permissions);
 			}
