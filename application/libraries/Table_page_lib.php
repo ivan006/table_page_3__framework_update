@@ -1001,6 +1001,8 @@ class Table_page_lib
 			$data["g_core_abilities"]["g_identity"]["g_where_needle"] = $record_id;
 			$new_endpoint = $data["g_core_abilities"]["g_identity"]["data_endpoint"].$record_id;
 			$data["g_core_abilities"]["g_identity"]["data_endpoint"] = $new_endpoint;
+			$data["g_core_abilities"]["g_identity"]["g_ability_name"] = "overview";
+			$data["g_core_abilities"]["g_identity"]["g_ability_html_id"] = "overview";
 
 			foreach ($data["g_parental_abilities"] as $key => $value) {
 				$iteration_result = $data["g_parental_abilities"][$key];
