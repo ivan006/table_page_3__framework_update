@@ -817,8 +817,8 @@ class Table_page_lib
 		$query_result = $this->CI->db->query($sql)->result_array();
 
 
-
-		$table = "_users_groups";
+		// chaneg to $config['tables']['users_groups'] ?
+		$table = "users_groups";
 		$haystack = "user_id";
 		$needle = $this->CI->ion_auth->get_user_id();
 		$user_group_links = $this->fetch_where($table, $haystack, $needle)["posts"];
