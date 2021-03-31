@@ -56,6 +56,22 @@ $route['translate_uri_dashes'] = FALSE;
 
 
 
+// /auth/index()
+// /auth/login()
+// /auth/logout()
+// /auth/change_password()
+// /auth/forgot_password()
+// /auth/reset_password($code = NULL)
+// /auth/activate($id, $code = FALSE)
+// /auth/deactivate($id = NULL)
+// /auth/create_user()
+// /auth/redirectUser()
+// /auth/edit_user($id)
+// /auth/create_group()
+// /auth/edit_group($id)
+// /auth/_get_csrf_nonce()
+// /auth/_valid_csrf_nonce()
+// /auth/_render_page($view, $data = NULL, $returnhtml = FALSE)//I think this makes more sense
 
 
 

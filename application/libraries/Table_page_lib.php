@@ -765,7 +765,7 @@ class Table_page_lib
 	public function log_activity($table_and_id, $permissions)
 	{
 
-		// $table = "_users_groups";
+		// $table = "_groups";
 		// $haystack = "user_id";
 		// $needle = $this->CI->ion_auth->get_user_id();
 		// $user_group_links = $this->fetch_where($table, $haystack, $needle)["posts"];
@@ -801,11 +801,11 @@ class Table_page_lib
 		$sql="WITH RECURSIVE q AS
 		(
 			SELECT  id,name,description,group_id,CONCAT(id) as path
-			FROM    _groups
+			FROM    groups
 			WHERE   group_id = 0
 			UNION ALL
 			SELECT  m.id,m.name,m.description,m.group_id,CONCAT(q.path,'-',m.id) as path
-			FROM    _groups m
+			FROM    groups m
 			JOIN    q
 			ON      m.group_id = q.id
 		)
