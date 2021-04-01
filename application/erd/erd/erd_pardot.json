@@ -200,12 +200,6 @@
         "Key": "PRI",
         "Extra": "auto_increment"
       },
-      "campaign_id": {
-        "Type": "bigint(20) unsigned"
-      },
-      "prospect_account_id": {
-        "Type": "bigint(20) unsigned"
-      },
       "address_one": {
         "Type": "varchar(100)"
       },
@@ -214,6 +208,12 @@
       },
       "annual_revenue": {
         "Type": "decimal"
+      },
+      "campaign_id": {
+        "Type": "bigint(20) unsigned"
+      },
+      "crm_campaign_fid": {
+        "Type": "bigint(20) unsigned"
       },
       "city": {
         "Type": "varchar(100)"
@@ -230,6 +230,9 @@
       "created_at": {
         "Type": "datetime"
       },
+      "created_by_id": {
+        "Type": "bigint(20) unsigned"
+      },
       "crm_account_fid": {
         "Type": "varchar(100)"
       },
@@ -245,9 +248,6 @@
       "crm_owner_fid": {
         "Type": "varchar(100)"
       },
-      "crm_url": {
-        "Type": "varchar(100)"
-      },
       "department": {
         "Type": "varchar(100)"
       },
@@ -261,9 +261,6 @@
         "Type": "bigint(20) unsigned"
       },
       "first_name": {
-        "Type": "varchar(100)"
-      },
-      "grade": {
         "Type": "varchar(100)"
       },
       "industry": {
@@ -293,9 +290,6 @@
       "last_name": {
         "Type": "varchar(100)"
       },
-      "notes": {
-        "Type": "varchar(100)"
-      },
       "opted_out": {
         "Type": "tinyint(1)"
       },
@@ -305,7 +299,10 @@
       "phone": {
         "Type": "varchar(100)"
       },
-      "recent_interaction": {
+      "prospect_account_id": {
+        "Type": "bigint(20) unsigned"
+      },
+      "salesforce_fid": {
         "Type": "varchar(100)"
       },
       "salutation": {
@@ -325,6 +322,12 @@
       },
       "updated_at": {
         "Type": "datetime"
+      },
+      "updated_by_id": {
+        "Type": "bigint(20) unsigned"
+      },
+      "user_id": {
+        "Type": "bigint(20) unsigned"
       },
       "website": {
         "Type": "varchar(100)"
