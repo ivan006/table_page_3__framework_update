@@ -561,16 +561,10 @@
       "campaign_id": {
         "Type": "bigint(20) unsigned"
       },
-      "prospect_id": {
-        "Type": "bigint(20) unsigned"
-      },
-      "visitor_id": {
-        "Type": "bigint(20) unsigned"
-      },
-      "email_id": {
-        "Type": "varchar(100)"
-      },
       "created_at": {
+        "Type": "datetime"
+      },
+      "updated_at": {
         "Type": "datetime"
       },
       "custom_redirect_id": {
@@ -579,16 +573,19 @@
       "details": {
         "Type": "varchar(100)"
       },
+      "email_id": {
+        "Type": "varchar(100)"
+      },
       "email_template_id": {
         "Type": "bigint(20) unsigned"
       },
       "file_id": {
         "Type": "bigint(20) unsigned"
       },
-      "form_handler_id": {
+      "form_id": {
         "Type": "bigint(20) unsigned"
       },
-      "form_id": {
+      "form_handler_id": {
         "Type": "bigint(20) unsigned"
       },
       "landing_page_id": {
@@ -603,6 +600,9 @@
       "paid_search_ad_id": {
         "Type": "bigint(20) unsigned"
       },
+      "prospect_id": {
+        "Type": "bigint(20) unsigned"
+      },
       "site_search_query_id": {
         "Type": "bigint(20) unsigned"
       },
@@ -612,9 +612,9 @@
       "type_name": {
         "Type": "varchar(100)"
       },
-      "updated_at": {
-        "Type": "datetime"
-      }
+      "visitor_id": {
+        "Type": "bigint(20) unsigned"
+      },
     }
   }
 }
