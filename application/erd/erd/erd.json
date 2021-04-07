@@ -522,7 +522,8 @@
       }
     },
     "items": {
-      "visitor_page_view": "visit_id"
+      "visitor_page_view": "visit_id",
+      "visitor_activity": "visit_id"
     }
   },
   "visitor_page_view": {
@@ -597,6 +598,9 @@
       "multivariate_test_variation_id": {
         "Type": "bigint(20) unsigned"
       },
+      "opportunity_id": {
+        "Type": "bigint(20) unsigned"
+      },
       "paid_search_ad_id": {
         "Type": "bigint(20) unsigned"
       },
@@ -612,9 +616,15 @@
       "type_name": {
         "Type": "varchar(100)"
       },
+      "visit_id": {
+        "Type": "bigint(20) unsigned"
+      },
       "visitor_id": {
         "Type": "bigint(20) unsigned"
       },
+      "visitor_page_view_id": {
+        "Type": "bigint(20) unsigned"
+      }
     }
   }
 }
