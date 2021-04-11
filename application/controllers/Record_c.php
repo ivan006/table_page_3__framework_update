@@ -41,7 +41,7 @@ class Record_c extends CI_Controller
 				"assumed" => "",
 				"options" => array(
 					"Private",
-					"Organisation",
+					// "Organisation",
 					"Public"
 				)
 			),
@@ -49,7 +49,7 @@ class Record_c extends CI_Controller
 				"assumed" => "",
 				"options" => array(
 					"Private",
-					"Organisation",
+					// "Organisation",
 					"Public"
 				)
 			),

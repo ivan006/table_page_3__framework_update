@@ -52,11 +52,19 @@ class Table_c extends CI_Controller
 				"assumed" => "",
 				"options" => $this->table_page_lib->owner_group_options()
 			),
+			// "assignbility" => array(
+			// 	"assumed" => "",
+			// 	"options" => array(
+			// 		"Private",
+			// 		// "Organisation",
+			// 		"Public"
+			// 	)
+			// ),
 			"editability" => array(
 				"assumed" => "",
 				"options" => array(
 					"Private",
-					"Organisation",
+					// "Organisation",
 					"Public"
 				)
 			),
@@ -64,7 +72,7 @@ class Table_c extends CI_Controller
 				"assumed" => "",
 				"options" => array(
 					"Private",
-					"Organisation",
+					// "Organisation",
 					"Public"
 				)
 			),
