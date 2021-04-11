@@ -72,43 +72,41 @@ class Table_page_lib
 
 		// edit me start 2
 
-		$erd_two_path = APPPATH.'erd/active/erd.json';
-		$erd_two = file_get_contents($erd_two_path);
-		$erd_two = json_decode($erd_two, true);
+		if (1==1) {
+			$erd_two_path = APPPATH.'erd/active/erd.json';
+			$erd_two = file_get_contents($erd_two_path);
+			$erd_two = json_decode($erd_two, true);
 
-		$fields = $erd_two[$table]["fields"];
+			$fields = $erd_two[$table]["fields"];
 
-		$this->CI->db->_protect_identifiers=false;
-
-
-		$QueryA = "";
-		$QueryA = $QueryA."SELECT
-		`record_table_and_id`,
-		`timestamp`,
-		`owner`,
-		`editability`,
-		`visibility`,";
+			$this->CI->db->_protect_identifiers=false;
 
 
-		$iteration = 0;
-		foreach ($fields as $field_key => $field_value) {
-			if ($iteration > 0) {
-				$QueryA = $QueryA.",";
+			$QueryA = "";
+			$QueryA = $QueryA."SELECT
+			`record_table_and_id`,
+			`timestamp`,
+			`owner`,
+			`editability`,
+			`visibility`,";
+
+			$iteration = 0;
+			foreach ($fields as $field_key => $field_value) {
+				if ($iteration > 0) {
+					$QueryA = $QueryA.",";
+				}
+				$QueryA = $QueryA." `$table`.`$field_key`";
+				$iteration = $iteration+1;
 			}
-			$QueryA = $QueryA." `$table`.`$field_key`";
-			$iteration = $iteration+1;
+
+			$QueryA = $QueryA."FROM `_activity_log` as `_activity_log`
+			RIGHT JOIN (SELECT * FROM $table WHERE `id` = '$edit_id')
+			AS `$table` ON `_activity_log`.`record_table_and_id` = CONCAT('$table', '/', `$table`.id)";
+
+			$query = $this->CI->db->query($QueryA);
+
+			$this->CI->db->_protect_identifiers=true;
 		}
-
-
-		$QueryAA = "";
-
-		$QueryA = $QueryA."FROM `_activity_log` as `_activity_log`
-		RIGHT JOIN (SELECT * FROM $table WHERE `id` = '$edit_id')
-		AS `$table` ON `_activity_log`.`record_table_and_id` = CONCAT('objects', '/', `$table`.id)";
-
-		$query = $this->CI->db->query($QueryA);
-
-		$this->CI->db->_protect_identifiers=true;
 
 		// edit me end
 		$post = null;
