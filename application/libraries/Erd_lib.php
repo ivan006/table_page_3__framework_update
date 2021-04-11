@@ -15,7 +15,7 @@ class Erd_lib
 
 	function erd_to_db()
 	{
-		$erd_two_path = APPPATH.'erd/erd/erd.json';
+		$erd_two_path = APPPATH.'erd/active/erd.json';
 		// include($erd_two_path);
 		$erd_two = file_get_contents($erd_two_path);
 		$erd_two = json_decode($erd_two, true);
@@ -93,7 +93,7 @@ class Erd_lib
 
 	function erd()
 	{
-		$one_path = APPPATH.'erd/erd/erd.json';
+		$one_path = APPPATH.'erd/active/erd.json';
 		// include($one_path);
 		$one = file_get_contents($one_path);
 		$one = json_decode($one, true);
@@ -134,7 +134,7 @@ class Erd_lib
 
 	function erd_two_old()
 	{
-		$one_path = APPPATH.'erd/erd/one.json';
+		$one_path = APPPATH.'erd/active/one.json';
 		// include($one_path);
 		$one = file_get_contents($one_path);
 		$one = json_decode($one, true);
@@ -267,8 +267,23 @@ class Erd_lib
 
 	function model_two()
 	{
-		$one_path = APPPATH.'erd/erd/one.json';
-		$one = file_get_contents($one_path);
+		// $one_path = APPPATH.'erd/active/one.json';
+		// $one = file_get_contents($one_path);
+		// $one = json_decode($one, true);
+		$one = '{
+			"events": [
+				"resources"
+			],
+			"resources": [
+				"bedding_specialty_events",
+				"personal_specialty_events"
+			],
+			"organizations": [
+				"buyer_specialty_events",
+				"seller_specialty_events"
+			]
+		}
+		';
 		$one = json_decode($one, true);
 
 		$relationships = $this->relationships($one);

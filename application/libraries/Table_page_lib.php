@@ -64,10 +64,51 @@ class Table_page_lib
 		// if ($this->CI->input->is_ajax_request()) {
 		$edit_id = $this->CI->input->post('edit_id');
 
+		// edit me start 1
 		$this->CI->db->select("*");
 		$this->CI->db->from($table);
 		$this->CI->db->where("id", $edit_id);
 		$query = $this->CI->db->get();
+
+		// edit me start 2
+		if (1==1) {
+
+			$erd_two_path = APPPATH.'erd/active/erd.json';
+			$erd_two = file_get_contents($erd_two_path);
+			$erd_two = json_decode($erd_two, true);
+
+			// $this->db->_protect_identifiers=false;
+
+			$query = $this->CI->db
+			->select('DATE_FORMAT(pick_up_date, "%Y-%m") as date')
+			->select('SUM(total_sell) AS Revenue')
+			->select('SUM(total_cost) AS Cost')
+			->select('SUM(total_sell)-SUM(total_cost) AS Profit')
+			->select('COUNT(DISTINCT wbi.booking_id) as BookingCount')
+			->select('supplier_id')
+			->select('COUNT(DISTINCT wbi.id) as ServicelineCount')
+			// ->select('wbi.status as wbi_status')
+			->from('`'.$table.'` AS wbi')
+			->join('`what_bookings_itineraries_costing` itcost', 'itcost.itinerary_id = wbi.id', 'inner')
+			->join('`what_bookings` wb', 'wb.id = wbi.booking_id', 'inner')
+			->where('pick_up_date BETWEEN "'.$months[0].' "AND "'.$months[1].'"')
+			// ->where('service_type', 'car-rental')
+			// $months
+			->where('service_type '.$SmartServiceType['operator'], $SmartServiceType['term'])
+			// ->where('wbi.status '.$SmartServiceStatus['operator'], $SmartServiceStatus['term'])
+			->where_in("wbi.status",$SmartServiceStatus)
+			->where_in("wb.booking_status",$SmartBookingStatus)
+			->group_by('supplier_id')
+			// ->_compile_select();
+			// $this->db->_reset_select();
+			->get();
+
+			// $this->db->_protect_identifiers=true;
+
+			// $result = $this->db->query($query)->result_array();
+
+		}
+		// edit me end
 		$post = null;
 		if (count($query->result()) > 0) {
 			$post["variables"] = $query->row();
@@ -87,6 +128,9 @@ class Table_page_lib
 		// 	return "No direct script access allowed";
 		// }
 	}
+
+
+
 
 	public function table_rows($table)
 	{
@@ -118,7 +162,7 @@ class Table_page_lib
 
 		// $posts = $this->CI->db->where($where["haystack"], $where["needle"])->get($table)->result_array();
 
-		$erd_path = APPPATH.'erd/erd/erd.json';
+		$erd_path = APPPATH.'erd/active/erd.json';
 		$erd = file_get_contents($erd_path);
 		$erd = json_decode($erd, true);
 
@@ -286,7 +330,7 @@ class Table_page_lib
 
 	public function database_api()
 	{
-		$erd_path = APPPATH.'erd/erd/erd.json';
+		$erd_path = APPPATH.'erd/active/erd.json';
 		$rows = file_get_contents($erd_path);
 		$rows = json_decode($rows, true);
 
@@ -313,7 +357,7 @@ class Table_page_lib
 
 	public function cols_visible($table, $erd, $foreign_key)
 	{
-		// $erd_path = APPPATH.'erd/erd/erd.json';
+		// $erd_path = APPPATH.'erd/active/erd.json';
 		// $erd = file_get_contents($erd_path);
 		// $erd = json_decode($erd, true);
 
@@ -1002,7 +1046,7 @@ class Table_page_lib
 		// }
 
 
-		$erd_path = APPPATH.'erd/erd/erd.json';
+		$erd_path = APPPATH.'erd/active/erd.json';
 		$erd = file_get_contents($erd_path);
 		$erd = json_decode($erd, true);
 
@@ -1046,8 +1090,8 @@ class Table_page_lib
 
 	public function record_abilities_2($table, $record_id)
 	{
-		if (file_exists("application/erd/erd/crud_cache/$table.txt")) {
-			$data = file_get_contents("application/erd/erd/crud_cache/$table.txt");
+		if (file_exists("application/erd/active/crud_cache/$table.txt")) {
+			$data = file_get_contents("application/erd/active/crud_cache/$table.txt");
 			$data = json_decode($data, true);
 			$data["record_id"] = $record_id;
 			$data["title"] = $data["table_name_singular"]." ".$record_id;
@@ -1086,8 +1130,8 @@ class Table_page_lib
 
 	public function table_abilities_2($table)
 	{
-		if (file_exists("application/erd/erd/crud_cache/$table.txt")) {
-			$data = file_get_contents("application/erd/erd/crud_cache/$table.txt");
+		if (file_exists("application/erd/active/crud_cache/$table.txt")) {
+			$data = file_get_contents("application/erd/active/crud_cache/$table.txt");
 			$data = json_decode($data, true);
 			$data["title"] = $data["table_name"];
 			$data["g_core_abilities"]["g_identity"]["data_endpoint"] = "fetch";
