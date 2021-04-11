@@ -71,51 +71,61 @@ class Table_page_lib
 		$query = $this->CI->db->get();
 
 		// edit me start 2
-		if (1==1) {
 
-			$erd_two_path = APPPATH.'erd/active/erd.json';
-			$erd_two = file_get_contents($erd_two_path);
-			$erd_two = json_decode($erd_two, true);
+		$erd_two_path = APPPATH.'erd/active/erd.json';
+		$erd_two = file_get_contents($erd_two_path);
+		$erd_two = json_decode($erd_two, true);
 
-			// $this->db->_protect_identifiers=false;
+		$fields = $erd_two[$table]["fields"];
 
-			$query = $this->CI->db
-			->select('DATE_FORMAT(pick_up_date, "%Y-%m") as date')
-			->select('SUM(total_sell) AS Revenue')
-			->select('SUM(total_cost) AS Cost')
-			->select('SUM(total_sell)-SUM(total_cost) AS Profit')
-			->select('COUNT(DISTINCT wbi.booking_id) as BookingCount')
-			->select('supplier_id')
-			->select('COUNT(DISTINCT wbi.id) as ServicelineCount')
-			// ->select('wbi.status as wbi_status')
-			->from('`'.$table.'` AS wbi')
-			->join('`what_bookings_itineraries_costing` itcost', 'itcost.itinerary_id = wbi.id', 'inner')
-			->join('`what_bookings` wb', 'wb.id = wbi.booking_id', 'inner')
-			->where('pick_up_date BETWEEN "'.$months[0].' "AND "'.$months[1].'"')
-			// ->where('service_type', 'car-rental')
-			// $months
-			->where('service_type '.$SmartServiceType['operator'], $SmartServiceType['term'])
-			// ->where('wbi.status '.$SmartServiceStatus['operator'], $SmartServiceStatus['term'])
-			->where_in("wbi.status",$SmartServiceStatus)
-			->where_in("wb.booking_status",$SmartBookingStatus)
-			->group_by('supplier_id')
-			// ->_compile_select();
-			// $this->db->_reset_select();
-			->get();
+		$this->CI->db->_protect_identifiers=false;
 
-			// $this->db->_protect_identifiers=true;
 
-			// $result = $this->db->query($query)->result_array();
+		$QueryA = "";
+		$QueryA = $QueryA."SELECT
+		`record_table_and_id`,
+		`timestamp`,
+		`owner`,
+		`editability`,
+		`visibility`,";
 
+
+		$iteration = 0;
+		foreach ($fields as $field_key => $field_value) {
+			if ($iteration > 0) {
+				$QueryA = $QueryA.",";
+			}
+			$QueryA = $QueryA." `$table`.`$field_key`";
+			$iteration = $iteration+1;
 		}
+
+
+		$QueryAA = "";
+
+		$QueryA = $QueryA."FROM `_activity_log` as `_activity_log`
+		RIGHT JOIN (SELECT * FROM $table WHERE `id` = '$edit_id')
+		AS `$table` ON `_activity_log`.`record_table_and_id` = CONCAT('objects', '/', `$table`.id)";
+
+		$query = $this->CI->db->query($QueryA);
+
+		$this->CI->db->_protect_identifiers=true;
+
 		// edit me end
 		$post = null;
 		if (count($query->result()) > 0) {
-			$post["variables"] = $query->row();
+			$variables = (array) $query->row();
+			// unset();
+			// var_dump($variables);
+			unset($variables["record_table_and_id"]);
+			unset($variables["owner"]);
+			unset($variables["editability"]);
+			unset($variables["visibility"]);
+			unset($variables["timestamp"]);
+			$post["variables"] = $variables;
 			$post["permissions"] = array(
-				"permissions_owner" => 2,
-				"permissions_editability" => "Public",
-				"permissions_visibility" => "Public",
+				"permissions_owner" => $query->row()->owner,
+				"permissions_editability" => $query->row()->editability,
+				"permissions_visibility" => $query->row()->visibility,
 			);
 		}
 		if ($post) {
