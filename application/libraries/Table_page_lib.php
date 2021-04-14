@@ -65,10 +65,10 @@ class Table_page_lib
 		$edit_id = $this->CI->input->post('edit_id');
 
 		// edit me start 1
-		$this->CI->db->select("*");
-		$this->CI->db->from($table);
-		$this->CI->db->where("id", $edit_id);
-		$query = $this->CI->db->get();
+		// $this->CI->db->select("*");
+		// $this->CI->db->from($table);
+		// $this->CI->db->where("id", $edit_id);
+		// $query = $this->CI->db->get();
 
 		// edit me start 2
 
@@ -269,6 +269,31 @@ class Table_page_lib
 			}
 			elseif ($page_type == "table") {
 			}
+
+			$query = $query->_compile_select();
+
+
+
+			// SELECT CONCAT('<a href=\"/record/t/objects/r/', `objects`.id, '\" class=\"btn btn-sm btn-outline-primary\">View</a>') as `id`, `objects`.`id`, `objects`.`name`, CONCAT('<a href=\"/record/t/objects/r/', `joining_table_objects`.id, '\" class=\"btn btn-sm btn-outline-primary\">View</a>') as `objects - id`, `joining_table_objects`.`name` as `objects - name`, `joining_table_objects`.`object id` as `objects - object id`, `joining_table_objects_lineage`.path as `objects - lineage`\nFROM `objects`\nLEFT JOIN `objects` as `joining_table_objects` ON `objects`.`object id` = `joining_table_objects`.id\nLEFT JOIN (WITH RECURSIVE q AS
+			// 					(
+			// 						SELECT  id,`object id`, CONCAT('0-', id) as path
+			// 						FROM    objects
+			// 						WHERE   `object id` = 0
+			// 						UNION ALL
+			// 						SELECT  m.id,m.`object id`, CONCAT(q.path, '-', m.id) as path
+			// 						FROM    objects m
+			// 						JOIN    q
+			// 						ON      m.`object id` = q.id
+			// 					)
+			// 					SELECT  *
+			// 					FROM    q
+			// 					) as `joining_table_objects_lineage` ON `objects`.`object id` = `joining_table_objects_lineage`.id
+
+			// header('Content-Type: application/json');
+			// echo json_encode($query, JSON_PRETTY_PRINT);
+			// exit;
+
+
 			// $sql="WITH RECURSIVE q AS
 			// (
 			// 	SELECT  id,`object id`,CONCAT(id) as path
