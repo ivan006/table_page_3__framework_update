@@ -365,7 +365,7 @@ class Table_page_lib
 			// header('Content-Type: application/json');
 			// echo $sql;
 			// exit;
-			$query = $this->CI->db->query($query);
+			$query = $this->CI->db->query($sql);
 			// blue.bluegemify.co.za
 
 
