@@ -203,25 +203,111 @@ class Table_page_lib
 			$this->CI->db->_protect_identifiers=false;
 			$query = $this->CI->db;
 
-			$parent_link_part_1 = '<a href="/record/t/'.$table.'/r/';
-			$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
-			$query = $query->select("CONCAT('$parent_link_part_1', "."`".$table."`".".id, '$parent_link_part_2') as `id`");
+			if ("old"=="old1") {
+				// code...
+				$parent_link_part_1 = '<a href="/record/t/'.$table.'/r/';
+				$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
+				$query = $query->select("CONCAT('$parent_link_part_1', "."`".$table."`".".id, '$parent_link_part_2') as `id`");
 
-			foreach ($cols_visible["cols_o"] as $key => $value) {
-				if ($key !== "id") {
-					// code...
+				foreach ($cols_visible["cols_o"] as $key => $value) {
+					if ($key !== "id") {
+						// code...
+					}
+					$query = $query->select("`".$table."`".'.'."`".$key."`");
 				}
-				$query = $query->select("`".$table."`".'.'."`".$key."`");
+				foreach ($cols_visible["cols_d"] as $key => $value) {
+					// if ($key !== $table) {
+						foreach ($value["cols"] as $key_2 => $value_2) {
+							if ($key_2 == "id") {
+								$parent_link_part_1 = '<a href="/record/t/'.$key.'/r/';
+								$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
+								$query = $query->select("CONCAT('$parent_link_part_1', "."`joining_table_".$key."`".".id".", '$parent_link_part_2') as `$key - $key_2`");
+							} else {
+								$query = $query->select("`joining_table_".$key."`"."."."`".$key_2."`"." as `$key - $key_2`");
+							}
+
+
+						}
+						if (isset($value["is_self_joined"])) {
+							// $g_select["visible"] = array_merge(
+							// 	$g_select["visible"],
+							// 	array("$key - lineage" => "1")
+							// );
+							$query = $query->select("`joining_table_".$key."_lineage`.path"." as `$key - lineage`");
+						}
+					// }
+				}
+				$query = $query->from("`".$table."`");
+
+				foreach ($cols_visible["cols_d"] as $key => $value) {
+					// echo "xyz";
+					// if ($key !== $table) {
+						$query = $query->join("`".$key."` as `joining_table_".$key."`", "`".$table."`".'.'."`".$value["linking_key"]."`".' = '."`joining_table_".$key."`".'.id', 'left');
+					// }
+
+					if (isset($value["is_self_joined"])) {
+						$linking_key = $value["linking_key"];
+						$sql="WITH RECURSIVE q AS
+						(
+							SELECT  id,`$linking_key`, CONCAT('0-', id) as path
+							FROM    $key
+							WHERE   `$linking_key` = 0
+							UNION ALL
+							SELECT  m.id,m.`$linking_key`, CONCAT(q.path, '-', m.id) as path
+							FROM    $key m
+							JOIN    q
+							ON      m.`$linking_key` = q.id
+						)
+						SELECT  *
+						FROM    q
+						";
+						$query = $query->join("(".$sql.") as `joining_table_".$key."_lineage`", "`".$table."`".'.'."`$linking_key`".' = '."`joining_table_".$key."_lineage`".'.id', 'left');
+					}
+				}
+
+				if ($page_type == "record") {
+					$where["haystack"] = urldecode($where["haystack"]);
+					$query = $query->where("`".$table."`"."."."`".$where["haystack"]."` =", $where["needle"]);
+				}
+				elseif ($page_type == "table") {
+				}
+				$sql = $query->_compile_select();
+
+				// SELECT CONCAT('View') as `id`, `objects`.`id`, `objects`.`name`, CONCAT('View') as `objects - id`, `joining_table_objects`.`name` as `objects - name`, `joining_table_objects`.`object id` as `objects - object id`, `joining_table_objects_lineage`.path as `objects - lineage` FROM `objects` LEFT JOIN `objects` as `joining_table_objects` ON `objects`.`object id` = `joining_table_objects`.id LEFT JOIN (WITH RECURSIVE q AS ( SELECT id,`object id`, CONCAT('0-', id) as path FROM objects WHERE `object id` = 0 UNION ALL SELECT m.id,m.`object id`, CONCAT(q.path, '-', m.id) as path FROM objects m JOIN q ON m.`object id` = q.id ) SELECT * FROM q ) as `joining_table_objects_lineage` ON `objects`.`object id` = `joining_table_objects_lineage`.id
 			}
-			foreach ($cols_visible["cols_d"] as $key => $value) {
-				// if ($key !== $table) {
+
+
+			if ("new"=="new") {
+				// code...
+
+
+
+
+				$parent_link_part_1 = '<a href="/record/t/'.$table.'/r/';
+				$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
+
+				$sql = "";
+				$sql = $sql."";
+				$sql = $sql."SELECT ";
+				$sql = $sql."CONCAT('$parent_link_part_1', `$table`.id, '$parent_link_part_2') as `id`";
+
+				foreach ($cols_visible["cols_o"] as $key => $value) {
+					if ($key !== "id") {
+						// code...
+					}
+					$sql = $sql.", `$table`.`$key`";
+				}
+				foreach ($cols_visible["cols_d"] as $key => $value) {
+					// if ($key !== $table) {
 					foreach ($value["cols"] as $key_2 => $value_2) {
 						if ($key_2 == "id") {
 							$parent_link_part_1 = '<a href="/record/t/'.$key.'/r/';
 							$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
-							$query = $query->select("CONCAT('$parent_link_part_1', "."`joining_table_".$key."`".".id".", '$parent_link_part_2') as `$key - $key_2`");
+
+
+							$sql = $sql.", CONCAT('$parent_link_part_1', `joining_table_$key`.id, '$parent_link_part_2') as `$key - $key_2`";
 						} else {
-							$query = $query->select("`joining_table_".$key."`"."."."`".$key_2."`"." as `$key - $key_2`");
+							$sql = $sql.", `joining_table_$key`.`$key_2` as `$key - $key_2`";
 						}
 
 
@@ -231,50 +317,65 @@ class Table_page_lib
 						// 	$g_select["visible"],
 						// 	array("$key - lineage" => "1")
 						// );
-						$query = $query->select("`joining_table_".$key."_lineage`.path"." as `$key - lineage`");
+						$sql = $sql.", `joining_table_".$key."_lineage`.path as `$key - lineage`";
 					}
-				// }
-			}
-			$query = $query->from("`".$table."`");
-
-			foreach ($cols_visible["cols_d"] as $key => $value) {
-				// echo "xyz";
-				// if ($key !== $table) {
-					$query = $query->join("`".$key."` as `joining_table_".$key."`", "`".$table."`".'.'."`".$value["linking_key"]."`".' = '."`joining_table_".$key."`".'.id', 'left');
-				// }
-
-				if (isset($value["is_self_joined"])) {
-					$linking_key = $value["linking_key"];
-					$sql="WITH RECURSIVE q AS
-					(
-						SELECT  id,`$linking_key`, CONCAT('0-', id) as path
-						FROM    $key
-						WHERE   `$linking_key` = 0
-						UNION ALL
-						SELECT  m.id,m.`$linking_key`, CONCAT(q.path, '-', m.id) as path
-						FROM    $key m
-						JOIN    q
-						ON      m.`$linking_key` = q.id
-					)
-					SELECT  *
-					FROM    q
-					";
-					$query = $query->join("(".$sql.") as `joining_table_".$key."_lineage`", "`".$table."`".'.'."`$linking_key`".' = '."`joining_table_".$key."_lineage`".'.id', 'left');
+					// }
 				}
+				$sql = $sql."\nFROM `$table`";
+
+				foreach ($cols_visible["cols_d"] as $key => $value) {
+					// echo "xyz";
+					// if ($key !== $table) {
+
+					$sql = $sql."\nLEFT JOIN `$key` as `joining_table_$key` ON `$table`.`".$value["linking_key"]."` = `joining_table_$key`.id";
+					// }
+
+					if (isset($value["is_self_joined"])) {
+						$linking_key = $value["linking_key"];
+						$sql2="WITH RECURSIVE q AS (
+							SELECT  id,`$linking_key`, CONCAT('0-', id) as path
+							FROM    $key
+							WHERE   `$linking_key` = 0
+							UNION ALL
+							SELECT  m.id,m.`$linking_key`, CONCAT(q.path, '-', m.id) as path
+							FROM    $key m
+							JOIN    q
+							ON      m.`$linking_key` = q.id)
+							SELECT  *
+							FROM    q";
+
+							$sql = $sql."\nLEFT JOIN ($sql2) as `joining_table_".$key."_lineage` ON `$table`.`$linking_key` = `joining_table_".$key."_lineage`.id";
+					}
+				}
+
+				if ($page_type == "record") {
+					$where["haystack"] = urldecode($where["haystack"]);
+					$sql = $sql."\nWHERE `$table`.`".$where["haystack"]."` = ".$where["needle"]."";
+
+				}
+				elseif ($page_type == "table") {
+				}
+
+				// SELECT CONCAT('View') as `id`, SELECT `objects`.`id`, SELECT `objects`.`name`, SELECT CONCAT('View') as `objects - id`, SELECT `joining_table_objects`.`name` as `objects - name`, SELECT `joining_table_objects`.`object id` as `objects - object id`, SELECT `joining_table_objects_lineage`.path as `objects - lineage`, FROM `objects`LEFT JOIN `objects` as `joining_table_objects` ON `objects`.``object id`` = `joining_table_objects`.idLEFT JOIN (WITH RECURSIVE q AS ( SELECT id,`object id`, CONCAT('0-', id) as path FROM objects WHERE `object id` = 0 UNION ALL SELECT m.id,m.`object id`, CONCAT(q.path, '-', m.id) as path FROM objects m JOIN q ON m.`object id` = q.id ) SELECT * FROM q ) as `joining_table_objects_lineage` ON `objects`.`object id` = `joining_table_objects_lineage`.id
 			}
 
-			if ($page_type == "record") {
-				$where["haystack"] = urldecode($where["haystack"]);
-				$query = $query->where("`".$table."`"."."."`".$where["haystack"]."` =", $where["needle"]);
-			}
-			elseif ($page_type == "table") {
-			}
-
-			$query = $query->_compile_select();
 
 
+			// echo json_encode($sql, JSON_PRETTY_PRINT);
+			// echo "<textarea>";
+			// echo $query;
 
-			// SELECT CONCAT('<a href=\"/record/t/objects/r/', `objects`.id, '\" class=\"btn btn-sm btn-outline-primary\">View</a>') as `id`, `objects`.`id`, `objects`.`name`, CONCAT('<a href=\"/record/t/objects/r/', `joining_table_objects`.id, '\" class=\"btn btn-sm btn-outline-primary\">View</a>') as `objects - id`, `joining_table_objects`.`name` as `objects - name`, `joining_table_objects`.`object id` as `objects - object id`, `joining_table_objects_lineage`.path as `objects - lineage`\nFROM `objects`\nLEFT JOIN `objects` as `joining_table_objects` ON `objects`.`object id` = `joining_table_objects`.id\nLEFT JOIN (WITH RECURSIVE q AS
+			header('Content-Type: application/json');
+			echo $sql;
+			exit;
+			$query = $this->CI->db->query($query);
+			// blue.bluegemify.co.za
+
+
+			// SELECT CONCAT('<a href=\"/record/t/objects/r/', `objects`.id, '\" class=\"btn btn-sm btn-outline-primary\">View</a>') as `id`, `objects`.`id`, `objects`.`name`, CONCAT('<a href=\"/record/t/objects/r/', `joining_table_objects`.id, '\" class=\"btn btn-sm btn-outline-primary\">View</a>') as `objects - id`, `joining_table_objects`.`name` as `objects - name`, `joining_table_objects`.`object id` as `objects - object id`, `joining_table_objects_lineage`.path as `objects - lineage`
+			// FROM `objects`
+			// LEFT JOIN `objects` as `joining_table_objects` ON `objects`.`object id` = `joining_table_objects`.id
+			// LEFT JOIN (WITH RECURSIVE q AS
 			// 					(
 			// 						SELECT  id,`object id`, CONCAT('0-', id) as path
 			// 						FROM    objects
@@ -289,9 +390,6 @@ class Table_page_lib
 			// 					FROM    q
 			// 					) as `joining_table_objects_lineage` ON `objects`.`object id` = `joining_table_objects_lineage`.id
 
-			// header('Content-Type: application/json');
-			// echo json_encode($query, JSON_PRETTY_PRINT);
-			// exit;
 
 
 			// $sql="WITH RECURSIVE q AS
@@ -309,7 +407,9 @@ class Table_page_lib
 			// FROM    q
 			// ";
 			// $posts = $this->CI->db->query($sql)->result_array();
-			$posts = $query->get()->result_array();
+			$posts = $query;
+			// $posts = $posts->get();
+			$posts = $posts->result_array();
 			// print_r($this->CI->db->last_query());
 			// exit;
 
