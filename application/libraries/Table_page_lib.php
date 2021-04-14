@@ -247,8 +247,7 @@ class Table_page_lib
 
 					if (isset($value["is_self_joined"])) {
 						$linking_key = $value["linking_key"];
-						$sql="WITH RECURSIVE q AS
-						(
+						$sql="WITH RECURSIVE q AS (
 							SELECT  id,`$linking_key`, CONCAT('0-', id) as path
 							FROM    $key
 							WHERE   `$linking_key` = 0
@@ -256,11 +255,9 @@ class Table_page_lib
 							SELECT  m.id,m.`$linking_key`, CONCAT(q.path, '-', m.id) as path
 							FROM    $key m
 							JOIN    q
-							ON      m.`$linking_key` = q.id
-						)
-						SELECT  *
-						FROM    q
-						";
+							ON      m.`$linking_key` = q.id)
+							SELECT  *
+							FROM    q";
 						$query = $query->join("(".$sql.") as `joining_table_".$key."_lineage`", "`".$table."`".'.'."`$linking_key`".' = '."`joining_table_".$key."_lineage`".'.id', 'left');
 					}
 				}
