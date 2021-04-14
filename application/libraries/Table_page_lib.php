@@ -247,8 +247,7 @@ class Table_page_lib
 
 					if (isset($value["is_self_joined"])) {
 						$linking_key = $value["linking_key"];
-						$sql="WITH RECURSIVE q AS
-						(
+						$sql="WITH RECURSIVE q AS (
 							SELECT  id,`$linking_key`, CONCAT('0-', id) as path
 							FROM    $key
 							WHERE   `$linking_key` = 0
@@ -256,11 +255,9 @@ class Table_page_lib
 							SELECT  m.id,m.`$linking_key`, CONCAT(q.path, '-', m.id) as path
 							FROM    $key m
 							JOIN    q
-							ON      m.`$linking_key` = q.id
-						)
-						SELECT  *
-						FROM    q
-						";
+							ON      m.`$linking_key` = q.id)
+							SELECT  *
+							FROM    q";
 						$query = $query->join("(".$sql.") as `joining_table_".$key."_lineage`", "`".$table."`".'.'."`$linking_key`".' = '."`joining_table_".$key."_lineage`".'.id', 'left');
 					}
 				}
@@ -273,11 +270,11 @@ class Table_page_lib
 				}
 				$sql = $query->_compile_select();
 
-				// SELECT CONCAT('View') as `id`, `objects`.`id`, `objects`.`name`, CONCAT('View') as `objects - id`, `joining_table_objects`.`name` as `objects - name`, `joining_table_objects`.`object id` as `objects - object id`, `joining_table_objects_lineage`.path as `objects - lineage` FROM `objects` LEFT JOIN `objects` as `joining_table_objects` ON `objects`.`object id` = `joining_table_objects`.id LEFT JOIN (WITH RECURSIVE q AS ( SELECT id,`object id`, CONCAT('0-', id) as path FROM objects WHERE `object id` = 0 UNION ALL SELECT m.id,m.`object id`, CONCAT(q.path, '-', m.id) as path FROM objects m JOIN q ON m.`object id` = q.id ) SELECT * FROM q ) as `joining_table_objects_lineage` ON `objects`.`object id` = `joining_table_objects_lineage`.id
+
 			}
 
 
-			if ("new"=="new1") {
+			if ("new"=="new2") {
 				// code...
 
 
@@ -321,19 +318,18 @@ class Table_page_lib
 					}
 					// }
 				}
-				$sql = $sql." FROM `$table`";
+				$sql = $sql."\nFROM `$table`";
 
 				foreach ($cols_visible["cols_d"] as $key => $value) {
 					// echo "xyz";
 					// if ($key !== $table) {
 
-					$sql = $sql." LEFT JOIN `$key` as `joining_table_$key` ON `$table`.`".$value["linking_key"]."` = `joining_table_$key`.id ";
+					$sql = $sql."\nLEFT JOIN `$key` as `joining_table_$key` ON `$table`.`".$value["linking_key"]."` = `joining_table_$key`.id";
 					// }
 
 					if (isset($value["is_self_joined"])) {
 						$linking_key = $value["linking_key"];
-						$sql2="WITH RECURSIVE q AS
-						(
+						$sql2="WITH RECURSIVE q AS (
 							SELECT  id,`$linking_key`, CONCAT('0-', id) as path
 							FROM    $key
 							WHERE   `$linking_key` = 0
@@ -341,25 +337,23 @@ class Table_page_lib
 							SELECT  m.id,m.`$linking_key`, CONCAT(q.path, '-', m.id) as path
 							FROM    $key m
 							JOIN    q
-							ON      m.`$linking_key` = q.id
-							)
+							ON      m.`$linking_key` = q.id)
 							SELECT  *
-							FROM    q
-							";
+							FROM    q";
 
-							$sql = $sql."LEFT JOIN ($sql2) as `joining_table_".$key."_lineage` ON `$table`.`$linking_key` = `joining_table_".$key."_lineage`.id";
-						}
+							$sql = $sql."\nLEFT JOIN ($sql2) as `joining_table_".$key."_lineage` ON `$table`.`$linking_key` = `joining_table_".$key."_lineage`.id";
 					}
+				}
 
-					if ($page_type == "record") {
-						$where["haystack"] = urldecode($where["haystack"]);
-						$sql = $sql." WHERE   `$table`.`".$where["haystack"]."` = ".$where["needle"]."";
+				if ($page_type == "record") {
+					$where["haystack"] = urldecode($where["haystack"]);
+					$sql = $sql."\nWHERE `$table`.`".$where["haystack"]."` = ".$where["needle"]."";
 
-					}
-					elseif ($page_type == "table") {
-					}
+				}
+				elseif ($page_type == "table") {
+				}
 
-					// SELECT CONCAT('View') as `id`, SELECT `objects`.`id`, SELECT `objects`.`name`, SELECT CONCAT('View') as `objects - id`, SELECT `joining_table_objects`.`name` as `objects - name`, SELECT `joining_table_objects`.`object id` as `objects - object id`, SELECT `joining_table_objects_lineage`.path as `objects - lineage`, FROM `objects`LEFT JOIN `objects` as `joining_table_objects` ON `objects`.``object id`` = `joining_table_objects`.idLEFT JOIN (WITH RECURSIVE q AS ( SELECT id,`object id`, CONCAT('0-', id) as path FROM objects WHERE `object id` = 0 UNION ALL SELECT m.id,m.`object id`, CONCAT(q.path, '-', m.id) as path FROM objects m JOIN q ON m.`object id` = q.id ) SELECT * FROM q ) as `joining_table_objects_lineage` ON `objects`.`object id` = `joining_table_objects_lineage`.id
+
 			}
 
 
