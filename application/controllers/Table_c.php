@@ -63,17 +63,35 @@ class Table_c extends CI_Controller
 			"editability" => array(
 				"assumed" => "",
 				"options" => array(
-					"Private",
-					// "Organisation",
-					"Public"
+					array(
+						"label"=>"Public",
+						"value"=>"0",
+					),
+					// array(
+					// 	"label"="Organisation",
+					// 	"value"="1",
+					// ),
+					array(
+						"label"=>"Private",
+						"value"=>"1",
+					),
 				)
 			),
 			"visibility" => array(
 				"assumed" => "",
 				"options" => array(
-					"Private",
-					// "Organisation",
-					"Public"
+					array(
+						"label"=>"Public",
+						"value"=>"0",
+					),
+					// array(
+					// 	"label"="Organisation",
+					// 	"value"="1",
+					// ),
+					array(
+						"label"=>"Private",
+						"value"=>"1",
+					),
 				)
 			),
 		);
@@ -119,7 +137,13 @@ class Table_c extends CI_Controller
 			// redirect them to the login page
 			redirect('auth/login', 'refresh');
 		}
-		$result = $this->table_page_lib->fetch($table, "table", array());
+
+		$groups = $this->ion_auth->get_users_groups();
+		$groups = $groups->result_array();
+		$groups = array_column($groups, "id");
+
+
+		$result = $this->table_page_lib->fetch($table, "table", array(), $groups);
 		header('Content-Type: application/json');
 		echo json_encode($result, JSON_PRETTY_PRINT);
 	}
@@ -131,6 +155,13 @@ class Table_c extends CI_Controller
 			// redirect them to the login page
 			redirect('auth/login', 'refresh');
 		}
+
+
+
+		$groups = $this->ion_auth->get_users_groups();
+		$groups = $groups->result_array();
+		$groups = array_column($groups, "id");
+
 		$result = $this->table_page_lib->fetch(
 			$table,
 			"record",
@@ -141,7 +172,8 @@ class Table_c extends CI_Controller
 
 				"haystack_type"=>$h_type
 
-			)
+			),
+			$groups
 		);
 		header('Content-Type: application/json');
 		echo json_encode($result, JSON_PRETTY_PRINT);

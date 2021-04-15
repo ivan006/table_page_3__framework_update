@@ -23,7 +23,7 @@
       <?php
       foreach ($permisssion_options["editability"]["options"] as $key => $value) {
         ?>
-        <option><?php echo $value ?></option>
+        <option value="<?php echo $value["value"] ?>"><?php echo $value["label"] ?></option>
         <?php
       }
       ?>
@@ -35,7 +35,7 @@
       <?php
       foreach ($permisssion_options["visibility"]["options"] as $key => $value) {
         ?>
-        <option><?php echo $value ?></option>
+        <option value="<?php echo $value["value"] ?>"><?php echo $value["label"] ?></option>
         <?php
       }
       ?>

@@ -162,7 +162,7 @@ class Table_page_lib
 	}
 
 	// public function fetch_for_record($table, $haystack, $needle, $child_of)
-	public function fetch($table, $page_type, $where)
+	public function fetch($table, $page_type, $where, $groups)
 	{
 		$table = urldecode($table);
 
@@ -202,6 +202,7 @@ class Table_page_lib
 
 			$this->CI->db->_protect_identifiers=false;
 			$query = $this->CI->db;
+
 
 			if ("old"=="old") {
 				// code...
@@ -261,6 +262,17 @@ class Table_page_lib
 						$query = $query->join("(".$sql.") as `joining_table_".$key."_lineage`", "`".$table."`".'.'."`$linking_key`".' = '."`joining_table_".$key."_lineage`".'.id', 'left');
 					}
 				}
+				$query = $query->join("`_activity_log`", "`_activity_log`.`record_table_and_id` = CONCAT('$table', '/', `$table`.id)", 'left');
+
+
+				$query = $query->where_in("`_activity_log`.`owner`", $groups);
+				// $query = $query->or_where("`_activity_log`.`owner` =", "0");
+				$query = $query->or_where("`_activity_log`.`editability` =", "0");
+				$query = $query->or_where("`_activity_log`.`visibility` =", "0");
+				$query = $query->or_where("`_activity_log`.`editability` IS", "NULL");
+				$query = $query->or_where("`_activity_log`.`visibility` IS", "NULL");
+				// $query = $query->or_where_in("`_activity_log`.`editability`", array("'Public'", "''"));
+				// $query = $query->or_where_in("`_activity_log`.`visibility`", array("'Public'", "''"));
 
 				if ($page_type == "record") {
 					$where["haystack"] = urldecode($where["haystack"]);
@@ -268,10 +280,16 @@ class Table_page_lib
 				}
 				elseif ($page_type == "table") {
 				}
-				$sql = $query->_compile_select();
 
+
+
+				// $sql = $query->_compile_select();
+
+				$query = $query->get();
 
 			}
+
+
 
 
 			if ("new"=="new2") {
@@ -353,19 +371,14 @@ class Table_page_lib
 				elseif ($page_type == "table") {
 				}
 
+				$query = $this->CI->db->query($sql);
 
 			}
 
 
-
-			// echo json_encode($sql, JSON_PRETTY_PRINT);
-			// echo "<textarea>";
-			// echo $query;
-
 			// header('Content-Type: application/json');
 			// echo $sql;
 			// exit;
-			$query = $this->CI->db->query($sql);
 			// blue.bluegemify.co.za
 
 
@@ -405,7 +418,6 @@ class Table_page_lib
 			// ";
 			// $posts = $this->CI->db->query($sql)->result_array();
 			$posts = $query;
-			// $posts = $posts->get();
 			$posts = $posts->result_array();
 			// print_r($this->CI->db->last_query());
 			// exit;
