@@ -304,6 +304,7 @@ class Ion_auth
 				$message = $this->load->view($this->config->item('email_templates', 'ion_auth').$this->config->item('email_activate', 'ion_auth'), $data, true);
 
 				$this->email->clear();
+				$this->email->set_newline("\r\n");
 				$this->email->from($this->config->item('admin_email', 'ion_auth'), $this->config->item('site_title', 'ion_auth'));
 				$this->email->to($email);
 				$this->email->subject($this->config->item('site_title', 'ion_auth') . ' - ' . $this->lang->line('email_activation_subject'));
@@ -315,6 +316,10 @@ class Ion_auth
 					$this->set_message('activation_email_successful');
 					return $id;
 				}
+				// else {
+				// 	echo "Email not send .....";
+				// 	show_error($this->email->print_debugger());
+				// }
 
 			}
 
