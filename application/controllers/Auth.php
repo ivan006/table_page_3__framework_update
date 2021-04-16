@@ -893,8 +893,6 @@ class Auth extends CI_Controller
 		}
 	}
 
-
-
 	public function register()
 	{
 		$this->load->library('form_validation');
@@ -928,15 +926,16 @@ class Auth extends CI_Controller
 			$this->load->library('ion_auth');
 			if($this->ion_auth->register($username,$password,$email,$additional_data))
 			{
-				$_SESSION['auth_message'] = 'The account has been created. You may now login.';
+				// $_SESSION['auth_message'] = 'The account has been created. You may now login.';
+				$_SESSION['auth_message'] = 'Activation Email Sent. Please check your inbox or spam';
 				$this->session->mark_as_flash('auth_message');
-				redirect('user/login');
+				redirect('auth/register');
 			}
 			else
 			{
 				$_SESSION['auth_message'] = $this->ion_auth->errors();
 				$this->session->mark_as_flash('auth_message');
-				redirect('register');
+				redirect('auth/register');
 			}
 		}
 	}
