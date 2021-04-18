@@ -1,5 +1,5 @@
 {
-  "objects": {
+  "product": {
     "fields": {
       "id": {
         "Type": "bigint(20) unsigned",
@@ -11,17 +11,15 @@
         "Type": "varchar(100)",
         "Null": "NO"
       },
-      "object id": {
+      "product type id": {
         "Type": "bigint(20) unsigned"
       }
     },
     "items": {
-      "processes": "object id",
-      "papers": "object id",
-      "objects": "object id"
+      "transaction": "rented product id"
     }
   },
-  "papers": {
+  "product type": {
     "fields": {
       "id": {
         "Type": "bigint(20) unsigned",
@@ -29,16 +27,113 @@
         "Key": "PRI",
         "Extra": "auto_increment"
       },
-      "object id": {
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      }
+    },
+    "items": {
+      "product": "product type id",
+      "transaction": "bought product type id"
+    }
+  },
+  "transaction": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "transaction type id": {
         "Type": "bigint(20) unsigned"
       },
-      "name": {
+      "rented product id": {
+        "Type": "bigint(20) unsigned"
+      },
+      "bought product type id": {
+        "Type": "bigint(20) unsigned"
+      },
+      "rented product id": {
+        "Type": "bigint(20) unsigned"
+      },
+      "quantity": {
+        "Type": "bigint(20) unsigned"
+      },
+      "supplier id": {
+        "Type": "bigint(20) unsigned"
+      },
+      "customer id": {
+        "Type": "bigint(20) unsigned"
+      },
+      "date": {
+        "Type": "date"
+      },
+      "descriptions": {
         "Type": "varchar(100)",
         "Null": "NO"
       }
     }
   },
-  "processes": {
+  "transaction type": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      }
+    },
+    "items": {
+      "transaction": "transaction type id"
+    }
+  },
+  "rented or bought": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      }
+    },
+    "items": {
+      "transaction": "rented or bought id"
+    }
+  },
+  "organisation": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "date": {
+        "Type": "date"
+      },
+      "descriptions": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      },
+      "duration": {
+        "Type": "bigint(20) unsigned"
+      }
+    },
+    "items": {
+      "transaction": "supplier id",
+      "transaction": "customer id"
+    }
+  },
+  "organisation type": {
     "fields": {
       "id": {
         "Type": "bigint(20) unsigned",
@@ -57,40 +152,6 @@
         "Null": "NO"
       },
       "duration": {
-        "Type": "bigint(20) unsigned"
-      }
-    }
-  },
-  "transactions": {
-    "fields": {
-      "id": {
-        "Type": "bigint(20) unsigned",
-        "Null": "NO",
-        "Key": "PRI",
-        "Extra": "auto_increment"
-      },
-      "hist": {
-        "Type": "varchar(100)"
-      },
-      "date": {
-        "Type": "bigint(20) unsigned"
-      },
-      "hashes": {
-        "Type": "varchar(100)"
-      },
-      "ammount": {
-        "Type": "varchar(100)"
-      },
-      "desc": {
-        "Type": "varchar(100)"
-      },
-      "other party": {
-        "Type": "varchar(100)"
-      },
-      "random code": {
-        "Type": "bigint(20) unsigned"
-      },
-      "random code 2": {
         "Type": "bigint(20) unsigned"
       }
     }

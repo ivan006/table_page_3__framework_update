@@ -1,0 +1,98 @@
+{
+  "objects": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      },
+      "object id": {
+        "Type": "bigint(20) unsigned"
+      }
+    },
+    "items": {
+      "processes": "object id",
+      "papers": "object id",
+      "objects": "object id"
+    }
+  },
+  "papers": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "object id": {
+        "Type": "bigint(20) unsigned"
+      },
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      }
+    }
+  },
+  "processes": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "object id": {
+        "Type": "bigint(20) unsigned"
+      },
+      "date": {
+        "Type": "date"
+      },
+      "descriptions": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      },
+      "duration": {
+        "Type": "bigint(20) unsigned"
+      }
+    }
+  },
+  "transactions": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "hist": {
+        "Type": "varchar(100)"
+      },
+      "date": {
+        "Type": "bigint(20) unsigned"
+      },
+      "hashes": {
+        "Type": "varchar(100)"
+      },
+      "ammount": {
+        "Type": "varchar(100)"
+      },
+      "desc": {
+        "Type": "varchar(100)"
+      },
+      "other party": {
+        "Type": "varchar(100)"
+      },
+      "random code": {
+        "Type": "bigint(20) unsigned"
+      },
+      "random code 2": {
+        "Type": "bigint(20) unsigned"
+      }
+    }
+  }
+}
