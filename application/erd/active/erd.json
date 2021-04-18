@@ -48,6 +48,9 @@
       "transaction type id": {
         "Type": "bigint(20) unsigned"
       },
+      "rented or bought id": {
+        "Type": "bigint(20) unsigned"
+      },
       "rented product id": {
         "Type": "bigint(20) unsigned"
       },
