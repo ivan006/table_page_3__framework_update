@@ -5,3 +5,6 @@ https://stackoverflow.com/questions/44495827/how-to-send-gmail-email-with-codeig
 
 verify email after register avenir.ro ion auth
 https://avenir.ro/register-users-using-ion-auth-in-codeigniter-3/
+
+array form input syntax php
+https://www.php.net/manual/en/faq.html.php

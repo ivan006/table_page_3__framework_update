@@ -42,13 +42,13 @@ $(document).on("click", "#<?php echo makeSafeForCSS($data["g_identity"]["g_abili
             if ($key !== "id") {
               if (isset($value["assumable"])) {
                 ?>
-                "<?php echo urlencode($key); ?>": <?php echo $value["assumable"]; ?>,
+                "<?php echo makeSafeForCSS($key); ?>": <?php echo $value["assumable"]; ?>,
 
                 <?php
               }
               else {
                 ?>
-                "<?php echo urlencode($key); ?>": <?php echo makeSafeForCSS($key); ?>,
+                "<?php echo makeSafeForCSS($key); ?>": <?php echo makeSafeForCSS($key); ?>,
 
                 <?php
               }

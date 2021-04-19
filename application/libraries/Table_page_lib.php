@@ -60,6 +60,7 @@ class Table_page_lib
 
 		$this->CI->load->database();
 
+		$table = urldecode($table);
 
 		// if ($this->CI->input->is_ajax_request()) {
 		$edit_id = $this->CI->input->post('edit_id');
@@ -99,8 +100,8 @@ class Table_page_lib
 				$iteration = $iteration+1;
 			}
 
-			$QueryA = $QueryA."FROM `_activity_log` as `_activity_log`
-			RIGHT JOIN (SELECT * FROM $table WHERE `id` = '$edit_id')
+			$QueryA = $QueryA." FROM `_activity_log` as `_activity_log`
+			RIGHT JOIN (SELECT * FROM `$table` WHERE `id` = '$edit_id')
 			AS `$table` ON `_activity_log`.`record_table_and_id` = CONCAT('$table', '/', `$table`.id)";
 
 			$query = $this->CI->db->query($QueryA);
@@ -147,7 +148,7 @@ class Table_page_lib
 
 
 		$row_query = array(
-		"SHOW COLUMNS FROM $table",
+		"SHOW COLUMNS FROM `$table`",
 		);
 		$row_query = implode(" ", $row_query);
 		$rows = $this->CI->db->query($row_query)->result_array();
@@ -795,20 +796,21 @@ class Table_page_lib
 
 		$post = $this->CI->input->post();
 
+
+		// header('Content-Type: application/json');
+		// echo json_encode(stripslashes($_POST), JSON_PRETTY_PRINT);
+		// exit;
 		unset($post["variables"][0]);
 		$ajax_data = array();
 		foreach ($post["variables"] as $key => $value) {
 
-			$ajax_data["`".urldecode($key)."`"] = "\"".$value."\"";
+			$ajax_data["`".urldecode($key)."`"] = '"'.$value.'"';
 		}
-
-		// $thing = json_encode($ajax_data, JSON_PRETTY_PRINT);
-		// echo $thing;
-		// exit;
+		// zzzzzzzzzzzzzz
 
 		$this->CI->db->_protect_identifiers=false;
 
-		$query_result = $this->CI->db->insert("`".$table."`", $ajax_data);
+		$query_result = $this->CI->db->insert("`$table`", $ajax_data);
 		$this->CI->db->_protect_identifiers=true;
 
 		if ($query_result) {
@@ -892,15 +894,18 @@ class Table_page_lib
 		foreach ($rows as $key => $value) {
 			if ($key !== "id") {
 				// $ajax_data["`".urldecode($key)."`"] = "\"".$this->CI->input->post('edit_'.$this->makeSafeForCSS($key))."\"";
-				$ajax_data["`".urldecode($key)."`"] = "\"".$post["variables"]['edit_'.$this->makeSafeForCSS($key)]."\"";
+				$ajax_data["`".urldecode($key)."`"] = '"'.$post["variables"]['edit_'.$this->makeSafeForCSS($key)].'"';
 
 			}
 		}
 
-
+		// zzzzzzzzzzzzzz
+		// header('Content-Type: application/json');
+		// echo json_encode($ajax_data, JSON_PRETTY_PRINT);
+		// exit;
 		$this->CI->db->_protect_identifiers=false;
 
-		$query_result = $this->CI->db->update($table, $ajax_data, array('id' => $ajax_data['id']));
+		$query_result = $this->CI->db->update("`$table`", $ajax_data, array('id' => $ajax_data['id']));
 
 		$this->CI->db->_protect_identifiers=true;
 
