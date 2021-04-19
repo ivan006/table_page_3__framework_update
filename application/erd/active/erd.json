@@ -1,5 +1,5 @@
 {
-  "product": {
+  "asset - stock": {
     "fields": {
       "id": {
         "Type": "bigint(20) unsigned",
@@ -11,15 +11,15 @@
         "Type": "varchar(100)",
         "Null": "NO"
       },
-      "product type id": {
+      "pieces": {
         "Type": "bigint(20) unsigned"
       }
     },
     "items": {
-      "transaction": "rented product id"
+      "transaction": "asset - stock id"
     }
   },
-  "product type": {
+  "asset - property": {
     "fields": {
       "id": {
         "Type": "bigint(20) unsigned",
@@ -33,8 +33,7 @@
       }
     },
     "items": {
-      "product": "product type id",
-      "transaction": "bought product type id"
+      "transaction": "asset - property id"
     }
   },
   "transaction": {
@@ -48,25 +47,22 @@
       "transaction type id": {
         "Type": "bigint(20) unsigned"
       },
-      "rented or bought id": {
+      "asset type id": {
         "Type": "bigint(20) unsigned"
       },
-      "rented product id": {
+      "asset - property id": {
         "Type": "bigint(20) unsigned"
       },
-      "bought product type id": {
+      "asset - stock id": {
         "Type": "bigint(20) unsigned"
       },
-      "rented product id": {
+      "asset - unit id": {
         "Type": "bigint(20) unsigned"
       },
-      "quantity": {
+      "asset - quantity": {
         "Type": "bigint(20) unsigned"
       },
-      "supplier id": {
-        "Type": "bigint(20) unsigned"
-      },
-      "customer id": {
+      "counterparty id": {
         "Type": "bigint(20) unsigned"
       },
       "date": {
@@ -95,7 +91,7 @@
       "transaction": "transaction type id"
     }
   },
-  "rented or bought": {
+  "asset - unit": {
     "fields": {
       "id": {
         "Type": "bigint(20) unsigned",
@@ -109,7 +105,24 @@
       }
     },
     "items": {
-      "transaction": "rented or bought id"
+      "transaction": "asset - unit id"
+    }
+  },
+  "asset type": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      }
+    },
+    "items": {
+      "transaction": "asset type id"
     }
   },
   "organisation": {
@@ -120,20 +133,16 @@
         "Key": "PRI",
         "Extra": "auto_increment"
       },
-      "date": {
-        "Type": "date"
-      },
-      "descriptions": {
+      "name": {
         "Type": "varchar(100)",
         "Null": "NO"
       },
-      "duration": {
+      "organisation type id": {
         "Type": "bigint(20) unsigned"
       }
     },
     "items": {
-      "transaction": "supplier id",
-      "transaction": "customer id"
+      "transaction": "counterparty id"
     }
   },
   "organisation type": {
@@ -144,19 +153,13 @@
         "Key": "PRI",
         "Extra": "auto_increment"
       },
-      "object id": {
-        "Type": "bigint(20) unsigned"
-      },
-      "date": {
-        "Type": "date"
-      },
-      "descriptions": {
+      "name": {
         "Type": "varchar(100)",
         "Null": "NO"
-      },
-      "duration": {
-        "Type": "bigint(20) unsigned"
       }
+    },
+    "items": {
+      "organisation": "organisation type id"
     }
   }
 }

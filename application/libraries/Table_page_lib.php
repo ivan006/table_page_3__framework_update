@@ -198,232 +198,238 @@ class Table_page_lib
 		// exit;
 
 
-		if (1==1) {
 
 
-			$this->CI->db->_protect_identifiers=false;
-			$query = $this->CI->db;
 
 
-			if ("old"=="old") {
-				// code...
-				$parent_link_part_1 = '<a href="/record/t/'.$table.'/r/';
-				$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
-				$query = $query->select("CONCAT('$parent_link_part_1', "."`".$table."`".".id, '$parent_link_part_2') as `id`");
+		$this->CI->db->_protect_identifiers=false;
+		$query = $this->CI->db;
 
-				foreach ($cols_visible["cols_o"] as $key => $value) {
-					if ($key !== "id") {
-						// code...
+
+		if ("old"=="old") {
+			// code...
+			$parent_link_part_1 = '<a href="/record/t/'.$table.'/r/';
+			$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
+			$query = $query->select("CONCAT('$parent_link_part_1', "."`".$table."`".".id, '$parent_link_part_2') as `id`");
+
+			foreach ($cols_visible["cols_o"] as $key => $value) {
+				if ($key !== "id") {
+					// code...
+				}
+				$query = $query->select("`".$table."`".'.'."`".$key."`");
+			}
+			foreach ($cols_visible["cols_d"] as $key => $value) {
+				// if ($key !== $table) {
+				foreach ($value["cols"] as $key_2 => $value_2) {
+					if ($key_2 == "id") {
+						$parent_link_part_1 = '<a href="/record/t/'.$key.'/r/';
+						$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
+						$query = $query->select("CONCAT('$parent_link_part_1', "."`joining_table_".$key."`".".id".", '$parent_link_part_2') as `$key - $key_2`");
+					} else {
+						$query = $query->select("`joining_table_".$key."`"."."."`".$key_2."`"." as `$key - $key_2`");
 					}
-					$query = $query->select("`".$table."`".'.'."`".$key."`");
+
+
 				}
-				foreach ($cols_visible["cols_d"] as $key => $value) {
-					// if ($key !== $table) {
-						foreach ($value["cols"] as $key_2 => $value_2) {
-							if ($key_2 == "id") {
-								$parent_link_part_1 = '<a href="/record/t/'.$key.'/r/';
-								$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
-								$query = $query->select("CONCAT('$parent_link_part_1', "."`joining_table_".$key."`".".id".", '$parent_link_part_2') as `$key - $key_2`");
-							} else {
-								$query = $query->select("`joining_table_".$key."`"."."."`".$key_2."`"." as `$key - $key_2`");
-							}
-
-
-						}
-						if (isset($value["is_self_joined"])) {
-							// $g_select["visible"] = array_merge(
-							// 	$g_select["visible"],
-							// 	array("$key - lineage" => "1")
-							// );
-							$query = $query->select("`joining_table_".$key."_lineage`.path"." as `$key - lineage`");
-						}
-					// }
+				if (isset($value["is_self_joined"])) {
+					// $g_select["visible"] = array_merge(
+					// 	$g_select["visible"],
+					// 	array("$key - lineage" => "1")
+					// );
+					$query = $query->select("`joining_table_".$key."_lineage`.path"." as `$key - lineage`");
 				}
-				$query = $query->from("`".$table."`");
+				// }
+			}
+			$query = $query->from("`".$table."`");
 
-				foreach ($cols_visible["cols_d"] as $key => $value) {
-					// echo "xyz";
-					// if ($key !== $table) {
-						$query = $query->join("`".$key."` as `joining_table_".$key."`", "`".$table."`".'.'."`".$value["linking_key"]."`".' = '."`joining_table_".$key."`".'.id', 'left');
-					// }
+			foreach ($cols_visible["cols_d"] as $key => $value) {
+				// echo "xyz";
+				// if ($key !== $table) {
+				$query = $query->join("`".$key."` as `joining_table_".$key."`", "`".$table."`".'.'."`".$value["linking_key"]."`".' = '."`joining_table_".$key."`".'.id', 'left');
+				// }
 
-					if (isset($value["is_self_joined"])) {
-						$linking_key = $value["linking_key"];
-						$sql="WITH RECURSIVE q AS (
-							SELECT  id,`$linking_key`, CONCAT('0-', id) as path
-							FROM    $key
-							WHERE   `$linking_key` = 0
-							UNION ALL
-							SELECT  m.id,m.`$linking_key`, CONCAT(q.path, '-', m.id) as path
-							FROM    $key m
-							JOIN    q
-							ON      m.`$linking_key` = q.id)
-							SELECT  *
-							FROM    q";
-						$query = $query->join("(".$sql.") as `joining_table_".$key."_lineage`", "`".$table."`".'.'."`$linking_key`".' = '."`joining_table_".$key."_lineage`".'.id', 'left');
-					}
+				if (isset($value["is_self_joined"])) {
+					$linking_key = $value["linking_key"];
+					$sql="WITH RECURSIVE q AS (
+					SELECT  id,`$linking_key`, CONCAT('0-', id) as path
+					FROM    $key
+					WHERE   `$linking_key` = 0
+					UNION ALL
+					SELECT  m.id,m.`$linking_key`, CONCAT(q.path, '-', m.id) as path
+					FROM    $key m
+					JOIN    q
+					ON      m.`$linking_key` = q.id)
+					SELECT  *
+					FROM    q";
+					$query = $query->join("(".$sql.") as `joining_table_".$key."_lineage`", "`".$table."`".'.'."`$linking_key`".' = '."`joining_table_".$key."_lineage`".'.id', 'left');
 				}
-				$query = $query->join("`_activity_log`", "`_activity_log`.`record_table_and_id` = CONCAT('$table', '/', `$table`.id)", 'left');
+			}
+			$query = $query->join("`_activity_log`", "`_activity_log`.`record_table_and_id` = CONCAT('$table', '/', `$table`.id)", 'left');
 
 
-				$query = $query->where_in("`_activity_log`.`owner`", $groups);
-				// $query = $query->or_where("`_activity_log`.`owner` =", "0");
-				$query = $query->or_where("`_activity_log`.`editability` =", "0");
-				$query = $query->or_where("`_activity_log`.`visibility` =", "0");
-				$query = $query->or_where("`_activity_log`.`editability` IS", "NULL");
-				$query = $query->or_where("`_activity_log`.`visibility` IS", "NULL");
-				// $query = $query->or_where_in("`_activity_log`.`editability`", array("'Public'", "''"));
-				// $query = $query->or_where_in("`_activity_log`.`visibility`", array("'Public'", "''"));
+			$query = $query->group_start();
+			$query = $query->where_in("`_activity_log`.`owner`", $groups);
+			// $query = $query->or_where("`_activity_log`.`owner` =", "0");
+			$query = $query->or_where("`_activity_log`.`editability` =", "0");
+			$query = $query->or_where("`_activity_log`.`visibility` =", "0");
+			$query = $query->or_where("`_activity_log`.`editability` IS", "NULL");
+			$query = $query->or_where("`_activity_log`.`visibility` IS", "NULL");
+			$query = $query->group_end();
+			// $query = $query->or_where_in("`_activity_log`.`editability`", array("'Public'", "''"));
+			// $query = $query->or_where_in("`_activity_log`.`visibility`", array("'Public'", "''"));
 
-				if ($page_type == "record") {
-					$where["haystack"] = urldecode($where["haystack"]);
-					$query = $query->where("`".$table."`"."."."`".$where["haystack"]."` =", $where["needle"]);
-				}
-				elseif ($page_type == "table") {
-				}
+			if ($page_type == "record") {
+				$where["haystack"] = urldecode($where["haystack"]);
 
-
-
-				// $sql = $query->_compile_select();
-
-				$query = $query->get();
-
+				// echo "`".$table."`"."."."`".$where["haystack"]."` =". '"'.$where["needle"].'"';
+				// exit;
+				$query = $query->where("`".$table."`"."."."`".$where["haystack"]."` =", '"'.$where["needle"].'"');
+			}
+			elseif ($page_type == "table") {
 			}
 
 
 
-
-			if ("new"=="new2") {
-				// code...
-
-
-
-
-				$parent_link_part_1 = '<a href="/record/t/'.$table.'/r/';
-				$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
-
-				$sql = "";
-				$sql = $sql."";
-				$sql = $sql."SELECT ";
-				$sql = $sql."CONCAT('$parent_link_part_1', `$table`.id, '$parent_link_part_2') as `id`";
-
-				foreach ($cols_visible["cols_o"] as $key => $value) {
-					if ($key !== "id") {
-						// code...
-					}
-					$sql = $sql.", `$table`.`$key`";
-				}
-				foreach ($cols_visible["cols_d"] as $key => $value) {
-					// if ($key !== $table) {
-					foreach ($value["cols"] as $key_2 => $value_2) {
-						if ($key_2 == "id") {
-							$parent_link_part_1 = '<a href="/record/t/'.$key.'/r/';
-							$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
-
-
-							$sql = $sql.", CONCAT('$parent_link_part_1', `joining_table_$key`.id, '$parent_link_part_2') as `$key - $key_2`";
-						} else {
-							$sql = $sql.", `joining_table_$key`.`$key_2` as `$key - $key_2`";
-						}
-
-
-					}
-					if (isset($value["is_self_joined"])) {
-						// $g_select["visible"] = array_merge(
-						// 	$g_select["visible"],
-						// 	array("$key - lineage" => "1")
-						// );
-						$sql = $sql.", `joining_table_".$key."_lineage`.path as `$key - lineage`";
-					}
-					// }
-				}
-				$sql = $sql."\nFROM `$table`";
-
-				foreach ($cols_visible["cols_d"] as $key => $value) {
-					// echo "xyz";
-					// if ($key !== $table) {
-
-					$sql = $sql."\nLEFT JOIN `$key` as `joining_table_$key` ON `$table`.`".$value["linking_key"]."` = `joining_table_$key`.id";
-					// }
-
-					if (isset($value["is_self_joined"])) {
-						$linking_key = $value["linking_key"];
-						$sql2="WITH RECURSIVE q AS (
-							SELECT  id,`$linking_key`, CONCAT('0-', id) as path
-							FROM    $key
-							WHERE   `$linking_key` = 0
-							UNION ALL
-							SELECT  m.id,m.`$linking_key`, CONCAT(q.path, '-', m.id) as path
-							FROM    $key m
-							JOIN    q
-							ON      m.`$linking_key` = q.id)
-							SELECT  *
-							FROM    q";
-
-							$sql = $sql."\nLEFT JOIN ($sql2) as `joining_table_".$key."_lineage` ON `$table`.`$linking_key` = `joining_table_".$key."_lineage`.id";
-					}
-				}
-
-				if ($page_type == "record") {
-					$where["haystack"] = urldecode($where["haystack"]);
-					$sql = $sql."\nWHERE `$table`.`".$where["haystack"]."` = ".$where["needle"]."";
-
-				}
-				elseif ($page_type == "table") {
-				}
-
-				$query = $this->CI->db->query($sql);
-
-			}
-
-
-			// header('Content-Type: application/json');
+			// $sql = $query->_compile_select();
 			// echo $sql;
 			// exit;
-			// blue.bluegemify.co.za
-
-
-			// SELECT CONCAT('<a href=\"/record/t/objects/r/', `objects`.id, '\" class=\"btn btn-sm btn-outline-primary\">View</a>') as `id`, `objects`.`id`, `objects`.`name`, CONCAT('<a href=\"/record/t/objects/r/', `joining_table_objects`.id, '\" class=\"btn btn-sm btn-outline-primary\">View</a>') as `objects - id`, `joining_table_objects`.`name` as `objects - name`, `joining_table_objects`.`object id` as `objects - object id`, `joining_table_objects_lineage`.path as `objects - lineage`
-			// FROM `objects`
-			// LEFT JOIN `objects` as `joining_table_objects` ON `objects`.`object id` = `joining_table_objects`.id
-			// LEFT JOIN (WITH RECURSIVE q AS
-			// 					(
-			// 						SELECT  id,`object id`, CONCAT('0-', id) as path
-			// 						FROM    objects
-			// 						WHERE   `object id` = 0
-			// 						UNION ALL
-			// 						SELECT  m.id,m.`object id`, CONCAT(q.path, '-', m.id) as path
-			// 						FROM    objects m
-			// 						JOIN    q
-			// 						ON      m.`object id` = q.id
-			// 					)
-			// 					SELECT  *
-			// 					FROM    q
-			// 					) as `joining_table_objects_lineage` ON `objects`.`object id` = `joining_table_objects_lineage`.id
-
-
-
-			// $sql="WITH RECURSIVE q AS
-			// (
-			// 	SELECT  id,`object id`,CONCAT(id) as path
-			// 	FROM    objects
-			// 	WHERE   `object id` = 0
-			// 	UNION ALL
-			// 	SELECT  m.id,m.`object id`,CONCAT(q.path,'-',m.id) as path
-			// 	FROM    objects m
-			// 	JOIN    q
-			// 	ON      m.`object id` = q.id
-			// )
-			// SELECT  *
-			// FROM    q
-			// ";
-			// $posts = $this->CI->db->query($sql)->result_array();
-			$posts = $query;
-			$posts = $posts->result_array();
-			// print_r($this->CI->db->last_query());
-			// exit;
+			$query = $query->get();
 
 		}
+
+
+
+
+		if ("new"=="new2") {
+			// code...
+
+
+
+
+			$parent_link_part_1 = '<a href="/record/t/'.$table.'/r/';
+			$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
+
+			$sql = "";
+			$sql = $sql."";
+			$sql = $sql."SELECT ";
+			$sql = $sql."CONCAT('$parent_link_part_1', `$table`.id, '$parent_link_part_2') as `id`";
+
+			foreach ($cols_visible["cols_o"] as $key => $value) {
+				if ($key !== "id") {
+					// code...
+				}
+				$sql = $sql.", `$table`.`$key`";
+			}
+			foreach ($cols_visible["cols_d"] as $key => $value) {
+				// if ($key !== $table) {
+				foreach ($value["cols"] as $key_2 => $value_2) {
+					if ($key_2 == "id") {
+						$parent_link_part_1 = '<a href="/record/t/'.$key.'/r/';
+						$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
+
+
+						$sql = $sql.", CONCAT('$parent_link_part_1', `joining_table_$key`.id, '$parent_link_part_2') as `$key - $key_2`";
+					} else {
+						$sql = $sql.", `joining_table_$key`.`$key_2` as `$key - $key_2`";
+					}
+
+
+				}
+				if (isset($value["is_self_joined"])) {
+					// $g_select["visible"] = array_merge(
+					// 	$g_select["visible"],
+					// 	array("$key - lineage" => "1")
+					// );
+					$sql = $sql.", `joining_table_".$key."_lineage`.path as `$key - lineage`";
+				}
+				// }
+			}
+			$sql = $sql."\nFROM `$table`";
+
+			foreach ($cols_visible["cols_d"] as $key => $value) {
+				// echo "xyz";
+				// if ($key !== $table) {
+
+				$sql = $sql."\nLEFT JOIN `$key` as `joining_table_$key` ON `$table`.`".$value["linking_key"]."` = `joining_table_$key`.id";
+				// }
+
+				if (isset($value["is_self_joined"])) {
+					$linking_key = $value["linking_key"];
+					$sql2="WITH RECURSIVE q AS (
+					SELECT  id,`$linking_key`, CONCAT('0-', id) as path
+					FROM    $key
+					WHERE   `$linking_key` = 0
+					UNION ALL
+					SELECT  m.id,m.`$linking_key`, CONCAT(q.path, '-', m.id) as path
+					FROM    $key m
+					JOIN    q
+					ON      m.`$linking_key` = q.id)
+					SELECT  *
+					FROM    q";
+
+					$sql = $sql."\nLEFT JOIN ($sql2) as `joining_table_".$key."_lineage` ON `$table`.`$linking_key` = `joining_table_".$key."_lineage`.id";
+				}
+			}
+
+			if ($page_type == "record") {
+				$where["haystack"] = urldecode($where["haystack"]);
+				$sql = $sql."\nWHERE `$table`.`".$where["haystack"]."` = ".$where["needle"]."";
+
+			}
+			elseif ($page_type == "table") {
+			}
+
+			$query = $this->CI->db->query($sql);
+
+		}
+
+
+		// header('Content-Type: application/json');
+		// echo $sql;
+		// exit;
+		// blue.bluegemify.co.za
+
+
+		// SELECT CONCAT('<a href=\"/record/t/objects/r/', `objects`.id, '\" class=\"btn btn-sm btn-outline-primary\">View</a>') as `id`, `objects`.`id`, `objects`.`name`, CONCAT('<a href=\"/record/t/objects/r/', `joining_table_objects`.id, '\" class=\"btn btn-sm btn-outline-primary\">View</a>') as `objects - id`, `joining_table_objects`.`name` as `objects - name`, `joining_table_objects`.`object id` as `objects - object id`, `joining_table_objects_lineage`.path as `objects - lineage`
+		// FROM `objects`
+		// LEFT JOIN `objects` as `joining_table_objects` ON `objects`.`object id` = `joining_table_objects`.id
+		// LEFT JOIN (WITH RECURSIVE q AS
+		// 					(
+		// 						SELECT  id,`object id`, CONCAT('0-', id) as path
+		// 						FROM    objects
+		// 						WHERE   `object id` = 0
+		// 						UNION ALL
+		// 						SELECT  m.id,m.`object id`, CONCAT(q.path, '-', m.id) as path
+		// 						FROM    objects m
+		// 						JOIN    q
+		// 						ON      m.`object id` = q.id
+		// 					)
+		// 					SELECT  *
+		// 					FROM    q
+		// 					) as `joining_table_objects_lineage` ON `objects`.`object id` = `joining_table_objects_lineage`.id
+
+
+
+		// $sql="WITH RECURSIVE q AS
+		// (
+		// 	SELECT  id,`object id`,CONCAT(id) as path
+		// 	FROM    objects
+		// 	WHERE   `object id` = 0
+		// 	UNION ALL
+		// 	SELECT  m.id,m.`object id`,CONCAT(q.path,'-',m.id) as path
+		// 	FROM    objects m
+		// 	JOIN    q
+		// 	ON      m.`object id` = q.id
+		// )
+		// SELECT  *
+		// FROM    q
+		// ";
+		// $posts = $this->CI->db->query($sql)->result_array();
+		$posts = $query;
+		$posts = $posts->result_array();
+		// print_r($this->CI->db->last_query());
+		// exit;
+
 
 		$this->CI->db->_protect_identifiers=true;
 
@@ -779,14 +785,11 @@ class Table_page_lib
 
 	public function insert($table)
 	{
-
 		$table = urldecode($table);
 
 		$this->CI->load->database();
 
 		// if ($this->CI->input->is_ajax_request()) {
-
-
 		// $this->form_validation->set_rules('name', 'Name', 'required');
 		// $this->form_validation->set_rules('event_children', 'Event_children');
 
@@ -797,16 +800,34 @@ class Table_page_lib
 		$post = $this->CI->input->post();
 
 
-		// header('Content-Type: application/json');
-		// echo json_encode(stripslashes($_POST), JSON_PRETTY_PRINT);
-		// exit;
-		unset($post["variables"][0]);
-		$ajax_data = array();
-		foreach ($post["variables"] as $key => $value) {
+		// unset($post["variables"][0]);
+		if ("old" == "old2") {
+			$ajax_data = array();
+			foreach ($post["variables"] as $key => $value) {
 
-			$ajax_data["`".urldecode($key)."`"] = '"'.$value.'"';
+				$ajax_data["`".urldecode($key)."`"] = '"'.$value.'"';
+			}
+			// zzzzzzzzzzzzzz
+
+		} else {
+			// code...
+			$ajax_data = array();
+			$rows = $this->table_rows($table);
+			foreach ($rows as $key => $value) {
+				if ($key !== "id") {
+					// $ajax_data["`".urldecode($key)."`"] = "\"".$this->CI->input->post('edit_'.$this->makeSafeForCSS($key))."\"";
+					$ajax_data["`".urldecode($key)."`"] = '"'.$post["variables"][$this->makeSafeForCSS($key)].'"';
+
+				}
+			}
 		}
-		// zzzzzzzzzzzzzz
+		// header('Content-Type: application/json');
+		// echo json_encode($ajax_data, JSON_PRETTY_PRINT);
+		// exit;
+
+
+
+
 
 		$this->CI->db->_protect_identifiers=false;
 
@@ -1237,6 +1258,7 @@ class Table_page_lib
 
 	public function record_abilities_2($table, $record_id)
 	{
+
 		if (file_exists("application/erd/active/crud_cache/$table.txt")) {
 			$data = file_get_contents("application/erd/active/crud_cache/$table.txt");
 			$data = json_decode($data, true);

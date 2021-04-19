@@ -23,6 +23,7 @@ class Record_c extends CI_Controller
 
 	public function index($table, $record_id)
 	{
+		$table = urldecode($table);
 		if (!$this->ion_auth->logged_in())
 		{
 			// redirect them to the login page
