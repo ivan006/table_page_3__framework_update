@@ -1,0 +1,165 @@
+{
+  "asset - stock": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      },
+      "pieces": {
+        "Type": "bigint(20) unsigned"
+      }
+    },
+    "items": {
+      "transaction": "asset - stock id"
+    }
+  },
+  "asset - property": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      }
+    },
+    "items": {
+      "transaction": "asset - property id"
+    }
+  },
+  "transaction": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "transaction type id": {
+        "Type": "bigint(20) unsigned"
+      },
+      "asset type id": {
+        "Type": "bigint(20) unsigned"
+      },
+      "asset - property id": {
+        "Type": "bigint(20) unsigned"
+      },
+      "asset - stock id": {
+        "Type": "bigint(20) unsigned"
+      },
+      "asset - unit id": {
+        "Type": "bigint(20) unsigned"
+      },
+      "asset - quantity": {
+        "Type": "bigint(20) unsigned"
+      },
+      "counterparty id": {
+        "Type": "bigint(20) unsigned"
+      },
+      "date": {
+        "Type": "date"
+      },
+      "descriptions": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      }
+    }
+  },
+  "transaction type": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      }
+    },
+    "items": {
+      "transaction": "transaction type id"
+    }
+  },
+  "asset - unit": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      }
+    },
+    "items": {
+      "transaction": "asset - unit id"
+    }
+  },
+  "asset type": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      }
+    },
+    "items": {
+      "transaction": "asset type id"
+    }
+  },
+  "organisation": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      },
+      "organisation type id": {
+        "Type": "bigint(20) unsigned"
+      }
+    },
+    "items": {
+      "transaction": "counterparty id"
+    }
+  },
+  "organisation type": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      }
+    },
+    "items": {
+      "organisation": "organisation type id"
+    }
+  }
+}
