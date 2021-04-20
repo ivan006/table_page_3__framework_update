@@ -519,9 +519,6 @@
       },
       "updated_at": {
         "Type": "datetime"
-      },
-      "visitor_page_views": {
-        "Type": "varchar(100)"
       }
     },
     "items": {
@@ -536,20 +533,20 @@
         "Key": "PRI",
         "Extra": "auto_increment"
       },
+      "url": {
+        "Type": "varchar(100)"
+      },
+      "title": {
+        "Type": "varchar(100)"
+      },
+      "created_at": {
+        "Type": "datetime"
+      },
       "visit_id": {
         "Type": "bigint(20) unsigned"
       },
       "visitor_id": {
         "Type": "bigint(20) unsigned"
-      },
-      "created_at": {
-        "Type": "datetime"
-      },
-      "title": {
-        "Type": "varchar(100)"
-      },
-      "url": {
-        "Type": "varchar(100)"
       }
     }
   },
