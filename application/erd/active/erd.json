@@ -1,5 +1,5 @@
 {
-  "commodity - products": {
+  "products": {
     "fields": {
       "id": {
         "Type": "bigint(20) unsigned",
@@ -16,10 +16,10 @@
       }
     },
     "items": {
-      "transaction": "commodity - stock id"
+      "transaction": "products id"
     }
   },
-  "commodity - services": {
+  "services": {
     "fields": {
       "id": {
         "Type": "bigint(20) unsigned",
@@ -33,7 +33,7 @@
       }
     },
     "items": {
-      "transaction": "commodity - property id"
+      "transaction": "services id"
     }
   },
   "transaction": {
@@ -50,16 +50,16 @@
       "commodity type id": {
         "Type": "bigint(20) unsigned"
       },
-      "commodity - property id": {
+      "services id": {
         "Type": "bigint(20) unsigned"
       },
-      "commodity - stock id": {
+      "products id": {
         "Type": "bigint(20) unsigned"
       },
-      "commodity - unit id": {
+      "commodity unit id": {
         "Type": "bigint(20) unsigned"
       },
-      "commodity - quantity": {
+      "quantity": {
         "Type": "bigint(20) unsigned"
       },
       "counterparty id": {
@@ -91,7 +91,7 @@
       "transaction": "transaction type id"
     }
   },
-  "commodity - unit": {
+  "commodity unit": {
     "fields": {
       "id": {
         "Type": "bigint(20) unsigned",
@@ -105,7 +105,7 @@
       }
     },
     "items": {
-      "transaction": "commodity - unit id"
+      "transaction": "commodity unit id"
     }
   },
   "commodity type": {
