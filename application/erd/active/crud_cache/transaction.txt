@@ -61,12 +61,12 @@
                         }
                     }
                 },
-                "commodity - property id": {
+                "services id": {
                     "col_deets": {
                         "Type": "bigint(20) unsigned"
                     },
                     "rels": {
-                        "table": "commodity - services",
+                        "table": "services",
                         "rows": {
                             "id": {
                                 "Type": "bigint(20) unsigned",
@@ -81,12 +81,12 @@
                         }
                     }
                 },
-                "commodity - stock id": {
+                "products id": {
                     "col_deets": {
                         "Type": "bigint(20) unsigned"
                     },
                     "rels": {
-                        "table": "commodity - products",
+                        "table": "products",
                         "rows": {
                             "id": {
                                 "Type": "bigint(20) unsigned",
@@ -104,12 +104,12 @@
                         }
                     }
                 },
-                "commodity - unit id": {
+                "commodity unit id": {
                     "col_deets": {
                         "Type": "bigint(20) unsigned"
                     },
                     "rels": {
-                        "table": "commodity - unit",
+                        "table": "commodity unit",
                         "rows": {
                             "id": {
                                 "Type": "bigint(20) unsigned",
@@ -124,7 +124,7 @@
                         }
                     }
                 },
-                "commodity - quantity": {
+                "quantity": {
                     "col_deets": {
                         "Type": "bigint(20) unsigned"
                     }
@@ -178,14 +178,21 @@
                     "Key": "PRI",
                     "Extra": "auto_increment"
                 },
-                "commodity - quantity": {
+                "quantity": {
                     "Type": "bigint(20) unsigned"
                 },
-                "commodity - products - name": {
+                "date": {
+                    "Type": "date"
+                },
+                "descriptions": {
                     "Type": "varchar(100)",
                     "Null": "NO"
                 },
-                "commodity - services - name": {
+                "products - name": {
+                    "Type": "varchar(100)",
+                    "Null": "NO"
+                },
+                "services - name": {
                     "Type": "varchar(100)",
                     "Null": "NO"
                 },
@@ -193,7 +200,7 @@
                     "Type": "varchar(100)",
                     "Null": "NO"
                 },
-                "commodity - unit - name": {
+                "commodity unit - name": {
                     "Type": "varchar(100)",
                     "Null": "NO"
                 },
