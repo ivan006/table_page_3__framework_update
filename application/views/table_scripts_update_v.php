@@ -4,7 +4,7 @@ $readable_rows = $data["g_select"]["visible"];
 ?>
 <script type="text/javascript">
 
-$(document).on("click", "#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_update", function(e){
+$(document).on("click", "#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_edit", function(e){
   e.preventDefault();
 
   var edit_record_id = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_" ?>record_id").val();

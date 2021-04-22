@@ -7,12 +7,10 @@ $safe_ability_action_id = $safe_ability_id."_".$action_type."_";
 ?>
 <script type="text/javascript">
 
-$(document).on("click", "#<?php echo $safe_ability_id; ?>_edit", function(e){
+$(document).on("click", "#<?php echo $safe_ability_id; ?>_edit_model", function(e){
   e.preventDefault();
 
   var edit_id = $(this).attr("value");
-
-
 
   $.ajax({
     url: "<?php echo base_url(); ?>api/table/t/<?php echo $data["g_identity"]["g_from"]; ?>/edit",

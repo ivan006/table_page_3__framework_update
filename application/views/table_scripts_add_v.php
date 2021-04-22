@@ -68,7 +68,7 @@ $(document).on("click", "#<?php echo makeSafeForCSS($data["g_identity"]["g_abili
         if (data.responce == "success") {
           $('#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_records').DataTable().destroy();
           <?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_fetch();
-          $('#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_exampleModal').modal('hide');
+          $('#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_add_modal').modal('hide');
           toastr["success"](data.message);
         }else{
           toastr["error"](data.message);
@@ -77,7 +77,7 @@ $(document).on("click", "#<?php echo makeSafeForCSS($data["g_identity"]["g_abili
       }
     });
 
-    $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_form")[0].reset();
+    $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_" ?>form")[0].reset();
 
   }
 
