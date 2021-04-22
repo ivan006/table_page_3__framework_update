@@ -89,8 +89,21 @@ if (isset($type)) {
       Add Records
     </button>
 
-    <!-- Modal -->
-    <div class="modal fade" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  </div>
+</div>
+
+
+<?php
+// $action_types = array(
+//   "edit",
+//   "add"
+// );
+// foreach ($variable as $key => $value) {
+//   // code...
+// }
+?>
+<!-- Modal -->
+<div class="modal fade" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog  modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -257,38 +270,6 @@ if (isset($type)) {
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-
-
-<div class="row">
-  <div class="col-md-12 mt-4">
-    <div class="table-responsive">
-      <table class="table" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_records">
-        <thead>
-          <tr>
-            <!-- <th>ID</th> -->
-            <?php
-            foreach ($readable_rows as $key => $value) {
-              // if ($key !== "id") {
-                ?>
-                <th><?php echo $key; ?></th>
-                <?php
-              // }
-            }
-            ?>
-            <!-- <th>Name</th> -->
-            <!-- <th>Event_children</th> -->
-            <th>Action</th>
-          </tr>
-        </thead>
-      </table>
-    </div>
-  </div>
-</div>
-
-
 
 
 <!-- Edit Record Modal -->
@@ -457,6 +438,36 @@ if (isset($type)) {
     </div>
   </div>
 </div>
+
+
+<div class="row">
+  <div class="col-md-12 mt-4">
+    <div class="table-responsive">
+      <table class="table" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_records">
+        <thead>
+          <tr>
+            <!-- <th>ID</th> -->
+            <?php
+            foreach ($readable_rows as $key => $value) {
+              // if ($key !== "id") {
+                ?>
+                <th><?php echo $key; ?></th>
+                <?php
+              // }
+            }
+            ?>
+            <!-- <th>Name</th> -->
+            <!-- <th>Event_children</th> -->
+            <th>Action</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
 
 
 
