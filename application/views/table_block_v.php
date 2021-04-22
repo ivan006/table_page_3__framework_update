@@ -104,172 +104,172 @@ if (isset($type)) {
 ?>
 <!-- Modal -->
 <div class="modal fade" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog  modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Add Records</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <!-- Add Records Form -->
-            <form action="" method="post" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_form">
+  <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Records</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Add Records Form -->
+        <form action="" method="post" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_form">
 
-              <?php
-              $action_type = "add";
-              ?>
+          <?php
+          $action_type = "add";
+          ?>
 
-              <h5 style="<?php //echo $hide_toggle ?>">Variables</h5>
-              <?php
-              foreach ($editable_rows as $key => $value) {
-                if ($key !== "id") {
-                  if (isset($value["assumable"])) {
+          <h5 style="<?php //echo $hide_toggle ?>">Variables</h5>
+          <?php
+          foreach ($editable_rows as $key => $value) {
+            if ($key !== "id") {
+              if (isset($value["assumable"])) {
 
-                    ?>
-                    <div class="form-group" style="display: none;">
-                      <label for=""><?php echo $key; ?></label>
-                      <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control">
-                    </div>
-                    <?php
-                  }
-                  elseif (isset($value["rels"])) {
+                ?>
+                <div class="form-group" style="display: none;">
+                  <label for=""><?php echo $key; ?></label>
+                  <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control">
+                </div>
+                <?php
+              }
+              elseif (isset($value["rels"])) {
 
-                      ?>
-                      <div class="form-group">
-                        <label for=""><?php echo $key; ?></label>
-                        <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control  dropdown-toggle" data-toggle="dropdown" >
-                        <!-- <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control  dropdown-toggle" data-toggle="dropdown" readonly> -->
+                  ?>
+                  <div class="form-group">
+                    <label for=""><?php echo $key; ?></label>
+                    <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control  dropdown-toggle" data-toggle="dropdown" >
+                    <!-- <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control  dropdown-toggle" data-toggle="dropdown" readonly> -->
 
-                        <div class="dropdown-menu" style="width: calc(100% - 2em); padding: 1em;">
+                    <div class="dropdown-menu" style="width: calc(100% - 2em); padding: 1em;">
 
-                          <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
-                            <table class="table" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_lookup"."_".$action_type."_".makeSafeForCSS($key); ?>records" style="width : 100%">
-                              <thead>
-                                <tr>
-                                  <!-- <th>ID</th> -->
-                                  <?php
-                                  foreach ($value["rels"]["rows"] as $key_2 => $value_2) {
-                                    ?>
-                                    <th><?php echo $key_2; ?></th>
-                                    <?php
-                                  }
-                                  ?>
-                                </tr>
-                              </thead>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-
-                      <script type="text/javascript">
-
-
-                      function <?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_lookup"; ?>_fetch(){
-                        $.ajax({
-                          url: "<?php echo base_url(); ?>api/table/t/<?php echo $value["rels"]["table"]; ?>/fetch",
-                          type: "post",
-                          dataType: "json",
-                          success: function(data){
-                            if (data.responce == "success") {
-
-                              var i = "1";
-                              var <?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_lookup" ?> = $('#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_lookup"."_".$action_type."_".makeSafeForCSS($key); ?>records').DataTable( {
-                                "select": true,
-                                "data": data.posts,
-                                "responsive": true,
-                                dom:
-                                "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
-                                "<'row'<'col-sm-12'tr>>" +
-                                "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                                buttons: [
-                                  // 'copy', 'excel', 'pdf'
-                                  ],
-                                  "columns": [
-                                  // { "render": function(){
-                                  //   return a = i++;
-                                  // } },
-                                  <?php
-                                  foreach ($value["rels"]["rows"] as $key_2 => $value_2) {
-                                    // if ($key !== "id") {
-                                    ?>
-                                    { "data": "<?php echo $key_2; ?>" },
-                                    <?php
-                                    // }
-                                  }
-                                  ?>
-                                  // { "data": "table_overview" },
-                                  // { "data": "event_children" },
-
-                                  ]
-                                } );
-
-                                var lookup_input = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>");
-                                <?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_lookup" ?>
-                                .on( 'select', function ( e, dt, type, indexes ) {
-                                  // alert(123);
-                                  var rowData = <?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_lookup" ?>.rows( indexes ).data().toArray();
-                                  // alert(JSON.stringify( rowData ));
-
-                                  lookup_input.val(rowData[0].id);
-                                } )
-                                .on( 'deselect', function ( e, dt, type, indexes ) {
-
-                                  // var rowData = <?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_lookup" ?>.rows( indexes ).data().toArray();
-
-                                  // alert(state["<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key)."_"."value" ?>"]);
-                                  // alert("<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>");
-                                  lookup_input.val(state["<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key)."_"."value" ?>"]);
-                                } );
-                              }else{
-                                toastr["error"](data.message);
+                      <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                        <table class="table" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_lookup"."_".$action_type."_".makeSafeForCSS($key); ?>records" style="width : 100%">
+                          <thead>
+                            <tr>
+                              <!-- <th>ID</th> -->
+                              <?php
+                              foreach ($value["rels"]["rows"] as $key_2 => $value_2) {
+                                ?>
+                                <th><?php echo $key_2; ?></th>
+                                <?php
                               }
+                              ?>
+                            </tr>
+                          </thead>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
 
-                            }
-                          });
+                  <script type="text/javascript">
+
+
+                  function <?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_lookup"; ?>_fetch(){
+                    $.ajax({
+                      url: "<?php echo base_url(); ?>api/table/t/<?php echo $value["rels"]["table"]; ?>/fetch",
+                      type: "post",
+                      dataType: "json",
+                      success: function(data){
+                        if (data.responce == "success") {
+
+                          var i = "1";
+                          var <?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_lookup" ?> = $('#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_lookup"."_".$action_type."_".makeSafeForCSS($key); ?>records').DataTable( {
+                            "select": true,
+                            "data": data.posts,
+                            "responsive": true,
+                            dom:
+                            "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+                            "<'row'<'col-sm-12'tr>>" +
+                            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                            buttons: [
+                              // 'copy', 'excel', 'pdf'
+                              ],
+                              "columns": [
+                              // { "render": function(){
+                              //   return a = i++;
+                              // } },
+                              <?php
+                              foreach ($value["rels"]["rows"] as $key_2 => $value_2) {
+                                // if ($key !== "id") {
+                                ?>
+                                { "data": "<?php echo $key_2; ?>" },
+                                <?php
+                                // }
+                              }
+                              ?>
+                              // { "data": "table_overview" },
+                              // { "data": "event_children" },
+
+                              ]
+                            } );
+
+                            var lookup_input = $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>");
+                            <?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_lookup" ?>
+                            .on( 'select', function ( e, dt, type, indexes ) {
+                              // alert(123);
+                              var rowData = <?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_lookup" ?>.rows( indexes ).data().toArray();
+                              // alert(JSON.stringify( rowData ));
+
+                              lookup_input.val(rowData[0].id);
+                            } )
+                            .on( 'deselect', function ( e, dt, type, indexes ) {
+
+                              // var rowData = <?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_lookup" ?>.rows( indexes ).data().toArray();
+
+                              // alert(state["<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key)."_"."value" ?>"]);
+                              // alert("<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>");
+                              lookup_input.val(state["<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key)."_"."value" ?>"]);
+                            } );
+                          }else{
+                            toastr["error"](data.message);
+                          }
 
                         }
+                      });
+
+                    }
 
 
 
 
-                        <?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_lookup"; ?>_fetch();
+                    <?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_lookup"; ?>_fetch();
 
 
 
-                      </script>
-                      <?php
+                  </script>
+                  <?php
 
-                  }
-                  else {
-
-                    ?>
-                    <div class="form-group">
-                      <label for=""><?php echo $key; ?></label>
-                      <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control">
-                    </div>
-                    <?php
-
-                  }
-                }
               }
+              else {
+
+                ?>
+                <div class="form-group">
+                  <label for=""><?php echo $key; ?></label>
+                  <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control">
+                </div>
+                <?php
+
+              }
+            }
+          }
 
 
-              $this->load->view('table_permissions_v', array(
-                "permisssion_options"=>$permisssion_options,
-                "action_type"=>$action_type,
-              ));
-              ?>
+          $this->load->view('table_permissions_v', array(
+            "permisssion_options"=>$permisssion_options,
+            "action_type"=>$action_type,
+          ));
+          ?>
 
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_add">Add Records</button>
-          </div>
-        </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"]); ?>_add">Add Records</button>
       </div>
     </div>
+  </div>
+</div>
 
 
 <!-- Edit Record Modal -->
