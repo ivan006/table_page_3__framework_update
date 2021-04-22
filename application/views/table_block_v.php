@@ -124,13 +124,18 @@ foreach ($action_types as $key => $value) {
             ?>
             <?php
             foreach ($editable_rows as $key => $value) {
+              if ($value["col_deets"]["Type"] == "date") {
+                $field_type = "date";
+              } else {
+                $field_type = "text";
+              }
               if ($key !== "id") {
                 if (isset($value["assumable"])) {
 
                   ?>
                   <div class="form-group" style="display: none;">
                     <label for=""><?php echo $key; ?></label>
-                    <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control">
+                    <input type="<?php echo $field_type; ?>" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control">
                   </div>
                   <?php
                 }
@@ -139,8 +144,8 @@ foreach ($action_types as $key => $value) {
                   ?>
                   <div class="form-group">
                     <label for=""><?php echo $key; ?></label>
-                    <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control  dropdown-toggle" data-toggle="dropdown" >
-                    <!-- <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control  dropdown-toggle" data-toggle="dropdown" readonly> -->
+                    <input type="<?php echo $field_type; ?>" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control  dropdown-toggle" data-toggle="dropdown" >
+                    <!-- <input type="<?php echo $field_type; ?>" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control  dropdown-toggle" data-toggle="dropdown" readonly> -->
 
                     <div class="dropdown-menu" style="width: calc(100% - 2em); padding: 1em;">
 
@@ -247,7 +252,7 @@ foreach ($action_types as $key => $value) {
                   ?>
                   <div class="form-group">
                     <label for=""><?php echo $key; ?></label>
-                    <input type="<?php echo "text"; ?>" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control">
+                    <input type="<?php echo $field_type; ?>" id="<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_".makeSafeForCSS($key); ?>" class="form-control">
                   </div>
                   <?php
 
