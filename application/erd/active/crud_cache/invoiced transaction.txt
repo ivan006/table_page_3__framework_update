@@ -164,11 +164,35 @@
                     "Key": "PRI",
                     "Extra": "auto_increment"
                 },
+                "invoice - organisation id": {
+                    "Type": "bigint(20) unsigned"
+                },
                 "transaction - id": {
                     "Type": "bigint(20) unsigned",
                     "Null": "NO",
                     "Key": "PRI",
                     "Extra": "auto_increment"
+                },
+                "transaction - transaction type id": {
+                    "Type": "bigint(20) unsigned"
+                },
+                "transaction - commodity type id": {
+                    "Type": "bigint(20) unsigned"
+                },
+                "transaction - services id": {
+                    "Type": "bigint(20) unsigned"
+                },
+                "transaction - products id": {
+                    "Type": "bigint(20) unsigned"
+                },
+                "transaction - commodity unit id": {
+                    "Type": "bigint(20) unsigned"
+                },
+                "transaction - quantity": {
+                    "Type": "bigint(20) unsigned"
+                },
+                "transaction - counterparty id": {
+                    "Type": "bigint(20) unsigned"
                 },
                 "transaction - date": {
                     "Type": "date"

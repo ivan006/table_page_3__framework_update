@@ -1,0 +1,331 @@
+{
+    "table_name": "organisation",
+    "table_name_singular": "organisation",
+    "table_exists": 1,
+    "g_core_abilities": {
+        "g_identity": {
+            "g_ability_name": "organisation",
+            "g_ability_html_id": "organisation",
+            "g_from": "organisation",
+            "g_where_haystack_type": "foreign_key",
+            "g_where_haystack": "id",
+            "data_endpoint": "fetch_for_record\/h_type\/primary_key\/h\/id\/n\/"
+        },
+        "g_select": {
+            "editable": {
+                "id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    }
+                },
+                "name": {
+                    "col_deets": {
+                        "Type": "varchar(100)",
+                        "Null": "NO"
+                    }
+                },
+                "organisation type id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned"
+                    },
+                    "rels": {
+                        "table": "organisation type",
+                        "rows": {
+                            "id": {
+                                "Type": "bigint(20) unsigned",
+                                "Null": "NO",
+                                "Key": "PRI",
+                                "Extra": "auto_increment"
+                            },
+                            "name": {
+                                "Type": "varchar(100)",
+                                "Null": "NO"
+                            }
+                        }
+                    }
+                }
+            },
+            "visible": {
+                "id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
+                "name": {
+                    "Type": "varchar(100)",
+                    "Null": "NO"
+                },
+                "organisation type - id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
+                "organisation type - name": {
+                    "Type": "varchar(100)",
+                    "Null": "NO"
+                }
+            }
+        }
+    },
+    "g_parental_abilities": {
+        "transaction": {
+            "g_identity": {
+                "g_ability_name": "transaction (as counterparty id)",
+                "g_ability_html_id": "transactionascounterpartyid",
+                "g_from": "transaction",
+                "g_where_haystack": "counterparty id",
+                "g_where_haystack_type": "foreign_key",
+                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/counterparty id\/n\/"
+            },
+            "g_select": {
+                "editable": {
+                    "id": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned",
+                            "Null": "NO",
+                            "Key": "PRI",
+                            "Extra": "auto_increment"
+                        }
+                    },
+                    "transaction type id": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned"
+                        },
+                        "rels": {
+                            "table": "transaction type",
+                            "rows": {
+                                "id": {
+                                    "Type": "bigint(20) unsigned",
+                                    "Null": "NO",
+                                    "Key": "PRI",
+                                    "Extra": "auto_increment"
+                                },
+                                "name": {
+                                    "Type": "varchar(100)",
+                                    "Null": "NO"
+                                }
+                            }
+                        }
+                    },
+                    "commodity type id": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned"
+                        },
+                        "rels": {
+                            "table": "commodity type",
+                            "rows": {
+                                "id": {
+                                    "Type": "bigint(20) unsigned",
+                                    "Null": "NO",
+                                    "Key": "PRI",
+                                    "Extra": "auto_increment"
+                                },
+                                "name": {
+                                    "Type": "varchar(100)",
+                                    "Null": "NO"
+                                }
+                            }
+                        }
+                    },
+                    "services id": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned"
+                        },
+                        "rels": {
+                            "table": "services",
+                            "rows": {
+                                "id": {
+                                    "Type": "bigint(20) unsigned",
+                                    "Null": "NO",
+                                    "Key": "PRI",
+                                    "Extra": "auto_increment"
+                                },
+                                "name": {
+                                    "Type": "varchar(100)",
+                                    "Null": "NO"
+                                }
+                            }
+                        }
+                    },
+                    "products id": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned"
+                        },
+                        "rels": {
+                            "table": "products",
+                            "rows": {
+                                "id": {
+                                    "Type": "bigint(20) unsigned",
+                                    "Null": "NO",
+                                    "Key": "PRI",
+                                    "Extra": "auto_increment"
+                                },
+                                "name": {
+                                    "Type": "varchar(100)",
+                                    "Null": "NO"
+                                },
+                                "pieces": {
+                                    "Type": "bigint(20) unsigned"
+                                }
+                            }
+                        }
+                    },
+                    "commodity unit id": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned"
+                        },
+                        "rels": {
+                            "table": "commodity unit",
+                            "rows": {
+                                "id": {
+                                    "Type": "bigint(20) unsigned",
+                                    "Null": "NO",
+                                    "Key": "PRI",
+                                    "Extra": "auto_increment"
+                                },
+                                "name": {
+                                    "Type": "varchar(100)",
+                                    "Null": "NO"
+                                }
+                            }
+                        }
+                    },
+                    "quantity": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned"
+                        }
+                    },
+                    "counterparty id": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned"
+                        },
+                        "assumable": ""
+                    },
+                    "date": {
+                        "col_deets": {
+                            "Type": "date"
+                        }
+                    },
+                    "descriptions": {
+                        "col_deets": {
+                            "Type": "varchar(100)",
+                            "Null": "NO"
+                        }
+                    }
+                },
+                "visible": {
+                    "id": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    },
+                    "quantity": {
+                        "Type": "bigint(20) unsigned"
+                    },
+                    "date": {
+                        "Type": "date"
+                    },
+                    "descriptions": {
+                        "Type": "varchar(100)",
+                        "Null": "NO"
+                    },
+                    "products - id": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    },
+                    "products - name": {
+                        "Type": "varchar(100)",
+                        "Null": "NO"
+                    },
+                    "products - pieces": {
+                        "Type": "bigint(20) unsigned"
+                    },
+                    "services - id": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    },
+                    "services - name": {
+                        "Type": "varchar(100)",
+                        "Null": "NO"
+                    },
+                    "transaction type - id": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    },
+                    "transaction type - name": {
+                        "Type": "varchar(100)",
+                        "Null": "NO"
+                    },
+                    "commodity unit - id": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    },
+                    "commodity unit - name": {
+                        "Type": "varchar(100)",
+                        "Null": "NO"
+                    },
+                    "commodity type - id": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    },
+                    "commodity type - name": {
+                        "Type": "varchar(100)",
+                        "Null": "NO"
+                    }
+                }
+            }
+        },
+        "invoice": {
+            "g_identity": {
+                "g_ability_name": "invoice (as organisation id)",
+                "g_ability_html_id": "invoiceasorganisationid",
+                "g_from": "invoice",
+                "g_where_haystack": "organisation id",
+                "g_where_haystack_type": "foreign_key",
+                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/organisation id\/n\/"
+            },
+            "g_select": {
+                "editable": {
+                    "id": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned",
+                            "Null": "NO",
+                            "Key": "PRI",
+                            "Extra": "auto_increment"
+                        }
+                    },
+                    "organisation id": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned"
+                        },
+                        "assumable": ""
+                    }
+                },
+                "visible": {
+                    "id": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    }
+                }
+            }
+        }
+    }
+}

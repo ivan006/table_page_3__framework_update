@@ -188,29 +188,71 @@
                     "Type": "varchar(100)",
                     "Null": "NO"
                 },
+                "products - id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
                 "products - name": {
                     "Type": "varchar(100)",
                     "Null": "NO"
+                },
+                "products - pieces": {
+                    "Type": "bigint(20) unsigned"
+                },
+                "services - id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
                 },
                 "services - name": {
                     "Type": "varchar(100)",
                     "Null": "NO"
                 },
+                "transaction type - id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
                 "transaction type - name": {
                     "Type": "varchar(100)",
                     "Null": "NO"
+                },
+                "commodity unit - id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
                 },
                 "commodity unit - name": {
                     "Type": "varchar(100)",
                     "Null": "NO"
                 },
+                "commodity type - id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
                 "commodity type - name": {
                     "Type": "varchar(100)",
                     "Null": "NO"
                 },
+                "organisation - id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
                 "organisation - name": {
                     "Type": "varchar(100)",
                     "Null": "NO"
+                },
+                "organisation - organisation type id": {
+                    "Type": "bigint(20) unsigned"
                 }
             }
         }
