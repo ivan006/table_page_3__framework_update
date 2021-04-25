@@ -19,6 +19,41 @@
       "transaction": "products id"
     }
   },
+  "invoiced transaction": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "outstanding": {
+        "Type": "bigint(20) unsigned"
+      },
+      "transaction id": {
+        "Type": "bigint(20) unsigned"
+      },
+      "invoice id": {
+        "Type": "bigint(20) unsigned"
+      }
+    }
+  },
+  "invoice": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "organisation id": {
+        "Type": "bigint(20) unsigned"
+      }
+    },
+    "items": {
+      "invoiced transaction": "invoice id"
+    }
+  },
   "services": {
     "fields": {
       "id": {
@@ -72,6 +107,9 @@
         "Type": "varchar(100)",
         "Null": "NO"
       }
+    },
+    "items": {
+      "invoiced transaction": "transaction id"
     }
   },
   "transaction type": {
@@ -142,7 +180,8 @@
       }
     },
     "items": {
-      "transaction": "counterparty id"
+      "transaction": "counterparty id",
+      "invoice": "organisation id"
     }
   },
   "organisation type": {

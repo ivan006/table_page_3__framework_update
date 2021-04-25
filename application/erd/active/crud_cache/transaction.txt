@@ -215,5 +215,88 @@
             }
         }
     },
-    "g_parental_abilities": []
+    "g_parental_abilities": {
+        "invoiced transaction": {
+            "g_identity": {
+                "g_ability_name": "invoiced transaction (as transaction id)",
+                "g_ability_html_id": "invoicedtransactionastransactionid",
+                "g_from": "invoiced transaction",
+                "g_where_haystack": "transaction id",
+                "g_where_haystack_type": "foreign_key",
+                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/transaction id\/n\/"
+            },
+            "g_select": {
+                "editable": {
+                    "id": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned",
+                            "Null": "NO",
+                            "Key": "PRI",
+                            "Extra": "auto_increment"
+                        }
+                    },
+                    "outstanding": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned"
+                        }
+                    },
+                    "transaction id": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned"
+                        },
+                        "assumable": ""
+                    },
+                    "invoice id": {
+                        "col_deets": {
+                            "Type": "bigint(20) unsigned"
+                        },
+                        "rels": {
+                            "table": "invoice",
+                            "rows": {
+                                "id": {
+                                    "Type": "bigint(20) unsigned",
+                                    "Null": "NO",
+                                    "Key": "PRI",
+                                    "Extra": "auto_increment"
+                                },
+                                "organisation - id": {
+                                    "Type": "bigint(20) unsigned",
+                                    "Null": "NO",
+                                    "Key": "PRI",
+                                    "Extra": "auto_increment"
+                                },
+                                "organisation - name": {
+                                    "Type": "varchar(100)",
+                                    "Null": "NO"
+                                },
+                                "organisation - organisation type id": {
+                                    "Type": "bigint(20) unsigned"
+                                }
+                            }
+                        }
+                    }
+                },
+                "visible": {
+                    "id": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    },
+                    "outstanding": {
+                        "Type": "bigint(20) unsigned"
+                    },
+                    "invoice - id": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    },
+                    "invoice - organisation id": {
+                        "Type": "bigint(20) unsigned"
+                    }
+                }
+            }
+        }
+    }
 }
