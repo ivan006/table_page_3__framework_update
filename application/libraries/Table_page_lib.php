@@ -182,15 +182,15 @@ class Table_page_lib
 			} else {
 				$foreign_key = null;
 			}
-			$cols_visible = $this->cols_visible(
+			$cols_visible = $this->calculated_columns(
 				$table,
 				$erd,
 				$foreign_key
 			);
-			// $cols_visible = $this->cols_visible($table, $erd, "");
+			// $cols_visible = $this->calculated_columns($table, $erd, "");
 		}
 		elseif ($page_type == "table") {
-			$cols_visible = $this->cols_visible($table, $erd, null);
+			$cols_visible = $this->calculated_columns($table, $erd, null);
 		}
 
 		// header('Content-Type: application/json');
@@ -504,7 +504,7 @@ class Table_page_lib
 		return $data;
 	}
 
-	public function cols_visible($table, $erd, $foreign_key)
+	public function calculated_columns($table, $erd, $foreign_key)
 	{
 		$parents = array();
 
@@ -563,7 +563,7 @@ class Table_page_lib
 		return $string;
 	}
 
-	public function abilities_cache_ability($rec_part, $erd, $table, $foreign_k)
+	public function calculated_relatives($rec_part, $erd, $table, $foreign_k)
 	{
 
 
@@ -618,9 +618,9 @@ class Table_page_lib
 
 		$result["g_identity"] = $g_identity;
 		if ($rec_part=="overview") {
-			$cols_visible = $this->cols_visible($g_identity["g_from"], $erd, "");}
+			$cols_visible = $this->calculated_columns($g_identity["g_from"], $erd, "");}
 		elseif ($rec_part=="details") {
-			$cols_visible = $this->cols_visible($g_identity["g_from"], $erd, $foreign_k);
+			$cols_visible = $this->calculated_columns($g_identity["g_from"], $erd, $foreign_k);
 		}
 
 		// if ($rec_part=="overview") {
@@ -642,7 +642,7 @@ class Table_page_lib
 
 				if (isset($g_select["editable"][$value["linking_key"]])) {
 					// code...
-					$cols_visible_lookup_helper = $this->cols_visible($key, $erd, "");
+					$cols_visible_lookup_helper = $this->calculated_columns($key, $erd, "");
 					$cols_visible_lookup = $cols_visible_lookup_helper["cols_o"];
 					$cols_visible_lookup_part_2 = array();
 					foreach ($cols_visible_lookup_helper["cols_d"] as $key_lookup => $value_lookup) {
@@ -1068,7 +1068,7 @@ class Table_page_lib
 
 
 
-	public function abilities_cache($table)
+	public function calculated_table($table)
 	{
 		$table = urldecode($table);
 		$g_identity_singular = $this->CI->erd_lib->grammar_singular($table);
@@ -1090,13 +1090,13 @@ class Table_page_lib
 		$erd = file_get_contents($erd_path);
 		$erd = json_decode($erd, true);
 
-		$g_core_abilities = $this->abilities_cache_ability("overview", $erd, $table, null, "");
+		$g_core_abilities = $this->calculated_relatives("overview", $erd, $table, null, "");
 
 		$g_parental_abilities = array();
 		if (isset($erd[$table]["items"])) {
 			$items = $erd[$table]["items"];
 			foreach ($items as $key => $value) {
-				$g_parental_abilities[$key] = $this->abilities_cache_ability("details", $erd, $key, $value, $table);
+				$g_parental_abilities[$key] = $this->calculated_relatives("details", $erd, $key, $value, $table);
 
 			}
 		}

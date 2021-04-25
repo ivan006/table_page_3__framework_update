@@ -38,14 +38,14 @@ class Erd_c extends CI_Controller
 		$data["diff"] = $this->erd_lib->diff();
 
 		foreach (json_decode($data["erd"]) as $key => $value) {
-			$crud_cache = json_encode($this->table_page_lib->abilities_cache($key), JSON_PRETTY_PRINT);
+			$crud_cache = json_encode($this->table_page_lib->calculated_table($key), JSON_PRETTY_PRINT);
 			if (file_exists("application/erd/active/crud_cache/$key.txt")) {
 				unlink("application/erd/active/crud_cache/$key.txt");
 			}
 			file_put_contents("application/erd/active/crud_cache/$key.txt", $crud_cache);
 		}
 
-		// $data["abilities_cache"] = json_encode($this->table_page_lib->abilities_cache("objects"), JSON_PRETTY_PRINT);
+		// $data["abilities_cache"] = json_encode($this->table_page_lib->calculated_table("objects"), JSON_PRETTY_PRINT);
 		$data["abilities_cache"] = json_encode(array(), JSON_PRETTY_PRINT);
 
 		// header('Content-Type: application/json');
