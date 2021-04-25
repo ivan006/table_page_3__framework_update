@@ -7,8 +7,8 @@
             "g_ability_name": "products",
             "g_ability_html_id": "products",
             "g_from": "products",
-            "g_where_haystack_type": "foreign_key",
             "g_where_haystack": "id",
+            "g_where_haystack_type": "foreign_key",
             "data_endpoint": "fetch_for_record\/h_type\/primary_key\/h\/id\/n\/"
         },
         "g_select": {
