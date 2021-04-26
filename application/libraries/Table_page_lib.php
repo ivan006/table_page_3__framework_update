@@ -1090,6 +1090,10 @@ class Table_page_lib
 		$erd = file_get_contents($erd_path);
 		$erd = json_decode($erd, true);
 
+		if (isset($erd[$table]["links"])) {
+			$data["links"] = $erd[$table]["links"];
+		}
+
 		$g_core_abilities = $this->precalculated_relatives("overview", $erd, $table, null, "");
 
 		$g_parental_abilities = array();

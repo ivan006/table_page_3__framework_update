@@ -51,13 +51,29 @@
     </script>
     <div class="container">
       <div class="row">
-        <div class="col-md-12 mt-5">
+        <div class="col-md-4 mt-5">
           <a href="/database" class="btn btn-sm btn-outline-primary">
             Database
           </a>
+        </div>
+        <div class="col-md-4 mt-5">
           <h1 class="text-center">
             <?php echo $data["title"]; ?>
           </h1>
+        </div>
+        <div class="col-md-4 mt-5">
+
+          <?php if (isset($data["links"])): ?>
+            <?php foreach ($data["links"] as $key => $value): ?>
+              <a href="<?php echo $value.$data["g_core_abilities"]["g_identity"]["g_where_needle"] ?>" class="btn btn-sm btn-outline-primary">
+                <?php echo $key ?>
+              </a>
+            <?php endforeach; ?>
+          <?php endif; ?>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
           <hr style="background-color: black; color: black; height: 1px;">
         </div>
       </div>

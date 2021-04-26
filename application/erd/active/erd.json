@@ -47,6 +47,9 @@
     },
     "items": {
       "invoiced transaction": "invoice id"
+    },
+    "links": {
+      "Auto - Generate": "/auth/"
     }
   },
   "invoiced transaction": {
