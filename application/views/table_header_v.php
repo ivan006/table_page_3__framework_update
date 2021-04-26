@@ -62,13 +62,15 @@
           </h1>
         </div>
         <div class="col-md-4 mt-5">
-
-          <?php if (isset($data["links"])): ?>
-            <?php foreach ($data["links"] as $key => $value): ?>
-              <a href="<?php echo $value.$data["g_core_abilities"]["g_identity"]["g_where_needle"] ?>" class="btn btn-sm btn-outline-primary">
-                <?php echo $key ?>
-              </a>
-            <?php endforeach; ?>
+    
+          <?php if ($type == "g_record_core_abilities"): ?>
+            <?php if (isset($data["links"])): ?>
+              <?php foreach ($data["links"] as $key => $value): ?>
+                <a href="<?php echo $value.$data["g_core_abilities"]["g_identity"]["g_where_needle"] ?>" class="btn btn-sm btn-outline-primary">
+                  <?php echo $key ?>
+                </a>
+              <?php endforeach; ?>
+            <?php endif; ?>
           <?php endif; ?>
         </div>
       </div>

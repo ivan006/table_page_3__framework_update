@@ -643,10 +643,11 @@ class Table_page_lib
 
 		$this->CI->load->database();
 
+		$this->CI->db->_protect_identifiers=false;
 		// if ($this->CI->input->is_ajax_request()) {
 		$del_id = $this->CI->input->post('del_id');
 
-		if ($this->CI->db->delete($table, array('id' => $del_id))) {
+		if ($this->CI->db->delete("`$table`", array('id' => $del_id))) {
 			$data = array('responce' => 'success');
 		} else {
 			$data = array('responce' => 'error');
