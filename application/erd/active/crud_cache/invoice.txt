@@ -2,6 +2,9 @@
     "table_name": "invoice",
     "table_name_singular": "invoice",
     "table_exists": 1,
+    "links": {
+        "Auto - Generate": "\/auth\/"
+    },
     "g_core_abilities": {
         "g_identity": {
             "g_ability_name": "invoice",
