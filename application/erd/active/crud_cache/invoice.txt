@@ -68,9 +68,6 @@
                 "organisation - name": {
                     "Type": "varchar(100)",
                     "Null": "NO"
-                },
-                "organisation - organisation type id": {
-                    "Type": "bigint(20) unsigned"
                 }
             }
         }
