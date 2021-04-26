@@ -90,7 +90,10 @@ class Record_c extends CI_Controller
 
 
 
-			$this->load->view('table_header_v', array("data"=>$data));
+			$this->load->view('table_header_v', array(
+				"data"=>$data,
+				"type"=>"g_record_core_abilities"
+			));
 			$this->load->view('table_block_v', array(
 				"data"=>$data["g_core_abilities"],
 				"permisssion_options"=>$permisssion_options,

@@ -96,7 +96,11 @@ class Table_c extends CI_Controller
 			),
 		);
 
-		$this->load->view('table_header_v', array("data"=>$data));
+		$this->load->view('table_header_v', array(
+			"data"=>$data,
+			"type"=>"g_table_core_abilities"
+		));
+
 		$this->load->view('table_block_v', array(
 			"data"=>$data["g_core_abilities"],
 			"permisssion_options"=>$permisssion_options,
@@ -198,6 +202,8 @@ class Table_c extends CI_Controller
 			// redirect them to the login page
 			redirect('auth/login', 'refresh');
 		}
+
+		$table = urldecode($table);
 		$result = $this->table_page_lib->delete($table);
 		header('Content-Type: application/json');
 		echo json_encode($result, JSON_PRETTY_PRINT);
