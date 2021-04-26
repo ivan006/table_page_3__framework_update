@@ -3,7 +3,7 @@
     "table_name_singular": "invoice",
     "table_exists": 1,
     "links": {
-        "Auto - Generate": "\/auth\/"
+        "Auto - Generate": "\/extension_for_invoice\/auto_generate\/"
     },
     "g_core_abilities": {
         "g_identity": {
@@ -53,6 +53,16 @@
                             }
                         }
                     }
+                },
+                "auto generated status": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned"
+                    }
+                },
+                "auto sent status": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned"
+                    }
                 }
             },
             "visible": {
@@ -61,6 +71,12 @@
                     "Null": "NO",
                     "Key": "PRI",
                     "Extra": "auto_increment"
+                },
+                "auto generated status": {
+                    "Type": "bigint(20) unsigned"
+                },
+                "auto sent status": {
+                    "Type": "bigint(20) unsigned"
                 },
                 "organisation - id": {
                     "Type": "bigint(20) unsigned",

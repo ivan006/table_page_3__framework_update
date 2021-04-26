@@ -46,10 +46,12 @@
                                 "Type": "date"
                             },
                             "price": {
-                                "Type": "bigint(20)"
+                                "Type": "bigint(20)",
+                                "Null": "NO"
                             },
                             "paid": {
-                                "Type": "bigint(20)"
+                                "Type": "bigint(20)",
+                                "Null": "NO"
                             },
                             "commodity type - id": {
                                 "Type": "bigint(20) unsigned",
@@ -133,6 +135,12 @@
                                 "Key": "PRI",
                                 "Extra": "auto_increment"
                             },
+                            "auto generated status": {
+                                "Type": "bigint(20) unsigned"
+                            },
+                            "auto sent status": {
+                                "Type": "bigint(20) unsigned"
+                            },
                             "organisation - id": {
                                 "Type": "bigint(20) unsigned",
                                 "Null": "NO",
@@ -165,6 +173,15 @@
                     "Null": "NO",
                     "Key": "PRI",
                     "Extra": "auto_increment"
+                },
+                "invoice - organisation id": {
+                    "Type": "bigint(20) unsigned"
+                },
+                "invoice - auto generated status": {
+                    "Type": "bigint(20) unsigned"
+                },
+                "invoice - auto sent status": {
+                    "Type": "bigint(20) unsigned"
                 },
                 "transaction - id": {
                     "Type": "bigint(20) unsigned",

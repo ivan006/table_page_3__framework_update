@@ -166,12 +166,14 @@
                 },
                 "price": {
                     "col_deets": {
-                        "Type": "bigint(20)"
+                        "Type": "bigint(20)",
+                        "Null": "NO"
                     }
                 },
                 "paid": {
                     "col_deets": {
-                        "Type": "bigint(20)"
+                        "Type": "bigint(20)",
+                        "Null": "NO"
                     }
                 }
             },
@@ -189,10 +191,12 @@
                     "Type": "date"
                 },
                 "price": {
-                    "Type": "bigint(20)"
+                    "Type": "bigint(20)",
+                    "Null": "NO"
                 },
                 "paid": {
-                    "Type": "bigint(20)"
+                    "Type": "bigint(20)",
+                    "Null": "NO"
                 },
                 "commodity type - name": {
                     "Type": "varchar(100)",
