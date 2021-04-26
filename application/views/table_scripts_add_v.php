@@ -79,6 +79,14 @@ $(document).on("click", "#<?php echo makeSafeForCSS($data["g_identity"]["g_abili
 
     $("#<?php echo makeSafeForCSS($data["g_identity"]["g_ability_html_id"])."_".$action_type."_" ?>form")[0].reset();
 
+    var activetables = $.fn.dataTable.tables();
+    // alert(JSON.stringify( activetables ), null, 2)
+    $.each(activetables, function(activetables_key, activetables_value) {
+      // alert(activetables_value.id);
+
+      $("#"+activetables_value.id).DataTable().row( { selected: true } ).deselect();
+    });
+
   }
 
 })
