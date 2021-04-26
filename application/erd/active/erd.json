@@ -43,13 +43,19 @@
       },
       "organisation id": {
         "Type": "bigint(20) unsigned"
+      },
+      "auto generated status": {
+        "Type": "bigint(20) unsigned"
+      },
+      "auto sent status": {
+        "Type": "bigint(20) unsigned"
       }
     },
     "items": {
       "invoiced transaction": "invoice id"
     },
     "links": {
-      "Auto - Generate": "/auth/"
+      "Auto - Generate": "/extension_for_invoice/auto_generate/"
     }
   },
   "invoiced transaction": {
@@ -179,10 +185,12 @@
         "Type": "date"
       },
       "price": {
-        "Type": "bigint(20)"
+        "Type": "bigint(20)",
+        "Null": "NO"
       },
       "paid": {
-        "Type": "bigint(20)"
+        "Type": "bigint(20)",
+        "Null": "NO"
       }
     },
     "items": {
