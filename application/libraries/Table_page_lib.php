@@ -623,8 +623,8 @@ class Table_page_lib
 			$cols_visible = $this->precalculated_columns($g_identity["g_from"], $erd, $foreign_k);
 		}
 
-		// if ($rec_part=="overview") {
-		if (1==1) {
+		if ($rec_part=="overview") {
+		// if (1==1) {
 
 			$g_select["visible"] = array();
 
@@ -1129,8 +1129,33 @@ class Table_page_lib
 				$new_endpoint = $iteration_result["g_identity"]["data_endpoint"].$record_id;
 				$iteration_result["g_identity"]["data_endpoint"] = $new_endpoint;
 
+				$relation = file_get_contents("application/erd/active/crud_cache/$key.txt");
+				$relation = json_decode($relation, true);
+				$relation = $relation["g_core_abilities"]["g_select"];
+
+				$g_where_haystack = $value["g_identity"]["g_where_haystack"];
+				unset($relation["editable"][$g_where_haystack]["rels"]);
+				// foreach ($relation["editable"] as $relation_key => $relation_value) {
+				// 	unset($relation["editable"])
+				// }
+
+
+				// $table_name = $data["table_name"];
+				$self_editable_cols = $data["g_core_abilities"]["g_select"]["editable"];
+				foreach ($self_editable_cols as $self_editable_col_key => $self_editable_col_value) {
+					if (isset($relation["visible"]["$table - $self_editable_col_key"])) {
+
+						unset($relation["visible"]["$table - $self_editable_col_key"]);
+					}
+				}
+				// header('Content-Type: application/json');
+				// echo json_encode($data["g_core_abilities"]["g_select"], JSON_PRETTY_PRINT);
+				// exit;
+				$iteration_result["g_select"] = $relation;
+
 				$g_where_haystack = $iteration_result["g_identity"]["g_where_haystack"];
 
+				$iteration_result["g_select"]["editable"][$g_where_haystack]["assumable"] = $record_id;
 				$iteration_result["g_select"]["editable"][$g_where_haystack]["assumable"] = $record_id;
 
 
