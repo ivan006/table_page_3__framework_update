@@ -31,7 +31,7 @@ class Record_c extends CI_Controller
 		}
 
 		// $data = $this->table_page_lib->record_abilities($table, $record_id);
-		$data = $this->table_page_lib->record_abilities_2($table, $record_id);
+		$data = $this->table_page_lib->postcalculated_table($table, $record_id);
 
 		$permisssion_options = array(
 			"owner" => array(
