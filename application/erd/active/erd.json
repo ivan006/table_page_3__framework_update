@@ -1,5 +1,5 @@
 {
-  "products": {
+  "commodity type": {
     "fields": {
       "id": {
         "Type": "bigint(20) unsigned",
@@ -10,13 +10,43 @@
       "name": {
         "Type": "varchar(100)",
         "Null": "NO"
+      }
+    },
+    "items": {
+      "transaction": "commodity type id"
+    }
+  },
+  "commodity unit": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
       },
-      "pieces": {
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      }
+    },
+    "items": {
+      "transaction": "commodity unit id"
+    }
+  },
+  "invoice": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "organisation id": {
         "Type": "bigint(20) unsigned"
       }
     },
     "items": {
-      "transaction": "products id"
+      "invoiced transaction": "invoice id"
     }
   },
   "invoiced transaction": {
@@ -38,7 +68,7 @@
       }
     }
   },
-  "invoice": {
+  "organisation": {
     "fields": {
       "id": {
         "Type": "bigint(20) unsigned",
@@ -46,12 +76,54 @@
         "Key": "PRI",
         "Extra": "auto_increment"
       },
-      "organisation id": {
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      },
+      "organisation type id": {
         "Type": "bigint(20) unsigned"
       }
     },
     "items": {
-      "invoiced transaction": "invoice id"
+      "transaction": "counterparty id",
+      "invoice": "organisation id"
+    }
+  },
+  "organisation type": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      }
+    },
+    "items": {
+      "organisation": "organisation type id"
+    }
+  },
+  "products": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "name": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      },
+      "pieces": {
+        "Type": "bigint(20) unsigned"
+      }
+    },
+    "items": {
+      "transaction": "products id"
     }
   },
   "services": {
@@ -103,9 +175,11 @@
       "date": {
         "Type": "date"
       },
-      "descriptions": {
-        "Type": "varchar(100)",
-        "Null": "NO"
+      "price": {
+        "Type": "bigint(20)"
+      },
+      "paid": {
+        "Type": "bigint(20)"
       }
     },
     "items": {
@@ -127,78 +201,6 @@
     },
     "items": {
       "transaction": "transaction type id"
-    }
-  },
-  "commodity unit": {
-    "fields": {
-      "id": {
-        "Type": "bigint(20) unsigned",
-        "Null": "NO",
-        "Key": "PRI",
-        "Extra": "auto_increment"
-      },
-      "name": {
-        "Type": "varchar(100)",
-        "Null": "NO"
-      }
-    },
-    "items": {
-      "transaction": "commodity unit id"
-    }
-  },
-  "commodity type": {
-    "fields": {
-      "id": {
-        "Type": "bigint(20) unsigned",
-        "Null": "NO",
-        "Key": "PRI",
-        "Extra": "auto_increment"
-      },
-      "name": {
-        "Type": "varchar(100)",
-        "Null": "NO"
-      }
-    },
-    "items": {
-      "transaction": "commodity type id"
-    }
-  },
-  "organisation": {
-    "fields": {
-      "id": {
-        "Type": "bigint(20) unsigned",
-        "Null": "NO",
-        "Key": "PRI",
-        "Extra": "auto_increment"
-      },
-      "name": {
-        "Type": "varchar(100)",
-        "Null": "NO"
-      },
-      "organisation type id": {
-        "Type": "bigint(20) unsigned"
-      }
-    },
-    "items": {
-      "transaction": "counterparty id",
-      "invoice": "organisation id"
-    }
-  },
-  "organisation type": {
-    "fields": {
-      "id": {
-        "Type": "bigint(20) unsigned",
-        "Null": "NO",
-        "Key": "PRI",
-        "Extra": "auto_increment"
-      },
-      "name": {
-        "Type": "varchar(100)",
-        "Null": "NO"
-      }
-    },
-    "items": {
-      "organisation": "organisation type id"
     }
   }
 }
