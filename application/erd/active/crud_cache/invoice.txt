@@ -26,7 +26,8 @@
                 },
                 "organisation id": {
                     "col_deets": {
-                        "Type": "bigint(20) unsigned"
+                        "Type": "bigint(20) unsigned",
+                        "important_field": ""
                     },
                     "rels": {
                         "table": "organisation",
@@ -39,7 +40,8 @@
                             },
                             "name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO"
+                                "Null": "NO",
+                                "important_field": ""
                             },
                             "organisation type - id": {
                                 "Type": "bigint(20) unsigned",
@@ -49,7 +51,8 @@
                             },
                             "organisation type - name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO"
+                                "Null": "NO",
+                                "important_field": ""
                             }
                         }
                     }
@@ -86,7 +89,11 @@
                 },
                 "organisation - name": {
                     "Type": "varchar(100)",
-                    "Null": "NO"
+                    "Null": "NO",
+                    "important_field": ""
+                },
+                "organisation - organisation type id": {
+                    "Type": "bigint(20) unsigned"
                 }
             }
         }

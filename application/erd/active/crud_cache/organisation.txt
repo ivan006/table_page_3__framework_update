@@ -24,7 +24,8 @@
                 "name": {
                     "col_deets": {
                         "Type": "varchar(100)",
-                        "Null": "NO"
+                        "Null": "NO",
+                        "important_field": ""
                     }
                 },
                 "organisation type id": {
@@ -42,7 +43,8 @@
                             },
                             "name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO"
+                                "Null": "NO",
+                                "important_field": ""
                             }
                         }
                     }
@@ -57,7 +59,8 @@
                 },
                 "name": {
                     "Type": "varchar(100)",
-                    "Null": "NO"
+                    "Null": "NO",
+                    "important_field": ""
                 },
                 "organisation type - id": {
                     "Type": "bigint(20) unsigned",
@@ -67,7 +70,8 @@
                 },
                 "organisation type - name": {
                     "Type": "varchar(100)",
-                    "Null": "NO"
+                    "Null": "NO",
+                    "important_field": ""
                 }
             }
         }

@@ -24,7 +24,8 @@
                 "name": {
                     "col_deets": {
                         "Type": "varchar(100)",
-                        "Null": "NO"
+                        "Null": "NO",
+                        "important_field": ""
                     }
                 }
             },
@@ -37,7 +38,8 @@
                 },
                 "name": {
                     "Type": "varchar(100)",
-                    "Null": "NO"
+                    "Null": "NO",
+                    "important_field": ""
                 }
             }
         }

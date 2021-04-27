@@ -9,7 +9,8 @@
       },
       "name": {
         "Type": "varchar(100)",
-        "Null": "NO"
+        "Null": "NO",
+        "important_field": ""
       }
     },
     "items": {
@@ -26,7 +27,8 @@
       },
       "name": {
         "Type": "varchar(100)",
-        "Null": "NO"
+        "Null": "NO",
+        "important_field": ""
       }
     },
     "items": {
@@ -42,7 +44,8 @@
         "Extra": "auto_increment"
       },
       "organisation id": {
-        "Type": "bigint(20) unsigned"
+        "Type": "bigint(20) unsigned",
+        "important_field": ""
       },
       "auto generated status": {
         "Type": "bigint(20) unsigned"
@@ -87,7 +90,8 @@
       },
       "name": {
         "Type": "varchar(100)",
-        "Null": "NO"
+        "Null": "NO",
+        "important_field": ""
       },
       "organisation type id": {
         "Type": "bigint(20) unsigned"
@@ -108,7 +112,8 @@
       },
       "name": {
         "Type": "varchar(100)",
-        "Null": "NO"
+        "Null": "NO",
+        "important_field": ""
       }
     },
     "items": {
@@ -125,7 +130,8 @@
       },
       "name": {
         "Type": "varchar(100)",
-        "Null": "NO"
+        "Null": "NO",
+        "important_field": ""
       },
       "pieces": {
         "Type": "bigint(20) unsigned"
@@ -145,7 +151,8 @@
       },
       "name": {
         "Type": "varchar(100)",
-        "Null": "NO"
+        "Null": "NO",
+        "important_field": ""
       }
     },
     "items": {
@@ -158,7 +165,8 @@
         "Type": "bigint(20) unsigned",
         "Null": "NO",
         "Key": "PRI",
-        "Extra": "auto_increment"
+        "Extra": "auto_increment",
+        "important_field": ""
       },
       "transaction type id": {
         "Type": "bigint(20) unsigned"
@@ -207,7 +215,8 @@
       },
       "name": {
         "Type": "varchar(100)",
-        "Null": "NO"
+        "Null": "NO",
+        "important_field": ""
       }
     },
     "items": {
