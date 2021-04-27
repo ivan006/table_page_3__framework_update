@@ -8,3 +8,5 @@ https://avenir.ro/register-users-using-ion-auth-in-codeigniter-3/
 
 array form input syntax php
 https://www.php.net/manual/en/faq.html.php
+
+https://templates.mailchimp.com/resources/inline-css/

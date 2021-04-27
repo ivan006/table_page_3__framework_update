@@ -166,7 +166,7 @@ class Extension_for_invoice extends CI_Controller
 			// $query = $query->select("*");
 			$query = $query->select("`$table`.`id` as 'invoice id'");
 			$query = $query->select("`organisation`.`name` as 'customer'");
-			$query = $query->select("`$table`.`total` as 'total (ZAR)'");
+			$query = $query->select("`$table`.`total` as 'total outstanding (ZAR)'");
 			$query = $query->select("`$table`.`date` as 'invoiced date'");
 			$query = $query->from($table);
 			$query = $query->join(
@@ -180,7 +180,7 @@ class Extension_for_invoice extends CI_Controller
 
 			if (count($query->result()) > 0) {
 				// $result = (array) $query->row();
-				$invoice = $query->result();
+				$invoice = $query->result_array();
 
 				// $result = $result["organisation id"];
 				// echo $result;
@@ -201,8 +201,9 @@ class Extension_for_invoice extends CI_Controller
 			$query = $query->select("transaction.date as 'transaction date'");
 			$query = $query->select("services.`name` as 'service'");
 			$query = $query->select("transaction.quantity as 'quantity'");
-			$query = $query->select("`commodity unit`.`name` as 'commodity unit'");
+			$query = $query->select("`commodity unit`.`name` as 'unit'");
 			$query = $query->select("transaction.price as 'price (ZAR)'");
+			$query = $query->select("transaction.price - `invoiced transaction`.outstanding as 'paid (ZAR)'");
 			$query = $query->select("`invoiced transaction`.outstanding AS 'outstanding (ZAR)'");
 
 			$query = $query->from("`invoiced transaction`");
@@ -251,10 +252,15 @@ class Extension_for_invoice extends CI_Controller
 				$invoiced_transactions = array();
 			}
 		}
+		$invoice_0 = $invoice[0];
+
+		// header('Content-Type: application/json');
+		// echo json_encode($invoice_0, JSON_PRETTY_PRINT);
+		// exit;
 		$data = array(
 			"invoice"=>$invoice,
 			"invoiced_transactions"=>$invoiced_transactions,
-			"title"=>"Invoice - Report",
+			"title"=>"Invoice ".$invoice_0["invoiced date"]." for ".$invoice_0["customer"]." (ref: ".$invoice_0["invoice id"].")",
 			"back"=>urldecode($_GET["redirect"])
 		);
 		$this->load->view('extension_for_invoice/report_v', array(
@@ -266,6 +272,31 @@ class Extension_for_invoice extends CI_Controller
 
 	public function auto_email($id = NULL)
 	{
+
+		$table = "invoice";
+		if (1==1) {
+			$query = $this->db;
+
+			$query = $query->select("`organisation`.`email` as 'email'");
+			$query = $query->from($table);
+			$query = $query->join(
+				"`organisation`",
+				"$table.`organisation id` =  `organisation`.`id`",
+				"left"
+			);
+			$query = $query->where($table.".id", $id);
+			$query = $query->get();
+
+			if (count($query->result()) > 0) {
+				$customer_email = $query->result_array()[0]["email"];
+
+			} else {
+				$responce_status = array('responce' => 'error');
+				header('Content-Type: application/json');
+				echo json_encode($responce_status, JSON_PRETTY_PRINT);
+				exit;
+			}
+		}
 
 		$this->load->library(['email']);
 
@@ -288,8 +319,8 @@ class Extension_for_invoice extends CI_Controller
 		$this->email->clear();
 		$this->email->set_newline("\r\n");
 		$this->email->from($this->config->item('admin_email', 'ion_auth'), $this->config->item('site_title', 'ion_auth'));
-		$this->email->to("ivan.copeland2018@gmail.com");
-		$this->email->subject($this->config->item('site_title', 'ion_auth') . ' - ' . $this->lang->line('email_forgotten_password_subject'));
+		$this->email->to($customer_email);
+		$this->email->subject($this->config->item('site_title', 'ion_auth') . ' - ' . $message_data["title"]);
 		$this->email->message($message);
 
 		if ($this->email->send())
@@ -298,8 +329,23 @@ class Extension_for_invoice extends CI_Controller
 			// echo 123333;
 			// return TRUE;
 
-			redirect(urldecode($_GET["redirect"]), 'refresh');
+		} else {
+			$responce_status = array('responce' => 'error');
+			header('Content-Type: application/json');
+			echo json_encode($responce_status, JSON_PRETTY_PRINT);
+			exit;
+			// $data = array('responce' => 'error');
 		}
+
+		$query = $this->db;
+		if ($query->update($table, array(
+			"`auto sent status`"=>"1"
+		), array('id' => $id))) {
+
+		} else {
+			// $data = array('responce' => 'error');
+		}
+		redirect(urldecode($_GET["redirect"]), 'refresh');
 
 	}
 }

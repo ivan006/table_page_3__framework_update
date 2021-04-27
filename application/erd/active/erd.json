@@ -103,6 +103,10 @@
       },
       "organisation type id": {
         "Type": "bigint(20) unsigned"
+      },
+      "email": {
+        "Type": "varchar(100)",
+        "Null": "NO"
       }
     },
     "items": {
