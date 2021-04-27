@@ -52,6 +52,12 @@
       },
       "auto sent status": {
         "Type": "bigint(20) unsigned"
+      },
+      "date": {
+        "Type": "date"
+      },
+      "total": {
+        "Type": "bigint(20) unsigned"
       }
     },
     "items": {

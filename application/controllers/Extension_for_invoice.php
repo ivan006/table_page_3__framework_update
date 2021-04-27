@@ -61,9 +61,25 @@ class Extension_for_invoice extends CI_Controller
 
 
 		$query = $this->db;
+		$query = $query->select("SUM(transaction.price - transaction.paid) AS total_outstanding");
+		$query = $query->from($table);
+		$query = $query->join(
+			"transaction",
+			"$table.`organisation id` =  transaction.`counterparty id`",
+			"left"
+		);
+		$query = $query->where($table.".id", $id);
+		$query = $query->where("transaction.price >", "transaction.paid");
+		$query = $query->where("transaction.`transaction type id` =", "1");
+		$query = $query->get();
+		if (count($query->result()) > 0) {
+			$total = $query->result_array();
+			$total = $total[0]["total_outstanding"];
+		} else {
+			$total = 0;
+		}
 
-
-		// id 	outstanding 	transaction id 	invoice id
+		$query = $this->db;
 		$query = $query->select("transaction.price - transaction.paid AS outstanding");
 		$query = $query->select("transaction.id as 'transaction id'");
 		$query = $query->select("invoice.id as 'invoice id'");
@@ -77,28 +93,15 @@ class Extension_for_invoice extends CI_Controller
 		$query = $query->where("transaction.price >", "transaction.paid");
 		$query = $query->where("transaction.`transaction type id` =", "1");
 		$query = $query->get();
-		// $posts = $query;
-
 		if (count($query->result()) > 0) {
-			// $result = (array) $query->row();
 			$result = $query->result();
-
-			// $result = $result["organisation id"];
-			// echo $result;
-
-			// header('Content-Type: application/json');
-			// echo json_encode($result, JSON_PRETTY_PRINT);
-			// exit;
 		}
 
-
-		// zzzzzzzzzzzzzz
 
 		$data = array();
 		foreach ($result as $key => $value) {
 			$data[$key] = array();
 			foreach ($value as $value_key => $value_value) {
-				// code...
 				$data[$key]["`$value_key`"] = $value_value;
 			}
 		}
@@ -110,7 +113,11 @@ class Extension_for_invoice extends CI_Controller
 
 
 		$query = $this->db;
-		if ($query->update("`$table`", array("`auto generated status`"=>"1"), array('id' => $id))) {
+		if ($query->update("`$table`", array(
+			"`auto generated status`"=>"1",
+			"total"=>$total
+		), array('id' => $id))) {
+
 		} else {
 			$data = array('responce' => 'error');
 		}
@@ -157,8 +164,10 @@ class Extension_for_invoice extends CI_Controller
 
 			// id 	outstanding 	transaction id 	invoice id
 			// $query = $query->select("*");
-			$query = $query->select("`$table`.`id` as 'id'");
-			$query = $query->select("`organisation`.`name` as 'organisation'");
+			$query = $query->select("`$table`.`id` as 'invoice id'");
+			$query = $query->select("`organisation`.`name` as 'customer'");
+			$query = $query->select("`$table`.`total` as 'total (ZAR)'");
+			$query = $query->select("`$table`.`date` as 'invoiced date'");
 			$query = $query->from($table);
 			$query = $query->join(
 				"`organisation`",
@@ -239,10 +248,7 @@ class Extension_for_invoice extends CI_Controller
 			if (count($query->result()) > 0) {
 				$invoiced_transactions = $query->result();
 			} else {
-				$responce_status = array('responce' => 'error');
-				header('Content-Type: application/json');
-				echo json_encode($responce_status, JSON_PRETTY_PRINT);
-				exit;
+				$invoiced_transactions = array();
 			}
 		}
 
@@ -253,5 +259,9 @@ class Extension_for_invoice extends CI_Controller
 			"back"=>urldecode($_GET["redirect"])
 		));
 
+	}
+
+	public function auto_email($id = NULL)
+	{
 	}
 }
