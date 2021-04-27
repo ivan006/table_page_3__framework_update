@@ -251,17 +251,55 @@ class Extension_for_invoice extends CI_Controller
 				$invoiced_transactions = array();
 			}
 		}
-
-		$this->load->view('extension_for_invoice/report_v', array(
+		$data = array(
 			"invoice"=>$invoice,
 			"invoiced_transactions"=>$invoiced_transactions,
 			"title"=>"Invoice - Report",
 			"back"=>urldecode($_GET["redirect"])
+		);
+		$this->load->view('extension_for_invoice/report_v', array(
+			"data"=>$data
 		));
+		return $data;
 
 	}
 
 	public function auto_email($id = NULL)
 	{
+
+		$this->load->library(['email']);
+
+
+		$email_config = $this->config->item('email_config', 'ion_auth');
+
+		if ($this->config->item('use_ci_email', 'ion_auth') && isset($email_config) && is_array($email_config))
+		{
+			$this->email->initialize($email_config);
+		}
+
+		$message_data = $this->report($id);
+		// $message = $this->load->view($this->config->item('email_templates', 'ion_auth') . $this->config->item('email_forgot_password', 'ion_auth'), $data, TRUE);
+
+		$message = $this->load->view('extension_for_invoice/report_v', array(
+			"data"=>$message_data
+		), TRUE);
+		// $message = '';
+
+		$this->email->clear();
+		$this->email->set_newline("\r\n");
+		$this->email->from($this->config->item('admin_email', 'ion_auth'), $this->config->item('site_title', 'ion_auth'));
+		$this->email->to("ivan.copeland2018@gmail.com");
+		$this->email->subject($this->config->item('site_title', 'ion_auth') . ' - ' . $this->lang->line('email_forgotten_password_subject'));
+		$this->email->message($message);
+
+		if ($this->email->send())
+		{
+			// $this->set_message('forgot_password_successful');
+			// echo 123333;
+			// return TRUE;
+
+			redirect(urldecode($_GET["redirect"]), 'refresh');
+		}
+
 	}
 }

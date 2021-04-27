@@ -65,7 +65,8 @@
     },
     "links": {
       "Auto - Generate": "/extension_for_invoice/auto_generate/",
-      "Report": "/extension_for_invoice/report/"
+      "Report": "/extension_for_invoice/report/",
+      "Auto - Email": "/extension_for_invoice/auto_email/"
     }
   },
   "invoiced transaction": {

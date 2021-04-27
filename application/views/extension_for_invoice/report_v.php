@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title><?php echo $title ?></title>
+  <title><?php echo $data["title"] ?></title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -9,19 +9,19 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
-<body style="background:whitesmoke;">
+<body class="bg-light">
 
 
   <div class="container card mt-5">
     <div class="row">
       <div class="col-md-4 mt-5">
-        <a href="<?php echo $back ?>" class="btn btn-sm btn-outline-primary">
+        <a href="<?php echo $data["back"] ?>" class="btn btn-sm btn-outline-primary">
           Back
         </a>
       </div>
       <div class="col-md-4 mt-5">
         <h1 class="text-center">
-          <?php echo $title; ?>
+          <?php echo $data["title"]; ?>
         </h1>
       </div>
       <div class="col-md-4 mt-5">
@@ -43,15 +43,15 @@
     </div>
     <table class="table">
       <tr>
-        <?php if (isset($invoice[0])): ?>
-          <?php foreach ($invoice[0] as $key => $value): ?>
+        <?php if (isset($data["invoice"][0])): ?>
+          <?php foreach ($data["invoice"][0] as $key => $value): ?>
             <th>
               <?php echo $key ?>
             </th>
           <?php endforeach; ?>
         <?php endif; ?>
       </tr>
-      <?php foreach ($invoice as $key => $value): ?>
+      <?php foreach ($data["invoice"] as $key => $value): ?>
         <tr>
           <?php foreach ($value as $key2 => $value2): ?>
             <td>
@@ -73,15 +73,15 @@
 
     <table class="table">
       <tr>
-        <?php if (isset($invoiced_transactions[0])): ?>
-          <?php foreach ($invoiced_transactions[0] as $key => $value): ?>
+        <?php if (isset($data["invoiced_transactions"][0])): ?>
+          <?php foreach ($data["invoiced_transactions"][0] as $key => $value): ?>
             <th>
               <?php echo $key ?>
             </th>
           <?php endforeach; ?>
         <?php endif; ?>
       </tr>
-      <?php foreach ($invoiced_transactions as $key => $value): ?>
+      <?php foreach ($data["invoiced_transactions"] as $key => $value): ?>
         <tr>
           <?php foreach ($value as $key2 => $value2): ?>
             <td>
