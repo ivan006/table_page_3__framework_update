@@ -505,15 +505,31 @@ class Table_page_lib
 			$g_select["visible"] = $cols_visible["cols_o"];
 
 			$cols_wth_props = array();
+
 			foreach ($cols_visible["cols_d"] as $key => $value) {
+
+				// header('Content-Type: application/json');
+				// echo json_encode($value, JSON_PRETTY_PRINT);
+				// exit;
 				foreach ($value["cols"] as $key_2 => $value_2) {
-					$cols_wth_props["$key - $key_2"] = $value_2;
+					if (isset($value_2["important_field"])) {
+						// code...
+						$cols_wth_props["$key - $key_2"] = $value_2;
+					}
 				}
 				$g_select["visible"] = array_merge(
 					$g_select["visible"],
 					$cols_wth_props
 				);
 
+				if (isset($g_select["editable"][$value["linking_key"]])) {
+					if (isset($value["is_self_joined"])) {
+						$g_select["visible"] = array("$key - lineage" => "") + $g_select["visible"];
+					}
+				}
+			}
+
+			foreach ($cols_visible["cols_d"] as $key => $value) {
 				if (isset($g_select["editable"][$value["linking_key"]])) {
 					// code...
 					$cols_visible_lookup_helper = $this->precalculated_columns($key, $erd, "");
@@ -538,9 +554,6 @@ class Table_page_lib
 						"table"=>$key,
 						"rows"=>$cols_visible_lookup
 					);
-					if (isset($value["is_self_joined"])) {
-						$g_select["visible"] = array("$key - lineage" => "") + $g_select["visible"];
-					}
 				}
 			}
 			$result["g_select"] = $g_select;
