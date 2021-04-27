@@ -58,7 +58,8 @@
       "invoiced transaction": "invoice id"
     },
     "links": {
-      "Auto - Generate": "/extension_for_invoice/auto_generate/"
+      "Auto - Generate": "/extension_for_invoice/auto_generate/",
+      "Report": "/extension_for_invoice/report/"
     }
   },
   "invoiced transaction": {
