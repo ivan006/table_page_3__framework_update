@@ -2,7 +2,7 @@
 
 <?php
 
-$readable_rows = $data["table_details"]["columns"]["visible"];
+$readable_rows = $data["table_details"]["cols"]["visible"];
 ?>
 
 

@@ -62,11 +62,18 @@
           </h1>
         </div>
         <div class="col-md-4 mt-5">
-    
           <?php if ($type == "g_record_core_abilities"): ?>
             <?php if (isset($data["links"])): ?>
               <?php foreach ($data["links"] as $key => $value): ?>
-                <a href="<?php echo $value.$data["g_core_abilities"]["g_identity"]["g_where_needle"] ?>" class="btn btn-sm btn-outline-primary">
+                <?php
+                $redirect = urlencode(
+                  "/".ltrim(
+                    $_SERVER['PHP_SELF'],
+                    "/index.php"
+                  )
+                );
+                ?>
+                <a href="<?php echo $value.$data["g_core_abilities"]["g_identity"]["g_where_needle"] ?>?redirect=<?php echo $redirect ?>" class="btn btn-sm btn-outline-primary">
                   <?php echo $key ?>
                 </a>
               <?php endforeach; ?>

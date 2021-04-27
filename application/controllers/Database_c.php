@@ -31,14 +31,17 @@ class Database_c extends CI_Controller
 
 		$data['tables'] = $this->table_page_lib->database_api();
 
-
+		
 
 
 		$data["table_details"]["cols"]["visible"] = array("name"=>array());
 		$data["overview"]["table_id"] = "";
 		$data["data_endpoint"] = "database_api";
 		$data['title'] = "Database";
-		$this->load->view('table_header_v', array("data"=>$data));
+		$this->load->view('table_header_v', array(
+			"data"=>$data,
+			"type"=>"g_database_core_abilities"
+		));
 		$this->load->view('table_block_readonly_v', array("data"=>$data));
 		$this->load->view('table_footer_v');
 

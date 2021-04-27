@@ -30,7 +30,7 @@ class Extension_for_invoice extends CI_Controller
 			redirect('auth/login', 'refresh');
 		}
 
-		if (!$id)
+		if (!$id OR !isset($_GET["redirect"]))
 		{
 			show_404();
 		}
@@ -48,11 +48,15 @@ class Extension_for_invoice extends CI_Controller
 		$query = $query->get();
 		$posts = $query;
 
+		// header('Content-Type: application/json');
+		// echo json_encode(urldecode( $_GET["redirect"]), JSON_PRETTY_PRINT);
+		// exit;
 		if (count($query->result()) == 0) {
 			$data = array('responce' => 'error');
-			header('Content-Type: application/json');
-			echo json_encode($data, JSON_PRETTY_PRINT);
-			exit;
+			// header('Content-Type: application/json');
+			// echo json_encode($data, JSON_PRETTY_PRINT);
+			// exit;
+			redirect(urldecode($_GET["redirect"]), 'refresh');
 		}
 
 
@@ -112,10 +116,12 @@ class Extension_for_invoice extends CI_Controller
 		}
 
 		$data = array('responce' => 'success');
+		// header('Content-Type: application/json');
+		// echo json_encode($data, JSON_PRETTY_PRINT);
+		// exit;
+		redirect(urldecode($_GET["redirect"]), 'refresh');
 
-		header('Content-Type: application/json');
-		echo json_encode($data, JSON_PRETTY_PRINT);
-		exit;
+
 
 
 
