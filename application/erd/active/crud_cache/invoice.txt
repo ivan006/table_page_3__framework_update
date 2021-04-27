@@ -81,19 +81,10 @@
                 "auto sent status": {
                     "Type": "bigint(20) unsigned"
                 },
-                "organisation - id": {
-                    "Type": "bigint(20) unsigned",
-                    "Null": "NO",
-                    "Key": "PRI",
-                    "Extra": "auto_increment"
-                },
                 "organisation - name": {
                     "Type": "varchar(100)",
                     "Null": "NO",
                     "important_field": ""
-                },
-                "organisation - organisation type id": {
-                    "Type": "bigint(20) unsigned"
                 }
             }
         }

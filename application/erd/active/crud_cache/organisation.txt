@@ -62,12 +62,6 @@
                     "Null": "NO",
                     "important_field": ""
                 },
-                "organisation type - id": {
-                    "Type": "bigint(20) unsigned",
-                    "Null": "NO",
-                    "Key": "PRI",
-                    "Extra": "auto_increment"
-                },
                 "organisation type - name": {
                     "Type": "varchar(100)",
                     "Null": "NO",

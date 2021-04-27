@@ -176,21 +176,9 @@
                 "outstanding": {
                     "Type": "bigint(20) unsigned"
                 },
-                "invoice - id": {
-                    "Type": "bigint(20) unsigned",
-                    "Null": "NO",
-                    "Key": "PRI",
-                    "Extra": "auto_increment"
-                },
                 "invoice - organisation id": {
                     "Type": "bigint(20) unsigned",
                     "important_field": ""
-                },
-                "invoice - auto generated status": {
-                    "Type": "bigint(20) unsigned"
-                },
-                "invoice - auto sent status": {
-                    "Type": "bigint(20) unsigned"
                 },
                 "transaction - id": {
                     "Type": "bigint(20) unsigned",
@@ -198,38 +186,6 @@
                     "Key": "PRI",
                     "Extra": "auto_increment",
                     "important_field": ""
-                },
-                "transaction - transaction type id": {
-                    "Type": "bigint(20) unsigned"
-                },
-                "transaction - commodity type id": {
-                    "Type": "bigint(20) unsigned"
-                },
-                "transaction - services id": {
-                    "Type": "bigint(20) unsigned"
-                },
-                "transaction - products id": {
-                    "Type": "bigint(20) unsigned"
-                },
-                "transaction - commodity unit id": {
-                    "Type": "bigint(20) unsigned"
-                },
-                "transaction - quantity": {
-                    "Type": "bigint(20) unsigned"
-                },
-                "transaction - counterparty id": {
-                    "Type": "bigint(20) unsigned"
-                },
-                "transaction - date": {
-                    "Type": "date"
-                },
-                "transaction - price": {
-                    "Type": "bigint(20)",
-                    "Null": "NO"
-                },
-                "transaction - paid": {
-                    "Type": "bigint(20)",
-                    "Null": "NO"
                 }
             }
         }
