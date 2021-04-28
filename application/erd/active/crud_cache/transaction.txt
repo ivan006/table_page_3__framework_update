@@ -18,8 +18,7 @@
                         "Type": "bigint(20) unsigned",
                         "Null": "NO",
                         "Key": "PRI",
-                        "Extra": "auto_increment",
-                        "important_field": ""
+                        "Extra": "auto_increment"
                     }
                 },
                 "transaction type id": {
@@ -37,8 +36,7 @@
                             },
                             "name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO",
-                                "important_field": ""
+                                "Null": "NO"
                             }
                         }
                     }
@@ -58,8 +56,7 @@
                             },
                             "name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO",
-                                "important_field": ""
+                                "Null": "NO"
                             }
                         }
                     }
@@ -79,8 +76,7 @@
                             },
                             "name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO",
-                                "important_field": ""
+                                "Null": "NO"
                             }
                         }
                     }
@@ -100,8 +96,7 @@
                             },
                             "name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO",
-                                "important_field": ""
+                                "Null": "NO"
                             },
                             "pieces": {
                                 "Type": "bigint(20) unsigned"
@@ -124,8 +119,7 @@
                             },
                             "name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO",
-                                "important_field": ""
+                                "Null": "NO"
                             }
                         }
                     }
@@ -150,8 +144,11 @@
                             },
                             "name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO",
-                                "important_field": ""
+                                "Null": "NO"
+                            },
+                            "email": {
+                                "Type": "varchar(100)",
+                                "Null": "NO"
                             },
                             "organisation type - id": {
                                 "Type": "bigint(20) unsigned",
@@ -161,8 +158,7 @@
                             },
                             "organisation type - name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO",
-                                "important_field": ""
+                                "Null": "NO"
                             }
                         }
                     }
@@ -190,8 +186,7 @@
                     "Type": "bigint(20) unsigned",
                     "Null": "NO",
                     "Key": "PRI",
-                    "Extra": "auto_increment",
-                    "important_field": ""
+                    "Extra": "auto_increment"
                 },
                 "quantity": {
                     "Type": "bigint(20) unsigned"
@@ -206,36 +201,6 @@
                 "paid": {
                     "Type": "bigint(20)",
                     "Null": "NO"
-                },
-                "commodity type - name": {
-                    "Type": "varchar(100)",
-                    "Null": "NO",
-                    "important_field": ""
-                },
-                "commodity unit - name": {
-                    "Type": "varchar(100)",
-                    "Null": "NO",
-                    "important_field": ""
-                },
-                "organisation - name": {
-                    "Type": "varchar(100)",
-                    "Null": "NO",
-                    "important_field": ""
-                },
-                "products - name": {
-                    "Type": "varchar(100)",
-                    "Null": "NO",
-                    "important_field": ""
-                },
-                "services - name": {
-                    "Type": "varchar(100)",
-                    "Null": "NO",
-                    "important_field": ""
-                },
-                "transaction type - name": {
-                    "Type": "varchar(100)",
-                    "Null": "NO",
-                    "important_field": ""
                 }
             }
         }
