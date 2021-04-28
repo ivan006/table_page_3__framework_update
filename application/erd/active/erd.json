@@ -1,4 +1,29 @@
 {
+  "_activity_log": {
+    "fields": {
+      "record_table_and_id": {
+        "Type": "varchar(255)",
+        "Null": "NO",
+        "Key": "PRI"
+      },
+      "timestamp": {
+        "Type": "datetime",
+        "Null": "NO"
+      },
+      "owner": {
+        "Type": "int(11)",
+        "Null": "NO"
+      },
+      "editability": {
+        "Type": "int(11)",
+        "Null": "NO"
+      },
+      "visibility": {
+        "Type": "int(11)",
+        "Null": "NO"
+      }
+    }
+  },
   "commodity type": {
     "fields": {
       "id": {
@@ -9,8 +34,7 @@
       },
       "name": {
         "Type": "varchar(100)",
-        "Null": "NO",
-        "important_field": ""
+        "Null": "NO"
       }
     },
     "items": {
@@ -27,12 +51,35 @@
       },
       "name": {
         "Type": "varchar(100)",
-        "Null": "NO",
-        "important_field": ""
+        "Null": "NO"
       }
     },
     "items": {
       "transaction": "commodity unit id"
+    }
+  },
+  "groups": {
+    "fields": {
+      "id": {
+        "Type": "mediumint(8) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "name": {
+        "Type": "varchar(20)",
+        "Null": "NO"
+      },
+      "description": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      },
+      "group_id": {
+        "Type": "mediumint(8) unsigned"
+      }
+    },
+    "items": {
+      "groups": "group_id"
     }
   },
   "invoice": {
@@ -44,8 +91,7 @@
         "Extra": "auto_increment"
       },
       "organisation id": {
-        "Type": "bigint(20) unsigned",
-        "important_field": ""
+        "Type": "bigint(20) unsigned"
       },
       "auto generated status": {
         "Type": "bigint(20) unsigned"
@@ -62,11 +108,6 @@
     },
     "items": {
       "invoiced transaction": "invoice id"
-    },
-    "links": {
-      "Auto - Populate": "/extension_for_invoice/auto_generate/",
-      "Report": "/extension_for_invoice/report/",
-      "Auto - Email": "/extension_for_invoice/auto_email/"
     }
   },
   "invoiced transaction": {
@@ -88,6 +129,27 @@
       }
     }
   },
+  "login_attempts": {
+    "fields": {
+      "id": {
+        "Type": "int(11) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "ip_address": {
+        "Type": "varchar(45)",
+        "Null": "NO"
+      },
+      "login": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      },
+      "time": {
+        "Type": "int(11) unsigned"
+      }
+    }
+  },
   "organisation": {
     "fields": {
       "id": {
@@ -98,8 +160,7 @@
       },
       "name": {
         "Type": "varchar(100)",
-        "Null": "NO",
-        "important_field": ""
+        "Null": "NO"
       },
       "organisation type id": {
         "Type": "bigint(20) unsigned"
@@ -124,8 +185,7 @@
       },
       "name": {
         "Type": "varchar(100)",
-        "Null": "NO",
-        "important_field": ""
+        "Null": "NO"
       }
     },
     "items": {
@@ -142,8 +202,7 @@
       },
       "name": {
         "Type": "varchar(100)",
-        "Null": "NO",
-        "important_field": ""
+        "Null": "NO"
       },
       "pieces": {
         "Type": "bigint(20) unsigned"
@@ -163,8 +222,7 @@
       },
       "name": {
         "Type": "varchar(100)",
-        "Null": "NO",
-        "important_field": ""
+        "Null": "NO"
       }
     },
     "items": {
@@ -177,8 +235,7 @@
         "Type": "bigint(20) unsigned",
         "Null": "NO",
         "Key": "PRI",
-        "Extra": "auto_increment",
-        "important_field": ""
+        "Extra": "auto_increment"
       },
       "transaction type id": {
         "Type": "bigint(20) unsigned"
@@ -227,12 +284,103 @@
       },
       "name": {
         "Type": "varchar(100)",
-        "Null": "NO",
-        "important_field": ""
+        "Null": "NO"
       }
     },
     "items": {
       "transaction": "transaction type id"
+    }
+  },
+  "users": {
+    "fields": {
+      "id": {
+        "Type": "int(11) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "ip_address": {
+        "Type": "varchar(45)",
+        "Null": "NO"
+      },
+      "username": {
+        "Type": "varchar(100)"
+      },
+      "password": {
+        "Type": "varchar(255)",
+        "Null": "NO"
+      },
+      "email": {
+        "Type": "varchar(254)",
+        "Null": "NO",
+        "Key": "UNI"
+      },
+      "activation_selector": {
+        "Type": "varchar(255)",
+        "Key": "UNI"
+      },
+      "activation_code": {
+        "Type": "varchar(255)"
+      },
+      "forgotten_password_selector": {
+        "Type": "varchar(255)",
+        "Key": "UNI"
+      },
+      "forgotten_password_code": {
+        "Type": "varchar(255)"
+      },
+      "forgotten_password_time": {
+        "Type": "int(11) unsigned"
+      },
+      "remember_selector": {
+        "Type": "varchar(255)",
+        "Key": "UNI"
+      },
+      "remember_code": {
+        "Type": "varchar(255)"
+      },
+      "created_on": {
+        "Type": "int(11) unsigned",
+        "Null": "NO"
+      },
+      "last_login": {
+        "Type": "int(11) unsigned"
+      },
+      "active": {
+        "Type": "tinyint(1) unsigned"
+      },
+      "first_name": {
+        "Type": "varchar(50)"
+      },
+      "last_name": {
+        "Type": "varchar(50)"
+      },
+      "company": {
+        "Type": "varchar(100)"
+      },
+      "phone": {
+        "Type": "varchar(20)"
+      }
+    }
+  },
+  "users_groups": {
+    "fields": {
+      "id": {
+        "Type": "int(11) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "user_id": {
+        "Type": "int(11) unsigned",
+        "Null": "NO",
+        "Key": "MUL"
+      },
+      "group_id": {
+        "Type": "mediumint(8) unsigned",
+        "Null": "NO",
+        "Key": "MUL"
+      }
     }
   }
 }

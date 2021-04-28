@@ -1,12 +1,12 @@
 {
-    "table_name": "commodity type",
-    "table_name_singular": "commodity type",
+    "table_name": "login_attempts",
+    "table_name_singular": "login_attempt",
     "table_exists": 1,
     "g_core_abilities": {
         "g_identity": {
-            "g_ability_name": "commodity type",
-            "g_ability_html_id": "commoditytype",
-            "g_from": "commodity type",
+            "g_ability_name": "login_attempts",
+            "g_ability_html_id": "login_attempts",
+            "g_from": "login_attempts",
             "g_where_haystack": "id",
             "g_where_haystack_type": "foreign_key",
             "data_endpoint": "fetch_for_record\/h_type\/primary_key\/h\/id\/n\/"
@@ -15,43 +15,50 @@
             "editable": {
                 "id": {
                     "col_deets": {
-                        "Type": "bigint(20) unsigned",
+                        "Type": "int(11) unsigned",
                         "Null": "NO",
                         "Key": "PRI",
                         "Extra": "auto_increment"
                     }
                 },
-                "name": {
+                "ip_address": {
+                    "col_deets": {
+                        "Type": "varchar(45)",
+                        "Null": "NO"
+                    }
+                },
+                "login": {
                     "col_deets": {
                         "Type": "varchar(100)",
                         "Null": "NO"
+                    }
+                },
+                "time": {
+                    "col_deets": {
+                        "Type": "int(11) unsigned"
                     }
                 }
             },
             "visible": {
                 "id": {
-                    "Type": "bigint(20) unsigned",
+                    "Type": "int(11) unsigned",
                     "Null": "NO",
                     "Key": "PRI",
                     "Extra": "auto_increment"
                 },
-                "name": {
+                "ip_address": {
+                    "Type": "varchar(45)",
+                    "Null": "NO"
+                },
+                "login": {
                     "Type": "varchar(100)",
                     "Null": "NO"
+                },
+                "time": {
+                    "Type": "int(11) unsigned"
                 }
             }
         }
     },
-    "g_parental_abilities": {
-        "transaction": {
-            "g_identity": {
-                "g_ability_name": "transaction (as commodity type id)",
-                "g_ability_html_id": "transactionascommoditytypeid",
-                "g_from": "transaction",
-                "g_where_haystack": "commodity type id",
-                "g_where_haystack_type": "foreign_key",
-                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/commodity type id\/n\/"
-            }
-        }
-    }
+    "g_parental_abilities": []
 }

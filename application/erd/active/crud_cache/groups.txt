@@ -1,0 +1,110 @@
+{
+    "table_name": "groups",
+    "table_name_singular": "group",
+    "table_exists": 1,
+    "g_core_abilities": {
+        "g_identity": {
+            "g_ability_name": "groups",
+            "g_ability_html_id": "groups",
+            "g_from": "groups",
+            "g_where_haystack": "id",
+            "g_where_haystack_type": "foreign_key",
+            "data_endpoint": "fetch_for_record\/h_type\/primary_key\/h\/id\/n\/"
+        },
+        "g_select": {
+            "editable": {
+                "id": {
+                    "col_deets": {
+                        "Type": "mediumint(8) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    }
+                },
+                "name": {
+                    "col_deets": {
+                        "Type": "varchar(20)",
+                        "Null": "NO"
+                    }
+                },
+                "description": {
+                    "col_deets": {
+                        "Type": "varchar(100)",
+                        "Null": "NO"
+                    }
+                },
+                "group_id": {
+                    "col_deets": {
+                        "Type": "mediumint(8) unsigned"
+                    },
+                    "rels": {
+                        "table": "groups",
+                        "rows": {
+                            "groups - lineage": "",
+                            "id": {
+                                "Type": "mediumint(8) unsigned",
+                                "Null": "NO",
+                                "Key": "PRI",
+                                "Extra": "auto_increment"
+                            },
+                            "name": {
+                                "Type": "varchar(20)",
+                                "Null": "NO"
+                            },
+                            "description": {
+                                "Type": "varchar(100)",
+                                "Null": "NO"
+                            },
+                            "groups - id": {
+                                "Type": "mediumint(8) unsigned",
+                                "Null": "NO",
+                                "Key": "PRI",
+                                "Extra": "auto_increment"
+                            },
+                            "groups - name": {
+                                "Type": "varchar(20)",
+                                "Null": "NO"
+                            },
+                            "groups - description": {
+                                "Type": "varchar(100)",
+                                "Null": "NO"
+                            },
+                            "groups - group_id": {
+                                "Type": "mediumint(8) unsigned"
+                            }
+                        }
+                    }
+                }
+            },
+            "visible": {
+                "groups - lineage": "",
+                "id": {
+                    "Type": "mediumint(8) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
+                "name": {
+                    "Type": "varchar(20)",
+                    "Null": "NO"
+                },
+                "description": {
+                    "Type": "varchar(100)",
+                    "Null": "NO"
+                }
+            }
+        }
+    },
+    "g_parental_abilities": {
+        "groups": {
+            "g_identity": {
+                "g_ability_name": "groups (as group_id)",
+                "g_ability_html_id": "groupsasgroup_id",
+                "g_from": "groups",
+                "g_where_haystack": "group_id",
+                "g_where_haystack_type": "foreign_key",
+                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/group_id\/n\/"
+            }
+        }
+    }
+}
