@@ -1,12 +1,12 @@
 {
-    "table_name": "services",
-    "table_name_singular": "service",
+    "table_name": "commodity type",
+    "table_name_singular": "commodity type",
     "table_exists": 1,
     "g_core_abilities": {
         "g_identity": {
-            "g_ability_name": "services",
-            "g_ability_html_id": "services",
-            "g_from": "services",
+            "g_ability_name": "commodity type",
+            "g_ability_html_id": "commoditytype",
+            "g_from": "commodity type",
             "g_where_haystack": "id",
             "g_where_haystack_type": "foreign_key",
             "data_endpoint": "fetch_for_record\/h_type\/primary_key\/h\/id\/n\/"
@@ -24,8 +24,7 @@
                 "name": {
                     "col_deets": {
                         "Type": "varchar(100)",
-                        "Null": "NO",
-                        "important_field": ""
+                        "Null": "NO"
                     }
                 }
             },
@@ -38,8 +37,7 @@
                 },
                 "name": {
                     "Type": "varchar(100)",
-                    "Null": "NO",
-                    "important_field": ""
+                    "Null": "NO"
                 }
             }
         }
@@ -47,12 +45,12 @@
     "g_parental_abilities": {
         "transaction": {
             "g_identity": {
-                "g_ability_name": "transaction (as services id)",
-                "g_ability_html_id": "transactionasservicesid",
+                "g_ability_name": "transaction (as commodity type id)",
+                "g_ability_html_id": "transactionascommoditytypeid",
                 "g_from": "transaction",
-                "g_where_haystack": "services id",
+                "g_where_haystack": "commodity type id",
                 "g_where_haystack_type": "foreign_key",
-                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/services id\/n\/"
+                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/commodity type id\/n\/"
             }
         }
     }

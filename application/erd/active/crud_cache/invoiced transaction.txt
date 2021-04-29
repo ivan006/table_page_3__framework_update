@@ -37,7 +37,8 @@
                                 "Type": "bigint(20) unsigned",
                                 "Null": "NO",
                                 "Key": "PRI",
-                                "Extra": "auto_increment"
+                                "Extra": "auto_increment",
+                                "important_field": ""
                             },
                             "quantity": {
                                 "Type": "bigint(20) unsigned"
@@ -61,7 +62,8 @@
                             },
                             "commodity type - name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO"
+                                "Null": "NO",
+                                "important_field": ""
                             },
                             "commodity unit - id": {
                                 "Type": "bigint(20) unsigned",
@@ -71,7 +73,8 @@
                             },
                             "commodity unit - name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO"
+                                "Null": "NO",
+                                "important_field": ""
                             },
                             "organisation - id": {
                                 "Type": "bigint(20) unsigned",
@@ -81,14 +84,11 @@
                             },
                             "organisation - name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO"
+                                "Null": "NO",
+                                "important_field": ""
                             },
                             "organisation - organisation type id": {
                                 "Type": "bigint(20) unsigned"
-                            },
-                            "organisation - email": {
-                                "Type": "varchar(100)",
-                                "Null": "NO"
                             },
                             "products - id": {
                                 "Type": "bigint(20) unsigned",
@@ -98,7 +98,8 @@
                             },
                             "products - name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO"
+                                "Null": "NO",
+                                "important_field": ""
                             },
                             "products - pieces": {
                                 "Type": "bigint(20) unsigned"
@@ -111,7 +112,8 @@
                             },
                             "services - name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO"
+                                "Null": "NO",
+                                "important_field": ""
                             },
                             "transaction type - id": {
                                 "Type": "bigint(20) unsigned",
@@ -121,7 +123,8 @@
                             },
                             "transaction type - name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO"
+                                "Null": "NO",
+                                "important_field": ""
                             }
                         }
                     }
@@ -145,12 +148,6 @@
                             "auto sent status": {
                                 "Type": "bigint(20) unsigned"
                             },
-                            "date": {
-                                "Type": "date"
-                            },
-                            "total": {
-                                "Type": "bigint(20) unsigned"
-                            },
                             "organisation - id": {
                                 "Type": "bigint(20) unsigned",
                                 "Null": "NO",
@@ -159,14 +156,11 @@
                             },
                             "organisation - name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO"
+                                "Null": "NO",
+                                "important_field": ""
                             },
                             "organisation - organisation type id": {
                                 "Type": "bigint(20) unsigned"
-                            },
-                            "organisation - email": {
-                                "Type": "varchar(100)",
-                                "Null": "NO"
                             }
                         }
                     }
@@ -181,6 +175,17 @@
                 },
                 "outstanding": {
                     "Type": "bigint(20) unsigned"
+                },
+                "invoice - organisation id": {
+                    "Type": "bigint(20) unsigned",
+                    "important_field": ""
+                },
+                "transaction - id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment",
+                    "important_field": ""
                 }
             }
         }

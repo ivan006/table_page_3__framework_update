@@ -1,12 +1,12 @@
 {
-    "table_name": "products",
-    "table_name_singular": "product",
+    "table_name": "commodity unit",
+    "table_name_singular": "commodity unit",
     "table_exists": 1,
     "g_core_abilities": {
         "g_identity": {
-            "g_ability_name": "products",
-            "g_ability_html_id": "products",
-            "g_from": "products",
+            "g_ability_name": "commodity unit",
+            "g_ability_html_id": "commodityunit",
+            "g_from": "commodity unit",
             "g_where_haystack": "id",
             "g_where_haystack_type": "foreign_key",
             "data_endpoint": "fetch_for_record\/h_type\/primary_key\/h\/id\/n\/"
@@ -24,13 +24,7 @@
                 "name": {
                     "col_deets": {
                         "Type": "varchar(100)",
-                        "Null": "NO",
-                        "important_field": ""
-                    }
-                },
-                "pieces": {
-                    "col_deets": {
-                        "Type": "bigint(20) unsigned"
+                        "Null": "NO"
                     }
                 }
             },
@@ -43,11 +37,7 @@
                 },
                 "name": {
                     "Type": "varchar(100)",
-                    "Null": "NO",
-                    "important_field": ""
-                },
-                "pieces": {
-                    "Type": "bigint(20) unsigned"
+                    "Null": "NO"
                 }
             }
         }
@@ -55,12 +45,12 @@
     "g_parental_abilities": {
         "transaction": {
             "g_identity": {
-                "g_ability_name": "transaction (as products id)",
-                "g_ability_html_id": "transactionasproductsid",
+                "g_ability_name": "transaction (as commodity unit id)",
+                "g_ability_html_id": "transactionascommodityunitid",
                 "g_from": "transaction",
-                "g_where_haystack": "products id",
+                "g_where_haystack": "commodity unit id",
                 "g_where_haystack_type": "foreign_key",
-                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/products id\/n\/"
+                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/commodity unit id\/n\/"
             }
         }
     }

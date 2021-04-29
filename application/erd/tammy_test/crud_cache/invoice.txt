@@ -2,9 +2,6 @@
     "table_name": "invoice",
     "table_name_singular": "invoice",
     "table_exists": 1,
-    "links": {
-        "Auto - Generate": "\/extension_for_invoice\/auto_generate\/"
-    },
     "g_core_abilities": {
         "g_identity": {
             "g_ability_name": "invoice",
@@ -26,8 +23,7 @@
                 },
                 "organisation id": {
                     "col_deets": {
-                        "Type": "bigint(20) unsigned",
-                        "important_field": ""
+                        "Type": "bigint(20) unsigned"
                     },
                     "rels": {
                         "table": "organisation",
@@ -40,8 +36,11 @@
                             },
                             "name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO",
-                                "important_field": ""
+                                "Null": "NO"
+                            },
+                            "email": {
+                                "Type": "varchar(100)",
+                                "Null": "NO"
                             },
                             "organisation type - id": {
                                 "Type": "bigint(20) unsigned",
@@ -51,8 +50,7 @@
                             },
                             "organisation type - name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO",
-                                "important_field": ""
+                                "Null": "NO"
                             }
                         }
                     }
@@ -63,6 +61,16 @@
                     }
                 },
                 "auto sent status": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned"
+                    }
+                },
+                "date": {
+                    "col_deets": {
+                        "Type": "date"
+                    }
+                },
+                "total": {
                     "col_deets": {
                         "Type": "bigint(20) unsigned"
                     }
@@ -81,10 +89,11 @@
                 "auto sent status": {
                     "Type": "bigint(20) unsigned"
                 },
-                "organisation - name": {
-                    "Type": "varchar(100)",
-                    "Null": "NO",
-                    "important_field": ""
+                "date": {
+                    "Type": "date"
+                },
+                "total": {
+                    "Type": "bigint(20) unsigned"
                 }
             }
         }

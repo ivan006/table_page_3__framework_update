@@ -24,7 +24,8 @@
                 "name": {
                     "col_deets": {
                         "Type": "varchar(100)",
-                        "Null": "NO"
+                        "Null": "NO",
+                        "important_field": ""
                     }
                 },
                 "pieces": {
@@ -42,7 +43,8 @@
                 },
                 "name": {
                     "Type": "varchar(100)",
-                    "Null": "NO"
+                    "Null": "NO",
+                    "important_field": ""
                 },
                 "pieces": {
                     "Type": "bigint(20) unsigned"

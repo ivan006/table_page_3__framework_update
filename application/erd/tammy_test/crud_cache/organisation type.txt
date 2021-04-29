@@ -1,12 +1,12 @@
 {
-    "table_name": "transaction type",
-    "table_name_singular": "transaction type",
+    "table_name": "organisation type",
+    "table_name_singular": "organisation type",
     "table_exists": 1,
     "g_core_abilities": {
         "g_identity": {
-            "g_ability_name": "transaction type",
-            "g_ability_html_id": "transactiontype",
-            "g_from": "transaction type",
+            "g_ability_name": "organisation type",
+            "g_ability_html_id": "organisationtype",
+            "g_from": "organisation type",
             "g_where_haystack": "id",
             "g_where_haystack_type": "foreign_key",
             "data_endpoint": "fetch_for_record\/h_type\/primary_key\/h\/id\/n\/"
@@ -24,8 +24,7 @@
                 "name": {
                     "col_deets": {
                         "Type": "varchar(100)",
-                        "Null": "NO",
-                        "important_field": ""
+                        "Null": "NO"
                     }
                 }
             },
@@ -38,21 +37,20 @@
                 },
                 "name": {
                     "Type": "varchar(100)",
-                    "Null": "NO",
-                    "important_field": ""
+                    "Null": "NO"
                 }
             }
         }
     },
     "g_parental_abilities": {
-        "transaction": {
+        "organisation": {
             "g_identity": {
-                "g_ability_name": "transaction (as transaction type id)",
-                "g_ability_html_id": "transactionastransactiontypeid",
-                "g_from": "transaction",
-                "g_where_haystack": "transaction type id",
+                "g_ability_name": "organisation (as organisation type id)",
+                "g_ability_html_id": "organisationasorganisationtypeid",
+                "g_from": "organisation",
+                "g_where_haystack": "organisation type id",
                 "g_where_haystack_type": "foreign_key",
-                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/transaction type id\/n\/"
+                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/organisation type id\/n\/"
             }
         }
     }

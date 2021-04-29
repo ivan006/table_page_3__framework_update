@@ -24,8 +24,7 @@
                 "name": {
                     "col_deets": {
                         "Type": "varchar(100)",
-                        "Null": "NO",
-                        "important_field": ""
+                        "Null": "NO"
                     }
                 },
                 "organisation type id": {
@@ -43,10 +42,15 @@
                             },
                             "name": {
                                 "Type": "varchar(100)",
-                                "Null": "NO",
-                                "important_field": ""
+                                "Null": "NO"
                             }
                         }
+                    }
+                },
+                "email": {
+                    "col_deets": {
+                        "Type": "varchar(100)",
+                        "Null": "NO"
                     }
                 }
             },
@@ -59,13 +63,11 @@
                 },
                 "name": {
                     "Type": "varchar(100)",
-                    "Null": "NO",
-                    "important_field": ""
+                    "Null": "NO"
                 },
-                "organisation type - name": {
+                "email": {
                     "Type": "varchar(100)",
-                    "Null": "NO",
-                    "important_field": ""
+                    "Null": "NO"
                 }
             }
         }
