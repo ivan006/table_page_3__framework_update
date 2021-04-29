@@ -1,0 +1,59 @@
+{
+    "table_name": "services",
+    "table_name_singular": "service",
+    "table_exists": 1,
+    "g_core_abilities": {
+        "g_identity": {
+            "g_ability_name": "services",
+            "g_ability_html_id": "services",
+            "g_from": "services",
+            "g_where_haystack": "id",
+            "g_where_haystack_type": "foreign_key",
+            "data_endpoint": "fetch_for_record\/h_type\/primary_key\/h\/id\/n\/"
+        },
+        "g_select": {
+            "editable": {
+                "id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    }
+                },
+                "name": {
+                    "col_deets": {
+                        "Type": "varchar(100)",
+                        "Null": "NO",
+                        "important_field": ""
+                    }
+                }
+            },
+            "visible": {
+                "id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
+                "name": {
+                    "Type": "varchar(100)",
+                    "Null": "NO",
+                    "important_field": ""
+                }
+            }
+        }
+    },
+    "g_parental_abilities": {
+        "invoice": {
+            "g_identity": {
+                "g_ability_name": "invoice (as services id)",
+                "g_ability_html_id": "invoiceasservicesid",
+                "g_from": "invoice",
+                "g_where_haystack": "services id",
+                "g_where_haystack_type": "foreign_key",
+                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/services id\/n\/"
+            }
+        }
+    }
+}

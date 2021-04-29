@@ -1,0 +1,126 @@
+{
+    "table_name": "statement",
+    "table_name_singular": "statement",
+    "table_exists": 1,
+    "links": {
+        "Auto - Populate": "\/extension_for_statement\/auto_generate\/",
+        "Report": "\/extension_for_statement\/report\/",
+        "Auto - Email": "\/extension_for_statement\/auto_email\/"
+    },
+    "g_core_abilities": {
+        "g_identity": {
+            "g_ability_name": "statement",
+            "g_ability_html_id": "statement",
+            "g_from": "statement",
+            "g_where_haystack": "id",
+            "g_where_haystack_type": "foreign_key",
+            "data_endpoint": "fetch_for_record\/h_type\/primary_key\/h\/id\/n\/"
+        },
+        "g_select": {
+            "editable": {
+                "id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    }
+                },
+                "organisation id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned",
+                        "important_field": ""
+                    },
+                    "rels": {
+                        "table": "organisation",
+                        "rows": {
+                            "id": {
+                                "Type": "bigint(20) unsigned",
+                                "Null": "NO",
+                                "Key": "PRI",
+                                "Extra": "auto_increment"
+                            },
+                            "name": {
+                                "Type": "varchar(100)",
+                                "Null": "NO",
+                                "important_field": ""
+                            },
+                            "email": {
+                                "Type": "varchar(100)",
+                                "Null": "NO"
+                            },
+                            "organisation type - id": {
+                                "Type": "bigint(20) unsigned",
+                                "Null": "NO",
+                                "Key": "PRI",
+                                "Extra": "auto_increment"
+                            },
+                            "organisation type - name": {
+                                "Type": "varchar(100)",
+                                "Null": "NO",
+                                "important_field": ""
+                            }
+                        }
+                    }
+                },
+                "auto generated status": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned"
+                    }
+                },
+                "auto sent status": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned"
+                    }
+                },
+                "date": {
+                    "col_deets": {
+                        "Type": "date"
+                    }
+                },
+                "total": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned"
+                    }
+                }
+            },
+            "visible": {
+                "id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
+                "auto generated status": {
+                    "Type": "bigint(20) unsigned"
+                },
+                "auto sent status": {
+                    "Type": "bigint(20) unsigned"
+                },
+                "date": {
+                    "Type": "date"
+                },
+                "total": {
+                    "Type": "bigint(20) unsigned"
+                },
+                "organisation - name": {
+                    "Type": "varchar(100)",
+                    "Null": "NO",
+                    "important_field": ""
+                }
+            }
+        }
+    },
+    "g_parental_abilities": {
+        "stated invoice": {
+            "g_identity": {
+                "g_ability_name": "stated invoice (as statement id)",
+                "g_ability_html_id": "statedinvoiceasstatementid",
+                "g_from": "stated invoice",
+                "g_where_haystack": "statement id",
+                "g_where_haystack_type": "foreign_key",
+                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/statement id\/n\/"
+            }
+        }
+    }
+}

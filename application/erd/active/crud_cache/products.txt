@@ -1,0 +1,67 @@
+{
+    "table_name": "products",
+    "table_name_singular": "product",
+    "table_exists": 1,
+    "g_core_abilities": {
+        "g_identity": {
+            "g_ability_name": "products",
+            "g_ability_html_id": "products",
+            "g_from": "products",
+            "g_where_haystack": "id",
+            "g_where_haystack_type": "foreign_key",
+            "data_endpoint": "fetch_for_record\/h_type\/primary_key\/h\/id\/n\/"
+        },
+        "g_select": {
+            "editable": {
+                "id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    }
+                },
+                "name": {
+                    "col_deets": {
+                        "Type": "varchar(100)",
+                        "Null": "NO",
+                        "important_field": ""
+                    }
+                },
+                "pieces": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned"
+                    }
+                }
+            },
+            "visible": {
+                "id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
+                "name": {
+                    "Type": "varchar(100)",
+                    "Null": "NO",
+                    "important_field": ""
+                },
+                "pieces": {
+                    "Type": "bigint(20) unsigned"
+                }
+            }
+        }
+    },
+    "g_parental_abilities": {
+        "invoice": {
+            "g_identity": {
+                "g_ability_name": "invoice (as products id)",
+                "g_ability_html_id": "invoiceasproductsid",
+                "g_from": "invoice",
+                "g_where_haystack": "products id",
+                "g_where_haystack_type": "foreign_key",
+                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/products id\/n\/"
+            }
+        }
+    }
+}
