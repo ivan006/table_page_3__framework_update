@@ -53,15 +53,15 @@
     </div>
     <table class="table">
       <tr>
-        <?php if (isset($data["invoice"][0])): ?>
-          <?php foreach ($data["invoice"][0] as $key => $value): ?>
+        <?php if (isset($data["statement"][0])): ?>
+          <?php foreach ($data["statement"][0] as $key => $value): ?>
             <th>
               <?php echo $key ?>
             </th>
           <?php endforeach; ?>
         <?php endif; ?>
       </tr>
-      <?php foreach ($data["invoice"] as $key => $value): ?>
+      <?php foreach ($data["statement"] as $key => $value): ?>
         <tr>
           <?php foreach ($value as $key2 => $value2): ?>
             <td>
@@ -75,7 +75,7 @@
     <div class="row">
       <div class="col-md-12 mt-5">
         <h2 class="text-center">
-          invoiced transactions
+          stated invoices
         </h2>
         <hr style="background-color: black; color: black; height: 1px;">
       </div>
@@ -83,15 +83,15 @@
 
     <table class="table">
       <tr>
-        <?php if (isset($data["invoiced_transactions"][0])): ?>
-          <?php foreach ($data["invoiced_transactions"][0] as $key => $value): ?>
+        <?php if (isset($data["stated_invoices"][0])): ?>
+          <?php foreach ($data["stated_invoices"][0] as $key => $value): ?>
             <th>
               <?php echo $key ?>
             </th>
           <?php endforeach; ?>
         <?php endif; ?>
       </tr>
-      <?php foreach ($data["invoiced_transactions"] as $key => $value): ?>
+      <?php foreach ($data["stated_invoices"] as $key => $value): ?>
         <tr>
           <?php foreach ($value as $key2 => $value2): ?>
             <td>

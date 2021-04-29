@@ -1,5 +1,5 @@
 <?php
-class Extension_for_invoice extends CI_Controller
+class Extension_for_statement extends CI_Controller
 {
 
 	public function __construct()
@@ -35,7 +35,7 @@ class Extension_for_invoice extends CI_Controller
 			show_404();
 		}
 
-		$table = "invoice";
+		$table = "statement";
 		$this->load->database();
 
 
@@ -61,16 +61,16 @@ class Extension_for_invoice extends CI_Controller
 
 
 		$query = $this->db;
-		$query = $query->select("SUM(transaction.price - transaction.paid) AS total_outstanding");
+		$query = $query->select("SUM(invoice.price - invoice.paid) AS total_outstanding");
 		$query = $query->from($table);
 		$query = $query->join(
-			"transaction",
-			"$table.`organisation id` =  transaction.`counterparty id`",
+			"invoice",
+			"$table.`organisation id` =  invoice.`counterparty id`",
 			"left"
 		);
 		$query = $query->where($table.".id", $id);
-		$query = $query->where("transaction.price >", "transaction.paid");
-		$query = $query->where("transaction.`transaction type id` =", "1");
+		$query = $query->where("invoice.price >", "invoice.paid");
+		$query = $query->where("invoice.`invoice type id` =", "1");
 		$query = $query->get();
 		if (count($query->result()) > 0) {
 			$total = $query->result_array();
@@ -80,18 +80,18 @@ class Extension_for_invoice extends CI_Controller
 		}
 
 		$query = $this->db;
-		$query = $query->select("transaction.price - transaction.paid AS outstanding");
-		$query = $query->select("transaction.id as 'transaction id'");
+		$query = $query->select("invoice.price - invoice.paid AS outstanding");
 		$query = $query->select("invoice.id as 'invoice id'");
+		$query = $query->select("statement.id as 'statement id'");
 		$query = $query->from($table);
 		$query = $query->join(
-			"transaction",
-			"$table.`organisation id` =  transaction.`counterparty id`",
+			"invoice",
+			"$table.`organisation id` =  invoice.`counterparty id`",
 			"left"
 		);
 		$query = $query->where($table.".id", $id);
-		$query = $query->where("transaction.price >", "transaction.paid");
-		$query = $query->where("transaction.`transaction type id` =", "1");
+		$query = $query->where("invoice.price >", "invoice.paid");
+		$query = $query->where("invoice.`invoice type id` =", "1");
 		$query = $query->get();
 		if (count($query->result()) > 0) {
 			$result = $query->result();
@@ -106,7 +106,7 @@ class Extension_for_invoice extends CI_Controller
 			}
 		}
 		$query = $this->db;
-		if ($query->insert_batch("`invoiced transaction`", $data)) {
+		if ($query->insert_batch("`stated invoice`", $data)) {
 		} else {
 			$data = array('responce' => 'error');
 		}
@@ -152,7 +152,7 @@ class Extension_for_invoice extends CI_Controller
 			show_404();
 		}
 
-		$table = "invoice";
+		$table = "statement";
 		$this->load->database();
 
 
@@ -162,12 +162,12 @@ class Extension_for_invoice extends CI_Controller
 			$query = $this->db;
 
 
-			// id 	outstanding 	transaction id 	invoice id
+			// id 	outstanding 	invoice id 	statement id
 			// $query = $query->select("*");
-			$query = $query->select("`$table`.`id` as 'invoice id'");
+			$query = $query->select("`$table`.`id` as 'statement id'");
 			$query = $query->select("`organisation`.`name` as 'customer'");
 			$query = $query->select("`$table`.`total` as 'total outstanding (ZAR)'");
-			$query = $query->select("`$table`.`date` as 'invoiced date'");
+			$query = $query->select("`$table`.`date` as 'stated date'");
 			$query = $query->from($table);
 			$query = $query->join(
 				"`organisation`",
@@ -180,7 +180,7 @@ class Extension_for_invoice extends CI_Controller
 
 			if (count($query->result()) > 0) {
 				// $result = (array) $query->row();
-				$invoice = $query->result_array();
+				$statement = $query->result_array();
 
 				// $result = $result["organisation id"];
 				// echo $result;
@@ -198,72 +198,72 @@ class Extension_for_invoice extends CI_Controller
 
 		if (1==1) {
 			$query = $this->db;
-			$query = $query->select("transaction.date as 'transaction date'");
+			$query = $query->select("invoice.date as 'invoice date'");
 			$query = $query->select("services.`name` as 'service'");
-			$query = $query->select("transaction.quantity as 'quantity'");
+			$query = $query->select("invoice.quantity as 'quantity'");
 			$query = $query->select("`commodity unit`.`name` as 'unit'");
-			$query = $query->select("transaction.price as 'price (ZAR)'");
-			$query = $query->select("transaction.price - `invoiced transaction`.outstanding as 'paid (ZAR)'");
-			$query = $query->select("`invoiced transaction`.outstanding AS 'outstanding (ZAR)'");
+			$query = $query->select("invoice.price as 'price (ZAR)'");
+			$query = $query->select("invoice.price - `stated invoice`.outstanding as 'paid (ZAR)'");
+			$query = $query->select("`stated invoice`.outstanding AS 'outstanding (ZAR)'");
 
-			$query = $query->from("`invoiced transaction`");
+			$query = $query->from("`stated invoice`");
 			$query = $query->join(
-				"`transaction`",
-				"transaction.`id` =  `invoiced transaction`.`transaction id`",
+				"`invoice`",
+				"invoice.`id` =  `stated invoice`.`invoice id`",
 				"left"
 			);
 			$query = $query->join(
 				"$table",
-				"$table.`id` =  `invoiced transaction`.`invoice id`",
+				"$table.`id` =  `stated invoice`.`statement id`",
 				"left"
 			);
 
 			$query = $query->join(
 				"`commodity type`",
-				"`transaction`.`commodity type id` =  `commodity type`.`id`",
+				"`invoice`.`commodity type id` =  `commodity type`.`id`",
 				"left"
 			);
 			$query = $query->join(
 				"`commodity unit`",
-				"`transaction`.`commodity unit id` =  `commodity unit`.`id`",
+				"`invoice`.`commodity unit id` =  `commodity unit`.`id`",
 				"left"
 			);
 			$query = $query->join(
 				"`organisation`",
-				"`transaction`.`counterparty id` =  `organisation`.`id`",
+				"`invoice`.`counterparty id` =  `organisation`.`id`",
 				"left"
 			);
 			$query = $query->join(
 				"`products`",
-				"`transaction`.`products id` =  `products`.`id`",
+				"`invoice`.`products id` =  `products`.`id`",
 				"left"
 			);
 			$query = $query->join(
 				"`services`",
-				"`transaction`.`services id` =  `services`.`id`",
+				"`invoice`.`services id` =  `services`.`id`",
 				"left"
 			);
 			$query = $query->where($table.".id", $id);
 			$query = $query->get();
 
 			if (count($query->result()) > 0) {
-				$invoiced_transactions = $query->result();
+				$stated_invoices = $query->result();
 			} else {
-				$invoiced_transactions = array();
+				$stated_invoices = array();
 			}
 		}
-		$invoice_0 = $invoice[0];
+		$statement_0 = $statement[0];
 
 		// header('Content-Type: application/json');
-		// echo json_encode($invoice_0, JSON_PRETTY_PRINT);
+		// echo json_encode($statement_0, JSON_PRETTY_PRINT);
 		// exit;
 		$data = array(
-			"invoice"=>$invoice,
-			"invoiced_transactions"=>$invoiced_transactions,
-			"title"=>"Invoice ".$invoice_0["invoiced date"]." for ".$invoice_0["customer"]." (ref: ".$invoice_0["invoice id"].")",
+			"statement"=>$statement,
+			"stated_invoices"=>$stated_invoices,
+			"title"=>"statement ".$statement_0["stated date"]." for ".$statement_0["customer"]." (ref: ".$statement_0["statement id"].")",
 			"back"=>urldecode($_GET["redirect"])
 		);
-		$this->load->view('extension_for_invoice/report_v', array(
+		$this->load->view('extension_for_statement/report_v', array(
 			"data"=>$data
 		));
 		return $data;
@@ -273,7 +273,7 @@ class Extension_for_invoice extends CI_Controller
 	public function auto_email($id = NULL)
 	{
 
-		$table = "invoice";
+		$table = "statement";
 		if (1==1) {
 			$query = $this->db;
 
@@ -311,7 +311,7 @@ class Extension_for_invoice extends CI_Controller
 		$message_data = $this->report($id);
 		// $message = $this->load->view($this->config->item('email_templates', 'ion_auth') . $this->config->item('email_forgot_password', 'ion_auth'), $data, TRUE);
 
-		$message = $this->load->view('extension_for_invoice/report_v', array(
+		$message = $this->load->view('extension_for_statement/report_v', array(
 			"data"=>$message_data
 		), TRUE);
 		// $message = '';
