@@ -81,16 +81,34 @@
             } else {
               $active = "";
             }
-            $value_1["dates"] = array_chunk($value_1["dates"],16);
+            $value_1["dates"] = array_chunk($value_1["dates"],16,true);
+
+        		// header('Content-Type: application/json');
+        		// echo json_encode($value_1["dates"], JSON_PRETTY_PRINT);
+        		// exit;
             ?>
             <div id="menu<?php echo $key ?>-<?php echo $key_1 ?>" class="container tab-pane <?php echo $active ?>"><br>
               <div class="row">
 
                 <?php foreach ($value_1["dates"] as $key_2 => $value_2): ?>
                   <div class="col-6">
-
                     <?php foreach ($value_2 as $key_3 => $value_3): ?>
-                      <div class="card" style="padding: 0 5px 0 5px; margin-bottom: 3px;"><?php echo $value_3 ?></div>
+                      <?php
+                      if ($value_3 == "unavail") {
+                        $colors = "bg-secondary text-white";
+                        $booked = " (Booked)";
+                      } else {
+                        $colors = "bg-success text-white";
+                        $booked = "";
+                      }
+                      ?>
+                      <div class="card <?php echo $colors ?>" style="padding: 0 5px 0 5px; margin-bottom: 3px;">
+                        <?php
+                        $date_pretty = date_format(date_create($key_3),"d (D)")
+                        ?>
+                        <?php echo $date_pretty ?>
+                        <?php echo $booked ?>
+                      </div>
 
                     <?php endforeach; ?>
                   </div>
