@@ -146,26 +146,6 @@
       "organisation": "organisation type id"
     }
   },
-  "products": {
-    "fields": {
-      "id": {
-        "Type": "bigint(20) unsigned",
-        "Null": "NO",
-        "Key": "PRI",
-        "Extra": "auto_increment"
-      },
-      "name": {
-        "Type": "varchar(100)",
-        "Null": "NO"
-      },
-      "pieces": {
-        "Type": "bigint(20) unsigned"
-      }
-    },
-    "items": {
-      "transaction": "products id"
-    }
-  },
   "services": {
     "fields": {
       "id": {
