@@ -40,10 +40,10 @@ class Erd_c extends CI_Controller
 		foreach (json_decode($data["erd"]) as $key => $value) {
 			$crud_cache = json_encode($this->table_page_lib->precalculated_table($key), JSON_PRETTY_PRINT);
 
-			if (file_exists(APPPATH."erd/".$this->CI->erd_lib->erd_path()."/crud_cache/$key.txt")) {
-				unlink(APPPATH."erd/".$this->CI->erd_lib->erd_path()."/crud_cache/$key.txt");
+			if (file_exists($this->erd_lib->erd_path()."/crud_cache/$key.txt")) {
+				unlink($this->erd_lib->erd_path()."/crud_cache/$key.txt");
 			}
-			file_put_contents(APPPATH."erd/".$this->CI->erd_lib->erd_path()."/crud_cache/$key.txt", $crud_cache);
+			file_put_contents($this->erd_lib->erd_path()."/crud_cache/$key.txt", $crud_cache);
 		}
 
 		// $data["abilities_cache"] = json_encode($this->table_page_lib->precalculated_table("objects"), JSON_PRETTY_PRINT);
