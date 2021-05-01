@@ -62,9 +62,10 @@
           </h1>
         </div>
         <div class="col-md-4 mt-5">
+
           <?php if ($type == "g_record_core_abilities"): ?>
-            <?php if (isset($data["links"])): ?>
-              <?php foreach ($data["links"] as $key => $value): ?>
+            <?php if (isset($data["record_links"])): ?>
+              <?php foreach ($data["record_links"] as $key => $value): ?>
                 <?php
                 $redirect = urlencode(
                   "/".ltrim(
@@ -77,6 +78,26 @@
                   <?php echo $key ?>
                 </a>
               <?php endforeach; ?>
+
+
+            <?php endif; ?>
+          <?php else: ?>
+            <?php if (isset($data["table_links"])): ?>
+              <?php foreach ($data["table_links"] as $key => $value): ?>
+                <?php
+                $redirect = urlencode(
+                  "/".ltrim(
+                    $_SERVER['PHP_SELF'],
+                    "/index.php"
+                  )
+                );
+                ?>
+                <a href="<?php echo $value ?>?redirect=<?php echo $redirect ?>" class="btn btn-sm btn-outline-primary">
+                  <?php echo $key ?>
+                </a>
+              <?php endforeach; ?>
+
+
             <?php endif; ?>
           <?php endif; ?>
         </div>

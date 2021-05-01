@@ -978,8 +978,11 @@ class Table_page_lib
 		$erd = file_get_contents($erd_path);
 		$erd = json_decode($erd, true);
 
-		if (isset($erd[$table]["links"])) {
-			$data["links"] = $erd[$table]["links"];
+		if (isset($erd[$table]["record_links"])) {
+			$data["record_links"] = $erd[$table]["record_links"];
+		}
+		if (isset($erd[$table]["table_links"])) {
+			$data["table_links"] = $erd[$table]["table_links"];
 		}
 
 		$g_core_abilities = $this->precalculated_relatives("overview", $erd, $table, null, "");
@@ -999,7 +1002,7 @@ class Table_page_lib
 		return $data;
 	}
 
-	public function postcalculated_table($table, $record_id)
+	public function postcalculated_table_for_record($table, $record_id)
 	{
 
 		if (file_exists($this->CI->erd_lib->erd_path()."/crud_cache/$table.txt")) {
@@ -1065,7 +1068,7 @@ class Table_page_lib
 
 
 
-	public function table_abilities_2($table)
+	public function postcalculated_table_for_table($table)
 	{
 		if (file_exists($this->CI->erd_lib->erd_path()."/crud_cache/$table.txt")) {
 			$data = file_get_contents($this->CI->erd_lib->erd_path()."/crud_cache/$table.txt");

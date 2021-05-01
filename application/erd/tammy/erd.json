@@ -63,7 +63,7 @@
     "items": {
       "stated invoice": "statement id"
     },
-    "links": {
+    "record_links": {
       "Auto - Populate": "/extension_for_statement/auto_generate/",
       "Report": "/extension_for_statement/report/",
       "Auto - Email": "/extension_for_statement/auto_email/"

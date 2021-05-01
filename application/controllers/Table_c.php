@@ -45,7 +45,10 @@ class Table_c extends CI_Controller
 
 
 		// $data = $this->table_page_lib->table_abilities($table);
-		$data = $this->table_page_lib->table_abilities_2($table);
+		$data = $this->table_page_lib->postcalculated_table_for_table($table);
+		// header('Content-Type: application/json');
+		// echo json_encode($data, JSON_PRETTY_PRINT);
+		// exit;
 
 		$permisssion_options = array(
 			"owner" => array(

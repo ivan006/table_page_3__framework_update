@@ -31,11 +31,14 @@ class Record_c extends CI_Controller
 		}
 
 		// $data = $this->table_page_lib->record_abilities($table, $record_id);
-		$data = $this->table_page_lib->postcalculated_table($table, $record_id);
+		$data = $this->table_page_lib->postcalculated_table_for_record($table, $record_id);
+		// header('Content-Type: application/json');
+		// echo json_encode($data, JSON_PRETTY_PRINT);
+		// exit;
 
 
 
-		
+
 
 		$permisssion_options = array(
 			"owner" => array(
