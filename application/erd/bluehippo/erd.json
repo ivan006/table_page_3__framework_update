@@ -1,5 +1,5 @@
 {
-  "commodity type": {
+  "bh packages": {
     "fields": {
       "id": {
         "Type": "bigint(20) unsigned",
@@ -7,66 +7,13 @@
         "Key": "PRI",
         "Extra": "auto_increment"
       },
-      "name": {
-        "Type": "varchar(100)",
-        "Null": "NO"
-      }
-    },
-    "items": {
-      "transaction": "commodity type id"
-    }
-  },
-  "commodity unit": {
-    "fields": {
-      "id": {
-        "Type": "bigint(20) unsigned",
-        "Null": "NO",
-        "Key": "PRI",
-        "Extra": "auto_increment"
-      },
-      "name": {
-        "Type": "varchar(100)",
-        "Null": "NO"
-      }
-    },
-    "items": {
-      "transaction": "commodity unit id"
-    }
-  },
-  "groups": {
-    "fields": {
-      "id": {
-        "Type": "mediumint(8) unsigned",
-        "Null": "NO",
-        "Key": "PRI",
-        "Extra": "auto_increment"
-      },
-      "name": {
-        "Type": "varchar(20)",
-        "Null": "NO"
-      },
-      "description": {
+      "customer name": {
         "Type": "varchar(100)",
         "Null": "NO"
       },
-      "group_id": {
-        "Type": "mediumint(8) unsigned"
-      }
-    },
-    "items": {
-      "groups": "group_id"
-    }
-  },
-  "invoice": {
-    "fields": {
-      "id": {
-        "Type": "bigint(20) unsigned",
-        "Null": "NO",
-        "Key": "PRI",
-        "Extra": "auto_increment"
-      },
-      "organisation id": {
-        "Type": "bigint(20) unsigned"
+      "email": {
+        "Type": "varchar(100)",
+        "Null": "NO"
       },
       "auto generated status": {
         "Type": "bigint(20) unsigned"
@@ -82,29 +29,13 @@
       }
     },
     "items": {
-      "invoiced transaction": "invoice id"
+      "bh transactions": "package id"
+    },
+    "table_links": {
+      "Form": "/extension_for_bh_packages/form/"
     }
   },
-  "invoiced transaction": {
-    "fields": {
-      "id": {
-        "Type": "bigint(20) unsigned",
-        "Null": "NO",
-        "Key": "PRI",
-        "Extra": "auto_increment"
-      },
-      "outstanding": {
-        "Type": "bigint(20) unsigned"
-      },
-      "transaction id": {
-        "Type": "bigint(20) unsigned"
-      },
-      "invoice id": {
-        "Type": "bigint(20) unsigned"
-      }
-    }
-  },
-  "organisation": {
+  "bh services": {
     "fields": {
       "id": {
         "Type": "bigint(20) unsigned",
@@ -114,82 +45,29 @@
       },
       "name": {
         "Type": "varchar(100)",
-        "Null": "NO"
-      },
-      "organisation type id": {
-        "Type": "bigint(20) unsigned"
-      },
-      "email": {
-        "Type": "varchar(100)",
-        "Null": "NO"
+        "Null": "NO",
+        "important_field": ""
       }
     },
     "items": {
-      "transaction": "counterparty id",
-      "invoice": "organisation id"
+      "bh transactions": "services id"
     }
   },
-  "organisation type": {
+  "bh transactions": {
     "fields": {
       "id": {
         "Type": "bigint(20) unsigned",
         "Null": "NO",
         "Key": "PRI",
         "Extra": "auto_increment"
-      },
-      "name": {
-        "Type": "varchar(100)",
-        "Null": "NO"
-      }
-    },
-    "items": {
-      "organisation": "organisation type id"
-    }
-  },
-  "services": {
-    "fields": {
-      "id": {
-        "Type": "bigint(20) unsigned",
-        "Null": "NO",
-        "Key": "PRI",
-        "Extra": "auto_increment"
-      },
-      "name": {
-        "Type": "varchar(100)",
-        "Null": "NO"
-      }
-    },
-    "items": {
-      "transaction": "services id"
-    }
-  },
-  "transaction": {
-    "fields": {
-      "id": {
-        "Type": "bigint(20) unsigned",
-        "Null": "NO",
-        "Key": "PRI",
-        "Extra": "auto_increment"
-      },
-      "transaction type id": {
-        "Type": "bigint(20) unsigned"
-      },
-      "commodity type id": {
-        "Type": "bigint(20) unsigned"
       },
       "services id": {
         "Type": "bigint(20) unsigned"
       },
-      "products id": {
+      "package id": {
         "Type": "bigint(20) unsigned"
       },
-      "commodity unit id": {
-        "Type": "bigint(20) unsigned"
-      },
-      "quantity": {
-        "Type": "bigint(20) unsigned"
-      },
-      "counterparty id": {
+      "quantity (days)": {
         "Type": "bigint(20) unsigned"
       },
       "date": {
@@ -198,31 +76,7 @@
       "price": {
         "Type": "bigint(20)",
         "Null": "NO"
-      },
-      "paid": {
-        "Type": "bigint(20)",
-        "Null": "NO"
       }
-    },
-    "items": {
-      "invoiced transaction": "transaction id"
     }
-  },
-  "transaction type": {
-    "fields": {
-      "id": {
-        "Type": "bigint(20) unsigned",
-        "Null": "NO",
-        "Key": "PRI",
-        "Extra": "auto_increment"
-      },
-      "name": {
-        "Type": "varchar(100)",
-        "Null": "NO"
-      }
-    },
-    "items": {
-      "transaction": "transaction type id"
-    }
-  },
+  }
 }
