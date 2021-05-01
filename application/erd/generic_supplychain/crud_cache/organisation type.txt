@@ -1,0 +1,57 @@
+{
+    "table_name": "organisation type",
+    "table_name_singular": "organisation type",
+    "table_exists": 1,
+    "g_core_abilities": {
+        "g_identity": {
+            "g_ability_name": "organisation type",
+            "g_ability_html_id": "organisationtype",
+            "g_from": "organisation type",
+            "g_where_haystack": "id",
+            "g_where_haystack_type": "foreign_key",
+            "data_endpoint": "fetch_for_record\/h_type\/primary_key\/h\/id\/n\/"
+        },
+        "g_select": {
+            "editable": {
+                "id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    }
+                },
+                "name": {
+                    "col_deets": {
+                        "Type": "varchar(100)",
+                        "Null": "NO"
+                    }
+                }
+            },
+            "visible": {
+                "id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
+                "name": {
+                    "Type": "varchar(100)",
+                    "Null": "NO"
+                }
+            }
+        }
+    },
+    "g_parental_abilities": {
+        "organisation": {
+            "g_identity": {
+                "g_ability_name": "organisation (as organisation type id)",
+                "g_ability_html_id": "organisationasorganisationtypeid",
+                "g_from": "organisation",
+                "g_where_haystack": "organisation type id",
+                "g_where_haystack_type": "foreign_key",
+                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/organisation type id\/n\/"
+            }
+        }
+    }
+}

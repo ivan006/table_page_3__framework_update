@@ -1,0 +1,97 @@
+{
+    "table_name": "organisation",
+    "table_name_singular": "organisation",
+    "table_exists": 1,
+    "g_core_abilities": {
+        "g_identity": {
+            "g_ability_name": "organisation",
+            "g_ability_html_id": "organisation",
+            "g_from": "organisation",
+            "g_where_haystack": "id",
+            "g_where_haystack_type": "foreign_key",
+            "data_endpoint": "fetch_for_record\/h_type\/primary_key\/h\/id\/n\/"
+        },
+        "g_select": {
+            "editable": {
+                "id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    }
+                },
+                "name": {
+                    "col_deets": {
+                        "Type": "varchar(100)",
+                        "Null": "NO"
+                    }
+                },
+                "organisation type id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned"
+                    },
+                    "rels": {
+                        "table": "organisation type",
+                        "rows": {
+                            "id": {
+                                "Type": "bigint(20) unsigned",
+                                "Null": "NO",
+                                "Key": "PRI",
+                                "Extra": "auto_increment"
+                            },
+                            "name": {
+                                "Type": "varchar(100)",
+                                "Null": "NO"
+                            }
+                        }
+                    }
+                },
+                "email": {
+                    "col_deets": {
+                        "Type": "varchar(100)",
+                        "Null": "NO"
+                    }
+                }
+            },
+            "visible": {
+                "id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
+                "name": {
+                    "Type": "varchar(100)",
+                    "Null": "NO"
+                },
+                "email": {
+                    "Type": "varchar(100)",
+                    "Null": "NO"
+                }
+            }
+        }
+    },
+    "g_parental_abilities": {
+        "transaction": {
+            "g_identity": {
+                "g_ability_name": "transaction (as counterparty id)",
+                "g_ability_html_id": "transactionascounterpartyid",
+                "g_from": "transaction",
+                "g_where_haystack": "counterparty id",
+                "g_where_haystack_type": "foreign_key",
+                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/counterparty id\/n\/"
+            }
+        },
+        "invoice": {
+            "g_identity": {
+                "g_ability_name": "invoice (as organisation id)",
+                "g_ability_html_id": "invoiceasorganisationid",
+                "g_from": "invoice",
+                "g_where_haystack": "organisation id",
+                "g_where_haystack_type": "foreign_key",
+                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/organisation id\/n\/"
+            }
+        }
+    }
+}

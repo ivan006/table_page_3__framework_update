@@ -1,0 +1,74 @@
+{
+    "table_name": "_activity_log",
+    "table_name_singular": "_activity_log",
+    "table_exists": 1,
+    "g_core_abilities": {
+        "g_identity": {
+            "g_ability_name": "_activity_log",
+            "g_ability_html_id": "_activity_log",
+            "g_from": "_activity_log",
+            "g_where_haystack": "id",
+            "g_where_haystack_type": "foreign_key",
+            "data_endpoint": "fetch_for_record\/h_type\/primary_key\/h\/id\/n\/"
+        },
+        "g_select": {
+            "editable": {
+                "record_table_and_id": {
+                    "col_deets": {
+                        "Type": "varchar(255)",
+                        "Null": "NO",
+                        "Key": "PRI"
+                    }
+                },
+                "timestamp": {
+                    "col_deets": {
+                        "Type": "datetime",
+                        "Null": "NO"
+                    }
+                },
+                "owner": {
+                    "col_deets": {
+                        "Type": "int(11)",
+                        "Null": "NO"
+                    }
+                },
+                "editability": {
+                    "col_deets": {
+                        "Type": "int(11)",
+                        "Null": "NO"
+                    }
+                },
+                "visibility": {
+                    "col_deets": {
+                        "Type": "int(11)",
+                        "Null": "NO"
+                    }
+                }
+            },
+            "visible": {
+                "record_table_and_id": {
+                    "Type": "varchar(255)",
+                    "Null": "NO",
+                    "Key": "PRI"
+                },
+                "timestamp": {
+                    "Type": "datetime",
+                    "Null": "NO"
+                },
+                "owner": {
+                    "Type": "int(11)",
+                    "Null": "NO"
+                },
+                "editability": {
+                    "Type": "int(11)",
+                    "Null": "NO"
+                },
+                "visibility": {
+                    "Type": "int(11)",
+                    "Null": "NO"
+                }
+            }
+        }
+    },
+    "g_parental_abilities": []
+}
