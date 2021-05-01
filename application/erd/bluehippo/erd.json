@@ -51,6 +51,9 @@
     },
     "items": {
       "bh transactions": "services id"
+    },
+    "table_links": {
+      "Report": "/extension_for_bh_services/report/"
     }
   },
   "bh transactions": {
