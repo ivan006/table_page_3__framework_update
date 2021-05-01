@@ -74,7 +74,7 @@ class Table_page_lib
 		// edit me start 2
 
 		if (1==1) {
-			$erd_two_path = APPPATH.'erd/active/erd.json';
+			$erd_two_path = $this->CI->erd_lib->erd_path().'/erd.json';
 			$erd_two = file_get_contents($erd_two_path);
 			$erd_two = json_decode($erd_two, true);
 
@@ -171,7 +171,7 @@ class Table_page_lib
 
 		// $posts = $this->CI->db->where($where["haystack"], $where["needle"])->get($table)->result_array();
 
-		$erd_path = APPPATH.'erd/active/erd.json';
+		$erd_path = $this->CI->erd_lib->erd_path().'/erd.json';
 		$erd = file_get_contents($erd_path);
 		$erd = json_decode($erd, true);
 
@@ -353,7 +353,7 @@ class Table_page_lib
 
 	public function database_api()
 	{
-		$erd_path = APPPATH.'erd/active/erd.json';
+		$erd_path = $this->CI->erd_lib->erd_path().'/erd.json';
 		$rows = file_get_contents($erd_path);
 		$rows = json_decode($rows, true);
 
@@ -974,7 +974,7 @@ class Table_page_lib
 			$data["table_exists"] = 0;
 		}
 
-		$erd_path = APPPATH.'erd/active/erd.json';
+		$erd_path = $this->CI->erd_lib->erd_path().'/erd.json';
 		$erd = file_get_contents($erd_path);
 		$erd = json_decode($erd, true);
 
@@ -1002,8 +1002,8 @@ class Table_page_lib
 	public function postcalculated_table($table, $record_id)
 	{
 
-		if (file_exists("application/erd/active/crud_cache/$table.txt")) {
-			$data = file_get_contents("application/erd/active/crud_cache/$table.txt");
+		if (file_exists($this->CI->erd_lib->erd_path()."/crud_cache/$table.txt")) {
+			$data = file_get_contents($this->CI->erd_lib->erd_path()."/crud_cache/$table.txt");
 			$data = json_decode($data, true);
 			$data["record_id"] = $record_id;
 			$data["title"] = $data["table_name_singular"]." ".$record_id;
@@ -1021,7 +1021,7 @@ class Table_page_lib
 				$new_endpoint = $iteration_result["g_identity"]["data_endpoint"].$record_id;
 				$iteration_result["g_identity"]["data_endpoint"] = $new_endpoint;
 
-				$relation = file_get_contents("application/erd/active/crud_cache/$key.txt");
+				$relation = file_get_contents($this->CI->erd_lib->erd_path()."/crud_cache/$key.txt");
 				$relation = json_decode($relation, true);
 				$relation = $relation["g_core_abilities"]["g_select"];
 
@@ -1067,8 +1067,8 @@ class Table_page_lib
 
 	public function table_abilities_2($table)
 	{
-		if (file_exists("application/erd/active/crud_cache/$table.txt")) {
-			$data = file_get_contents("application/erd/active/crud_cache/$table.txt");
+		if (file_exists($this->CI->erd_lib->erd_path()."/crud_cache/$table.txt")) {
+			$data = file_get_contents($this->CI->erd_lib->erd_path()."/crud_cache/$table.txt");
 			$data = json_decode($data, true);
 			$data["title"] = $data["table_name"];
 			$data["g_core_abilities"]["g_identity"]["data_endpoint"] = "fetch";

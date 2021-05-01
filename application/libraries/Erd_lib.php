@@ -15,7 +15,8 @@ class Erd_lib
 
 	function erd_to_db()
 	{
-		$erd_two_path = APPPATH.'erd/active/erd.json';
+
+		$erd_two_path = APPPATH.'erd/'.$this->erd_path().'/erd.json';
 		// include($erd_two_path);
 		$erd_two = file_get_contents($erd_two_path);
 		$erd_two = json_decode($erd_two, true);
@@ -93,7 +94,7 @@ class Erd_lib
 
 	function erd()
 	{
-		$one_path = APPPATH.'erd/active/erd.json';
+		$one_path = APPPATH.'erd/'.$this->erd_path().'/erd.json';
 		// include($one_path);
 		$one = file_get_contents($one_path);
 		$one = json_decode($one, true);
@@ -107,6 +108,19 @@ class Erd_lib
 
 
 		return $one;
+	}
+
+	function erd_path()
+	{
+		$one_path = APPPATH.'erd/active.json';
+		$one = file_get_contents($one_path);
+		$one = json_decode($one, true);
+		$one = $one[0];
+
+		// $one_path = APPPATH.'erd/active.json';
+		$one_path = APPPATH."erd/$one";
+
+		return $one_path;
 	}
 
 	function diff()
@@ -134,7 +148,7 @@ class Erd_lib
 
 	function erd_two_old()
 	{
-		$one_path = APPPATH.'erd/active/one.json';
+		$one_path = APPPATH."erd/".$this->erd_path()."/one.json";
 		// include($one_path);
 		$one = file_get_contents($one_path);
 		$one = json_decode($one, true);
@@ -267,7 +281,7 @@ class Erd_lib
 
 	function model_two()
 	{
-		// $one_path = APPPATH.'erd/active/one.json';
+		// $one_path = APPPATH."erd/".$this->erd_path()."/one.json";
 		// $one = file_get_contents($one_path);
 		// $one = json_decode($one, true);
 		$one = '{

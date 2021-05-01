@@ -11,6 +11,7 @@ class Database_c extends CI_Controller
 		// $this->load->model('trip');
 		// $this->load->library('../modules/trips/controllers/table_page_lib');
 		$this->load->library('table_page_lib');
+		$this->load->library('erd_lib');
 
 
 		$this->load->database();
@@ -31,7 +32,7 @@ class Database_c extends CI_Controller
 
 		$data['tables'] = $this->table_page_lib->database_api();
 
-		
+
 
 
 		$data["table_details"]["cols"]["visible"] = array("name"=>array());
