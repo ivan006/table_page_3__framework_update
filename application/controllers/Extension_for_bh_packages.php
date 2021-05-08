@@ -75,9 +75,17 @@ class Extension_for_bh_packages extends CI_Controller
 				foreach ($_POST["services"] as $key => $value) {
 
 					if ($value["quantity"] != "" & $value["quantity"] > 0 &  $value["date"] != "") {
+						// if ($key == 2) {
+						// 	// code...
+						// 	$number_of_double_bookings = $this->number_of_double_bookings($key, $value);
+						// 	header('Content-Type: application/json');
+						// 	echo $number_of_double_bookings;
+						// 	exit;
+						// }
 						if ($this->number_of_double_bookings($key, $value) > 0) {
 							// code...
 							$_POST["services"][$key]["validation"] = "no";
+							// echo 123 .$key;
 						} else {
 							// code...
 							$_POST["services"][$key]["validation"] = "yes";
@@ -111,11 +119,11 @@ class Extension_for_bh_packages extends CI_Controller
 			$existing_end_date = "DATE_ADD(`bh transactions`.`date`, INTERVAL `bh transactions`.`quantity (days)` DAY)";
 
 			$query = $this->db;
-			// $query = $query->select("*");
-			$query = $query->select("$existing_start_date");
-			$query = $query->select("$existing_end_date");
+			$query = $query->select("*");
+			// $query = $query->select("$existing_start_date");
+			// $query = $query->select("$existing_end_date");
 			$query = $query->from("`bh transactions`");
-			$query = $query->where("`services id` =", $key);
+			$query = $query->where("`services id` =", "'$key'");
 			$query = $query->group_start();
 			$query = $query->where("$existing_start_date <=", "'$new_check_in'")->where("'$new_check_in' <", "$existing_end_date");
 			// can checkin on checkout but cant checkin on checkin
@@ -132,6 +140,7 @@ class Extension_for_bh_packages extends CI_Controller
 			$query = $query->where("$existing_start_date >=", "'$new_check_in'")->where("'$new_check_out' >=", "$existing_end_date");
 			$query = $query->group_end();
 			$query = $query->get();
+			$this->db->flush_cache();
 
 			// SELECT *
 			// FROM `bh transactions`
@@ -144,14 +153,16 @@ class Extension_for_bh_packages extends CI_Controller
 			// 2021\-05\-15
 			// 2021\-05\-13
 
-			// $query = $query->_compile_select();
-			// echo $query;
-			// exit;
+			// $query_compiled = $query->_compile_select();
+			// $result = $query_compiled;
 
 			$number_of_double_bookings = count($query->result());
-			return $number_of_double_bookings;
+			$result = $number_of_double_bookings;
+
 			// if (count($query->result()) > 0) {
-			// 	// $statement = $query->result_array();
+			// 	$result = $query->result_array();
+			// 	$result = $query_compiled;
+			// 	$result["inout"] = $key;
 			// 	// $responce_status = array('responce' => "error 1? $number_of_double_bookings");
 			// 	// header('Content-Type: application/json');
 			// 	// echo json_encode($responce_status, JSON_PRETTY_PRINT);
@@ -163,6 +174,7 @@ class Extension_for_bh_packages extends CI_Controller
 			// 	// echo json_encode($responce_status, JSON_PRETTY_PRINT);
 			// 	// exit;
 			// }
+			return $result;
 		}
 	}
 }
