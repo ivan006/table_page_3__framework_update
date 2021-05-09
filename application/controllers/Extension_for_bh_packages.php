@@ -108,7 +108,8 @@ class Extension_for_bh_packages extends CI_Controller
 
 		}
 
-
+		// header("Access-Control-Allow-Origin: https://briland.co.za");
+		// header('Access-Control-Allow-Origin: *');
 		$this->load->view('extendable_partials/bootstap4_header_v', array(
 			"title"=>"Services - Form"
 		));

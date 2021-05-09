@@ -23,6 +23,7 @@ function ifpost($var){
   }
 }
 ?>
+
 <br>
 
 <div class="container">
@@ -60,18 +61,18 @@ function ifpost($var){
           <?php endif; ?>
 
           <div class="row">
-            <div class="col-4">
+            <div class="col-md-4 ">
               <b>
                 <?php echo $value["name"] ?>
               </b>
             </div>
-            <div class="col-4">
+            <div class="col-md-4">
               <div class="form-group m-0">
                 <label for="">start date</label>
                 <input type="date" name="services[<?php echo $value['id'] ?>][date]" class="form-control" value="<?php echo ifpost(array("services", $value['id'], "date")); ?>">
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-md-4">
               <div class="form-group m-0">
                 <label for="">quantity (days)</label>
                 <input type="number" name="services[<?php echo $value['id'] ?>][quantity]" class="form-control" value="<?php echo ifpost(array("services", $value['id'], "quantity")); ?>">

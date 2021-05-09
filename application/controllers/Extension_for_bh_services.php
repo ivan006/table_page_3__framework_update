@@ -139,6 +139,7 @@ class Extension_for_bh_services extends CI_Controller
 		// header('Content-Type: application/json');
 		// echo json_encode($result, JSON_PRETTY_PRINT);
 		// exit;
+		
 		$this->load->view('extendable_partials/bootstap4_header_v', array(
 			"title"=>"Services - Report"
 		));
