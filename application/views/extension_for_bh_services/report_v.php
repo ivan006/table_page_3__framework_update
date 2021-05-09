@@ -70,7 +70,9 @@
             } else {
               $active = "";
             }
-            $value_1["dates"] = array_chunk($value_1["dates"],16,true);
+            // $value_1["dates"] = array_chunk($value_1["dates"],16,true);
+            $value_1["dates"] = $value_1["dates"];
+
 
         		// header('Content-Type: application/json');
         		// echo json_encode($value_1["dates"], JSON_PRETTY_PRINT);
@@ -79,31 +81,56 @@
             <div id="menu<?php echo $key ?>-<?php echo $key_1 ?>" class="container tab-pane <?php echo $active ?>"><br>
               <div class="row">
 
-                <?php foreach ($value_1["dates"] as $key_2 => $value_2): ?>
-                  <!-- <div class="col-6"> -->
-                    <?php foreach ($value_2 as $key_3 => $value_3): ?>
-                      <?php
-                      if ($value_3 == "unavail") {
-                        $colors = "bg-secondary text-white";
-                        $booked = " (Booked)";
-                      } else {
-                        $colors = "bg-success text-white";
-                        $booked = "";
-                      }
-                      ?>
-                      <div style="flex: 0 0 14.285%;max-width: 14.285%;" class="<?php echo $colors ?>">
-                      <!-- <div class="card <?php echo $colors ?>" style="padding: 0 5px 0 5px; margin-bottom: 3px;"> -->
-                      <?php
-                      $date_pretty = date_format(date_create($key_3),"d (D)")
-                      ?>
-                      <?php echo $date_pretty ?>
-                      <?php echo $booked ?>
-                      <!-- </div> -->
-                      </div>
+                <?php //foreach ($value_1["dates"] as $key_2 => $value_2): ?>
+                <?php //endforeach; ?>
+                <!-- <div class="col-6"> -->
+                <?php
+                $first_index = $value_1["dates"];
+                reset($first_index);
+                $first_index = key($first_index);
+                // $first_index;
+                $filler_days = date_format(date_create($first_index),"N") - 1;
+                $filler_days = array_fill(0,$filler_days,"");
 
-                    <?php endforeach; ?>
-                  <!-- </div> -->
+                ?>
+
+                <style media="screen">
+                  .opacity-3 {
+                    opacity:0.6!important;
+                  }
+                </style>
+                <?php foreach ($filler_days as $key_3 => $value_3): ?>
+                  <div style="flex: 0 0 14.285%;max-width: 14.285%;" class="bg-white">
+
+                  </div>
+
                 <?php endforeach; ?>
+                <?php foreach ($value_1["dates"] as $key_3 => $value_3): ?>
+                  <?php
+                  if ($value_3 == "unavail") {
+                    // $colors = "bg-success text-white opacity-3";
+                    $colors = "bg-secondary text-white";
+                    $booked = " (Booked)";
+                  } else {
+                    // $colors = "bg-success text-white";
+                    $colors = "bg-light text-dark";
+                    $booked = "";
+                  }
+                  ?>
+                  <div style="flex: 0 0 14.285%;max-width: 14.285%;" class="<?php echo $colors ?> p-1">
+                    <!-- <div class="card <?php echo $colors ?>" style="padding: 0 5px 0 5px; margin-bottom: 3px;"> -->
+                    <?php
+                    // $date_pretty = date_format(date_create($key_3),"d (D)")
+                    $date_pretty = date_format(date_create($key_3),"d")
+                    // date('N', strtotime('Monday'));
+                    ?>
+                    <?php echo $date_pretty ?>
+                    <?php //echo $booked ?>
+                    <!-- </div> -->
+                  </div>
+
+                <?php endforeach; ?>
+                <!-- </div> -->
               </div>
 
             </div>
