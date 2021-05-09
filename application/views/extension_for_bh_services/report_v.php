@@ -80,7 +80,7 @@
               <div class="row">
 
                 <?php foreach ($value_1["dates"] as $key_2 => $value_2): ?>
-                  <div class="col-6">
+                  <!-- <div class="col-6"> -->
                     <?php foreach ($value_2 as $key_3 => $value_3): ?>
                       <?php
                       if ($value_3 == "unavail") {
@@ -91,16 +91,18 @@
                         $booked = "";
                       }
                       ?>
-                      <div class="card <?php echo $colors ?>" style="padding: 0 5px 0 5px; margin-bottom: 3px;">
-                        <?php
-                        $date_pretty = date_format(date_create($key_3),"d (D)")
-                        ?>
-                        <?php echo $date_pretty ?>
-                        <?php echo $booked ?>
+                      <div style="flex: 0 0 14.285%;max-width: 14.285%;" class="<?php echo $colors ?>">
+                      <!-- <div class="card <?php echo $colors ?>" style="padding: 0 5px 0 5px; margin-bottom: 3px;"> -->
+                      <?php
+                      $date_pretty = date_format(date_create($key_3),"d (D)")
+                      ?>
+                      <?php echo $date_pretty ?>
+                      <?php echo $booked ?>
+                      <!-- </div> -->
                       </div>
 
                     <?php endforeach; ?>
-                  </div>
+                  <!-- </div> -->
                 <?php endforeach; ?>
               </div>
 
