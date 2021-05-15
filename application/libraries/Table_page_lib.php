@@ -618,9 +618,11 @@ class Table_page_lib
 
 			if (1==1) {
 
+				$insert_id = $this->CI->db->insert_id();
+				// $insert_id = 10000;
 				$table_and_id = array(
 					"table" => $table,
-					"id" => 10000
+					"id" => $insert_id
 				);
 
 
