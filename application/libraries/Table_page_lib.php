@@ -870,11 +870,20 @@ class Table_page_lib
 		$this->CI->db->_protect_identifiers=true;
 	}
 
-	public function owner_group_options()
+	public function user_groups()
 	{
+
 
 		$this->CI->load->database();
 
+
+		// $this->db->from('table')
+		// ->join('SELECT id from table2 where something=%s) as T2'),'table.id=T2.id', 'LEFT',NULL)
+		// ->get()->row();
+		//
+		// $result = $query_run->get('user_messages');
+		// //echo $this->db->last_query();
+		// return $result->row();
 
 		$sql="WITH RECURSIVE q AS
 		(
@@ -886,51 +895,69 @@ class Table_page_lib
 			FROM    groups m
 			JOIN    q
 			ON      m.group_id = q.id
-		)
-		SELECT  *
-		FROM    q
-		";
+			)
+			SELECT  *
+			FROM    q
+			";
+
+			$query_result = $this->CI->db->query($sql)->result_array();
+
+			// chaneg to $config['tables']['users_groups'] ?
+			$table = "users_groups";
+			$haystack = "user_id";
+			$needle = $this->CI->ion_auth->get_user_id();
+			$user_group_links = $this->fetch_where($table, $haystack, $needle)["posts"];
+
+			$user_group_ids = array_column($user_group_links, "group_id");
+
+			$result = array();
+			foreach ($query_result as $key => $value) {
+				$matches = array_intersect($user_group_ids,explode("-",$value["path"]));
+				if (!empty($matches)) {
+					$result[$key] = $value;
+				}
+			}
+			return $result;
+
+		}
+
+	public function user_groups_for_dropdown()
+	{
 
 
-		$query_result = $this->CI->db->query($sql)->result_array();
+		$user_groups = $this->user_groups();
 
-
-		// chaneg to $config['tables']['users_groups'] ?
-		$table = "users_groups";
-		$haystack = "user_id";
-		$needle = $this->CI->ion_auth->get_user_id();
-		$user_group_links = $this->fetch_where($table, $haystack, $needle)["posts"];
-		$user_group_ids = array_column($user_group_links, "group_id");
-
-
-		$keys = array_column($query_result, 'path');
-		$query_result=array_combine($keys,$query_result);
-		ksort($query_result);
-
+		$keys = array_column($user_groups, 'path');
+		$user_groups=array_combine($keys,$user_groups);
+		ksort($user_groups);
+		// header('Content-Type: application/json');
+		// echo json_encode($query_result, JSON_PRETTY_PRINT);
+		// exit;
 
 
 
 		$result = array();
-		foreach ($query_result as $key => $item) {
-			if (!empty(array_intersect($user_group_ids,explode("-",$key)))) {
-				$result[$item["id"]] = array(
-					"id"=>$item["id"],
-					"name"=>$item["name"],
-					"indent"=>str_repeat("-", count(explode("-",$key))-1),
-					"path"=>$key,
-				);
-			}
+		foreach ($user_groups as $key => $value) {
+			$result[$value["id"]] = array(
+				"id"=>$value["id"],
+				"name"=>$value["name"],
+				"indent"=>str_repeat("-", count(explode("-",$value["path"]))-1),
+				"path"=>$key,
+			);
 		}
-
-
 
 		// header('Content-Type: application/json');
 		// echo json_encode($result, JSON_PRETTY_PRINT);
 		// exit;
 
+
+
+
 		return $result;
 
 	}
+
+
 
 
 

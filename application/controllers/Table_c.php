@@ -53,7 +53,7 @@ class Table_c extends CI_Controller
 		$permisssion_options = array(
 			"owner" => array(
 				"assumed" => "",
-				"options" => $this->table_page_lib->owner_group_options()
+				"options" => $this->table_page_lib->user_groups_for_dropdown()
 			),
 			// "assignbility" => array(
 			// 	"assumed" => "",

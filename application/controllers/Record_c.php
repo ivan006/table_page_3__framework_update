@@ -43,7 +43,7 @@ class Record_c extends CI_Controller
 		$permisssion_options = array(
 			"owner" => array(
 				"assumed" => 2,
-				"options" => $this->table_page_lib->owner_group_options()
+				"options" => $this->table_page_lib->user_groups_for_dropdown()
 			),
 			// "assignbility" => array(
 			// 	"assumed" => "",
@@ -57,16 +57,16 @@ class Record_c extends CI_Controller
 				"assumed" => "",
 				"options" => array(
 					array(
-						"label"=>"Public",
-						"value"=>"0",
+						"label"=>"Private",
+						"value"=>"pr",
 					),
 					// array(
 					// 	"label"="Organisation",
 					// 	"value"="1",
 					// ),
 					array(
-						"label"=>"Private",
-						"value"=>"1",
+						"label"=>"Public",
+						"value"=>"pu",
 					),
 				)
 			),
@@ -74,16 +74,16 @@ class Record_c extends CI_Controller
 				"assumed" => "",
 				"options" => array(
 					array(
-						"label"=>"Public",
-						"value"=>"0",
+						"label"=>"Private",
+						"value"=>"pr",
 					),
 					// array(
 					// 	"label"="Organisation",
 					// 	"value"="1",
 					// ),
 					array(
-						"label"=>"Private",
-						"value"=>"1",
+						"label"=>"Public",
+						"value"=>"pu",
 					),
 				)
 			),
