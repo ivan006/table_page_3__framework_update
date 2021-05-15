@@ -1,0 +1,78 @@
+{
+    "table_name": "bh serviceline",
+    "table_name_singular": "bh serviceline",
+    "table_exists": 0,
+    "g_core_abilities": {
+        "g_identity": {
+            "g_ability_name": "bh serviceline",
+            "g_ability_html_id": "bhserviceline",
+            "g_from": "bh serviceline",
+            "g_where_haystack": "id",
+            "g_where_haystack_type": "foreign_key",
+            "data_endpoint": "fetch_for_record\/h_type\/primary_key\/h\/id\/n\/"
+        },
+        "g_select": {
+            "editable": {
+                "id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned",
+                        "Null": "NO",
+                        "Key": "PRI",
+                        "Extra": "auto_increment"
+                    }
+                },
+                "services id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned"
+                    }
+                },
+                "package id": {
+                    "col_deets": {
+                        "Type": "bigint(20) unsigned"
+                    }
+                },
+                "start date": {
+                    "col_deets": {
+                        "Type": "date"
+                    }
+                },
+                "end date": {
+                    "col_deets": {
+                        "Type": "date"
+                    }
+                },
+                "price": {
+                    "col_deets": {
+                        "Type": "bigint(20)",
+                        "Null": "NO"
+                    }
+                }
+            },
+            "visible": {
+                "id": {
+                    "Type": "bigint(20) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment"
+                },
+                "services id": {
+                    "Type": "bigint(20) unsigned"
+                },
+                "package id": {
+                    "Type": "bigint(20) unsigned"
+                },
+                "start date": {
+                    "Type": "date"
+                },
+                "end date": {
+                    "Type": "date"
+                },
+                "price": {
+                    "Type": "bigint(20)",
+                    "Null": "NO"
+                }
+            }
+        }
+    },
+    "g_parental_abilities": []
+}

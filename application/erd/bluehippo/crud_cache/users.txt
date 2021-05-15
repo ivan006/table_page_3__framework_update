@@ -18,7 +18,8 @@
                         "Type": "int(11) unsigned",
                         "Null": "NO",
                         "Key": "PRI",
-                        "Extra": "auto_increment"
+                        "Extra": "auto_increment",
+                        "important_field": ""
                     }
                 },
                 "first_name": {
@@ -39,7 +40,8 @@
                     "Type": "int(11) unsigned",
                     "Null": "NO",
                     "Key": "PRI",
-                    "Extra": "auto_increment"
+                    "Extra": "auto_increment",
+                    "important_field": ""
                 },
                 "first_name": {
                     "Type": "varchar(50)",

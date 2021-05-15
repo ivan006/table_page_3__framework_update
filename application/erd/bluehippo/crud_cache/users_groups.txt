@@ -57,7 +57,7 @@
                     "rels": {
                         "table": "groups",
                         "rows": {
-                            "groups - lineage": "",
+                            "groups - breadcrumbs": "",
                             "id": {
                                 "Type": "mediumint(8) unsigned",
                                 "Null": "NO",
@@ -98,7 +98,6 @@
                 }
             },
             "visible": {
-                "groups - lineage": "",
                 "id": {
                     "Type": "int(11) unsigned",
                     "Null": "NO",

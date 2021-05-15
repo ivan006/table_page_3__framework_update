@@ -18,13 +18,15 @@
                         "Type": "mediumint(8) unsigned",
                         "Null": "NO",
                         "Key": "PRI",
-                        "Extra": "auto_increment"
+                        "Extra": "auto_increment",
+                        "important_field": ""
                     }
                 },
                 "name": {
                     "col_deets": {
                         "Type": "varchar(20)",
-                        "Null": "NO"
+                        "Null": "NO",
+                        "important_field": ""
                     }
                 },
                 "description": {
@@ -40,16 +42,18 @@
                     "rels": {
                         "table": "groups",
                         "rows": {
-                            "groups - lineage": "",
+                            "groups - breadcrumbs": "",
                             "id": {
                                 "Type": "mediumint(8) unsigned",
                                 "Null": "NO",
                                 "Key": "PRI",
-                                "Extra": "auto_increment"
+                                "Extra": "auto_increment",
+                                "important_field": ""
                             },
                             "name": {
                                 "Type": "varchar(20)",
-                                "Null": "NO"
+                                "Null": "NO",
+                                "important_field": ""
                             },
                             "description": {
                                 "Type": "varchar(100)",
@@ -59,11 +63,13 @@
                                 "Type": "mediumint(8) unsigned",
                                 "Null": "NO",
                                 "Key": "PRI",
-                                "Extra": "auto_increment"
+                                "Extra": "auto_increment",
+                                "important_field": ""
                             },
                             "groups - name": {
                                 "Type": "varchar(20)",
-                                "Null": "NO"
+                                "Null": "NO",
+                                "important_field": ""
                             },
                             "groups - description": {
                                 "Type": "varchar(100)",
@@ -77,20 +83,34 @@
                 }
             },
             "visible": {
-                "groups - lineage": "",
+                "groups - breadcrumbs": "",
                 "id": {
                     "Type": "mediumint(8) unsigned",
                     "Null": "NO",
                     "Key": "PRI",
-                    "Extra": "auto_increment"
+                    "Extra": "auto_increment",
+                    "important_field": ""
                 },
                 "name": {
                     "Type": "varchar(20)",
-                    "Null": "NO"
+                    "Null": "NO",
+                    "important_field": ""
                 },
                 "description": {
                     "Type": "varchar(100)",
                     "Null": "NO"
+                },
+                "groups - id": {
+                    "Type": "mediumint(8) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment",
+                    "important_field": ""
+                },
+                "groups - name": {
+                    "Type": "varchar(20)",
+                    "Null": "NO",
+                    "important_field": ""
                 }
             }
         }
@@ -101,6 +121,16 @@
                 "g_ability_name": "groups (as group_id)",
                 "g_ability_html_id": "groupsasgroup_id",
                 "g_from": "groups",
+                "g_where_haystack": "group_id",
+                "g_where_haystack_type": "foreign_key",
+                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/group_id\/n\/"
+            }
+        },
+        "users_groups": {
+            "g_identity": {
+                "g_ability_name": "users_groups (as group_id)",
+                "g_ability_html_id": "users_groupsasgroup_id",
+                "g_from": "users_groups",
                 "g_where_haystack": "group_id",
                 "g_where_haystack_type": "foreign_key",
                 "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/group_id\/n\/"
