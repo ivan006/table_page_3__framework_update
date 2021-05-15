@@ -638,7 +638,7 @@ class Table_page_lib
 					"editability" => $post["permissions"]["edit_permissions_editability"],
 					"visibility" => $post["permissions"]["edit_permissions_visibility"]
 				);
-				$this->log_activity($table_and_id, $permissions);
+				$this->log_activity($table_and_id, $permissions, "insert");
 			}
 
 			$data = array('responce' => 'success', 'message' => 'Record added Successfully');
@@ -663,6 +663,28 @@ class Table_page_lib
 		$del_id = $this->CI->input->post('del_id');
 
 		if ($this->CI->db->delete("`$table`", array('id' => $del_id))) {
+			if (1==1) {
+
+
+				$table_and_id = array(
+					"table" => $table,
+					"id" => $del_id
+				);
+
+
+
+				$this->CI->input->post('edit_permissions_owner');
+				$this->CI->input->post('edit_permissions_owner');
+
+				$permissions = array(
+					// "owner" => $post["permissions"]["edit_permissions_owner"],
+					// "editability" => $post["permissions"]["edit_permissions_editability"],
+					// "visibility" => $post["permissions"]["edit_permissions_visibility"]
+				);
+				$this->log_activity($table_and_id, $permissions, "delete");
+			}
+
+
 			$data = array('responce' => 'success');
 		} else {
 			$data = array('responce' => 'error');
@@ -735,7 +757,7 @@ class Table_page_lib
 					"editability" => $post["permissions"]["edit_permissions_editability"],
 					"visibility" => $post["permissions"]["edit_permissions_visibility"]
 				);
-				$this->log_activity($table_and_id, $permissions);
+				$this->log_activity($table_and_id, $permissions, "update");
 			}
 
 
@@ -757,9 +779,10 @@ class Table_page_lib
 		// }
 	}
 
-	public function log_activity($table_and_id, $permissions)
+	public function log_activity($table_and_id, $permissions, $last_activity_type)
 	{
 
+		$this->CI->db->_protect_identifiers=false;
 		// $table = "_groups";
 		// $haystack = "user_id";
 		// $needle = $this->CI->ion_auth->get_user_id();
@@ -772,19 +795,54 @@ class Table_page_lib
 			// "record_id" => $table_and_id["id"],
 			// "actvity_type" => "",
 			"timestamp" => date("Y-m-d H:i:s"),
-			"owner" => $permissions["owner"],
-			"editability" => $permissions["editability"],
-			"visibility" => $permissions["visibility"]
+			"last_activity_type" => $last_activity_type,
+			// "owner" => $permissions["owner"],
+			// "editability" => $permissions["editability"],
+			// "visibility" => $permissions["visibility"]
 		);
+
+
+		if (!empty($permissions)) {
+			// code...
+			$activity_log["owner"] = $permissions["owner"];
+			$activity_log["editability"] = $permissions["editability"];
+			$activity_log["visibility"] = $permissions["visibility"];
+
+		}
 
 		// header('Content-Type: application/json');
 		// echo json_encode($activity_log, JSON_PRETTY_PRINT);
 		// exit;
 
 
-		$query_result = $this->CI->db->replace('_activity_log', $activity_log);
+		// $query_result = $this->CI->db->replace('_activity_log', $activity_log);
 
+		$activity_log_2 = array();
+		foreach ($activity_log as $key => $value) {
+			if ($key !== "id") {
+				$activity_log_2["`".$key."`"] = '"'.$value.'"';
 
+			}
+		}
+
+		$_activity_log = $this->CI->db->select('*')->where('`record_table_and_id`', '"'.$table_and_id["table"]."/".$table_and_id["id"].'"')->from('_activity_log')->get()->result_array();
+		// echo json_encode($_activity_log, JSON_PRETTY_PRINT);
+		// exit;
+		if (empty($_activity_log)) {
+			$query_result = $this->CI->db->insert(
+				'_activity_log',
+				$activity_log_2,
+			);
+
+		} else {
+			$query_result = $this->CI->db->update(
+				'_activity_log',
+				$activity_log_2,
+				array('`record_table_and_id`' => '"'.$table_and_id["table"]."/".$table_and_id["id"].'"')
+			);
+		}
+
+		$this->CI->db->_protect_identifiers=true;
 	}
 
 	public function owner_group_options()
