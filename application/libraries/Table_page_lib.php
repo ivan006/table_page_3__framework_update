@@ -898,28 +898,28 @@ class Table_page_lib
 			)
 			SELECT  *
 			FROM    q
-			";
+		";
 
-			$query_result = $this->CI->db->query($sql)->result_array();
+		$query_result = $this->CI->db->query($sql)->result_array();
 
-			// chaneg to $config['tables']['users_groups'] ?
-			$table = "users_groups";
-			$haystack = "user_id";
-			$needle = $this->CI->ion_auth->get_user_id();
-			$user_group_links = $this->fetch_where($table, $haystack, $needle)["posts"];
+		// chaneg to $config['tables']['users_groups'] ?
+		$table = "users_groups";
+		$haystack = "user_id";
+		$needle = $this->CI->ion_auth->get_user_id();
+		$user_group_links = $this->fetch_where($table, $haystack, $needle)["posts"];
 
-			$user_group_ids = array_column($user_group_links, "group_id");
+		$user_group_ids = array_column($user_group_links, "group_id");
 
-			$result = array();
-			foreach ($query_result as $key => $value) {
-				$matches = array_intersect($user_group_ids,explode("-",$value["path"]));
-				if (!empty($matches)) {
-					$result[$key] = $value;
-				}
+		$result = array();
+		foreach ($query_result as $key => $value) {
+			$matches = array_intersect($user_group_ids,explode("-",$value["path"]));
+			if (!empty($matches)) {
+				$result[$key] = $value;
 			}
-			return $result;
-
 		}
+		return $result;
+
+	}
 
 	public function user_groups_for_dropdown()
 	{

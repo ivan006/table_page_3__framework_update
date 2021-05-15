@@ -145,9 +145,15 @@ class Table_c extends CI_Controller
 			redirect('auth/login', 'refresh');
 		}
 
-		$groups = $this->ion_auth->get_users_groups();
-		$groups = $groups->result_array();
+		// $groups = $this->ion_auth->get_users_groups();
+		// $groups = $groups->result_array();
+		$groups = $this->table_page_lib->user_groups();
+
+		// header('Content-Type: application/json');
+		// echo json_encode($groups, JSON_PRETTY_PRINT);
+		// exit;
 		$groups = array_column($groups, "id");
+
 
 
 		$result = $this->table_page_lib->fetch($table, "table", array(), $groups);
