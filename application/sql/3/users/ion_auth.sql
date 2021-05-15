@@ -17,10 +17,10 @@ CREATE TABLE `groups` (
 #
 
 INSERT INTO `groups` (`id`, `name`, `description`, `group_id`) VALUES
-     (1,'admin','Administrator',0),
-     (2,'members','General User',1),
-     (3,'Blue Gem','',1),
-     (4,'Blue Gem - Customers','',3);
+     (1,'Admin','Administrator',0),
+     (2,'Public','General User',0),
+     (3,'Group 1','',1),
+     (4,'Group 1.1','',3);
 
 
 DROP TABLE IF EXISTS `users`;

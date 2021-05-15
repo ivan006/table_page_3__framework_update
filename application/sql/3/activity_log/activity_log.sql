@@ -8,7 +8,7 @@ CREATE TABLE `_activity_log` (
   `record_table_and_id` varchar(255) NOT NULL,
   `timestamp` datetime NOT NULL,
   `last_activity_type` varchar(255) NOT NULL,
-  `owner` int(11) NOT NULL,
+  `owner` int(11) NOT NULL DEFAULT 2,
   `editability` varchar(2) NOT NULL,
   `visibility` varchar(2) NOT NULL,
   PRIMARY KEY (`record_table_and_id`)

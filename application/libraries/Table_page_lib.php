@@ -144,20 +144,31 @@ class Table_page_lib
 	public function table_rows($table)
 	{
 
-		$this->CI->load->database();
+		// $this->CI->load->database();
+		//
+		//
+		// $row_query = array(
+		// "SHOW COLUMNS FROM `$table`",
+		// );
+		// $row_query = implode(" ", $row_query);
+		// $rows = $this->CI->db->query($row_query)->result_array();
+		// $rows = array_column($rows, 'Field');
 
-
-		$row_query = array(
-		"SHOW COLUMNS FROM `$table`",
-		);
-		$row_query = implode(" ", $row_query);
-		$rows = $this->CI->db->query($row_query)->result_array();
-		$rows = array_column($rows, 'Field');
+		if (!file_exists($this->CI->erd_lib->erd_path()."/crud_cache/$table.txt")) {
+			return array();
+		}
+		$data = file_get_contents($this->CI->erd_lib->erd_path()."/crud_cache/$table.txt");
+		$data = json_decode($data, true);
 
 		$result = array();
-		foreach ($rows as $key => $value) {
-			$result[$value] = array();
+		foreach ($data["g_core_abilities"]["g_select"]["editable"] as $key => $value) {
+			$result[$key] = array();
 		}
+		// header('Content-Type: application/json');
+		// echo json_encode($result, JSON_PRETTY_PRINT);
+		// exit;
+
+
 
 		return $result;
 	}
@@ -269,13 +280,17 @@ class Table_page_lib
 			// echo json_encode($groups);
 			// exit;
 			$query = $query->group_start();
-			$query = $query->where_in("`_activity_log`.`owner`", $groups);
 			// $query = $query->or_where("`_activity_log`.`owner` =", "0");
 
-			$query = $query->or_where("`_activity_log`.`editability` =", "'pu'");
+			$query = $query->where("`_activity_log`.`editability` =", "'pu'");
 			$query = $query->or_where("`_activity_log`.`visibility` =", "'pu'");
 			$query = $query->or_where("`_activity_log`.`editability` IS", "NULL");
 			$query = $query->or_where("`_activity_log`.`visibility` IS", "NULL");
+			$query = $query->or_where("`_activity_log`.`owner` =", "2");
+			if (!empty($groups)) {
+				// code...
+				$query = $query->or_where_in("`_activity_log`.`owner`", $groups);
+			}
 			$query = $query->group_end();
 			// $query = $query->or_where_in("`_activity_log`.`editability`", array("'Public'", "''"));
 			// $query = $query->or_where_in("`_activity_log`.`visibility`", array("'Public'", "''"));

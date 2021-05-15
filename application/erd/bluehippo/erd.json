@@ -88,11 +88,13 @@
         "Type": "mediumint(8) unsigned",
         "Null": "NO",
         "Key": "PRI",
-        "Extra": "auto_increment"
+        "Extra": "auto_increment",
+        "important_field": ""
       },
       "name": {
         "Type": "varchar(20)",
-        "Null": "NO"
+        "Null": "NO",
+        "important_field": ""
       },
       "description": {
         "Type": "varchar(100)",
@@ -103,7 +105,50 @@
       }
     },
     "items": {
-      "groups": "group_id"
+      "groups": "group_id",
+      "users_groups": "group_id"
+    }
+  },
+  "users": {
+    "fields": {
+      "id": {
+        "Type": "int(11) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment",
+        "important_field": ""
+      },
+      "first_name": {
+        "Type": "varchar(50)",
+        "important_field": ""
+      },
+      "last_name": {
+        "Type": "varchar(50)",
+        "important_field": ""
+      }
+    },
+    "items": {
+      "users_groups": "user_id"
+    }
+  },
+  "users_groups": {
+    "fields": {
+      "id": {
+        "Type": "int(11) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "user_id": {
+        "Type": "int(11) unsigned",
+        "Null": "NO",
+        "Key": "MUL"
+      },
+      "group_id": {
+        "Type": "mediumint(8) unsigned",
+        "Null": "NO",
+        "Key": "MUL"
+      }
     }
   }
 }

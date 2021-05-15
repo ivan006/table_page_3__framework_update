@@ -21,102 +21,16 @@
                         "Extra": "auto_increment"
                     }
                 },
-                "ip_address": {
-                    "col_deets": {
-                        "Type": "varchar(45)",
-                        "Null": "NO"
-                    }
-                },
-                "username": {
-                    "col_deets": {
-                        "Type": "varchar(100)"
-                    }
-                },
-                "password": {
-                    "col_deets": {
-                        "Type": "varchar(255)",
-                        "Null": "NO"
-                    }
-                },
-                "email": {
-                    "col_deets": {
-                        "Type": "varchar(254)",
-                        "Null": "NO",
-                        "Key": "UNI"
-                    }
-                },
-                "activation_selector": {
-                    "col_deets": {
-                        "Type": "varchar(255)",
-                        "Key": "UNI"
-                    }
-                },
-                "activation_code": {
-                    "col_deets": {
-                        "Type": "varchar(255)"
-                    }
-                },
-                "forgotten_password_selector": {
-                    "col_deets": {
-                        "Type": "varchar(255)",
-                        "Key": "UNI"
-                    }
-                },
-                "forgotten_password_code": {
-                    "col_deets": {
-                        "Type": "varchar(255)"
-                    }
-                },
-                "forgotten_password_time": {
-                    "col_deets": {
-                        "Type": "int(11) unsigned"
-                    }
-                },
-                "remember_selector": {
-                    "col_deets": {
-                        "Type": "varchar(255)",
-                        "Key": "UNI"
-                    }
-                },
-                "remember_code": {
-                    "col_deets": {
-                        "Type": "varchar(255)"
-                    }
-                },
-                "created_on": {
-                    "col_deets": {
-                        "Type": "int(11) unsigned",
-                        "Null": "NO"
-                    }
-                },
-                "last_login": {
-                    "col_deets": {
-                        "Type": "int(11) unsigned"
-                    }
-                },
-                "active": {
-                    "col_deets": {
-                        "Type": "tinyint(1) unsigned"
-                    }
-                },
                 "first_name": {
                     "col_deets": {
-                        "Type": "varchar(50)"
+                        "Type": "varchar(50)",
+                        "important_field": ""
                     }
                 },
                 "last_name": {
                     "col_deets": {
-                        "Type": "varchar(50)"
-                    }
-                },
-                "company": {
-                    "col_deets": {
-                        "Type": "varchar(100)"
-                    }
-                },
-                "phone": {
-                    "col_deets": {
-                        "Type": "varchar(20)"
+                        "Type": "varchar(50)",
+                        "important_field": ""
                     }
                 }
             },
@@ -127,70 +41,27 @@
                     "Key": "PRI",
                     "Extra": "auto_increment"
                 },
-                "ip_address": {
-                    "Type": "varchar(45)",
-                    "Null": "NO"
-                },
-                "username": {
-                    "Type": "varchar(100)"
-                },
-                "password": {
-                    "Type": "varchar(255)",
-                    "Null": "NO"
-                },
-                "email": {
-                    "Type": "varchar(254)",
-                    "Null": "NO",
-                    "Key": "UNI"
-                },
-                "activation_selector": {
-                    "Type": "varchar(255)",
-                    "Key": "UNI"
-                },
-                "activation_code": {
-                    "Type": "varchar(255)"
-                },
-                "forgotten_password_selector": {
-                    "Type": "varchar(255)",
-                    "Key": "UNI"
-                },
-                "forgotten_password_code": {
-                    "Type": "varchar(255)"
-                },
-                "forgotten_password_time": {
-                    "Type": "int(11) unsigned"
-                },
-                "remember_selector": {
-                    "Type": "varchar(255)",
-                    "Key": "UNI"
-                },
-                "remember_code": {
-                    "Type": "varchar(255)"
-                },
-                "created_on": {
-                    "Type": "int(11) unsigned",
-                    "Null": "NO"
-                },
-                "last_login": {
-                    "Type": "int(11) unsigned"
-                },
-                "active": {
-                    "Type": "tinyint(1) unsigned"
-                },
                 "first_name": {
-                    "Type": "varchar(50)"
+                    "Type": "varchar(50)",
+                    "important_field": ""
                 },
                 "last_name": {
-                    "Type": "varchar(50)"
-                },
-                "company": {
-                    "Type": "varchar(100)"
-                },
-                "phone": {
-                    "Type": "varchar(20)"
+                    "Type": "varchar(50)",
+                    "important_field": ""
                 }
             }
         }
     },
-    "g_parental_abilities": []
+    "g_parental_abilities": {
+        "users_groups": {
+            "g_identity": {
+                "g_ability_name": "users_groups (as user_id)",
+                "g_ability_html_id": "users_groupsasuser_id",
+                "g_from": "users_groups",
+                "g_where_haystack": "user_id",
+                "g_where_haystack_type": "foreign_key",
+                "data_endpoint": "fetch_for_record\/h_type\/foreign_key\/h\/user_id\/n\/"
+            }
+        }
+    }
 }
