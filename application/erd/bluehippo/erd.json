@@ -81,5 +81,29 @@
         "Null": "NO"
       }
     }
+  },
+  "groups": {
+    "fields": {
+      "id": {
+        "Type": "mediumint(8) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "name": {
+        "Type": "varchar(20)",
+        "Null": "NO"
+      },
+      "description": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      },
+      "group_id": {
+        "Type": "mediumint(8) unsigned"
+      }
+    },
+    "items": {
+      "groups": "group_id"
+    }
   }
 }

@@ -835,6 +835,10 @@ class Table_page_lib
 
 		}
 
+		if ($table_and_id["table"] == "groups") {
+			$activity_log["owner"] = $table_and_id["id"];
+		}
+
 		// header('Content-Type: application/json');
 		// echo json_encode($activity_log, JSON_PRETTY_PRINT);
 		// exit;

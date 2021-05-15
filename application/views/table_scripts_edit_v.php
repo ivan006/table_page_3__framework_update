@@ -67,15 +67,22 @@ $(document).on("click", "#<?php echo $safe_ability_id; ?>_edit_model", function(
 
         ?>
 
-        $("#<?php echo $safe_ability_action_id."permissions_owner"; ?>").val(
-          data.post["permissions"]["permissions_owner"]
-        );
-        $("#<?php echo $safe_ability_action_id."permissions_editability"; ?>").val(
-          data.post["permissions"]["permissions_editability"]
-        );
-        $("#<?php echo $safe_ability_action_id."permissions_visibility"; ?>").val(
-          data.post["permissions"]["permissions_visibility"]
-        );
+        if ($("#<?php echo $safe_ability_action_id."permissions_owner"; ?> option[value='"+data.post["permissions"]["permissions_owner"]+"']").length > 0) {
+          $("#<?php echo $safe_ability_action_id."permissions_owner"; ?>").val(
+            data.post["permissions"]["permissions_owner"]
+          );
+        }
+        if ($("#<?php echo $safe_ability_action_id."permissions_editability"; ?> option[value='"+data.post["permissions"]["permissions_editability"]+"']").length > 0) {
+          $("#<?php echo $safe_ability_action_id."permissions_editability"; ?>").val(
+            data.post["permissions"]["permissions_editability"]
+          );
+        }
+        if ($("#<?php echo $safe_ability_action_id."permissions_visibility"; ?> option[value='"+data.post["permissions"]["permissions_visibility"]+"']").length > 0) {
+          $("#<?php echo $safe_ability_action_id."permissions_visibility"; ?>").val(
+            data.post["permissions"]["permissions_visibility"]
+          );
+        }
+
       }else{
         toastr["error"](data.message);
       }
