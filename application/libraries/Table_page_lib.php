@@ -220,7 +220,7 @@ class Table_page_lib
 		if ("old"=="old") {
 			// code...
 
-			foreach ($cols_visible["cols_o"] as $key => $value) {
+			foreach ($cols_visible["nonlinking_cols"] as $key => $value) {
 				$query = $query->select("`".$table."`".'.'."`".$key."`");
 				// if ($key == "id") {
 				// 	// code...
@@ -229,7 +229,7 @@ class Table_page_lib
 				// 	$query = $query->select("CONCAT('$parent_link_part_1', "."`".$table."`".".id, '$parent_link_part_2') as `id`");
 				// }
 			}
-			foreach ($cols_visible["cols_d"] as $key => $value) {
+			foreach ($cols_visible["linking_cols"] as $key => $value) {
 				// if ($key !== $table) {
 				foreach ($value["cols"] as $key_2 => $value_2) {
 					if ($key_2 == "id") {
@@ -245,21 +245,21 @@ class Table_page_lib
 				if (isset($value["is_self_joined"])) {
 					// $g_select["visible"] = array_merge(
 					// 	$g_select["visible"],
-					// 	array("$key - lineage" => "1")
+					// 	array("$key - breadcrumbs" => "1")
 					// );
 
-					$query = $query->select("`joining_table_".$key."_lineage`.path"." as `$key - lineage`");
+					$query = $query->select("`joining_table_".$key."_breadcrumbs`.path"." as `$key - breadcrumbs`");
 
-					// $concat_part_1 = "`joining_table_".$key."_lineage`.path";
+					// $concat_part_1 = "`joining_table_".$key."_breadcrumbs`.path";
 					// $concat_part_2 = "`$table`.`id`";
-					// $query = $query->select("CONCAT($concat_part_1, "."'-'".", $concat_part_2) as `$key - lineage`");
-					// // $query = $query->select("CONCAT('0-', $concat_part_1, '-', $concat_part_2) as `$key - lineage`");
+					// $query = $query->select("CONCAT($concat_part_1, "."'-'".", $concat_part_2) as `$key - breadcrumbs`");
+					// // $query = $query->select("CONCAT('0-', $concat_part_1, '-', $concat_part_2) as `$key - breadcrumbs`");
 				}
 				// }
 			}
 			$query = $query->from("`".$table."`");
 
-			foreach ($cols_visible["cols_d"] as $key => $value) {
+			foreach ($cols_visible["linking_cols"] as $key => $value) {
 				// echo "xyz";
 				// if ($key !== $table) {
 				$query = $query->join("`".$key."` as `joining_table_".$key."`", "`".$table."`".'.'."`".$value["linking_key"]."`".' = '."`joining_table_".$key."`".'.id', 'left');
@@ -287,8 +287,8 @@ class Table_page_lib
 
 					);
 					$sql = implode("\n\r", $sql);
-					// $query = $query->join("(".$sql.") as `joining_table_".$key."_lineage`", "`".$table."`".'.'."`$linking_key`".' = '."`joining_table_".$key."_lineage`".'.id', 'left');
-					$query = $query->join("(".$sql.") as `joining_table_".$key."_lineage`", "`".$table."`".'.'."`id`".' = '."`joining_table_".$key."_lineage`".'.id', 'left');
+					// $query = $query->join("(".$sql.") as `joining_table_".$key."_breadcrumbs`", "`".$table."`".'.'."`$linking_key`".' = '."`joining_table_".$key."_breadcrumbs`".'.id', 'left');
+					$query = $query->join("(".$sql.") as `joining_table_".$key."_breadcrumbs`", "`".$table."`".'.'."`id`".' = '."`joining_table_".$key."_breadcrumbs`".'.id', 'left');
 				}
 			}
 			$query = $query->join("`_activity_log`", "`_activity_log`.`record_table_and_id` = CONCAT('$table', '/', `$table`.id)", 'left');
@@ -447,8 +447,8 @@ class Table_page_lib
 		}
 
 		$cols_visible = array(
-			"cols_o" => $self,
-			"cols_d" => $parents
+			"nonlinking_cols" => $self,
+			"linking_cols" => $parents
 		);
 
 		return $cols_visible;
@@ -536,11 +536,11 @@ class Table_page_lib
 
 			$g_select["visible"] = array();
 
-			$g_select["visible"] = $cols_visible["cols_o"];
+			$g_select["visible"] = $cols_visible["nonlinking_cols"];
 
 			$cols_wth_props = array();
 
-			foreach ($cols_visible["cols_d"] as $key => $value) {
+			foreach ($cols_visible["linking_cols"] as $key => $value) {
 
 				// header('Content-Type: application/json');
 				// echo json_encode($value, JSON_PRETTY_PRINT);
@@ -557,19 +557,19 @@ class Table_page_lib
 				);
 
 				if (isset($g_select["editable"][$value["linking_key"]])) {
-					if (isset($value["is_self_joined"])) {
-						$g_select["visible"] = array("$key - lineage" => "") + $g_select["visible"];
+					if (isset($value["is_self_joined"]) && $key == $table) {
+						$g_select["visible"] = array("$key - breadcrumbs" => "") + $g_select["visible"];
 					}
 				}
 			}
 
-			foreach ($cols_visible["cols_d"] as $key => $value) {
+			foreach ($cols_visible["linking_cols"] as $key => $value) {
 				if (isset($g_select["editable"][$value["linking_key"]])) {
 					// code...
 					$cols_visible_lookup_helper = $this->precalculated_columns($key, $erd, "");
-					$cols_visible_lookup = $cols_visible_lookup_helper["cols_o"];
+					$cols_visible_lookup = $cols_visible_lookup_helper["nonlinking_cols"];
 					$cols_visible_lookup_part_2 = array();
-					foreach ($cols_visible_lookup_helper["cols_d"] as $key_lookup => $value_lookup) {
+					foreach ($cols_visible_lookup_helper["linking_cols"] as $key_lookup => $value_lookup) {
 						foreach ($value_lookup["cols"] as $key_lookup_2 => $value_lookup_2) {
 							$cols_visible_lookup_part_2["$key_lookup - $key_lookup_2"] = $value_lookup_2;
 						}
@@ -579,7 +579,7 @@ class Table_page_lib
 						);
 
 						if (isset($value_lookup["is_self_joined"])) {
-							$cols_visible_lookup = array("$key_lookup - lineage" => "") + $cols_visible_lookup;
+							$cols_visible_lookup = array("$key_lookup - breadcrumbs" => "") + $cols_visible_lookup;
 						}
 
 					}
