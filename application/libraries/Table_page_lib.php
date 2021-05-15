@@ -266,12 +266,14 @@ class Table_page_lib
 			}
 			$query = $query->join("`_activity_log`", "`_activity_log`.`record_table_and_id` = CONCAT('$table', '/', `$table`.id)", 'left');
 
-
+			// echo json_encode($groups);
+			// exit;
 			$query = $query->group_start();
 			$query = $query->where_in("`_activity_log`.`owner`", $groups);
 			// $query = $query->or_where("`_activity_log`.`owner` =", "0");
-			$query = $query->or_where("`_activity_log`.`editability` =", "0");
-			$query = $query->or_where("`_activity_log`.`visibility` =", "0");
+
+			$query = $query->or_where("`_activity_log`.`editability` =", "'pu'");
+			$query = $query->or_where("`_activity_log`.`visibility` =", "'pu'");
 			$query = $query->or_where("`_activity_log`.`editability` IS", "NULL");
 			$query = $query->or_where("`_activity_log`.`visibility` IS", "NULL");
 			$query = $query->group_end();
@@ -301,6 +303,7 @@ class Table_page_lib
 
 		$posts = $query;
 		$posts = $posts->result_array();
+
 		// print_r($this->CI->db->last_query());
 		// exit;
 
