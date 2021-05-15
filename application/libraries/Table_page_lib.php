@@ -219,15 +219,15 @@ class Table_page_lib
 
 		if ("old"=="old") {
 			// code...
-			$parent_link_part_1 = '<a href="/record/t/'.$table.'/r/';
-			$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
-			$query = $query->select("CONCAT('$parent_link_part_1', "."`".$table."`".".id, '$parent_link_part_2') as `id`");
 
 			foreach ($cols_visible["cols_o"] as $key => $value) {
-				if ($key !== "id") {
-					// code...
-				}
 				$query = $query->select("`".$table."`".'.'."`".$key."`");
+				// if ($key == "id") {
+				// 	// code...
+				// 	$parent_link_part_1 = '<a href="/record/t/'.$table.'/r/';
+				// 	$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
+				// 	$query = $query->select("CONCAT('$parent_link_part_1', "."`".$table."`".".id, '$parent_link_part_2') as `id`");
+				// }
 			}
 			foreach ($cols_visible["cols_d"] as $key => $value) {
 				// if ($key !== $table) {
@@ -247,7 +247,13 @@ class Table_page_lib
 					// 	$g_select["visible"],
 					// 	array("$key - lineage" => "1")
 					// );
+
 					$query = $query->select("`joining_table_".$key."_lineage`.path"." as `$key - lineage`");
+
+					// $concat_part_1 = "`joining_table_".$key."_lineage`.path";
+					// $concat_part_2 = "`$table`.`id`";
+					// $query = $query->select("CONCAT($concat_part_1, "."'-'".", $concat_part_2) as `$key - lineage`");
+					// // $query = $query->select("CONCAT('0-', $concat_part_1, '-', $concat_part_2) as `$key - lineage`");
 				}
 				// }
 			}
@@ -261,18 +267,28 @@ class Table_page_lib
 
 				if (isset($value["is_self_joined"])) {
 					$linking_key = $value["linking_key"];
-					$sql="WITH RECURSIVE q AS (
-					SELECT  id,`$linking_key`, CONCAT('0-', id) as path
-					FROM    $key
-					WHERE   `$linking_key` = 0
-					UNION ALL
-					SELECT  m.id,m.`$linking_key`, CONCAT(q.path, '-', m.id) as path
-					FROM    $key m
-					JOIN    q
-					ON      m.`$linking_key` = q.id)
-					SELECT  *
-					FROM    q";
-					$query = $query->join("(".$sql.") as `joining_table_".$key."_lineage`", "`".$table."`".'.'."`$linking_key`".' = '."`joining_table_".$key."_lineage`".'.id', 'left');
+					// $sql="
+					// ";
+					$sql = array(
+						"WITH RECURSIVE q AS (",
+						// "SELECT  id,`$linking_key`, CONCAT('0-', id) as path",
+						"SELECT  id,`$linking_key`, CONCAT('', id) as path",
+						// "SELECT  id as id,`$linking_key`, id as path",
+						"FROM    $key",
+						"WHERE   `$linking_key` = 0",
+						"UNION ALL",
+						"SELECT  m.id,m.`$linking_key`, CONCAT(q.path, '-', m.id) as path",
+						"FROM    $key m",
+						"JOIN    q",
+						"ON      m.`$linking_key` = q.id)",
+						"SELECT  *",
+						// "SELECT  id,`$linking_key`, CONCAT('0-',path, '-', id) as path",
+						"FROM    q",
+
+					);
+					$sql = implode("\n\r", $sql);
+					// $query = $query->join("(".$sql.") as `joining_table_".$key."_lineage`", "`".$table."`".'.'."`$linking_key`".' = '."`joining_table_".$key."_lineage`".'.id', 'left');
+					$query = $query->join("(".$sql.") as `joining_table_".$key."_lineage`", "`".$table."`".'.'."`id`".' = '."`joining_table_".$key."_lineage`".'.id', 'left');
 				}
 			}
 			$query = $query->join("`_activity_log`", "`_activity_log`.`record_table_and_id` = CONCAT('$table', '/', `$table`.id)", 'left');

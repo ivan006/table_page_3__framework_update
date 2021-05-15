@@ -26,6 +26,26 @@
                         "Type": "int(11) unsigned",
                         "Null": "NO",
                         "Key": "MUL"
+                    },
+                    "rels": {
+                        "table": "users",
+                        "rows": {
+                            "id": {
+                                "Type": "int(11) unsigned",
+                                "Null": "NO",
+                                "Key": "PRI",
+                                "Extra": "auto_increment",
+                                "important_field": ""
+                            },
+                            "first_name": {
+                                "Type": "varchar(50)",
+                                "important_field": ""
+                            },
+                            "last_name": {
+                                "Type": "varchar(50)",
+                                "important_field": ""
+                            }
+                        }
                     }
                 },
                 "group_id": {
@@ -33,25 +53,84 @@
                         "Type": "mediumint(8) unsigned",
                         "Null": "NO",
                         "Key": "MUL"
+                    },
+                    "rels": {
+                        "table": "groups",
+                        "rows": {
+                            "groups - lineage": "",
+                            "id": {
+                                "Type": "mediumint(8) unsigned",
+                                "Null": "NO",
+                                "Key": "PRI",
+                                "Extra": "auto_increment",
+                                "important_field": ""
+                            },
+                            "name": {
+                                "Type": "varchar(20)",
+                                "Null": "NO",
+                                "important_field": ""
+                            },
+                            "description": {
+                                "Type": "varchar(100)",
+                                "Null": "NO"
+                            },
+                            "groups - id": {
+                                "Type": "mediumint(8) unsigned",
+                                "Null": "NO",
+                                "Key": "PRI",
+                                "Extra": "auto_increment",
+                                "important_field": ""
+                            },
+                            "groups - name": {
+                                "Type": "varchar(20)",
+                                "Null": "NO",
+                                "important_field": ""
+                            },
+                            "groups - description": {
+                                "Type": "varchar(100)",
+                                "Null": "NO"
+                            },
+                            "groups - group_id": {
+                                "Type": "mediumint(8) unsigned"
+                            }
+                        }
                     }
                 }
             },
             "visible": {
+                "groups - lineage": "",
                 "id": {
                     "Type": "int(11) unsigned",
                     "Null": "NO",
                     "Key": "PRI",
                     "Extra": "auto_increment"
                 },
-                "user_id": {
-                    "Type": "int(11) unsigned",
-                    "Null": "NO",
-                    "Key": "MUL"
-                },
-                "group_id": {
+                "groups - id": {
                     "Type": "mediumint(8) unsigned",
                     "Null": "NO",
-                    "Key": "MUL"
+                    "Key": "PRI",
+                    "Extra": "auto_increment",
+                    "important_field": ""
+                },
+                "groups - name": {
+                    "Type": "varchar(20)",
+                    "Null": "NO",
+                    "important_field": ""
+                },
+                "users - id": {
+                    "Type": "int(11) unsigned",
+                    "Null": "NO",
+                    "Key": "PRI",
+                    "Extra": "auto_increment",
+                    "important_field": ""
+                },
+                "users - first_name": {
+                    "Type": "varchar(50)",
+                    "important_field": ""
+                },
+                "users - last_name": {
+                    "Type": "varchar(50)",
+                    "important_field": ""
                 }
             }
         }
