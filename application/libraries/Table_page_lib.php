@@ -425,9 +425,16 @@ class Table_page_lib
 							// echo $key_2;
 							$parents[$key]["cols"] = $value["fields"];
 							$parents[$key]["linking_key"] = $value_2;
-							if (isset($value["items"][$key])) {
-								$parents[$key]["is_self_joined"] = 1;
-							}
+							// if (isset($value["items"][$key])) {
+							// 	$parents[$key]["is_self_joined"] = 1;
+							// }
+						}
+						if (isset($value["items"][$key])) {
+							$parents[$key]["cols"] = $value["fields"];
+							$parents[$key]["linking_key"] = $value_2;
+							
+							$parents[$key]["is_self_joined"] = 1;
+
 						}
 					}
 				}
