@@ -228,6 +228,7 @@ class Table_page_lib
 				// 	$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
 				// 	$query = $query->select("CONCAT('$parent_link_part_1', "."`".$table."`".".id, '$parent_link_part_2') as `id`");
 				// }
+				
 			}
 			foreach ($cols_visible["linking_cols"] as $key => $value) {
 				// if ($key !== $table) {
@@ -432,7 +433,7 @@ class Table_page_lib
 						if (isset($value["items"][$key])) {
 							$parents[$key]["cols"] = $value["fields"];
 							$parents[$key]["linking_key"] = $value_2;
-							
+
 							$parents[$key]["is_self_joined"] = 1;
 
 						}
