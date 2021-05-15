@@ -630,14 +630,20 @@ class Table_page_lib
 				$this->CI->input->post('edit_permissions_owner');
 				$this->CI->input->post('edit_permissions_owner');
 
-				$permissions = array(
-					// "owner" => 1,
-					// "editability" => 2,
-					// "visibility" => 3
-					"owner" => $post["permissions"]["edit_permissions_owner"],
-					"editability" => $post["permissions"]["edit_permissions_editability"],
-					"visibility" => $post["permissions"]["edit_permissions_visibility"]
-				);
+				$permissions = array();
+				$permissions["owner"] = $post["permissions"]["edit_permissions_owner"];
+				if ($post["permissions"]["edit_permissions_editability"] == "") {
+					$permissions["editability"] = "pr";
+				} else {
+					$permissions["editability"] = $post["permissions"]["edit_permissions_editability"];
+				}
+				if ($post["permissions"]["edit_permissions_visibility"] == "") {
+					$permissions["visibility"] = "pr";
+				} else {
+					$permissions["visibility"] = $post["permissions"]["edit_permissions_visibility"];
+				}
+
+
 				$this->log_activity($table_and_id, $permissions, "insert");
 			}
 
@@ -676,11 +682,21 @@ class Table_page_lib
 				$this->CI->input->post('edit_permissions_owner');
 				$this->CI->input->post('edit_permissions_owner');
 
-				$permissions = array(
-					// "owner" => $post["permissions"]["edit_permissions_owner"],
-					// "editability" => $post["permissions"]["edit_permissions_editability"],
-					// "visibility" => $post["permissions"]["edit_permissions_visibility"]
-				);
+
+
+				$permissions = array();
+				// $permissions["owner"] = $post["permissions"]["edit_permissions_owner"];
+				// if ($post["permissions"]["edit_permissions_editability"] == "") {
+				// 	$permissions["editability"] = "pr";
+				// } else {
+				// 	$permissions["editability"] = $post["permissions"]["edit_permissions_editability"];
+				// }
+				// if ($post["permissions"]["edit_permissions_visibility"] == "") {
+				// 	$permissions["visibility"] = "pr";
+				// } else {
+				// 	$permissions["visibility"] = $post["permissions"]["edit_permissions_visibility"];
+				// }
+
 				$this->log_activity($table_and_id, $permissions, "delete");
 			}
 
@@ -749,14 +765,20 @@ class Table_page_lib
 				$this->CI->input->post('edit_permissions_owner');
 				$this->CI->input->post('edit_permissions_owner');
 
-				$permissions = array(
-					// "owner" => 1,
-					// "editability" => 2,
-					// "visibility" => 3
-					"owner" => $post["permissions"]["edit_permissions_owner"],
-					"editability" => $post["permissions"]["edit_permissions_editability"],
-					"visibility" => $post["permissions"]["edit_permissions_visibility"]
-				);
+
+				$permissions = array();
+				$permissions["owner"] = $post["permissions"]["edit_permissions_owner"];
+				if ($post["permissions"]["edit_permissions_editability"] == "") {
+					$permissions["editability"] = "pr";
+				} else {
+					$permissions["editability"] = $post["permissions"]["edit_permissions_editability"];
+				}
+				if ($post["permissions"]["edit_permissions_visibility"] == "") {
+					$permissions["visibility"] = "pr";
+				} else {
+					$permissions["visibility"] = $post["permissions"]["edit_permissions_visibility"];
+				}
+
 				$this->log_activity($table_and_id, $permissions, "update");
 			}
 
@@ -825,9 +847,9 @@ class Table_page_lib
 			}
 		}
 
-		$_activity_log = $this->CI->db->select('*')->where('`record_table_and_id`', '"'.$table_and_id["table"]."/".$table_and_id["id"].'"')->from('_activity_log')->get()->result_array();
-		// echo json_encode($_activity_log, JSON_PRETTY_PRINT);
+		// echo json_encode($permissions, JSON_PRETTY_PRINT);
 		// exit;
+		$_activity_log = $this->CI->db->select('*')->where('`record_table_and_id`', '"'.$table_and_id["table"]."/".$table_and_id["id"].'"')->from('_activity_log')->get()->result_array();
 		if (empty($_activity_log)) {
 			$query_result = $this->CI->db->insert(
 				'_activity_log',

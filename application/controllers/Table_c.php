@@ -67,16 +67,16 @@ class Table_c extends CI_Controller
 				"assumed" => "",
 				"options" => array(
 					array(
-						"label"=>"Public",
-						"value"=>"0",
+						"label"=>"Private",
+						"value"=>"pr",
 					),
 					// array(
 					// 	"label"="Organisation",
 					// 	"value"="1",
 					// ),
 					array(
-						"label"=>"Private",
-						"value"=>"1",
+						"label"=>"Public",
+						"value"=>"pu",
 					),
 				)
 			),
@@ -84,16 +84,16 @@ class Table_c extends CI_Controller
 				"assumed" => "",
 				"options" => array(
 					array(
-						"label"=>"Public",
-						"value"=>"0",
+						"label"=>"Private",
+						"value"=>"pr",
 					),
 					// array(
 					// 	"label"="Organisation",
 					// 	"value"="1",
 					// ),
 					array(
-						"label"=>"Private",
-						"value"=>"1",
+						"label"=>"Public",
+						"value"=>"pu",
 					),
 				)
 			),
