@@ -228,7 +228,7 @@ class Table_page_lib
 				// 	$parent_link_part_2 = '" class="btn btn-sm btn-outline-primary">View</a>';
 				// 	$query = $query->select("CONCAT('$parent_link_part_1', "."`".$table."`".".id, '$parent_link_part_2') as `id`");
 				// }
-				
+
 			}
 			foreach ($cols_visible["linking_cols"] as $key => $value) {
 				// if ($key !== $table) {
