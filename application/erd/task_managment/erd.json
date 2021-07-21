@@ -1,0 +1,80 @@
+{
+  "TM Task": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment",
+        "important_field": ""
+      },
+      "Regarding": {
+        "Type": "bigint(20) unsigned"
+      },
+      "Please": {
+        "Type": "varchar(100)",
+        "Null": "NO"
+      },
+      "Status": {
+        "Type": "bigint(20) unsigned"
+      },
+      "Batch": {
+        "Type": "bigint(20) unsigned"
+      }
+    }
+  },
+  "TM Task category": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "Name": {
+        "Type": "varchar(100)",
+        "Null": "NO",
+        "important_field": ""
+      }
+    },
+    "items": {
+      "TM Task": "Regarding"
+    }
+  },
+  "TM Statuses": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "Name": {
+        "Type": "varchar(100)",
+        "Null": "NO",
+        "important_field": ""
+      }
+    },
+    "items": {
+      "TM Task": "Status"
+    }
+  },
+  "TM Batches": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "Name": {
+        "Type": "varchar(100)",
+        "Null": "NO",
+        "important_field": ""
+      }
+    },
+    "items": {
+      "TM Task": "Batch"
+    }
+  }
+}
