@@ -1,4 +1,22 @@
 {
+  "TM Batches": {
+    "fields": {
+      "id": {
+        "Type": "bigint(20) unsigned",
+        "Null": "NO",
+        "Key": "PRI",
+        "Extra": "auto_increment"
+      },
+      "Name": {
+        "Type": "varchar(100)",
+        "Null": "NO",
+        "important_field": ""
+      }
+    },
+    "items": {
+      "TM Task": "Batch"
+    }
+  },
   "TM Task": {
     "fields": {
       "id": {
@@ -57,24 +75,6 @@
     },
     "items": {
       "TM Task": "Status"
-    }
-  },
-  "TM Batches": {
-    "fields": {
-      "id": {
-        "Type": "bigint(20) unsigned",
-        "Null": "NO",
-        "Key": "PRI",
-        "Extra": "auto_increment"
-      },
-      "Name": {
-        "Type": "varchar(100)",
-        "Null": "NO",
-        "important_field": ""
-      }
-    },
-    "items": {
-      "TM Task": "Batch"
     }
   }
 }
